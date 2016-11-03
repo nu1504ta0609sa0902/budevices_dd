@@ -1,0 +1,14 @@
+/.idea/*
+/.idea
+.idea/
+/target/*
+/target
+target/
+/.settings/*
+/.settings
+.settings/
+.classpath
+.project
+bu/*
+buAllClear/*
+/*.iml
