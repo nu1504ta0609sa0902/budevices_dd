@@ -12,10 +12,7 @@ import com.mhra.mdcm.devices.dd.appian.utils.datadriven.JUnitUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.driver.BrowserConfig;
 import com.mhra.mdcm.devices.dd.appian.utils.network.NetworkUtils;
 import org.hamcrest.Matchers;
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
@@ -202,24 +199,8 @@ public class SmokeTestsBusiness {
     }
 
 
-//    @Test
-//    public void checkCorrectLinksAreDisplayedForManufacturerAndAuthorisedRep() {
-//        System.out.println(username + ", " + password);
-//        if (username.toLowerCase().contains("manufacturer") || username.toLowerCase().contains("authorised")) {
-//            System.out.println(username + ", " + password);
-//            LoginPage loginPage = new LoginPage(driver);
-//            loginPage = loginPage.loadPage(baseUrl);
-//            MainNavigationBar mainNavigationBar = loginPage.loginDataDriver(username, password);
-//
-//            portalPage = mainNavigationBar.clickPortals();
-//            String delimitedLinks = "Manufacturer Registration";
-//            boolean areLinksVisible = portalPage.areLinksVisible(delimitedLinks);
-//            Assert.assertThat("Expected to see the following links : " + delimitedLinks, areLinksVisible, Matchers.is(true));
-//        }
-//    }
 
-
-    @Test
+    @Ignore
     public void asABusinessUserIShouldBeAbleToCreateAccountRequest() {
 
         if(username.toLowerCase().contains("business")){
