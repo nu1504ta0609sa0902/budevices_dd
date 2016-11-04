@@ -153,7 +153,6 @@ public class SmokeTestsBusiness {
         }
     }
 
-
     @Test
     public void asABusinessUserIShouldBeAbleToViewAccountsDevicesAndOtherPages() {
         if(username.toLowerCase().contains("business")){
