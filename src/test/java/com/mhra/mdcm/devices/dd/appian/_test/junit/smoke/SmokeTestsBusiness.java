@@ -149,9 +149,10 @@ public class SmokeTestsBusiness {
             }
 
             boolean isCorrectPage = mainNavigationBar.isCorrectPage(expectedHeading);
-            Assert.assertThat("Expected page : " + expectedHeading, isCorrectPage, Matchers.is(true));
+            Assert.assertThat("Expected pages : " + expectedHeading, isCorrectPage, Matchers.is(true));
         }
     }
+
 
     @Test
     public void asABusinessUserIShouldBeAbleToViewAccountsDevicesAndOtherPages() {
