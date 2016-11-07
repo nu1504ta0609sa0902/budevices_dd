@@ -1,12 +1,10 @@
 package com.mhra.mdcm.devices.dd.appian._test.junit.smoke;
 
+import com.mhra.mdcm.devices.dd.appian._test.junit.common.Common;
 import com.mhra.mdcm.devices.dd.appian.domains.AccountRequest;
 import com.mhra.mdcm.devices.dd.appian.domains.junit.User;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.LoginPage;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.MainNavigationBar;
-import com.mhra.mdcm.devices.dd.appian.pageobjects.business.*;
-import com.mhra.mdcm.devices.dd.appian.pageobjects.business.sections.*;
-import com.mhra.mdcm.devices.dd.appian.pageobjects.external.PortalPage;
 import com.mhra.mdcm.devices.dd.appian.utils.datadriven.ExcelDataSheet;
 import com.mhra.mdcm.devices.dd.appian.utils.datadriven.JUnitUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.driver.BrowserConfig;
@@ -30,7 +28,7 @@ import static org.hamcrest.Matchers.is;
  * Created by TPD_Auto on 01/11/2016.
  */
 @RunWith(Parameterized.class)
-public class SmokeTestsBusiness {
+public class SmokeTestsBusiness extends Common {
 
     @Value("${base.url}")
     public static String baseUrl;
@@ -38,21 +36,6 @@ public class SmokeTestsBusiness {
     public static WebDriver driver;
     private String username;
     private String password;
-
-    //Pages
-    private NewsPage newsPage;
-    private TasksPage tasksPage;
-    private RecordsPage recordsPage;
-    private ReportsPage reportsPage;
-    private ActionsPage actionsPage;
-
-    private Accounts accounts;
-    private Devices devices;
-    private Products products;
-    private AllOrganisations allOrganisations;
-    private PortalPage portalPage;
-    private CreateTestsData createTestsData;
-    private TaskSection taskSection;
 
     @Parameterized.Parameters(name="{0}")
     public static Collection<User> spreadsheetData() throws IOException {
@@ -64,9 +47,9 @@ public class SmokeTestsBusiness {
 
 
     public SmokeTestsBusiness(User user) {
-        //super();
         this.username = user.getUserName();
         this.password = user.getPassword();
+        //System.out.println(username + ", " + password);
     }
 
     @BeforeClass
@@ -84,10 +67,14 @@ public class SmokeTestsBusiness {
         }
     }
 
+    @Before
+    public void setupTest(){
+        driver.manage().deleteAllCookies();
+    }
+
 
     @Test
     public void asAUserIShouldSeeErrorMessagesIfCredentialsAreIncorrect() {
-        System.out.println(username + ", " + password);
 
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
@@ -103,7 +90,6 @@ public class SmokeTestsBusiness {
 
     @Test
     public void asAUserIShouldBeAbleToLoginAndLogout() {
-        System.out.println(username + ", " + password);
 
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
@@ -124,7 +110,6 @@ public class SmokeTestsBusiness {
     @Test
     public void asABusinessUserIShouldBeAbleToNavigateToDifferentSections() {
         if(username.toLowerCase().contains("business")) {
-            System.out.println(username + ", " + password);
 
             LoginPage loginPage = new LoginPage(driver);
             loginPage = loginPage.loadPage(baseUrl);
@@ -158,8 +143,6 @@ public class SmokeTestsBusiness {
     public void asABusinessUserIShouldBeAbleToViewAccountsDevicesAndOtherPages() {
         if(username.toLowerCase().contains("business")){
 
-            System.out.println(username + ", " + password);
-
             LoginPage loginPage = new LoginPage(driver);
             loginPage = loginPage.loadPage(baseUrl);
             MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
@@ -177,18 +160,22 @@ public class SmokeTestsBusiness {
                     accounts = recordsPage.clickOnAccounts();
                     isHeadingVisibleAndCorrect = accounts.isHeadingCorrect(expectedHeadings);
                     isItemsDisplayedAndCorrect = accounts.isItemsDisplayed(expectedHeadings);
-                } else if (page.equals("Devices")) {
-                    devices = recordsPage.clickOnDevices();
+                }  else if (page.equals("All Devices")) {
+                    devices = recordsPage.clickOnAllDevices();
                     isHeadingVisibleAndCorrect = devices.isHeadingCorrect(expectedHeadings);
                     isItemsDisplayedAndCorrect = devices.isItemsDisplayed(expectedHeadings);
-                } else if (page.equals("Products")) {
-                    products = recordsPage.clickOnProducts();
+                } else if (page.equals("All Products")) {
+                    products = recordsPage.clickOnAllProducts();
                     isHeadingVisibleAndCorrect = products.isHeadingCorrect(expectedHeadings);
                     isItemsDisplayedAndCorrect = products.isItemsDisplayed(expectedHeadings);
                 } else if (page.equals("All Organisations")) {
                     allOrganisations = recordsPage.clickOnAllOrganisations();
                     isHeadingVisibleAndCorrect = allOrganisations.isHeadingCorrect(expectedHeadings);
                     isItemsDisplayedAndCorrect = allOrganisations.isItemsDisplayed(expectedHeadings);
+                } else if (page.equals("Devices")) {
+                    devices = recordsPage.clickOnDevices();
+                    isHeadingVisibleAndCorrect = devices.isHeadingCorrect(expectedHeadings);
+                    isItemsDisplayedAndCorrect = devices.isItemsDisplayed(expectedHeadings);
                 }
             }
 
@@ -204,7 +191,6 @@ public class SmokeTestsBusiness {
     public void asABusinessUserIShouldBeAbleToCreateAccountRequest() {
 
         if(username.toLowerCase().contains("business")){
-            System.out.println(username + ", " + password);
             LoginPage loginPage = new LoginPage(driver);
             loginPage = loginPage.loadPage(baseUrl);
             MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);

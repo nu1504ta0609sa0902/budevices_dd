@@ -1,20 +1,15 @@
 package com.mhra.mdcm.devices.dd.appian._test.junit.smoke;
 
+import com.mhra.mdcm.devices.dd.appian._test.junit.common.Common;
 import com.mhra.mdcm.devices.dd.appian.domains.junit.User;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.LoginPage;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.MainNavigationBar;
-import com.mhra.mdcm.devices.dd.appian.pageobjects.business.*;
-import com.mhra.mdcm.devices.dd.appian.pageobjects.business.sections.*;
-import com.mhra.mdcm.devices.dd.appian.pageobjects.external.PortalPage;
 import com.mhra.mdcm.devices.dd.appian.utils.datadriven.ExcelDataSheet;
 import com.mhra.mdcm.devices.dd.appian.utils.datadriven.JUnitUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.driver.BrowserConfig;
 import com.mhra.mdcm.devices.dd.appian.utils.network.NetworkUtils;
 import org.hamcrest.Matchers;
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
@@ -28,7 +23,7 @@ import java.util.List;
  * Created by TPD_Auto on 01/11/2016.
  */
 @RunWith(Parameterized.class)
-public class SmokeTestsAuthorisedRep {
+public class SmokeTestsAuthorisedRep extends Common {
 
     @Value("${base.url}")
     public static String baseUrl;
@@ -36,21 +31,6 @@ public class SmokeTestsAuthorisedRep {
     public static WebDriver driver;
     private String username;
     private String password;
-
-    //Pages
-    private NewsPage newsPage;
-    private TasksPage tasksPage;
-    private RecordsPage recordsPage;
-    private ReportsPage reportsPage;
-    private ActionsPage actionsPage;
-
-    private Accounts accounts;
-    private Devices devices;
-    private Products products;
-    private AllOrganisations allOrganisations;
-    private PortalPage portalPage;
-    private CreateTestsData createTestsData;
-    private TaskSection taskSection;
 
     @Parameterized.Parameters(name="{0}")
     public static Collection<User> spreadsheetData() throws IOException {
@@ -61,15 +41,17 @@ public class SmokeTestsAuthorisedRep {
     }
 
     public SmokeTestsAuthorisedRep(User user) {
-        //super();
         this.username = user.getUserName();
         this.password = user.getPassword();
+        //System.out.println(username + ", " + password);
     }
 
     @BeforeClass
     public static void setUpDriver() {
         if (driver == null) {
             driver = new BrowserConfig().getDriver();
+            driver.manage().deleteAllCookies();
+            driver.manage().window().maximize();
             baseUrl = NetworkUtils.getTestUrl(baseUrl);
         }
     }
@@ -81,10 +63,13 @@ public class SmokeTestsAuthorisedRep {
         }
     }
 
+    @Before
+    public void setupTest(){
+        driver.manage().deleteAllCookies();
+    }
 
     @Test
     public void asAUserIShouldSeeErrorMessagesIfCredentialsAreIncorrect() {
-        System.out.println(username + ", " + password);
 
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
@@ -99,7 +84,6 @@ public class SmokeTestsAuthorisedRep {
 
     @Test
     public void asAUserIShouldBeAbleToLoginAndLogout() {
-        System.out.println(username + ", " + password);
 
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
@@ -118,8 +102,8 @@ public class SmokeTestsAuthorisedRep {
 
 
     @Test
-    public void checkCorrectLinksAreDisplayedForManufacturerAndAuthorisedRep() {
-        System.out.println(username + ", " + password);
+    public void checkCorrectLinksAreDisplayedForAuthorisedRep() {
+
         if (username.toLowerCase().contains("manufacturer") || username.toLowerCase().contains("authorised")) {
             System.out.println(username + ", " + password);
             LoginPage loginPage = new LoginPage(driver);

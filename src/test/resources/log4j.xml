@@ -12,11 +12,22 @@
 	</appender>
 
 	<appender name="default.file" class="org.apache.log4j.FileAppender">
-		<param name="file" value="src/test/resources/tmp/log/notificationsCreated.log" />
+		<param name="file" value="src/test/resources/tmp/log/devices.log" />
 		<param name="append" value="true" />
 		<param name="threshold" value="info" />
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%d{ISO8601} %-5p [%c{1}] - %m%n" />
+		</layout>
+	</appender>
+
+	<appender name="default.file.role" class="org.apache.log4j.RollingFileAppender">
+		<param name="append" value="false" />
+		<param name="maxFileSize" value="1MB" />
+		<param name="maxBackupIndex" value="10" />
+		<param name="file" value="src/test/resources/tmp/log/devices.log" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				   value="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n" />
 		</layout>
 	</appender>
 
@@ -38,7 +49,7 @@
 
 
 	<root>
-		<appender-ref ref="default.file" />
+		<appender-ref ref="default.file.role" />
 		<appender-ref ref="CONSOLE" />
     </root>
 </log4j:configuration>

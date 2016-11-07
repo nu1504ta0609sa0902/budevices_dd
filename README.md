@@ -10,9 +10,18 @@ cd C:\Users\TPD_Auto\Desktop\Noor\AutomationProjects\JavaProject\MHRA_MDCM_DEVIC
 2. Run one of the commands below:
 
 IE:<br/>
-mvn clean test -Dtest=RunAllSmokeTest -Dcurrent.browser=ie -Dspring.profiles.active=mhratest<br/>
+mvn clean test -Dtest=RunAllSmokeTest -Dcurrent.browser=ie -Dspring.profiles.active=mhratest
+<br/>
 GC:<br/>
-mvn clean test -Dtest=RunAllSmokeTest -Dcurrent.browser=gc -Dspring.profiles.active=mhratest<br/>
+mvn clean test -Dtest=RunAllSmokeTest -Dcurrent.browser=gc -Dspring.profiles.active=mhratest
+<br/>
 FF:<br/>
-mvn clean test -Dtest=RunAllSmokeTest -Dcurrent.browser=ff -Dspring.profiles.active=mhratest<br/>
+mvn clean test -Dtest=RunAllSmokeTest -Dcurrent.browser=ff -Dspring.profiles.active=mhratest
+<br/>
+PhantomJS Headless :<br/>
+mvn clean test -Dtest=RunAllSmokeTest -Dcurrent.browser=pjs -Dspring.profiles.active=mhratest
+<br/>
+
+mvn surefire-report:report
+mvn clean test surefire-report:report
 

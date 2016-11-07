@@ -20,6 +20,9 @@ public class Products extends _Page {
     @FindBy(xpath = ".//h2[.='model']//following::a")
     List<WebElement> listOfProducts;
 
+    @FindBy(xpath = ".//h2[.='Country']//following::a")
+    List<WebElement> listOfAllProducts;
+
     @Autowired
     public Products(WebDriver driver) {
         super(driver);
@@ -28,7 +31,7 @@ public class Products extends _Page {
     public boolean isHeadingCorrect(String expectedHeadings) {
         WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//h2[.='" + expectedHeadings + "']") , 10, false);
         WebElement heading = driver.findElement(By.xpath(".//h2[.='" + expectedHeadings + "']"));
-        boolean contains = heading.getText().contains(expectedHeadings);
+        boolean contains = heading.getText().equals(expectedHeadings);
         return contains;
     }
 
@@ -36,8 +39,10 @@ public class Products extends _Page {
         boolean itemsDisplayed = false;
         WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//h2[.='" + expectedHeadings + "']") , 10, false);
 
-        if(expectedHeadings.contains("Products")){
+        if(expectedHeadings.equals("Products")){
             itemsDisplayed = listOfProducts.size() > 0;
+        }else if(expectedHeadings.equals("All Products")){
+            itemsDisplayed = listOfAllProducts.size() > 0;
         }
 
         return itemsDisplayed;

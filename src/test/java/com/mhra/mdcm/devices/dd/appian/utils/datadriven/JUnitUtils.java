@@ -15,9 +15,9 @@ public class JUnitUtils {
 
     public static String getExpectedHeading(String username){
         String expectedHeading = "Tasks";
-        if(username.contains("manufacturer")){
+        if(username.toLowerCase().contains("manufacturer")){
             expectedHeading = "MHRA Service";
-        }else if(username.contains("authorised")){
+        }else if(username.toLowerCase().contains("authorised")){
             expectedHeading = "MHRA Service";
         }
         return expectedHeading;
@@ -50,10 +50,10 @@ public class JUnitUtils {
     public static List<String> getListOfRecordsPageLinks() {
         List<String> listOfItems = new ArrayList<>();
         listOfItems.add("Accounts");
-        listOfItems.add("Products");
-        listOfItems.add("Devices");
+        listOfItems.add("All Devices");
+        listOfItems.add("All Products");
         listOfItems.add("All Organisations");
-        listOfItems.add("Actions");
+        listOfItems.add("Devices");
         return listOfItems;
     }
 }

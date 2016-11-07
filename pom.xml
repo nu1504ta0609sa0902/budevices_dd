@@ -30,7 +30,16 @@
             </resource>
         </resources>
 
+
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -43,14 +52,38 @@
                     </includes>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
-                </configuration>
-            </plugin>
+            <!--<plugin>-->
+                <!--<artifactId>maven-site-plugin</artifactId>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<id>site deploy</id>-->
+                        <!--<phase>test</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>site</goal>-->
+                            <!--<goal>deploy</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
+            <!--<plugin>-->
+            <!--<groupId>org.apache.maven.plugins</groupId>-->
+            <!--<artifactId>maven-failsafe-plugin</artifactId>-->
+            <!--<version>2.19.1</version>-->
+            <!--<configuration>-->
+            <!--&lt;!&ndash;<argLine>-Dcurrent.browser=ie</argLine>&ndash;&gt;-->
+            <!--<includes>-->
+            <!--<include>**/*Test.java</include>-->
+            <!--<include>src/test/resources/log4j.xml</include>-->
+            <!--</includes>-->
+            <!--</configuration>-->
+            <!--<dependencies>-->
+            <!--<dependency>-->
+            <!--<groupId>org.apache.maven.surefire</groupId>-->
+            <!--<artifactId>surefire-junit47</artifactId>-->
+            <!--<version>2.19.1</version>-->
+            <!--</dependency>-->
+            <!--</dependencies>-->
+            <!--</plugin>-->
         </plugins>
     </build>
 
@@ -68,25 +101,6 @@
             <artifactId>httpclient</artifactId>
             <version>${apache.httpclient.version}</version>
         </dependency>
-
-        <!--Cucumber Dependencies -->
-        <!--<dependency>-->
-        <!--<groupId>info.cukes</groupId>-->
-        <!--<artifactId>cucumber-junit</artifactId>-->
-        <!--<version>${cucumber.version}</version>-->
-        <!--<scope>test</scope>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>info.cukes</groupId>-->
-        <!--<artifactId>cucumber-core</artifactId>-->
-        <!--<version>${cucumber.version}</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>info.cukes</groupId>-->
-        <!--<artifactId>cucumber-spring</artifactId>-->
-        <!--<version>${cucumber.version}</version>-->
-        <!--<scope>test</scope>-->
-        <!--</dependency>-->
 
         <!-- JUnit and RestAssured dependencies -->
         <dependency>
@@ -158,6 +172,11 @@
             <groupId>javax.xml</groupId>
             <artifactId>jaxb-api</artifactId>
             <version>2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.googlecode.totallylazy</groupId>
+            <artifactId>totallylazy</artifactId>
+            <version>1077</version>
         </dependency>
 
         <!-- Hamcrest pattern matcher -->
@@ -259,5 +278,11 @@
 
     </dependencies>
 
+    <repositories>
+        <repository>
+            <id>repo.bodar.com</id>
+            <url>http://repo.bodar.com</url>
+        </repository>
+    </repositories>
 
 </project>

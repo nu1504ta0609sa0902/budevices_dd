@@ -17,8 +17,11 @@ import java.util.List;
 @Component
 public class Devices extends _Page {
 
-    @FindBy(xpath = ".//h2[.='device Id']//following::a")
+    @FindBy(xpath = ".//h2[.='Registration Status Id']//following::a")
     List<WebElement> listOfDevices;
+
+    @FindBy(xpath = ".//h2[.='GMDN definition']//following::a")
+    List<WebElement> listOfAllDevices;
 
     @Autowired
     public Devices(WebDriver driver) {
@@ -38,8 +41,10 @@ public class Devices extends _Page {
         boolean itemsDisplayed = false;
         WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//h2[.='" + expectedHeadings + "']") , 10, false);
 
-        if(expectedHeadings.contains("Devices")){
+        if(expectedHeadings.equals("Devices")){
             itemsDisplayed = listOfDevices.size() > 0;
+        }else if(expectedHeadings.equals("All Devices")){
+            itemsDisplayed = listOfAllDevices.size() > 0;
         }
 
         return itemsDisplayed;

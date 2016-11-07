@@ -19,14 +19,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class RecordsPage extends _Page {
 
-    @FindBy(partialLinkText = "Accounts")
+    @FindBy(linkText = "Accounts")
     WebElement linkAccounts;
-    @FindBy(partialLinkText = "Devices")
-    WebElement linkDevices;
-    @FindBy(partialLinkText = "Products")
-    WebElement linkProducts;
-    @FindBy(partialLinkText = "All Organisations")
+    @FindBy(linkText = "All Devices")
+    WebElement linkAllDevices;
+    @FindBy(linkText = "All Organisations")
     WebElement linkAllOrganisations;
+    @FindBy(linkText = "All Products")
+    WebElement linkAllProducts;
+    @FindBy(linkText = "Devices")
+    WebElement linkDevices;
 
 
     @Autowired
@@ -42,6 +44,13 @@ public class RecordsPage extends _Page {
         return new Accounts(driver);
     }
 
+    public Devices clickOnAllDevices() {
+        WaitUtils.waitForElementToBePartOfDOM(driver, By.partialLinkText("All Devices"), 10, false);
+        WaitUtils.waitForElementToBeClickable(driver, linkAllDevices, 10, false);
+        linkAllDevices.click();
+        return new Devices(driver);
+    }
+
     public Devices clickOnDevices() {
         WaitUtils.waitForElementToBePartOfDOM(driver, By.partialLinkText("Devices"), 10, false);
         WaitUtils.waitForElementToBeClickable(driver, linkDevices, 10, false);
@@ -49,10 +58,10 @@ public class RecordsPage extends _Page {
         return new Devices(driver);
     }
 
-    public Products clickOnProducts() {
+    public Products clickOnAllProducts() {
         WaitUtils.waitForElementToBePartOfDOM(driver, By.partialLinkText("Products"), 20, false);
-        WaitUtils.waitForElementToBeClickable(driver, linkProducts, 10, false);
-        linkProducts.click();
+        WaitUtils.waitForElementToBeClickable(driver, linkAllProducts, 10, false);
+        linkAllProducts.click();
         return new Products(driver);
     }
 
