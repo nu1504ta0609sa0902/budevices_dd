@@ -52,18 +52,23 @@
                     </includes>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.5</version>
+            </plugin>
             <!--<plugin>-->
-                <!--<artifactId>maven-site-plugin</artifactId>-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<id>site deploy</id>-->
-                        <!--<phase>test</phase>-->
-                        <!--<goals>-->
-                            <!--<goal>site</goal>-->
-                            <!--<goal>deploy</goal>-->
-                        <!--</goals>-->
-                    <!--</execution>-->
-                <!--</executions>-->
+            <!--<artifactId>maven-site-plugin</artifactId>-->
+            <!--<executions>-->
+            <!--<execution>-->
+            <!--<id>site deploy</id>-->
+            <!--<phase>test</phase>-->
+            <!--<goals>-->
+            <!--<goal>site</goal>-->
+            <!--<goal>deploy</goal>-->
+            <!--</goals>-->
+            <!--</execution>-->
+            <!--</executions>-->
             <!--</plugin>-->
             <!--<plugin>-->
             <!--<groupId>org.apache.maven.plugins</groupId>-->
@@ -102,7 +107,7 @@
             <version>${apache.httpclient.version}</version>
         </dependency>
 
-        <!-- JUnit and RestAssured dependencies -->
+        <!-- JUnit -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -110,6 +115,7 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- RestAssured dependencies -->
         <dependency>
             <groupId>com.jayway.restassured</groupId>
             <artifactId>rest-assured</artifactId>
@@ -192,20 +198,7 @@
             <version>20140107</version>
         </dependency>
 
-        <!-- Cucumber reports -->
-        <dependency>
-            <groupId>net.masterthought</groupId>
-            <artifactId>cucumber-reporting</artifactId>
-            <version>0.0.23</version>
-        </dependency>
-
-        <dependency>
-            <groupId>net.masterthought</groupId>
-            <artifactId>cucumber-sandwich</artifactId>
-            <version>0.0.3</version>
-        </dependency>
-
-        <!-- Loggin -->
+        <!-- Logging -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -218,23 +211,12 @@
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/javax.mail/mail -->
-        <dependency>
-            <groupId>javax.mail</groupId>
-            <artifactId>mail</artifactId>
-            <version>1.4</version>
-        </dependency>
+        <!--<dependency>-->
+        <!--<groupId>javax.mail</groupId>-->
+        <!--<artifactId>mail</artifactId>-->
+        <!--<version>1.4</version>-->
+        <!--</dependency>-->
 
-        <!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
-        <dependency>
-            <groupId>org.apache.poi</groupId>
-            <artifactId>poi</artifactId>
-            <version>3.14</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.poi</groupId>
-            <artifactId>poi-ooxml</artifactId>
-            <version>3.14</version>
-        </dependency>
 
         <!-- https://mvnrepository.com/artifact/net.sf.opencsv/opencsv -->
         <dependency>

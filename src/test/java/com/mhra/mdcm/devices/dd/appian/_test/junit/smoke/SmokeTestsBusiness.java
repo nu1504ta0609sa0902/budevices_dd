@@ -57,6 +57,7 @@ public class SmokeTestsBusiness extends Common {
         if (driver == null) {
             driver = new BrowserConfig().getDriver();
             baseUrl = NetworkUtils.getTestUrl(baseUrl);
+            log.warn("\n\nRUNNING BUSINESS SMOKE TESTS");
         }
     }
 

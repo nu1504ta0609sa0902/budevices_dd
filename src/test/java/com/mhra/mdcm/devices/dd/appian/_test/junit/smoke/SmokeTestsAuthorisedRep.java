@@ -50,9 +50,8 @@ public class SmokeTestsAuthorisedRep extends Common {
     public static void setUpDriver() {
         if (driver == null) {
             driver = new BrowserConfig().getDriver();
-            driver.manage().deleteAllCookies();
-            driver.manage().window().maximize();
             baseUrl = NetworkUtils.getTestUrl(baseUrl);
+            log.warn("\n\nRUNNING AUTHORISED REP SMOKE TESTS");
         }
     }
 
@@ -105,7 +104,7 @@ public class SmokeTestsAuthorisedRep extends Common {
     public void checkCorrectLinksAreDisplayedForAuthorisedRep() {
 
         if (username.toLowerCase().contains("manufacturer") || username.toLowerCase().contains("authorised")) {
-            System.out.println(username + ", " + password);
+
             LoginPage loginPage = new LoginPage(driver);
             loginPage = loginPage.loadPage(baseUrl);
             MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);

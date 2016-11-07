@@ -22,6 +22,21 @@ PhantomJS Headless :<br/>
 mvn clean test -Dtest=RunAllSmokeTest -Dcurrent.browser=pjs -Dspring.profiles.active=mhratest
 <br/>
 
-mvn surefire-report:report
-mvn clean test surefire-report:report
 
+mvn surefire-report:report
+ <br/>
+mvn clean test surefire-report:report
+ <br/>
+
+Create Better Reports With These Commands: <br/>
+# Run tests and generate .xml reports
+mvn test
+# Convert .xml reports into .html report, but without the CSS or images
+mvn surefire-report:report-only
+
+# Put the CSS and images where they need to be without the rest of the
+# time-consuming stuff
+mvn site -DgenerateReports=false
+
+mvn site : is very slow
+mvn surefire-report:report-only + mvn site -DgenerateReports=false = faster solution

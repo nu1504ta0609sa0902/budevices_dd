@@ -15,6 +15,8 @@ public class LoggingRule implements TestRule {
     public final Logger log = LoggerFactory.getLogger(LoggingRule.class);
     @Override
     public Statement apply(final Statement stmt, final Description desc) {
+
+
         return new Statement() {
 
             @Override
@@ -24,4 +26,6 @@ public class LoggingRule implements TestRule {
             }
         };
     }
+
+
 }

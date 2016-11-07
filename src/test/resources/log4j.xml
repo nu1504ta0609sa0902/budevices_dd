@@ -27,7 +27,7 @@
 		<param name="file" value="src/test/resources/tmp/log/devices.log" />
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern"
-				   value="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n" />
+				   value="%d{yyyy-MM-dd HH:mm:ss} %m%n" />
 		</layout>
 	</appender>
 
