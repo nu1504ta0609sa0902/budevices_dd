@@ -53,52 +53,7 @@ public class LoginPage extends _Page {
         return new LoginPage(driver);
     }
 
-//    public MainNavigationBar login(String unameKeyValue) {
-//        dontRemember();
-//
-//        //get login details
-//        String selectedProfile = System.getProperty("spring.profiles.active");
-//        String overrideWithUsername = System.getProperty("test.as.user");
-//        Properties props = FileUtils.loadPropertiesFile("data" + File.separator + "users.properties");
-//
-//        //check if local properties supplies a
-//        if(overrideWithUsername==null || overrideWithUsername.equals("")) {
-//            overrideWithUsername = props.getProperty("mhratest.user.default.override.username");
-//        }
-//
-//        //Override local uname with overriden values
-//        unameKeyValue = FileUtils.getOverriddenUsername(overrideWithUsername, unameKeyValue);
-//
-//        //Now load the correct username password
-//        String un = props.getProperty(selectedProfile + ".username." + unameKeyValue);
-//        String pword = props.getProperty(selectedProfile + ".password." + unameKeyValue);
-//
-//        if(un == null || pword == null){
-//            props = FileUtils.loadPropertiesFile("data" + File.separator + "other.configs.properties");
-//            un = props.getProperty(selectedProfile + ".username." + unameKeyValue);
-//            pword = props.getProperty(selectedProfile + ".password." + unameKeyValue);
-//        }
-//
-//        //login
-//        username.sendKeys(un);
-//        password.sendKeys(pword);
-//        username.submit();
-//
-//        return new MainNavigationBar(driver);
-//    }
-
-//    public MainNavigationBar loginWithSpecificUsernamePassword(String usernameTxt, String passwordTxt) {
-//        dontRemember();
-//
-//        //login
-//        username.sendKeys(usernameTxt);
-//        password.sendKeys(passwordTxt);
-//        username.submit();
-//
-//        return new MainNavigationBar(driver);
-//    }
-
-    public MainNavigationBar loginDataDriver(String usernameTxt, String passwordTxt) {
+    public MainNavigationBar loginAs(String usernameTxt, String passwordTxt) {
         logoutIfLoggedIn();
         dontRemember();
 
@@ -109,12 +64,6 @@ public class LoginPage extends _Page {
 
         return new MainNavigationBar(driver);
     }
-
-//    public MainNavigationBar reloginUsing(String uname) {
-//        logoutIfLoggedIn();
-//        MainNavigationBar login = login(uname);
-//        return login;
-//    }
 
     public void dontRemember() {
         WaitUtils.waitForElementToBeClickable(driver, remember, TIMEOUT_DEFAULT, false);
@@ -144,7 +93,6 @@ public class LoginPage extends _Page {
         return new LoginPage(driver);
     }
 
-
     /**
      * logout from Manufacturer and AuthorisedRep site
      *
@@ -168,27 +116,11 @@ public class LoginPage extends _Page {
         return new LoginPage(driver);
     }
 
-//    public String getLoggedInUserName() {
-//        WaitUtils.waitForElementToBeClickable(driver, loggedInUsername, 10, false);
-//        return loggedInUsername.getText();
-//    }
-
     public boolean isErrorMessageCorrect(String expectedErrorMsg) {
         WaitUtils.waitForElementToBeVisible(driver, errorMsg, 10, false);
         boolean contains = errorMsg.getText().contains(expectedErrorMsg);
         return contains;
     }
-
-//    public boolean isAlreadyLoggedInAsUser(String username) {
-//        try {
-//            //Login button should not be visible if logged in
-//            WaitUtils.waitForElementToBeClickable(driver, loginBtn, 10, false);
-//            return loginBtn.isDisplayed() && loginBtn.isEnabled();
-//        } catch (Exception e) {
-//            //Not logged in
-//            return false;
-//        }
-//    }
 
     public boolean isInLoginPage() {
         //WaitUtils.waitForElementToBeClickable(driver, loginBtn, 10, false);

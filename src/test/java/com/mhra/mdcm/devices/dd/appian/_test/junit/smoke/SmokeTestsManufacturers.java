@@ -89,7 +89,7 @@ public class SmokeTestsManufacturers {
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
         password = "IsIncorrectPassword";
-        loginPage.loginDataDriver(username, password);
+        loginPage.loginAs(username, password);
 
         String expectedErrorMsg = "The username/password entered is invalid";
         loginPage = new LoginPage(driver);
@@ -103,7 +103,7 @@ public class SmokeTestsManufacturers {
 
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
-        MainNavigationBar mainNavigationBar = loginPage.loginDataDriver(username, password);
+        MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
         String expectedHeading = JUnitUtils.getExpectedHeading(username);
 
         boolean isCorrectPage = mainNavigationBar.isCorrectPage(expectedHeading);
@@ -124,7 +124,7 @@ public class SmokeTestsManufacturers {
             System.out.println(username + ", " + password);
             LoginPage loginPage = new LoginPage(driver);
             loginPage = loginPage.loadPage(baseUrl);
-            MainNavigationBar mainNavigationBar = loginPage.loginDataDriver(username, password);
+            MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
 
             portalPage = mainNavigationBar.clickPortals();
             String delimitedLinks = "Manufacturer Registration";

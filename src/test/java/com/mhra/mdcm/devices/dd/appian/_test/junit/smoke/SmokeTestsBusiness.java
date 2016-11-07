@@ -92,7 +92,7 @@ public class SmokeTestsBusiness {
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
         password = "IsIncorrectPassword";
-        loginPage.loginDataDriver(username, password);
+        loginPage.loginAs(username, password);
 
         String expectedErrorMsg = "The username/password entered is invalid";
         loginPage = new LoginPage(driver);
@@ -107,7 +107,7 @@ public class SmokeTestsBusiness {
 
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
-        MainNavigationBar mainNavigationBar = loginPage.loginDataDriver(username, password);
+        MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
         String expectedHeading = JUnitUtils.getExpectedHeading(username);
 
         boolean isCorrectPage = mainNavigationBar.isCorrectPage(expectedHeading);
@@ -128,7 +128,7 @@ public class SmokeTestsBusiness {
 
             LoginPage loginPage = new LoginPage(driver);
             loginPage = loginPage.loadPage(baseUrl);
-            MainNavigationBar mainNavigationBar = loginPage.loginDataDriver(username, password);
+            MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
 
             List<String> listOfSections = JUnitUtils.getListOfTabSections();
             String expectedHeading = "News";
@@ -162,7 +162,7 @@ public class SmokeTestsBusiness {
 
             LoginPage loginPage = new LoginPage(driver);
             loginPage = loginPage.loadPage(baseUrl);
-            MainNavigationBar mainNavigationBar = loginPage.loginDataDriver(username, password);
+            MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
 
             List<String> listOfLinks = JUnitUtils.getListOfRecordsPageLinks();
 
@@ -207,7 +207,7 @@ public class SmokeTestsBusiness {
             System.out.println(username + ", " + password);
             LoginPage loginPage = new LoginPage(driver);
             loginPage = loginPage.loadPage(baseUrl);
-            MainNavigationBar mainNavigationBar = loginPage.loginDataDriver(username, password);
+            MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
 
             //go to accounts page > test harness page
             actionsPage = mainNavigationBar.clickActions();
