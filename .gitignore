@@ -12,3 +12,4 @@ target/
 bu/*
 buAllClear/*
 /*.iml
+*.log
