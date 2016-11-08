@@ -16,9 +16,6 @@ public class Common {
 
     public static final Logger log = LoggerFactory.getLogger(Common.class);
 
-    //@Rule
-    //public LoggingRule lr = new LoggingRule();
-
     @Rule
     public TestWatcher watchman= new TestWatcher() {
         long timeStart = System.currentTimeMillis();

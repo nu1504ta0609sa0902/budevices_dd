@@ -30,7 +30,7 @@ public class SmokeTestsManufacturers extends Common {
     private String username;
     private String password;
 
-    @Parameterized.Parameters(name="{0}")
+    @Parameterized.Parameters(name = "{0}")
     public static Collection<User> spreadsheetData() throws IOException {
         ExcelDataSheet excelUtils = new ExcelDataSheet();//
         List<User> listOfUsers = excelUtils.getListOfUsers("configs/data/excel/users.xlsx", "Sheet1");
@@ -61,7 +61,7 @@ public class SmokeTestsManufacturers extends Common {
     }
 
     @Before
-    public void setupTest(){
+    public void setupTest() {
         driver.manage().deleteAllCookies();
     }
 
@@ -100,18 +100,14 @@ public class SmokeTestsManufacturers extends Common {
 
     @Test
     public void checkCorrectLinksAreDisplayedForManufacturer() {
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage = loginPage.loadPage(baseUrl);
+        MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
 
-        if (username.toLowerCase().contains("manufacturer") || username.toLowerCase().contains("authorised")) {
-
-            LoginPage loginPage = new LoginPage(driver);
-            loginPage = loginPage.loadPage(baseUrl);
-            MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
-
-            portalPage = mainNavigationBar.clickPortals();
-            String delimitedLinks = "Manufacturer Registration";
-            boolean areLinksVisible = portalPage.areLinksVisible(delimitedLinks);
-            Assert.assertThat("Expected to see the following links : " + delimitedLinks, areLinksVisible, Matchers.is(true));
-        }
+        portalPage = mainNavigationBar.clickPortals();
+        String delimitedLinks = "Manufacturer Registration";
+        boolean areLinksVisible = portalPage.areLinksVisible(delimitedLinks);
+        Assert.assertThat("Expected to see the following links : " + delimitedLinks, areLinksVisible, Matchers.is(true));
     }
 
 
