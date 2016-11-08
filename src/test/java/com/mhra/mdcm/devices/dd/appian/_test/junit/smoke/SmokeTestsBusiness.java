@@ -39,6 +39,7 @@ public class SmokeTestsBusiness extends Common {
         ExcelDataSheet excelUtils = new ExcelDataSheet();//
         List<User> listOfUsers = excelUtils.getListOfUsers("configs/data/excel/users.xlsx", "Sheet1");
         listOfUsers = excelUtils.filterUsersBy(listOfUsers, "business");
+        log.info("Business Users : " + listOfUsers);
         return listOfUsers;
     }
 

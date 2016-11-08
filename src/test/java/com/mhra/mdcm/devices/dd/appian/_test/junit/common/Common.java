@@ -31,9 +31,9 @@ public class Common {
 
         @Override
         protected void failed(Throwable e, Description description) {
-            log.warn("Error : " + e.getMessage());
             //log.warn("Failed : " + description);
             logTime("Failed," , description);
+            log.warn("Error : " + e.getMessage());
         }
 
         @Override
@@ -48,6 +48,8 @@ public class Common {
             long seconds = diffTime/1000;
             int min = (int)(seconds / 60);
             int sec = (int)(seconds % 60);
+
+            //Log pass/fail message for the test
             log.warn(message + " in " + min + " min, " + sec + " seconds for test : " + description);
         }
     };

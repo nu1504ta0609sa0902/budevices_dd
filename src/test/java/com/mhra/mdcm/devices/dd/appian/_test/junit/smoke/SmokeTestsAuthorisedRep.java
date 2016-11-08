@@ -35,6 +35,7 @@ public class SmokeTestsAuthorisedRep extends Common {
         ExcelDataSheet excelUtils = new ExcelDataSheet();//
         List<User> listOfUsers = excelUtils.getListOfUsers("configs/data/excel/users.xlsx", "Sheet1");
         listOfUsers = excelUtils.filterUsersBy(listOfUsers, "authorised");
+        log.info("AuthorisedRep Users : " + listOfUsers);
         return listOfUsers;
     }
 
