@@ -1,6 +1,6 @@
 package com.mhra.mdcm.devices.dd.appian.pageobjects.business.sections;
 
-import com.mhra.mdcm.devices.dd.appian.domains.AccountRequest;
+import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.AccountRequest;
 import com.mhra.mdcm.devices.dd.appian.pageobjects._Page;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.business.ActionsPage;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.PageUtils;
@@ -92,7 +92,7 @@ public class CreateTestsData extends _Page {
     WebElement cancel;
 
 
-    @Autowired
+
     public CreateTestsData(WebDriver driver) {
         super(driver);
     }

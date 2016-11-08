@@ -42,7 +42,7 @@ public class LoginPage extends _Page {
     @FindBy(xpath = ".//img[@id='logo']//following::div[@class='message']")
     WebElement errorMsg;
 
-    @Autowired
+
     public LoginPage(WebDriver driver) {
         super(driver);
     }

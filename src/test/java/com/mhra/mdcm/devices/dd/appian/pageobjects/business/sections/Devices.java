@@ -23,7 +23,7 @@ public class Devices extends _Page {
     @FindBy(xpath = ".//h2[.='GMDN definition']//following::a")
     List<WebElement> listOfAllDevices;
 
-    @Autowired
+
     public Devices(WebDriver driver) {
         super(driver);
     }

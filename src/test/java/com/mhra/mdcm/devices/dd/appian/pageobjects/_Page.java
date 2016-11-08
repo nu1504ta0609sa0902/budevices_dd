@@ -10,7 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 /**
  * @author TPD_Auto
  */
-@ContextConfiguration(locations = {"/cucumber.mhra.devices.xml"})
+//@ContextConfiguration(locations = {"/smoketests.mhra.devices.xml"})
 public class _Page {
 
     public static final boolean USE_DEBUG_TIME = true;
@@ -21,10 +21,12 @@ public class _Page {
     public static final int TIMEOUT_VERY_HIGH = 60;
     public static final int TIMEOUT_DEFAULT = TIMEOUT_HIGH;
 
-    public WebDriver driver;
     public final Logger log = LoggerFactory.getLogger(_Page.class);
 
-    @Autowired
+
+    public WebDriver driver;
+
+
     public _Page(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);

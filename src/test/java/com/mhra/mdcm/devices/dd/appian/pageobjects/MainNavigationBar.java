@@ -38,7 +38,7 @@ public class MainNavigationBar extends _Page {
     WebElement currentSelection;
 
 
-    @Autowired
+
     public MainNavigationBar(WebDriver driver) {
         super(driver);
     }

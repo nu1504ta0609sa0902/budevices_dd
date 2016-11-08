@@ -1,4 +1,4 @@
-package com.mhra.mdcm.devices.dd.appian.domains;
+package com.mhra.mdcm.devices.dd.appian.domains.newaccounts;
 
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.RandomDataUtils;
 

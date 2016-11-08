@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class NewsPage extends _Page {
 
-    @Autowired
+
     public NewsPage(WebDriver driver) {
         super(driver);
     }

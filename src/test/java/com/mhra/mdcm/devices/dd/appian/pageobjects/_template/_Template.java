@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class _Template extends _Page {
 
-    @Autowired
+
     public _Template(WebDriver driver) {
         super(driver);
     }

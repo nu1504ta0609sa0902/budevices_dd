@@ -1,7 +1,7 @@
 package com.mhra.mdcm.devices.dd.appian._test.junit.smoke;
 
 import com.mhra.mdcm.devices.dd.appian._test.junit.common.Common;
-import com.mhra.mdcm.devices.dd.appian.domains.AccountRequest;
+import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.AccountRequest;
 import com.mhra.mdcm.devices.dd.appian.domains.junit.User;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.LoginPage;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.MainNavigationBar;
@@ -14,6 +14,7 @@ import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.io.IOException;
@@ -33,7 +34,9 @@ public class SmokeTestsBusiness extends Common {
     @Value("${base.url}")
     public static String baseUrl;
 
+
     public static WebDriver driver;
+
     private String username;
     private String password;
 

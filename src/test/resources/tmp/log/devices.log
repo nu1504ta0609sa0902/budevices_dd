@@ -1,39 +1,6 @@
-2016-11-08 08:46:11 
+2016-11-08 09:45:47 
 
 RUNNING BUSINESS SMOKE TESTS
-2016-11-08 08:46:40 Passed : asAUserIShouldSeeErrorMessagesIfCredentialsAreIncorrect[Test for : Noor.Uddin.Business/MHRA1234](com.mhra.mdcm.devices.dd.appian._test.junit.smoke.SmokeTestsBusiness)
-2016-11-08 08:47:13 Passed : asAUserIShouldBeAbleToLoginAndLogout[Test for : Noor.Uddin.Business/MHRA1234](com.mhra.mdcm.devices.dd.appian._test.junit.smoke.SmokeTestsBusiness)
-2016-11-08 08:47:45 Passed : asABusinessUserIShouldBeAbleToNavigateToDifferentSections[Test for : Noor.Uddin.Business/MHRA1234](com.mhra.mdcm.devices.dd.appian._test.junit.smoke.SmokeTestsBusiness)
-2016-11-08 08:48:56 Passed : asABusinessUserIShouldBeAbleToViewAccountsDevicesAndOtherPages[Test for : Noor.Uddin.Business/MHRA1234](com.mhra.mdcm.devices.dd.appian._test.junit.smoke.SmokeTestsBusiness)
-2016-11-08 08:49:16 Passed : asAUserIShouldSeeErrorMessagesIfCredentialsAreIncorrect[Test for : Lambros.Poullais.Business/MHRA1234](com.mhra.mdcm.devices.dd.appian._test.junit.smoke.SmokeTestsBusiness)
-2016-11-08 08:49:42 Passed : asAUserIShouldBeAbleToLoginAndLogout[Test for : Lambros.Poullais.Business/MHRA1234](com.mhra.mdcm.devices.dd.appian._test.junit.smoke.SmokeTestsBusiness)
-2016-11-08 08:50:11 Passed : asABusinessUserIShouldBeAbleToNavigateToDifferentSections[Test for : Lambros.Poullais.Business/MHRA1234](com.mhra.mdcm.devices.dd.appian._test.junit.smoke.SmokeTestsBusiness)
-2016-11-08 08:51:20 Passed : asABusinessUserIShouldBeAbleToViewAccountsDevicesAndOtherPages[Test for : Lambros.Poullais.Business/MHRA1234](com.mhra.mdcm.devices.dd.appian._test.junit.smoke.SmokeTestsBusiness)
-2016-11-08 08:51:40 Passed : asAUserIShouldSeeErrorMessagesIfCredentialsAreIncorrect[Test for : Yaaseen.Choudhury.Business/password2](com.mhra.mdcm.devices.dd.appian._test.junit.smoke.SmokeTestsBusiness)
-2016-11-08 08:52:04 Passed : asAUserIShouldBeAbleToLoginAndLogout[Test for : Yaaseen.Choudhury.Business/password2](com.mhra.mdcm.devices.dd.appian._test.junit.smoke.SmokeTestsBusiness)
-2016-11-08 08:52:33 Passed : asABusinessUserIShouldBeAbleToNavigateToDifferentSections[Test for : Yaaseen.Choudhury.Business/password2](com.mhra.mdcm.devices.dd.appian._test.junit.smoke.SmokeTestsBusiness)
-2016-11-08 08:53:41 Passed : asABusinessUserIShouldBeAbleToViewAccountsDevicesAndOtherPages[Test for : Yaaseen.Choudhury.Business/password2](com.mhra.mdcm.devices.dd.appian._test.junit.smoke.SmokeTestsBusiness)
-2016-11-08 08:53:47 
-
-RUNNING MANUFACTURER SMOKE TESTS
-2016-11-08 08:54:06 Passed : asAUserIShouldSeeErrorMessagesIfCredentialsAreIncorrect[Test for : Noor.Uddin.Manufacturer/MHRA1234](com.mhra.mdcm.devices.dd.appian._test.junit.smoke.SmokeTestsManufacturers)
-2016-11-08 08:54:43 Passed : asAUserIShouldBeAbleToLoginAndLogout[Test for : Noor.Uddin.Manufacturer/MHRA1234](com.mhra.mdcm.devices.dd.appian._test.junit.smoke.SmokeTestsManufacturers)
-2016-11-08 08:55:08 Passed : checkCorrectLinksAreDisplayedForManufacturer[Test for : Noor.Uddin.Manufacturer/MHRA1234](com.mhra.mdcm.devices.dd.appian._test.junit.smoke.SmokeTestsManufacturers)
-2016-11-08 08:55:27 Passed : asAUserIShouldSeeErrorMessagesIfCredentialsAreIncorrect[Test for : Lambros.Poullais.Manufacturer/MHRA1234](com.mhra.mdcm.devices.dd.appian._test.junit.smoke.SmokeTestsManufacturers)
-2016-11-08 08:56:07 Passed : asAUserIShouldBeAbleToLoginAndLogout[Test for : Lambros.Poullais.Manufacturer/MHRA1234](com.mhra.mdcm.devices.dd.appian._test.junit.smoke.SmokeTestsManufacturers)
-2016-11-08 08:56:30 Passed : checkCorrectLinksAreDisplayedForManufacturer[Test for : Lambros.Poullais.Manufacturer/MHRA1234](com.mhra.mdcm.devices.dd.appian._test.junit.smoke.SmokeTestsManufacturers)
-2016-11-08 08:56:48 Passed : asAUserIShouldSeeErrorMessagesIfCredentialsAreIncorrect[Test for : Yaaseen.Choudhury.Manufacturer/password2](com.mhra.mdcm.devices.dd.appian._test.junit.smoke.SmokeTestsManufacturers)
-2016-11-08 08:57:27 Passed : asAUserIShouldBeAbleToLoginAndLogout[Test for : Yaaseen.Choudhury.Manufacturer/password2](com.mhra.mdcm.devices.dd.appian._test.junit.smoke.SmokeTestsManufacturers)
-2016-11-08 08:57:50 Passed : checkCorrectLinksAreDisplayedForManufacturer[Test for : Yaaseen.Choudhury.Manufacturer/password2](com.mhra.mdcm.devices.dd.appian._test.junit.smoke.SmokeTestsManufacturers)
-2016-11-08 08:57:53 
-
-RUNNING AUTHORISED REP SMOKE TESTS
-2016-11-08 08:58:13 Passed : asAUserIShouldSeeErrorMessagesIfCredentialsAreIncorrect[Test for : Noor.Uddin.AuthorisedRep/MHRA1234](com.mhra.mdcm.devices.dd.appian._test.junit.smoke.SmokeTestsAuthorisedRep)
-2016-11-08 08:58:59 Passed : asAUserIShouldBeAbleToLoginAndLogout[Test for : Noor.Uddin.AuthorisedRep/MHRA1234](com.mhra.mdcm.devices.dd.appian._test.junit.smoke.SmokeTestsAuthorisedRep)
-2016-11-08 08:59:30 Passed : checkCorrectLinksAreDisplayedForAuthorisedRep[Test for : Noor.Uddin.AuthorisedRep/MHRA1234](com.mhra.mdcm.devices.dd.appian._test.junit.smoke.SmokeTestsAuthorisedRep)
-2016-11-08 08:59:54 Passed : asAUserIShouldSeeErrorMessagesIfCredentialsAreIncorrect[Test for : Lambros.Poullais.AuthorisedRep/MHRA1234](com.mhra.mdcm.devices.dd.appian._test.junit.smoke.SmokeTestsAuthorisedRep)
-2016-11-08 09:00:36 Passed : asAUserIShouldBeAbleToLoginAndLogout[Test for : Lambros.Poullais.AuthorisedRep/MHRA1234](com.mhra.mdcm.devices.dd.appian._test.junit.smoke.SmokeTestsAuthorisedRep)
-2016-11-08 09:01:02 Passed : checkCorrectLinksAreDisplayedForAuthorisedRep[Test for : Lambros.Poullais.AuthorisedRep/MHRA1234](com.mhra.mdcm.devices.dd.appian._test.junit.smoke.SmokeTestsAuthorisedRep)
-2016-11-08 09:01:22 Passed : asAUserIShouldSeeErrorMessagesIfCredentialsAreIncorrect[Test for : Yaaseen.Choudhury.AuthorisedRep/password2](com.mhra.mdcm.devices.dd.appian._test.junit.smoke.SmokeTestsAuthorisedRep)
-2016-11-08 09:02:03 Passed : asAUserIShouldBeAbleToLoginAndLogout[Test for : Yaaseen.Choudhury.AuthorisedRep/password2](com.mhra.mdcm.devices.dd.appian._test.junit.smoke.SmokeTestsAuthorisedRep)
-2016-11-08 09:02:28 Passed : checkCorrectLinksAreDisplayedForAuthorisedRep[Test for : Yaaseen.Choudhury.AuthorisedRep/password2](com.mhra.mdcm.devices.dd.appian._test.junit.smoke.SmokeTestsAuthorisedRep)
+2016-11-08 09:46:06 Passed : asAUserIShouldSeeErrorMessagesIfCredentialsAreIncorrect[Test for : Noor.Uddin.Business/MHRA1234](com.mhra.mdcm.devices.dd.appian._test.junit.smoke.SmokeTestsBusiness)
+2016-11-08 09:46:25 Passed : asAUserIShouldSeeErrorMessagesIfCredentialsAreIncorrect[Test for : Lambros.Poullais.Business/MHRA1234](com.mhra.mdcm.devices.dd.appian._test.junit.smoke.SmokeTestsBusiness)
+2016-11-08 09:46:45 Passed : asAUserIShouldSeeErrorMessagesIfCredentialsAreIncorrect[Test for : Yaaseen.Choudhury.Business/password2](com.mhra.mdcm.devices.dd.appian._test.junit.smoke.SmokeTestsBusiness)

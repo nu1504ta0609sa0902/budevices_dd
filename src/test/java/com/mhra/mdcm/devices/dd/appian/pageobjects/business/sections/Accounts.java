@@ -46,7 +46,7 @@ public class Accounts extends _Page {
     @FindBy(xpath = ".//*[contains(@class, 'filter')]//following::input[1]")
     WebElement searchBox;
 
-    @Autowired
+
     public Accounts(WebDriver driver) {
         super(driver);
     }

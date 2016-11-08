@@ -29,7 +29,7 @@ public class AllOrganisations extends _Page {
     @FindBy(xpath = ".//*[contains(@class, 'filter')]//following::input[1]")
     WebElement searchBox;
 
-    @Autowired
+
     public AllOrganisations(WebDriver driver) {
         super(driver);
     }

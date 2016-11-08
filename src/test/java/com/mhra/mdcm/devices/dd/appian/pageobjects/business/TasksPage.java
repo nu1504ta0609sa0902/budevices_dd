@@ -21,7 +21,7 @@ public class TasksPage extends _Page {
     @FindBy(partialLinkText = "New Account Request")
     List<WebElement> listOfNewAccount;
 
-    @Autowired
+
     public TasksPage(WebDriver driver) {
         super(driver);
     }

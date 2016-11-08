@@ -20,7 +20,7 @@ public class ActionsPage extends _Page {
     @FindBy(partialLinkText = "Create Test Account")
     WebElement linkCreateTestAccount;
 
-    @Autowired
+
     public ActionsPage(WebDriver driver) {
         super(driver);
     }

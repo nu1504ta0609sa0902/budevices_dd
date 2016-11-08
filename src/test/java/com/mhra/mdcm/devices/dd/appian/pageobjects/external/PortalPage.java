@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class PortalPage extends _Page {
 
-    @Autowired
+
     public PortalPage(WebDriver driver) {
         super(driver);
     }

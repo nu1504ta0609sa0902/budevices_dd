@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ReportsPage extends _Page {
 
-    @Autowired
+
     public ReportsPage(WebDriver driver) {
         super(driver);
     }

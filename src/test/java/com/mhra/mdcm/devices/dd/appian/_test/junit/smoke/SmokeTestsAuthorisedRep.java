@@ -13,6 +13,7 @@ import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.io.IOException;
@@ -25,10 +26,12 @@ import java.util.List;
 @RunWith(Parameterized.class)
 public class SmokeTestsAuthorisedRep extends Common {
 
+
+    public static WebDriver driver;
+
     @Value("${base.url}")
     public static String baseUrl;
 
-    public static WebDriver driver;
     private String username;
     private String password;
 
@@ -49,7 +52,7 @@ public class SmokeTestsAuthorisedRep extends Common {
     @BeforeClass
     public static void setUpDriver() {
         if (driver == null) {
-            driver = new BrowserConfig().getDriver();
+            //driver = new BrowserConfig().getDriver();
             baseUrl = NetworkUtils.getTestUrl(baseUrl);
             log.warn("\n\nRUNNING AUTHORISED REP SMOKE TESTS");
         }
@@ -58,7 +61,7 @@ public class SmokeTestsAuthorisedRep extends Common {
     @AfterClass
     public static void clearBrowsers() {
         if (driver != null) {
-            driver.quit();
+            //driver.quit();
         }
     }
 

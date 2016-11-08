@@ -1,5 +1,6 @@
 "# budevices_dd"
 
+<hr/>
 -- Example running the tests from command prompt
 
 1. Open command prompt and navigate to project directory
@@ -22,6 +23,13 @@ PhantomJS Headless :<br/>
 mvn clean test -Dtest=RunAllSmokeTest -Dcurrent.browser=pjs -Dspring.profiles.active=mhratest
 <br/>
 
+<hr/>
+Run Specific Tests:<br/>
+
+mvn clean test -Dtest=SmokeTestsBusiness#your_test_name -Dcurrent.browser=ie -Dspring.profiles.active=mhratest
+mvn clean test -Dtest=SmokeTestsBusiness#your_test_name1+your_test_name2+your_test_name3 -Dcurrent.browser=ie -Dspring.profiles.active=mhratest
+
+<hr/>
 
 mvn surefire-report:report
  <br/>
@@ -40,3 +48,5 @@ mvn site -DgenerateReports=false
 
 mvn site : is very slow
 mvn surefire-report:report-only + mvn site -DgenerateReports=false = faster solution
+
+

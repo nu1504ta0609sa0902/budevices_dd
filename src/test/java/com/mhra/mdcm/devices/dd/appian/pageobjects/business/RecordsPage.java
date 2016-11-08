@@ -31,7 +31,7 @@ public class RecordsPage extends _Page {
     WebElement linkDevices;
 
 
-    @Autowired
+
     public RecordsPage(WebDriver driver) {
         super(driver);
     }

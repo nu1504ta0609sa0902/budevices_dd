@@ -23,7 +23,7 @@ public class Products extends _Page {
     @FindBy(xpath = ".//h2[.='Country']//following::a")
     List<WebElement> listOfAllProducts;
 
-    @Autowired
+
     public Products(WebDriver driver) {
         super(driver);
     }

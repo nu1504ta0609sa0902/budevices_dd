@@ -9,10 +9,12 @@ import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.test.context.ContextConfiguration;
 
 /**
  * Created by TPD_Auto on 07/11/2016.
  */
+//@ContextConfiguration(locations = {"/smoketests.mhra.devices.xml"})
 public class Common {
 
     public static final Logger log = LoggerFactory.getLogger(Common.class);
