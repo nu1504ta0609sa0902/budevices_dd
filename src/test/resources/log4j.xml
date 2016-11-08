@@ -24,7 +24,7 @@
 		<param name="append" value="false" />
 		<param name="maxFileSize" value="1MB" />
 		<param name="maxBackupIndex" value="10" />
-		<param name="file" value="src/test/resources/tmp/log/devices.log" />
+		<param name="file" value="src/test/resources/tmp/log/device_tests.log" />
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern"
 				   value="%d{yyyy-MM-dd HH:mm:ss} %m%n" />
