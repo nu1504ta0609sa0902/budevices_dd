@@ -21,6 +21,8 @@
         <selenium.java.version>3.0.1</selenium.java.version>
         <apache.httpclient.version>4.5</apache.httpclient.version>
         <skipTests>false</skipTests>
+        <timestamp>${maven.build.timestamp}</timestamp>
+        <maven.build.timestamp.format>dd_MM_yyyy_HH_mm</maven.build.timestamp.format>
     </properties>
 
     <build>
@@ -50,45 +52,27 @@
                         <include>**/*Test.java</include>
                         <include>src/test/resources/log4j.xml</include>
                     </includes>
+                    <reportsDirectory>${basedir}/bu/reports</reportsDirectory>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+                <version>2.19.1</version>
+                <configuration>
+                    <outputName>SmokeTest_${timestamp}</outputName>
+                    <reportsDirectory>${basedir}/bu/reports</reportsDirectory>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
                 <version>3.5</version>
+                <configuration>
+                    <outputName>SmokeTest_${timestamp}</outputName>
+                    <reportsDirectory>${basedir}/bu/reports</reportsDirectory>
+                </configuration>
             </plugin>
-            <!--<plugin>-->
-            <!--<artifactId>maven-site-plugin</artifactId>-->
-            <!--<executions>-->
-            <!--<execution>-->
-            <!--<id>site deploy</id>-->
-            <!--<phase>test</phase>-->
-            <!--<goals>-->
-            <!--<goal>site</goal>-->
-            <!--<goal>deploy</goal>-->
-            <!--</goals>-->
-            <!--</execution>-->
-            <!--</executions>-->
-            <!--</plugin>-->
-            <!--<plugin>-->
-            <!--<groupId>org.apache.maven.plugins</groupId>-->
-            <!--<artifactId>maven-failsafe-plugin</artifactId>-->
-            <!--<version>2.19.1</version>-->
-            <!--<configuration>-->
-            <!--&lt;!&ndash;<argLine>-Dcurrent.browser=ie</argLine>&ndash;&gt;-->
-            <!--<includes>-->
-            <!--<include>**/*Test.java</include>-->
-            <!--<include>src/test/resources/log4j.xml</include>-->
-            <!--</includes>-->
-            <!--</configuration>-->
-            <!--<dependencies>-->
-            <!--<dependency>-->
-            <!--<groupId>org.apache.maven.surefire</groupId>-->
-            <!--<artifactId>surefire-junit47</artifactId>-->
-            <!--<version>2.19.1</version>-->
-            <!--</dependency>-->
-            <!--</dependencies>-->
-            <!--</plugin>-->
         </plugins>
     </build>
 
@@ -121,33 +105,6 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
-
-        <!--Spring Dependencies -->
-        <!--<dependency>-->
-            <!--<groupId>org.springframework</groupId>-->
-            <!--<artifactId>spring-core</artifactId>-->
-            <!--<version>${spring.version}</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.springframework</groupId>-->
-            <!--<artifactId>spring-context</artifactId>-->
-            <!--<version>${spring.version}</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.springframework</groupId>-->
-            <!--<artifactId>spring-beans</artifactId>-->
-            <!--<version>${spring.version}</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.springframework</groupId>-->
-            <!--<artifactId>spring-test</artifactId>-->
-            <!--<version>${spring.version}</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.springframework</groupId>-->
-            <!--<artifactId>spring-tx</artifactId>-->
-            <!--<version>${spring.version}</version>-->
-        <!--</dependency>-->
 
         <!-- Hamcrest pattern matcher -->
         <dependency>

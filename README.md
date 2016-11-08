@@ -11,23 +11,25 @@ cd C:\Users\TPD_Auto\Desktop\Noor\AutomationProjects\JavaProject\MHRA_MDCM_DEVIC
 2. Run one of the commands below:
 
 IE:<br/>
-mvn clean test -Dtest=RunAllSmokeTest -Dcurrent.browser=ie -Dspring.profiles.active=mhratest
+mvn clean test -Dtest=RunAllSmokeTest -Dcurrent.browser=ie -Dspring.profiles.active=mhradevicestest
 <br/>
 GC:<br/>
-mvn clean test -Dtest=RunAllSmokeTest -Dcurrent.browser=gc -Dspring.profiles.active=mhratest
+mvn clean test -Dtest=RunAllSmokeTest -Dcurrent.browser=gc -Dspring.profiles.active=mhradevicestest
 <br/>
 FF:<br/>
-mvn clean test -Dtest=RunAllSmokeTest -Dcurrent.browser=ff -Dspring.profiles.active=mhratest
+mvn clean test -Dtest=RunAllSmokeTest -Dcurrent.browser=ff -Dspring.profiles.active=mhradevicestest
 <br/>
 PhantomJS Headless :<br/>
-mvn clean test -Dtest=RunAllSmokeTest -Dcurrent.browser=pjs -Dspring.profiles.active=mhratest
+mvn clean test -Dtest=RunAllSmokeTest -Dcurrent.browser=pjs -Dspring.profiles.active=mhradevicestest
 <br/>
 
 <hr/>
 Run Specific Tests:<br/>
 
-mvn clean test -Dtest=SmokeTestsBusiness#your_test_name -Dcurrent.browser=ie -Dspring.profiles.active=mhratest
-mvn clean test -Dtest=SmokeTestsBusiness#your_test_name1+your_test_name2+your_test_name3 -Dcurrent.browser=ie -Dspring.profiles.active=mhratest
+mvn clean test -Dtest=SmokeTestsBusiness#your_test_name -Dcurrent.browser=ie -Dspring.profiles.active=mhradevicestest
+mvn clean test -Dtest=SmokeTestsBusiness#your_test_name1+your_test_name2+your_test_name3 -Dcurrent.browser=ie -Dspring.profiles.active=mhradevicestest
+Example:
+mvn clean test -Dtest=SmokeTestsBusiness#asAUserIShouldBeAbleToLoginAndLogout -Dcurrent.browser=ie -Dspring.profiles.active=mhradevicestest
 
 <hr/>
 
@@ -41,9 +43,7 @@ Create Better Reports With These Commands: <br/>
 mvn test
 # Convert .xml reports into .html report, but without the CSS or images
 mvn surefire-report:report-only
-
-# Put the CSS and images where they need to be without the rest of the
-# time-consuming stuff
+# Put the CSS and images where they need to be without the rest of the time-consuming stuff
 mvn site -DgenerateReports=false
 
 mvn site : is very slow

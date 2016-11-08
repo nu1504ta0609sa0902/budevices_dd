@@ -32,23 +32,23 @@ public class Common {
         @Override
         protected void failed(Throwable e, Description description) {
             log.warn("Error : " + e.getMessage());
-            log.warn("Failed : " + description);
-            logTime(description);
+            //log.warn("Failed : " + description);
+            logTime("Failed," , description);
         }
 
         @Override
         protected void succeeded(Description description) {
-            log.warn("Passed : " + description);
-            logTime(description);
+            //log.warn("Passed : " + description);
+            logTime("Passed,", description);
         }
 
-        private void logTime(Description description) {
+        private void logTime(String message , Description description) {
             long timeEnd = System.currentTimeMillis();
             long diffTime = (timeEnd - timeStart);
             long seconds = diffTime/1000;
             int min = (int)(seconds / 60);
             int sec = (int)(seconds % 60);
-            log.warn("Time taken : " + min + " min, " + sec + " seconds for test : " + description);
+            log.warn(message + " in " + min + " min, " + sec + " seconds for test : " + description);
         }
     };
 
