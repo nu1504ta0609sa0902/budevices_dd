@@ -21,15 +21,34 @@ public class Common {
 
     @Rule
     public TestWatcher watchman= new TestWatcher() {
+        long timeStart = System.currentTimeMillis();
+
+        @Override
+        protected void starting(Description description) {
+            super.starting(description);
+            timeStart = System.currentTimeMillis();
+        }
+
         @Override
         protected void failed(Throwable e, Description description) {
             log.warn("Error : " + e.getMessage());
             log.warn("Failed : " + description);
+            logTime(description);
         }
 
         @Override
         protected void succeeded(Description description) {
             log.warn("Passed : " + description);
+            logTime(description);
+        }
+
+        private void logTime(Description description) {
+            long timeEnd = System.currentTimeMillis();
+            long diffTime = (timeEnd - timeStart);
+            long seconds = diffTime/1000;
+            int min = (int)(seconds / 60);
+            int sec = (int)(seconds % 60);
+            log.warn("Time taken : " + min + " min, " + sec + " seconds for test : " + description);
         }
     };
 

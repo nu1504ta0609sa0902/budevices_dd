@@ -74,12 +74,12 @@ public class LoginPage extends _Page {
      */
     public LoginPage logoutIfLoggedIn() {
         try {
-            WaitUtils.waitForElementToBeClickable(driver, settings, 10, false);
+            WaitUtils.waitForElementToBeClickable(driver, settings, TIMEOUT_SMALL, false);
             if (settings.isDisplayed()) {
                 //settings.click();
                 PageUtils.doubleClick(driver, settings);
                 driver.findElement(By.linkText("Sign Out")).click();
-                WaitUtils.waitForElementToBeClickable(driver, remember, 10, false);
+                WaitUtils.waitForElementToBeClickable(driver, remember, TIMEOUT_SMALL, false);
                 WaitUtils.nativeWait(2);
             }
         } catch (Exception e) {

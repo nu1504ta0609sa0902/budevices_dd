@@ -26,10 +26,7 @@ public class SmokeTestsAuthorisedRep extends Common {
 
 
     public static WebDriver driver;
-
-
     public static String baseUrl;
-
     private String username;
     private String password;
 
@@ -44,7 +41,6 @@ public class SmokeTestsAuthorisedRep extends Common {
     public SmokeTestsAuthorisedRep(User user) {
         this.username = user.getUserName();
         this.password = user.getPassword();
-        //System.out.println(username + ", " + password);
     }
 
     @BeforeClass

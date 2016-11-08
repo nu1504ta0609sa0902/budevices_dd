@@ -29,12 +29,8 @@ import static org.hamcrest.Matchers.is;
 @RunWith(Parameterized.class)
 public class SmokeTestsBusiness extends Common {
 
-
-    public static String baseUrl;
-
-
     public static WebDriver driver;
-
+    public static String baseUrl;
     private String username;
     private String password;
 
@@ -50,7 +46,6 @@ public class SmokeTestsBusiness extends Common {
     public SmokeTestsBusiness(User user) {
         this.username = user.getUserName();
         this.password = user.getPassword();
-        //System.out.println(username + ", " + password);
     }
 
     @BeforeClass

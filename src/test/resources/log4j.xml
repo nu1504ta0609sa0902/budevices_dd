@@ -12,7 +12,7 @@
 	</appender>
 
 	<appender name="default.file" class="org.apache.log4j.FileAppender">
-		<param name="file" value="src/test/resources/tmp/log/devices.log" />
+		<param name="file" value="src/test/resources/tmp/log/others/devices.log" />
 		<param name="append" value="true" />
 		<param name="threshold" value="info" />
 		<layout class="org.apache.log4j.PatternLayout">
@@ -21,8 +21,8 @@
 	</appender>
 
 	<appender name="default.file.role" class="org.apache.log4j.RollingFileAppender">
-		<param name="append" value="false" />
-		<param name="maxFileSize" value="1MB" />
+		<param name="append" value="true" />
+		<param name="maxFileSize" value="5MB" />
 		<param name="maxBackupIndex" value="10" />
 		<param name="file" value="src/test/resources/tmp/log/device_tests.log" />
 		<layout class="org.apache.log4j.PatternLayout">
