@@ -10,21 +10,16 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 /**
  * Use this or the cucumber.xml don't use both
  * @author tayyibah
  *
  */
-@Configuration
 public class BrowserConfig {
 	
 	public String browser;
 
-	@Bean
     public WebDriver getDriver() {
 
 		if(browser == null){

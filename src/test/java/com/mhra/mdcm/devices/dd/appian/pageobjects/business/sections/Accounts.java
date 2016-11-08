@@ -10,8 +10,6 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +17,7 @@ import java.util.List;
 /**
  * Created by TPD_Auto
  */
-@Component
+
 public class Accounts extends _Page {
 
     @FindBy(xpath = ".//h2[.='Status']//following::a")

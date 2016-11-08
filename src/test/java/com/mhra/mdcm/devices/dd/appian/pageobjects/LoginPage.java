@@ -1,16 +1,11 @@
 package com.mhra.mdcm.devices.dd.appian.pageobjects;
 
-import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.FileUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.PageUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.WaitUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.io.File;
-import java.util.Properties;
 
 /**
  * @author TPD_Auto

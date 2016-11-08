@@ -13,8 +13,6 @@ import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -29,7 +27,7 @@ public class SmokeTestsManufacturers extends Common {
 
     public static WebDriver driver;
 
-    @Value("${base.url}")
+
     public static String baseUrl;
 
     private String username;

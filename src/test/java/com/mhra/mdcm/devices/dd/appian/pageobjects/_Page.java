@@ -4,13 +4,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
 
 /**
  * @author TPD_Auto
  */
-//@ContextConfiguration(locations = {"/smoketests.mhra.devices.xml"})
 public class _Page {
 
     public static final boolean USE_DEBUG_TIME = true;

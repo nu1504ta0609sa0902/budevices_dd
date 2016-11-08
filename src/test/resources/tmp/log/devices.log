@@ -1,6 +1,9 @@
-2016-11-08 09:45:47 
+2016-11-08 10:04:35 
 
 RUNNING BUSINESS SMOKE TESTS
-2016-11-08 09:46:06 Passed : asAUserIShouldSeeErrorMessagesIfCredentialsAreIncorrect[Test for : Noor.Uddin.Business/MHRA1234](com.mhra.mdcm.devices.dd.appian._test.junit.smoke.SmokeTestsBusiness)
-2016-11-08 09:46:25 Passed : asAUserIShouldSeeErrorMessagesIfCredentialsAreIncorrect[Test for : Lambros.Poullais.Business/MHRA1234](com.mhra.mdcm.devices.dd.appian._test.junit.smoke.SmokeTestsBusiness)
-2016-11-08 09:46:45 Passed : asAUserIShouldSeeErrorMessagesIfCredentialsAreIncorrect[Test for : Yaaseen.Choudhury.Business/password2](com.mhra.mdcm.devices.dd.appian._test.junit.smoke.SmokeTestsBusiness)
+2016-11-08 10:04:57 Passed : asAUserIShouldSeeErrorMessagesIfCredentialsAreIncorrect[Test for : Noor.Uddin.Business/MHRA1234](com.mhra.mdcm.devices.dd.appian._test.junit.smoke.SmokeTestsBusiness)
+2016-11-08 10:05:17 Passed : asAUserIShouldSeeErrorMessagesIfCredentialsAreIncorrect[Test for : Lambros.Poullais.Business/MHRA1234](com.mhra.mdcm.devices.dd.appian._test.junit.smoke.SmokeTestsBusiness)
+2016-11-08 10:05:36 Error : Error message should contain : The username/password entered is invalid
+Expected: is <true>
+     but: was <false>
+2016-11-08 10:05:36 Failed : asAUserIShouldSeeErrorMessagesIfCredentialsAreIncorrect[Test for : Yaaseen.Choudhury.Business/password2](com.mhra.mdcm.devices.dd.appian._test.junit.smoke.SmokeTestsBusiness)

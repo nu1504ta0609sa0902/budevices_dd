@@ -1,6 +1,5 @@
 package com.mhra.mdcm.devices.dd.appian._test.junit.rules;
 
-import com.mhra.mdcm.devices.dd.appian.pageobjects._Page;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
