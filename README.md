@@ -21,25 +21,25 @@ cd C:\Users\TPD_Auto\Desktop\Noor\AutomationProjects\JavaProject\MHRA_MDCM_DEVIC
 #B. Run one of the commands below:
 
 IE:<br/>
-mvn clean test -Dtest=RunAllSmokeTest -Dcurrent.browser=ie -Dspring.profiles.active=mhradevicestest
+mvn clean test -Dtest=RunAllSmokeTest -Dcurrent.browser=ie -Dspring.profiles.active=mhratest
 <br/>
 GC:<br/>
-mvn clean test -Dtest=RunAllSmokeTest -Dcurrent.browser=gc -Dspring.profiles.active=mhradevicestest
+mvn clean test -Dtest=RunAllSmokeTest -Dcurrent.browser=gc -Dspring.profiles.active=mhratest
 <br/>
 FF:<br/>
-mvn clean test -Dtest=RunAllSmokeTest -Dcurrent.browser=ff -Dspring.profiles.active=mhradevicestest
+mvn clean test -Dtest=RunAllSmokeTest -Dcurrent.browser=ff -Dspring.profiles.active=mhratest
 <br/>
 PhantomJS Headless :<br/>
-mvn clean test -Dtest=RunAllSmokeTest -Dcurrent.browser=pjs -Dspring.profiles.active=mhradevicestest
+mvn clean test -Dtest=RunAllSmokeTest -Dcurrent.browser=pjs -Dspring.profiles.active=mhratest
 <br/>
 
 <hr/>
 Run Specific Tests:<br/>
 
-mvn clean test -Dtest=SmokeTestsBusiness#your_test_name -Dcurrent.browser=ie -Dspring.profiles.active=mhradevicestest
-<br/>mvn clean test -Dtest=SmokeTestsBusiness#your_test_name1+your_test_name2+your_test_name3 -Dcurrent.browser=ie -Dspring.profiles.active=mhradevicestest
+mvn clean test -Dtest=SmokeTestsBusiness#your_test_name -Dcurrent.browser=ie -Dspring.profiles.active=mhratest
+<br/>mvn clean test -Dtest=SmokeTestsBusiness#your_test_name1+your_test_name2+your_test_name3 -Dcurrent.browser=ie -Dspring.profiles.active=mhratest
 <br/>Example:
-<br/>mvn clean test -Dtest=SmokeTestsBusiness#asAUserIShouldBeAbleToLoginAndLogout -Dcurrent.browser=ie -Dspring.profiles.active=mhradevicestest
+<br/>mvn clean test -Dtest=SmokeTestsBusiness#asAUserIShouldBeAbleToLoginAndLogout -Dcurrent.browser=ie -Dspring.profiles.active=mhratest
 
 <hr/>
 #C. Generate the reports<br/>
@@ -57,7 +57,7 @@ Put the CSS and images where they need to be without the rest of the time-consum
 mvn site -DgenerateReports=false
 
 #Summary:
-mvn clean test -Dtest=RunAllSmokeTest -Dcurrent.browser=ie -Dspring.profiles.active=mhradevicestest<br/>
+mvn clean test -Dtest=RunAllSmokeTest -Dcurrent.browser=ie -Dspring.profiles.active=mhratest<br/>
 mvn site : is very slow so use the commands below<br/>
 mvn surefire-report:report-only <br/>mvn site -DgenerateReports=false = faster solution<br/>
 

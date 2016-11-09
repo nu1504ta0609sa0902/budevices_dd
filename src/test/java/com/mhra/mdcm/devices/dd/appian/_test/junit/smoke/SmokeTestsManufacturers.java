@@ -7,7 +7,7 @@ import com.mhra.mdcm.devices.dd.appian.pageobjects.MainNavigationBar;
 import com.mhra.mdcm.devices.dd.appian.utils.datadriven.ExcelDataSheet;
 import com.mhra.mdcm.devices.dd.appian.utils.datadriven.JUnitUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.driver.BrowserConfig;
-import com.mhra.mdcm.devices.dd.appian.utils.network.NetworkUtils;
+import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.FileUtils;
 import org.hamcrest.Matchers;
 import org.junit.*;
 import org.junit.runner.RunWith;
@@ -48,7 +48,7 @@ public class SmokeTestsManufacturers extends Common {
     public static void setUpDriver() {
         if (driver == null) {
             driver = new BrowserConfig().getDriver();
-            baseUrl = NetworkUtils.getTestUrl(baseUrl);
+            baseUrl = FileUtils.getTestUrl();
             log.warn("\n\nRUNNING MANUFACTURER SMOKE TESTS");
         }
     }

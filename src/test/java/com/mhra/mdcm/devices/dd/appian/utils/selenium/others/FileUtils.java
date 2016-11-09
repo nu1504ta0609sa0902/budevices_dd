@@ -27,7 +27,6 @@ public class FileUtils {
     public static Properties loadPropertiesFile(String fileName) {
 
         Properties prop = mapOfProperties.get(fileName);
-
         if (prop == null) {
             try {
                 String root = new File("").getAbsolutePath();
@@ -48,6 +47,23 @@ public class FileUtils {
         return prop;
     }
 
+
+
+    public static String getTestUrl() {
+        String testUrl = "mhratest.appiancloud.com";
+        String profile = System.getProperty("spring.profiles.active");
+        if(profile==null || profile.trim().equals("")){
+            profile = "mhratest";
+        }
+
+        Properties props = FileUtils.loadPropertiesFile("envs" + File.separator + profile + ".properties");
+        String baseUrl = props.getProperty("base.url");
+
+        if (baseUrl != null) {
+            testUrl = baseUrl;
+        }
+        return testUrl;
+    }
 
     /**
      * Get full path to a specific file related to root of project

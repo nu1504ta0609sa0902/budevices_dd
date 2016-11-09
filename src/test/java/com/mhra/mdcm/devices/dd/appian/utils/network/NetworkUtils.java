@@ -11,15 +11,6 @@ public class NetworkUtils {
 
     static int networkConnectionDownCount = 0;
 
-    public static String getTestUrl(String baseUrl) {
-
-        String testUrl = "mhratest.appiancloud.com";
-        if (baseUrl != null) {
-            testUrl = baseUrl;
-        }
-        return testUrl;
-    }
-
     public static boolean verifyConnectedToNetwork(String testUrl, int time) {
         Socket socket = null;
         try {
