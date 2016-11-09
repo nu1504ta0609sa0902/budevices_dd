@@ -3,8 +3,8 @@
 <hr/>
 Note there is 2 ways we can run these tests:<br/>
 1. Via the IDE: <br/>
-    JUnit : reports are no good<br/>
-    * Maven : reports are slightly better<br/>
+    - JUnit : reports are no good<br/>
+    - Maven : reports are slightly better<br/>
         - After running the tests we will need to execute the following commands:<br/>
             - mvn surefire-report:report-only<br/>
             - mvn site -DgenerateReports=false<br/>
