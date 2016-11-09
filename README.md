@@ -1,14 +1,24 @@
 "# budevices_dd"
 
 <hr/>
+Note there is 2 ways we can run these tests:<br/>
+1. Via the IDE:
+    - JUnit : reports are no good
+    - Maven : reports are slightly better
+        - After running the tests we will need to execute the following commands:
+            - mvn surefire-report:report-only
+            - mvn site -DgenerateReports=false
+2. Simply run one of the following commands below:
+
+<hr/>
 -- Example running the tests from command prompt
 
-1. Open command prompt and navigate to project directory
+A. Open command prompt and navigate to project directory
 
 NOTE: Your project path will be different<br/>
 cd C:\Users\TPD_Auto\Desktop\Noor\AutomationProjects\JavaProject\MHRA_MDCM_DEVICES_DD
 
-2. Run one of the commands below:
+B. Run one of the commands below:
 
 IE:<br/>
 mvn clean test -Dtest=RunAllSmokeTest -Dcurrent.browser=ie -Dspring.profiles.active=mhradevicestest
@@ -32,7 +42,7 @@ Example:
 mvn clean test -Dtest=SmokeTestsBusiness#asAUserIShouldBeAbleToLoginAndLogout -Dcurrent.browser=ie -Dspring.profiles.active=mhradevicestest
 
 <hr/>
-
+C. Generate the reports
 mvn surefire-report:report
  <br/>
 mvn clean test surefire-report:report
