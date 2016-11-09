@@ -52,7 +52,7 @@
                 <configuration>
                     <!--<argLine>-Dcurrent.browser=ie</argLine>-->
                     <includes>
-                        <include>**/*Business.java</include>
+                        <include>**/*Test.java</include>
                         <include>src/test/resources/log4j.xml</include>
                     </includes>
                 </configuration>
@@ -66,15 +66,6 @@
                     <reportsDirectory>${basedir}/bu/reports</reportsDirectory>
                 </configuration>
             </plugin>
-            <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-site-plugin</artifactId>-->
-                <!--<version>3.5</version>-->
-                <!--<configuration>-->
-                    <!--<finalName>SmokeTest_${timestamp}</finalName>-->
-                    <!--<outputDirectory>${basedir}/bu/reports</outputDirectory>-->
-                <!--</configuration>-->
-            <!--</plugin>-->
         </plugins>
     </build>
 
