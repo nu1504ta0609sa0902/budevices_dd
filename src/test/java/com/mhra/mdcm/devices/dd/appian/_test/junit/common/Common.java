@@ -9,15 +9,27 @@ import org.junit.runner.Description;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 /**
  * Created by TPD_Auto on 07/11/2016.
  */
 public class Common {
+    static {
+        //This helps with creating log files each time we run the tests, remember append=false needs to be set
+        Calendar ins = Calendar.getInstance();
+        int hour = ins.get(Calendar.HOUR_OF_DAY);
+        int min = ins.get(Calendar.MINUTE);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        System.setProperty("current.date", dateFormat.format(new Date()) + "_" + hour + "_" + min);
+    }
 
     public static final Logger log = LoggerFactory.getLogger(Common.class);
 
     @Rule
-    public TestWatcher watchman= new TestWatcher() {
+    public TestWatcher watchman = new TestWatcher() {
         long timeStart = System.currentTimeMillis();
 
         @Override
@@ -29,7 +41,7 @@ public class Common {
         @Override
         protected void failed(Throwable e, Description description) {
             //log.warn("Failed : " + description);
-            logTime("Failed," , description);
+            logTime("Failed,", description);
             log.warn("Error : " + e.getMessage());
         }
 
@@ -39,12 +51,12 @@ public class Common {
             logTime("Passed,", description);
         }
 
-        private void logTime(String message , Description description) {
+        private void logTime(String message, Description description) {
             long timeEnd = System.currentTimeMillis();
             long diffTime = (timeEnd - timeStart);
-            long seconds = diffTime/1000;
-            int min = (int)(seconds / 60);
-            int sec = (int)(seconds % 60);
+            long seconds = diffTime / 1000;
+            int min = (int) (seconds / 60);
+            int sec = (int) (seconds % 60);
 
             //Log pass/fail message for the test
             log.warn(message + " in " + min + " min, " + sec + " seconds for test : " + description);
