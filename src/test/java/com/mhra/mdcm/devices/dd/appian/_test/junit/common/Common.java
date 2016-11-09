@@ -3,7 +3,9 @@ package com.mhra.mdcm.devices.dd.appian._test.junit.common;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.business.*;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.business.sections.*;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.external.PortalPage;
+import org.junit.ClassRule;
 import org.junit.Rule;
+import org.junit.rules.TestRule;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
 import org.slf4j.Logger;
@@ -27,9 +29,27 @@ public class Common {
     }
 
     public static final Logger log = LoggerFactory.getLogger(Common.class);
+    public static long totalTime = 0;
+
+    @ClassRule
+    public static TestRule suiteWatchMan = new TestWatcher() {
+        @Override
+        protected void finished(Description description) {
+            log.warn("\nSuite completed!"); // insert actual logic here
+            logTotalTime("Total time", totalTime, description);
+        }
+
+        private void logTotalTime(String message, long totalTime, Description description) {
+            long seconds = totalTime / 1000;
+            int min = (int) (seconds / 60);
+            int sec = (int) (seconds % 60);
+            //Log pass/fail message for the test
+            log.warn(message + " is " + min + " min, " + sec + " seconds for test : " + description);
+        }
+    };
 
     @Rule
-    public TestWatcher watchman = new TestWatcher() {
+    public TestWatcher eachTestWatchMan = new TestWatcher() {
         long timeStart = System.currentTimeMillis();
 
         @Override
@@ -60,6 +80,7 @@ public class Common {
 
             //Log pass/fail message for the test
             log.warn(message + " in " + min + " min, " + sec + " seconds for test : " + description);
+            totalTime = totalTime + diffTime;
         }
     };
 

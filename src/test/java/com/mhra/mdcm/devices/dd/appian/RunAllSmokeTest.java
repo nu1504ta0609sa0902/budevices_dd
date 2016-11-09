@@ -7,8 +7,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
-//@Suite.SuiteClasses({SmokeTestsBusiness.class} )
-@Suite.SuiteClasses({SmokeTestsBusiness.class, SmokeTestsManufacturers.class, SmokeTestsAuthorisedRep.class} )
+@Suite.SuiteClasses({SmokeTestsBusiness.class} )
+//@Suite.SuiteClasses({SmokeTestsBusiness.class, SmokeTestsManufacturers.class, SmokeTestsAuthorisedRep.class} )
 //@Suite.SuiteClasses({SmokeTestsManufacturers.class, SmokeTestsAuthorisedRep.class} )
 public class RunAllSmokeTest {
 }
