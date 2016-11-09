@@ -2,13 +2,13 @@
 
 <hr/>
 Note there is 2 ways we can run these tests:<br/>
-1. Via the IDE:
-    - JUnit : reports are no good
-    - Maven : reports are slightly better
-        - After running the tests we will need to execute the following commands:
-            - mvn surefire-report:report-only
-            - mvn site -DgenerateReports=false
-2. Simply run one of the following commands below:
+1. Via the IDE: <br/>
+    - JUnit : reports are no good<br/>
+    - Maven : reports are slightly better<br/>
+        - After running the tests we will need to execute the following commands:<br/>
+            - mvn surefire-report:report-only<br/>
+            - mvn site -DgenerateReports=false<br/>
+2. Simply run one of the following commands below:<br/>
 
 <hr/>
 -- Example running the tests from command prompt
@@ -37,12 +37,12 @@ mvn clean test -Dtest=RunAllSmokeTest -Dcurrent.browser=pjs -Dspring.profiles.ac
 Run Specific Tests:<br/>
 
 mvn clean test -Dtest=SmokeTestsBusiness#your_test_name -Dcurrent.browser=ie -Dspring.profiles.active=mhradevicestest
-mvn clean test -Dtest=SmokeTestsBusiness#your_test_name1+your_test_name2+your_test_name3 -Dcurrent.browser=ie -Dspring.profiles.active=mhradevicestest
-Example:
-mvn clean test -Dtest=SmokeTestsBusiness#asAUserIShouldBeAbleToLoginAndLogout -Dcurrent.browser=ie -Dspring.profiles.active=mhradevicestest
+<br/>mvn clean test -Dtest=SmokeTestsBusiness#your_test_name1+your_test_name2+your_test_name3 -Dcurrent.browser=ie -Dspring.profiles.active=mhradevicestest
+<br/>Example:
+<br/>mvn clean test -Dtest=SmokeTestsBusiness#asAUserIShouldBeAbleToLoginAndLogout -Dcurrent.browser=ie -Dspring.profiles.active=mhradevicestest
 
 <hr/>
-C. Generate the reports
+C. Generate the reports<br/>
 mvn surefire-report:report
  <br/>
 mvn clean test surefire-report:report
