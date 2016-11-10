@@ -36,7 +36,7 @@ public class Common {
         @Override
         protected void finished(Description description) {
             log.warn("\nSuite completed!"); // insert actual logic here
-            logTotalTime("Total time so far is : ", totalTime, description);
+            logTotalTime("Total time taken : ", totalTime, description);
         }
 
         private void logTotalTime(String message, long totalTime, Description description) {
