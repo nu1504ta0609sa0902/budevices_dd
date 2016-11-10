@@ -36,7 +36,7 @@ public class Common {
         @Override
         protected void finished(Description description) {
             log.warn("\nSuite completed!"); // insert actual logic here
-            logTotalTime("Total time", totalTime, description);
+            logTotalTime("Total time so far is : ", totalTime, description);
         }
 
         private void logTotalTime(String message, long totalTime, Description description) {
@@ -44,7 +44,7 @@ public class Common {
             int min = (int) (seconds / 60);
             int sec = (int) (seconds % 60);
             //Log pass/fail message for the test
-            log.warn(message + " is " + min + " min, " + sec + " seconds for test : " + description);
+            log.warn(message + min + " min, " + sec + " seconds for test : " + description);
         }
     };
 
