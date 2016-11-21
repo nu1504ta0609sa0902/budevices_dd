@@ -33,7 +33,7 @@ public class AllOrganisations extends _Page {
     }
 
     public boolean isHeadingCorrect(String expectedHeadings) {
-        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//h2[.='" + expectedHeadings + "']") , 10, false);
+        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//h2[.='" + expectedHeadings + "']") , TIMEOUT_DEFAULT, false);
         WebElement heading = driver.findElement(By.xpath(".//h2[.='" + expectedHeadings + "']"));
         boolean contains = heading.getText().contains(expectedHeadings);
         return contains;
@@ -41,7 +41,7 @@ public class AllOrganisations extends _Page {
 
     public boolean isItemsDisplayed(String expectedHeadings) {
         boolean itemsDisplayed = false;
-        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//h2[.='" + expectedHeadings + "']") , 10, false);
+        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//h2[.='" + expectedHeadings + "']") , TIMEOUT_DEFAULT, false);
 
         if(expectedHeadings.contains("All Organisations")){
             itemsDisplayed = listOfAllOrganisations.size() > 0;
@@ -50,7 +50,7 @@ public class AllOrganisations extends _Page {
     }
 
     public List<String> isTableColumnCorrect(String[] columns) {
-        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//table//th") , 10, false);
+        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//table//th") , TIMEOUT_DEFAULT, false);
         List<String> listOfColumns = new ArrayList<>();
         for(WebElement el: listOfTableColumns){
             String text = el.getText();
@@ -94,7 +94,7 @@ public class AllOrganisations extends _Page {
     }
 
     public AllOrganisations searchForOrganisation(String organisationName) {
-        WaitUtils.waitForElementToBeClickable(driver, searchBox, 10, false);
+        WaitUtils.waitForElementToBeClickable(driver, searchBox, TIMEOUT_DEFAULT, false);
         searchBox.clear();
         searchBox.sendKeys(organisationName);
         searchBox.sendKeys(Keys.ENTER);
@@ -107,7 +107,7 @@ public class AllOrganisations extends _Page {
      */
     public int getNumberOfMatches() {
         WaitUtils.waitForPageToLoad(driver, By.xpath("WaitForPageToLoad") , TIMEOUT_SMALL, false);
-        WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText("Manufacturer") , 10, false);
+        WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText("Manufacturer") , TIMEOUT_DEFAULT, false);
         int size = listOfAllOrganisations.size();
         size = (size-1) / 2;
         return size;

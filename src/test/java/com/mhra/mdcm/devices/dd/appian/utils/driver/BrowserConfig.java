@@ -9,6 +9,7 @@ import org.openqa.selenium.firefox.MarionetteDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriverService;
+import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 /**
@@ -130,6 +131,8 @@ public class BrowserConfig {
         ieCapabilities.setCapability("nativeEvents", true);
         ieCapabilities.setCapability("ignoreProtectedModeSettings", true);
         ieCapabilities.setCapability("disable-popup-blocking", false);
+
+        //ieCapabilities.setCapability(CapabilityType.UNEXPECTED_ALERT_BEHAVIOUR, "ignore");
         return ieCapabilities;
     }
 

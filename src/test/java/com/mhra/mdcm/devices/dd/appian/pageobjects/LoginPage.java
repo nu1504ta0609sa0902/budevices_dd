@@ -80,7 +80,7 @@ public class LoginPage extends _Page {
                 PageUtils.doubleClick(driver, settings);
                 driver.findElement(By.linkText("Sign Out")).click();
                 WaitUtils.waitForElementToBeClickable(driver, remember, TIMEOUT_SMALL, false);
-                WaitUtils.nativeWait(2);
+                //WaitUtils.nativeWait(2);
             }
         } catch (Exception e) {
             //Probably not logged in

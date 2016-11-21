@@ -93,9 +93,11 @@ public class Common {
 
     public Accounts accounts;
     public Devices devices;
-    public Products products;
     public AllOrganisations allOrganisations;
     public PortalPage portalPage;
     public CreateTestsData createTestsData;
     public TaskSection taskSection;
+    public AllDevices allDevices;
+    public Products products;
+    public AllProducts allProducts;
 }

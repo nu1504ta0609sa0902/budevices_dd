@@ -1,10 +1,7 @@
 package com.mhra.mdcm.devices.dd.appian.pageobjects.business;
 
 import com.mhra.mdcm.devices.dd.appian.pageobjects._Page;
-import com.mhra.mdcm.devices.dd.appian.pageobjects.business.sections.Accounts;
-import com.mhra.mdcm.devices.dd.appian.pageobjects.business.sections.AllOrganisations;
-import com.mhra.mdcm.devices.dd.appian.pageobjects.business.sections.Devices;
-import com.mhra.mdcm.devices.dd.appian.pageobjects.business.sections.Products;
+import com.mhra.mdcm.devices.dd.appian.pageobjects.business.sections.*;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.PageUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.WaitUtils;
 import org.openqa.selenium.By;
@@ -43,11 +40,11 @@ public class RecordsPage extends _Page {
         return new Accounts(driver);
     }
 
-    public Devices clickOnAllDevices() {
+    public AllDevices clickOnAllDevices() {
         WaitUtils.waitForElementToBePartOfDOM(driver, By.partialLinkText("All Devices"), 10, false);
         WaitUtils.waitForElementToBeClickable(driver, linkAllDevices, 10, false);
         linkAllDevices.click();
-        return new Devices(driver);
+        return new AllDevices(driver);
     }
 
     public Devices clickOnDevices() {
@@ -57,11 +54,11 @@ public class RecordsPage extends _Page {
         return new Devices(driver);
     }
 
-    public Products clickOnAllProducts() {
+    public AllProducts clickOnAllProducts() {
         WaitUtils.waitForElementToBePartOfDOM(driver, By.partialLinkText("Products"), 20, false);
         WaitUtils.waitForElementToBeClickable(driver, linkAllProducts, 10, false);
         linkAllProducts.click();
-        return new Products(driver);
+        return new AllProducts(driver);
     }
 
     public AllOrganisations clickOnAllOrganisations() {
