@@ -104,7 +104,7 @@ public class SmokeTestsManufacturers extends Common {
         loginPage = loginPage.loadPage(baseUrl);
         MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
 
-        portalPage = mainNavigationBar.clickPortals();
+        portalPage = mainNavigationBar.clickHome();
         String delimitedLinks = "Manufacturer Registration";
         boolean areLinksVisible = portalPage.areLinksVisible(delimitedLinks);
         Assert.assertThat("Expected to see the following links : " + delimitedLinks, areLinksVisible, Matchers.is(true));
