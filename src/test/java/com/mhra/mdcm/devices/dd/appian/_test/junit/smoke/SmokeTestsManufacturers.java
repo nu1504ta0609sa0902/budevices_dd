@@ -94,7 +94,7 @@ public class SmokeTestsManufacturers extends Common {
         loginPage = JUnitUtils.logoutIfLoggedIn(username, loginPage);
 
         boolean isLoginPage = loginPage.isInLoginPage();
-        Assert.assertThat("Expected to be in login page", isLoginPage, Matchers.is(true));
+        Assert.assertThat("Expected tobe in login page", isLoginPage, Matchers.is(true));
     }
 
 
