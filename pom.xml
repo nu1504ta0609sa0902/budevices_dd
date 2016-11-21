@@ -10,22 +10,16 @@
 
 
     <properties>
-        <!--<test.cucumber.tags>@ignore</test.cucumber.tags>-->
-        <!--<test.cucumber.ignore-tags>@ignore</test.cucumber.ignore-tags>-->
-        <!--<cucumber.target.directory>${project.build.directory}/test-reports</cucumber.target.directory>-->
-        <!--<spring.version>4.1.0.RELEASE</spring.version>-->
-        <!--<cucumber.version>1.2.3</cucumber.version>-->
-        <!--<rest-assured-version>2.3.1</rest-assured-version>-->
-        <phantomjs.driver.version>1.3.0</phantomjs.driver.version>
-        <junit.version>4.12</junit.version>
-        <hamcrest-version>1.3</hamcrest-version>
-        <selenium.java.version>3.0.1</selenium.java.version>
-        <apache.httpclient.version>4.5</apache.httpclient.version>
-        <poi.version>3.14</poi.version>
-        <slf4j.version>1.5.6</slf4j.version>
         <skipTests>false</skipTests>
         <timestamp>${maven.build.timestamp}</timestamp>
         <maven.build.timestamp.format>dd_MM_yyyy_HH_mm</maven.build.timestamp.format>
+        <phantomjs.driver.version>1.3.0</phantomjs.driver.version>
+        <junit.version>4.12</junit.version>
+        <hamcrest-version>1.3</hamcrest-version>
+        <apache.httpclient.version>4.5</apache.httpclient.version>
+        <poi.version>3.14</poi.version>
+        <slf4j.version>1.5.6</slf4j.version>
+        <selenium.java.version>3.0.1</selenium.java.version>
     </properties>
 
     <build>
@@ -63,7 +57,7 @@
                 <version>2.19.1</version>
                 <configuration>
                     <outputName>SmokeTest_${timestamp}</outputName>
-                    <reportsDirectory>${basedir}/bu/reports</reportsDirectory>
+                    <!--<reportsDirectory>${basedir}/bu/reports</reportsDirectory>-->
                 </configuration>
             </plugin>
         </plugins>
