@@ -62,7 +62,7 @@ public class SmokeTestsManufacturers extends Common {
 
     @Before
     public void setupTest() {
-        driver.manage().deleteAllCookies();
+        //driver.manage().deleteAllCookies();
     }
 
     @Test
@@ -71,7 +71,7 @@ public class SmokeTestsManufacturers extends Common {
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
         password = "IsIncorrectPassword";
-        loginPage.loginAs(username, password);
+        loginPage.loginAs(username, password, false);
 
         String expectedErrorMsg = "The username/password entered is invalid";
         loginPage = new LoginPage(driver);
@@ -79,12 +79,26 @@ public class SmokeTestsManufacturers extends Common {
         Assert.assertThat("Error message should contain : " + expectedErrorMsg, isCorrect, Matchers.is(true));
     }
 
+
+    @Test
+    public void checkCorrectLinksAreDisplayedForManufacturer() {
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage = loginPage.loadPage(baseUrl);
+        MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password, false);
+
+        portalPage = mainNavigationBar.clickHome();
+        String delimitedLinks = "Manufacturer Registration";
+        boolean areLinksVisible = portalPage.areLinksVisible(delimitedLinks);
+        Assert.assertThat("Expected to see the following links : " + delimitedLinks, areLinksVisible, Matchers.is(true));
+    }
+
+
     @Test
     public void asAUserIShouldBeAbleToLoginAndLogout() {
 
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
-        MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
+        MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password, false);
         String expectedHeading = JUnitUtils.getExpectedHeading(username);
 
         boolean isCorrectPage = mainNavigationBar.isCorrectPage(expectedHeading);
@@ -97,18 +111,8 @@ public class SmokeTestsManufacturers extends Common {
         Assert.assertThat("Expected tobe in login page", isLoginPage, Matchers.is(true));
     }
 
-
-    @Test
-    public void checkCorrectLinksAreDisplayedForManufacturer() {
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage = loginPage.loadPage(baseUrl);
-        MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
-
-        portalPage = mainNavigationBar.clickHome();
-        String delimitedLinks = "Manufacturer Registration";
-        boolean areLinksVisible = portalPage.areLinksVisible(delimitedLinks);
-        Assert.assertThat("Expected to see the following links : " + delimitedLinks, areLinksVisible, Matchers.is(true));
+    @Override
+    public String toString() {
+        return "SmokeTestsManufacturers";
     }
-
-
 }

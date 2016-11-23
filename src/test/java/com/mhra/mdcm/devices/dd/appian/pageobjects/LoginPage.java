@@ -48,14 +48,57 @@ public class LoginPage extends _Page {
         return new LoginPage(driver);
     }
 
-    public MainNavigationBar loginAs(String usernameTxt, String passwordTxt) {
-        logoutIfLoggedIn();
-        dontRemember();
 
-        //login
-        username.sendKeys(usernameTxt);
-        password.sendKeys(passwordTxt);
-        username.submit();
+    /**
+     * This should only be used for Manufacturer and AuthorisedRep
+     * @param usernameTxt
+     * @param passwordTxt
+     * @param isBusinesss
+     */
+    public MainNavigationBar loginAs(String usernameTxt, String passwordTxt, boolean isBusinesss) {
+        if(!isBusinesss){
+            //This should check if we are in login page and we are logged in as a manufacturer and authorisedRep
+            boolean inLoginPage = amIInLoginPageManufactuererOrAuthorisedRep();
+            boolean isAlreadyLoggedInAaUser = isAlreadyLoggedInAsSpecifiedUserInManufactuererOrAuthorisedRep(usernameTxt);
+
+            //Logout if not in login page and is not already logged in as someone else
+            if (!inLoginPage && !isAlreadyLoggedInAaUser)
+                logoutIfLoggedInOthers();
+
+            //I was logged in as someone else now login correctly
+            if (!isAlreadyLoggedInAaUser) {
+                //logoutIfLoggedIn();
+                dontRemember();
+
+                //login
+                username.sendKeys(usernameTxt);
+                password.sendKeys(passwordTxt);
+                username.submit();
+            }
+
+            return new MainNavigationBar(driver);
+        }
+        return null;
+    }
+
+    public MainNavigationBar loginAs(String usernameTxt, String passwordTxt) {
+        boolean inLoginPage = amIInLoginPage();
+        boolean isAlreadyLoggedInAaUser = isAlreadyLoggedInAsSpecifiedUser(usernameTxt);
+
+        //Logout if not in login page and is not already logged in as someone else
+        if (!inLoginPage && !isAlreadyLoggedInAaUser)
+            logoutIfLoggedIn();
+
+        //I was logged in as someone else now login correctly
+        if (!isAlreadyLoggedInAaUser) {
+            //logoutIfLoggedIn();
+            dontRemember();
+
+            //login
+            username.sendKeys(usernameTxt);
+            password.sendKeys(passwordTxt);
+            username.submit();
+        }
 
         return new MainNavigationBar(driver);
     }
@@ -121,5 +164,55 @@ public class LoginPage extends _Page {
         //WaitUtils.waitForElementToBeClickable(driver, loginBtn, 10, false);
         boolean isLoginPage = loginBtn.isDisplayed() && loginBtn.isEnabled();
         return isLoginPage;
+    }
+
+    private boolean isAlreadyLoggedInAsSpecifiedUser(String usernameTxt) {
+        boolean isAreadyLoggedInAaUser = false;
+        try {
+            String loggedInAs = loggedInUsername.getText();
+            String checkIfThisUserIsAlreadyLoggedIn = usernameTxt.replaceAll("\\.", " ");
+            isAreadyLoggedInAaUser = loggedInAs.contains(checkIfThisUserIsAlreadyLoggedIn);
+        } catch (Exception e) {
+            isAreadyLoggedInAaUser = false;
+        }
+        return isAreadyLoggedInAaUser;
+    }
+
+    private boolean amIInLoginPage() {
+        boolean isInLoginPage = true;
+        try {
+            WaitUtils.waitForElementToBeVisible(driver, loggedInUsername, 1, false);
+            isInLoginPage = false;
+        } catch (Exception e) {
+            isInLoginPage = true;
+        }
+        return isInLoginPage;
+    }
+
+    private boolean isAlreadyLoggedInAsSpecifiedUserInManufactuererOrAuthorisedRep(String usernameTxt) {
+
+        boolean isAreadyLoggedInAaUser = false;
+        try {
+            WaitUtils.waitForElementToBeClickable(driver, photoIcon, 2, false);
+            photoIcon.click();
+            String loggedInAs = driver.findElement(By.cssSelector(".GFWJSJ4DKN strong")).getText();
+            String checkIfThisUserIsAlreadyLoggedIn = usernameTxt.replaceAll("\\.", " ");
+            isAreadyLoggedInAaUser = loggedInAs.contains(checkIfThisUserIsAlreadyLoggedIn);
+        } catch (Exception e) {
+            isAreadyLoggedInAaUser = false;
+        }
+        return isAreadyLoggedInAaUser;
+    }
+
+
+    private boolean amIInLoginPageManufactuererOrAuthorisedRep() {
+        boolean isInLoginPage = true;
+        try {
+            WaitUtils.waitForElementToBeVisible(driver, photoIcon, 1, false);
+            isInLoginPage = false;
+        } catch (Exception e) {
+            isInLoginPage = true;
+        }
+        return isInLoginPage;
     }
 }

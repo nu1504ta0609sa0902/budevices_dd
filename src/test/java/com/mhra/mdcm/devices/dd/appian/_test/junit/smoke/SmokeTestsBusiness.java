@@ -67,7 +67,7 @@ public class SmokeTestsBusiness extends Common {
 
     @Before
     public void setupTest() {
-        driver.manage().deleteAllCookies();
+        //driver.manage().deleteAllCookies();
     }
 
 
@@ -342,5 +342,10 @@ public class SmokeTestsBusiness extends Common {
 
         assertThat("Task not found for organisation : " + orgName, contains, is(equalTo(true)));
 
+    }
+
+    @Override
+    public String toString() {
+        return "SmokeTestsBusiness";
     }
 }
