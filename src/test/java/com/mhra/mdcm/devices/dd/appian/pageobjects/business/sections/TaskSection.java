@@ -45,7 +45,7 @@ public class TaskSection extends _Page {
     }
 
     public boolean isCorrectTask(String orgName) {
-        WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText("Reassign Task"), TIMEOUT_MEDIUM, false);
+        WaitUtils.nativeWaitInSeconds(2);
         WaitUtils.waitForElementToBeVisible(driver, By.xpath(".//h4"), TIMEOUT_MEDIUM, false);
         boolean contains = taskHeading.getText().contains(orgName);
         return contains;
@@ -65,7 +65,7 @@ public class TaskSection extends _Page {
     }
 
     public TasksPage approveTask() {
-        WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText("Reassign Task"), 5, false);
+        WaitUtils.nativeWaitInSeconds(2);
         WaitUtils.waitForElementToBeClickable(driver, approve, TIMEOUT_SMALL, false);
         //approve.click();
         PageUtils.doubleClick(driver, approve);
@@ -79,7 +79,7 @@ public class TaskSection extends _Page {
      * @return
      */
     public TaskSection rejectTask() {
-        WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText("Reassign Task"), 5, false);
+        WaitUtils.nativeWaitInSeconds(2);
         WaitUtils.waitForElementToBeClickable(driver, reject, TIMEOUT_SMALL, false);
         //approve.click();
         PageUtils.doubleClick(driver, reject);

@@ -170,7 +170,7 @@ public class WaitUtils {
     public static void waitForPageToLoad(WebDriver driver, By by, int maxTimeToWait, boolean overrideTimeSpecified) {
         try {
             new WebDriverWait(driver, maxTimeToWait).until(ExpectedConditions.presenceOfElementLocated(by));
-        }catch (Exception e){
+        } catch (Exception e) {
             //Aim is to pause the page for sometimes
         }
     }
@@ -179,17 +179,25 @@ public class WaitUtils {
     public static boolean isPageLoaded(WebDriver driver, By by, int maxTimeToWait, int numberOfTimes) {
         boolean loadingCompleted = false;
         int attempt = 0;
-        do{
+        do {
             try {
                 new WebDriverWait(driver, maxTimeToWait).until(ExpectedConditions.presenceOfElementLocated(by));
                 loadingCompleted = true;
                 break;
-            }catch (Exception e){
+            } catch (Exception e) {
                 //
             }
             attempt++;
-        }while(!loadingCompleted && attempt < numberOfTimes);
+        } while (!loadingCompleted && attempt < numberOfTimes);
 
         return loadingCompleted;
+    }
+
+    public static void nativeWaitInSeconds(int tis) {
+        try {
+            Thread.sleep(1000 * tis);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -20,7 +20,7 @@ public class PageUtils {
         Select select = new Select(selectElement);
         select.selectByVisibleText(visibleText);
 
-        System.out.println("Selected Option : " + visibleText);
+        //System.out.println("Selected Option : " + visibleText);
     }
 
     public static void selectByIndex(WebElement selectElement, String index) {

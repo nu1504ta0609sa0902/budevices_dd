@@ -93,7 +93,7 @@ public class Accounts extends _Page {
     }
 
     public Accounts searchForAccount(String orgName) {
-        WaitUtils.waitForElementToBeClickable(driver, searchBox, TIMEOUT_DEFAULT, false);
+        WaitUtils.waitForElementToBeClickable(driver, searchBox, TIMEOUT_HIGH, false);
         searchBox.clear();
         searchBox.sendKeys(orgName);
         searchBox.sendKeys(Keys.ENTER);
@@ -115,9 +115,7 @@ public class Accounts extends _Page {
      * @return
      */
     public String getARandomAccount() {
-        WaitUtils.isPageLoaded(driver, By.xpath(".//h2[.='Status']//following::a[2]"), TIMEOUT_SMALL, 2);
-        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//h2[.='Status']//following::a[2]"), TIMEOUT_SMALL, false);
-
+        WaitUtils.waitForElementToBeClickable(driver, By.cssSelector(".appian-informationPanel b"), TIMEOUT_HIGH, false);
         int position = RandomDataUtils.getSimpleRandomNumberBetween(1, listOfAccounts.size() - 1, false);
         WebElement accountLinks = listOfAccounts.get(position);
         String accountName = accountLinks.getText();
@@ -203,5 +201,15 @@ public class Accounts extends _Page {
         }
 
         return false;
+    }
+
+    public boolean isInEditMode() {
+        boolean isInEditPage = true;
+        try {
+            WaitUtils.waitForElementToBeVisible(driver, submitBtn, TIMEOUT_SMALL, false);
+        }catch (Exception e){
+            isInEditPage = false;
+        }
+        return isInEditPage;
     }
 }

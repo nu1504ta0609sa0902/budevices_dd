@@ -116,4 +116,38 @@ public class AccountRequest {
     public static void main(String[] args){
         AccountRequest ar = new AccountRequest();
     }
+
+    public void setUserDetails(String loggedInAs) {
+        String[] data = loggedInAs.split("\\.");
+        System.out.println(data);
+        firstName = data[0];
+
+        //Because we have Auto.Business and Noor.Uddin.Business
+        String name = generateLastName();
+        if(data.length == 2){
+            lastName = name;
+        }else {
+            lastName = data[1] + "." + name;
+        }
+    }
+
+    private String generateLastName() {
+        String business = "";
+        if(isManufacturer){
+            business = "Manufacturer";
+        }else{
+            business = "AuthorisedRep";
+        }
+        return business;
+    }
+
+    public void updateName(String nameBeginsWith) {
+        if(isManufacturer){
+            organisationName = organisationName.replace("OrganisationTest", nameBeginsWith);
+            website = website.replace("organisationtest", nameBeginsWith);
+        }else{
+            organisationName = organisationName.replace("OrganisationTest", nameBeginsWith);
+            website = website.replace("organisationtest", nameBeginsWith);
+        }
+    }
 }

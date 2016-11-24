@@ -5,6 +5,8 @@ import com.mhra.mdcm.devices.dd.appian.domains.junit.User;
 import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.AccountRequest;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.LoginPage;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.MainNavigationBar;
+import com.mhra.mdcm.devices.dd.appian.pageobjects.business.TasksPage;
+import com.mhra.mdcm.devices.dd.appian.pageobjects.business.sections.Accounts;
 import com.mhra.mdcm.devices.dd.appian.utils.datadriven.ExcelDataSheet;
 import com.mhra.mdcm.devices.dd.appian.utils.datadriven.JUnitUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.driver.BrowserConfig;
@@ -28,6 +30,9 @@ import static org.hamcrest.Matchers.is;
  */
 @RunWith(Parameterized.class)
 public class SmokeTestsBusiness extends Common {
+
+    public static final String AUTHORISED_REP_SMOKE_TEST = "AuthorisedRepST";
+    public static final String MANUFACTURER_SMOKE_TEST = "ManufacturerST";
 
     public static WebDriver driver;
     public static String baseUrl;
@@ -135,63 +140,6 @@ public class SmokeTestsBusiness extends Common {
 
     }
 
-/**
-    @Ignore
-    public void asABusinessUserIShouldBeAbleToViewAccountsDevicesAndOtherPages() {
-
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage = loginPage.loadPage(baseUrl);
-        MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
-
-        List<String> listOfLinks = JUnitUtils.getListOfRecordsPageLinks();
-
-        boolean isHeadingVisibleAndCorrect = false;
-        boolean isItemsDisplayedAndCorrect = false;
-        String expectedHeadings = "Accounts";
-        for (String page : listOfLinks) {
-            //Go to records page and click
-            recordsPage = mainNavigationBar.clickRecords();
-            expectedHeadings = page;
-            if (page.equals("Accounts")) {
-                accounts = recordsPage.clickOnAccounts();
-                isHeadingVisibleAndCorrect = accounts.isHeadingCorrect(expectedHeadings);
-                isItemsDisplayedAndCorrect = accounts.isItemsDisplayed(expectedHeadings);
-                //Verify results
-                Assert.assertThat("Heading should be : " + expectedHeadings, isHeadingVisibleAndCorrect, is(true));
-                Assert.assertThat("Expected to see at least 1 item", isItemsDisplayedAndCorrect, is(true));
-            } else if (page.equals("All Devices")) {
-                allDevices = recordsPage.clickOnAllDevices();
-                isHeadingVisibleAndCorrect = allDevices.isHeadingCorrect(expectedHeadings);
-                isItemsDisplayedAndCorrect = allDevices.isItemsDisplayed(expectedHeadings);
-                //Verify results
-                Assert.assertThat("Heading should be : " + expectedHeadings, isHeadingVisibleAndCorrect, is(true));
-                Assert.assertThat("Expected to see at least 1 item", isItemsDisplayedAndCorrect, is(true));
-            } else if (page.equals("All Products")) {
-                allProducts = recordsPage.clickOnAllProducts();
-                isHeadingVisibleAndCorrect = allProducts.isHeadingCorrect(expectedHeadings);
-                isItemsDisplayedAndCorrect = allProducts.isItemsDisplayed(expectedHeadings);
-                //Verify results
-                Assert.assertThat("Heading should be : " + expectedHeadings, isHeadingVisibleAndCorrect, is(true));
-                Assert.assertThat("Expected to see at least 1 item", isItemsDisplayedAndCorrect, is(true));
-            } else if (page.equals("All Organisations")) {
-                allOrganisations = recordsPage.clickOnAllOrganisations();
-                isHeadingVisibleAndCorrect = allOrganisations.isHeadingCorrect(expectedHeadings);
-                isItemsDisplayedAndCorrect = allOrganisations.isItemsDisplayed(expectedHeadings);
-                //Verify results
-                Assert.assertThat("Heading should be : " + expectedHeadings, isHeadingVisibleAndCorrect, is(true));
-                Assert.assertThat("Expected to see at least 1 item", isItemsDisplayedAndCorrect, is(true));
-            } else if (page.equals("Devices")) {
-                devices = recordsPage.clickOnDevices();
-                isHeadingVisibleAndCorrect = devices.isHeadingCorrect(expectedHeadings);
-                isItemsDisplayedAndCorrect = devices.isItemsDisplayed(expectedHeadings);
-                //Verify results
-                Assert.assertThat("Heading should be : " + expectedHeadings, isHeadingVisibleAndCorrect, is(true));
-                Assert.assertThat("Expected to see at least 1 item", isItemsDisplayedAndCorrect, is(true));
-            }
-        }
-
-    }
-**/
 
     @Test
     public void asABusinessUserIShouldBeAbleToViewAccountsPage() {
@@ -294,8 +242,8 @@ public class SmokeTestsBusiness extends Common {
     }
 
 
-    @Ignore
-    public void asABusinessUserIShouldBeAbleToCreateAccountRequest() {
+    @Test
+    public void asABusinessUserIShouldBeAbleToCreateManufacturerAccountRequest() {
 
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
@@ -307,7 +255,15 @@ public class SmokeTestsBusiness extends Common {
 
         //Now create the test data using harness page
         AccountRequest ar = new AccountRequest();
+        ar.isManufacturer = true;
+        ar.updateName(MANUFACTURER_SMOKE_TEST);
+        ar.setUserDetails(username);
+
         actionsPage = createTestsData.createTestOrganisation(ar);
+        boolean isInCorrectPage = actionsPage.isInActionsPage();
+        if(!isInCorrectPage){
+            actionsPage = createTestsData.createTestOrganisation(ar);
+        }
 
         boolean createdSuccessfully = actionsPage.isInActionsPage();
         if (createdSuccessfully) {
@@ -334,14 +290,116 @@ public class SmokeTestsBusiness extends Common {
             }
         } while (!contains && count <= 5);
 
-        //If its still not found than try the first 1 again
-        if (!contains) {
-            taskSection = tasksPage.clickOnTaskNumber(0);
-            isCorrectTask = taskSection.isCorrectTask(orgName);
+        //Accept the task
+        if(contains) {
+            taskSection = taskSection.acceptTask();
+            tasksPage = taskSection.approveTask();
         }
 
         assertThat("Task not found for organisation : " + orgName, contains, is(equalTo(true)));
 
+    }
+
+
+    @Test
+    public void asABusinessUserIShouldBeAbleToCreateAuthorisedRepAccountRequest() {
+
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage = loginPage.loadPage(baseUrl);
+        MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
+
+        //go to accounts page > test harness page
+        actionsPage = mainNavigationBar.clickActions();
+        createTestsData = actionsPage.gotoTestsHarnessPage();
+
+        //Now create the test data using harness page
+        AccountRequest ar = new AccountRequest();
+        ar.isManufacturer = false;
+        ar.updateName(AUTHORISED_REP_SMOKE_TEST);
+        ar.setUserDetails(username);
+
+        actionsPage = createTestsData.createTestOrganisation(ar);
+        boolean isInCorrectPage = actionsPage.isInActionsPage();
+        if(!isInCorrectPage){
+            actionsPage = createTestsData.createTestOrganisation(ar);
+        }
+
+        boolean createdSuccessfully = actionsPage.isInActionsPage();
+        if (createdSuccessfully) {
+            System.out.println("Created a new account : " + ar.organisationName);
+        }
+
+        String orgName = ar.organisationName;
+
+        //Verify new taskSection generated and its the correct one
+        boolean contains = false;
+        boolean isCorrectTask = false;
+        int count = 0;
+        do {
+            mainNavigationBar = new MainNavigationBar(driver);
+            tasksPage = mainNavigationBar.clickTasks();
+
+            //Click on link number X
+            taskSection = tasksPage.clickOnTaskNumber(count);
+            isCorrectTask = taskSection.isCorrectTask(orgName);
+            if (isCorrectTask) {
+                contains = true;
+            } else {
+                count++;
+            }
+        } while (!contains && count <= 5);
+
+        //Accept the task
+        if(contains) {
+            taskSection = taskSection.acceptTask();
+            tasksPage = taskSection.approveTask();
+        }
+
+        assertThat("Task not found for organisation : " + orgName, contains, is(equalTo(true)));
+
+    }
+
+
+    @Test
+    public void asABusinessUserIShouldBeAbleToSearchAndViewManufacturerAccounts() {
+
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage = loginPage.loadPage(baseUrl);
+        MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
+
+        //Go to accounts and perform a search for Manufacturer
+        recordsPage = mainNavigationBar.clickRecords();
+        accounts = recordsPage.clickOnAccounts();
+        accounts = accounts.searchForAccount(MANUFACTURER_SMOKE_TEST);
+
+        String randomAccountName = accounts.getARandomAccount();
+        accounts = accounts.viewSpecifiedAccount(randomAccountName);
+        accounts = this.accounts.gotoEditAccountInformation();
+
+        //Verify page is open to be edited
+        boolean isInEditMode = accounts.isInEditMode();
+        assertThat("Expected to be in edit view : " + randomAccountName, isInEditMode, is(equalTo(true)));
+    }
+
+    @Test
+    public void asABusinessUserIShouldBeAbleToSearchAndViewAuthorisedRepAccounts() {
+
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage = loginPage.loadPage(baseUrl);
+        MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
+
+        //Go to accounts and perform a search for AuthorisedRep
+        recordsPage = mainNavigationBar.clickRecords();
+        accounts = recordsPage.clickOnAccounts();
+        accounts = accounts.searchForAccount(AUTHORISED_REP_SMOKE_TEST);
+
+        String randomAccountName = accounts.getARandomAccount();
+        accounts = accounts.viewSpecifiedAccount(randomAccountName);
+        accounts = this.accounts.gotoEditAccountInformation();
+
+        //Verify page is open to be edited
+        boolean isInEditMode = accounts.isInEditMode();
+        assertThat("Expected to be in edit view : " + randomAccountName, isInEditMode, is(equalTo(true)));
     }
 
     @Override
