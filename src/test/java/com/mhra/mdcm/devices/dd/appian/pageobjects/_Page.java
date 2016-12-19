@@ -16,7 +16,7 @@ public class _Page {
     public static final int TIMEOUT_MEDIUM = 15;
     public static final int TIMEOUT_HIGH = 30;
     public static final int TIMEOUT_VERY_HIGH = 60;
-    public static final int TIMEOUT_DEFAULT = TIMEOUT_MEDIUM;
+    public static final int TIMEOUT_DEFAULT = TIMEOUT_HIGH;
 
     public final Logger log = LoggerFactory.getLogger(_Page.class);
 

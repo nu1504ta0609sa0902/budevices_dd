@@ -242,8 +242,53 @@ public class SmokeTestsBusiness extends Common {
     }
 
 
+
     @Test
-    public void asABusinessUserIShouldBeAbleToCreateManufacturerAccountRequest() {
+    public void asABusinessUserIsAbleToSearchAndViewManufacturerAccounts() {
+
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage = loginPage.loadPage(baseUrl);
+        MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
+
+        //Go to accounts and perform a search for Manufacturer
+        recordsPage = mainNavigationBar.clickRecords();
+        accounts = recordsPage.clickOnAccounts();
+        accounts = accounts.searchForAccount(MANUFACTURER_SMOKE_TEST);
+
+        String randomAccountName = accounts.getARandomAccount();
+        accounts = accounts.viewSpecifiedAccount(randomAccountName);
+        accounts = this.accounts.gotoEditAccountInformation();
+
+        //Verify page is open to be edited
+        boolean isInEditMode = accounts.isInEditMode();
+        assertThat("Expected to be in edit view : " + randomAccountName, isInEditMode, is(equalTo(true)));
+    }
+
+    @Test
+    public void asABusinessUserIsAbleToSearchAndViewAuthorisedRepAccounts() {
+
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage = loginPage.loadPage(baseUrl);
+        MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
+
+        //Go to accounts and perform a search for AuthorisedRep
+        recordsPage = mainNavigationBar.clickRecords();
+        accounts = recordsPage.clickOnAccounts();
+        accounts = accounts.searchForAccount(AUTHORISED_REP_SMOKE_TEST);
+
+        String randomAccountName = accounts.getARandomAccount();
+        accounts = accounts.viewSpecifiedAccount(randomAccountName);
+        accounts = this.accounts.gotoEditAccountInformation();
+
+        //Verify page is open to be edited
+        boolean isInEditMode = accounts.isInEditMode();
+        assertThat("Expected to be in edit view : " + randomAccountName, isInEditMode, is(equalTo(true)));
+    }
+
+
+
+    @Test
+    public void asABusinessUsersShouldBeAbleToCreateManufacturerAccountRequest() {
 
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
@@ -302,7 +347,7 @@ public class SmokeTestsBusiness extends Common {
 
 
     @Test
-    public void asABusinessUserIShouldBeAbleToCreateAuthorisedRepAccountRequest() {
+    public void asABusinessUsersShouldBeAbleToCreateAuthorisedRepAccountRequest() {
 
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
@@ -357,49 +402,6 @@ public class SmokeTestsBusiness extends Common {
 
         assertThat("Task not found for organisation : " + orgName, contains, is(equalTo(true)));
 
-    }
-
-
-    @Test
-    public void asABusinessUserIShouldBeAbleToSearchAndViewManufacturerAccounts() {
-
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage = loginPage.loadPage(baseUrl);
-        MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
-
-        //Go to accounts and perform a search for Manufacturer
-        recordsPage = mainNavigationBar.clickRecords();
-        accounts = recordsPage.clickOnAccounts();
-        accounts = accounts.searchForAccount(MANUFACTURER_SMOKE_TEST);
-
-        String randomAccountName = accounts.getARandomAccount();
-        accounts = accounts.viewSpecifiedAccount(randomAccountName);
-        accounts = this.accounts.gotoEditAccountInformation();
-
-        //Verify page is open to be edited
-        boolean isInEditMode = accounts.isInEditMode();
-        assertThat("Expected to be in edit view : " + randomAccountName, isInEditMode, is(equalTo(true)));
-    }
-
-    @Test
-    public void asABusinessUserIShouldBeAbleToSearchAndViewAuthorisedRepAccounts() {
-
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage = loginPage.loadPage(baseUrl);
-        MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
-
-        //Go to accounts and perform a search for AuthorisedRep
-        recordsPage = mainNavigationBar.clickRecords();
-        accounts = recordsPage.clickOnAccounts();
-        accounts = accounts.searchForAccount(AUTHORISED_REP_SMOKE_TEST);
-
-        String randomAccountName = accounts.getARandomAccount();
-        accounts = accounts.viewSpecifiedAccount(randomAccountName);
-        accounts = this.accounts.gotoEditAccountInformation();
-
-        //Verify page is open to be edited
-        boolean isInEditMode = accounts.isInEditMode();
-        assertThat("Expected to be in edit view : " + randomAccountName, isInEditMode, is(equalTo(true)));
     }
 
     @Override

@@ -104,7 +104,7 @@ public class LoginPage extends _Page {
     }
 
     public void dontRemember() {
-        WaitUtils.waitForElementToBeClickable(driver, remember, TIMEOUT_DEFAULT, false);
+        WaitUtils.waitForElementToBeClickable(driver, remember, TIMEOUT_HIGH, false);
         if (remember.getAttribute("checked") != null) {
             remember.click();
         }
@@ -178,17 +178,6 @@ public class LoginPage extends _Page {
         return isAreadyLoggedInAaUser;
     }
 
-    private boolean amIInLoginPage() {
-        boolean isInLoginPage = true;
-        try {
-            WaitUtils.waitForElementToBeVisible(driver, loggedInUsername, 1, false);
-            isInLoginPage = false;
-        } catch (Exception e) {
-            isInLoginPage = true;
-        }
-        return isInLoginPage;
-    }
-
     private boolean isAlreadyLoggedInAsSpecifiedUserInManufactuererOrAuthorisedRep(String usernameTxt) {
 
         boolean isAreadyLoggedInAaUser = false;
@@ -205,10 +194,21 @@ public class LoginPage extends _Page {
     }
 
 
+    private boolean amIInLoginPage() {
+        boolean isInLoginPage = true;
+        try {
+            WaitUtils.waitForElementToBeVisible(driver, loggedInUsername, TIMEOUT_SMALL, false);
+            isInLoginPage = false;
+        } catch (Exception e) {
+            isInLoginPage = true;
+        }
+        return isInLoginPage;
+    }
+
     private boolean amIInLoginPageManufactuererOrAuthorisedRep() {
         boolean isInLoginPage = true;
         try {
-            WaitUtils.waitForElementToBeVisible(driver, photoIcon, 1, false);
+            WaitUtils.waitForElementToBeVisible(driver, photoIcon, TIMEOUT_SMALL, false);
             isInLoginPage = false;
         } catch (Exception e) {
             isInLoginPage = true;

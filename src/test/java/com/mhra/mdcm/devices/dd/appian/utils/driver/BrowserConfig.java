@@ -84,7 +84,7 @@ public class BrowserConfig {
     }
 
     private DesiredCapabilities getGoogleChromeDesiredCapabilities() {
-        System.setProperty("webdriver.chrome.driver", "C:\\Selenium\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "C:\\Selenium\\chrome\\chromedriver.exe");
         DesiredCapabilities capabilities = DesiredCapabilities.chrome();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("test-type");
