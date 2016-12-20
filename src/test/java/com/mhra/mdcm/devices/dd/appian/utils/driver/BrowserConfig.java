@@ -24,6 +24,7 @@ public class BrowserConfig {
     public WebDriver getDriver() {
 
         if (browser == null) {
+            //Should be picked up
             browser = System.getProperty("current.browser");
         }
 
