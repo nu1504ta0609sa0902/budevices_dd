@@ -1,6 +1,7 @@
 package com.mhra.mdcm.devices.dd.appian.utils.datadriven;
 
 import com.mhra.mdcm.devices.dd.appian.domains.junit.User;
+import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.DeviceData;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -119,6 +120,96 @@ public class ExcelDataSheet {
     }
 
 
+    public List<DeviceData> getListOfDeviceData(String fileName, String sheet) {
+
+        //Point to the resource file
+        String dataFile = getDataFileFullPath(fileName);
+
+        //Get all the data as string separated by \n
+        String linesOfData = getDataFromFile(dataFile, sheet);
+
+        //Create arraylist
+        List<DeviceData> listOfDeviceTestData = new ArrayList<>();
+        List<String> headers = new ArrayList<>();
+
+        String[] linesOfCSVData = linesOfData.split("\n");
+        int lineCount = 0;
+        boolean errors = false;
+        String message = null;
+        for(String line: linesOfCSVData){
+            try {
+                System.out.println("Line : " + (lineCount+1) + ": " + line);
+                //First line is heading
+                if (lineCount > 0 && !isEmptyLine(line)) {
+                    message = areAllTheLinesValidInExcelDataSheet(dataFile, sheet, headers, line, lineCount);
+                    if(message!=null){
+                        errors = true;
+                        System.out.println("Error Line : " + (lineCount+1) + ": " + line);
+                    }
+
+                    int columnCount = 0;
+                    String[] data = line.split(",");
+
+                    if(data.length > 5) {
+                        String key = data[0];
+                        if(key!=null && !key.toLowerCase().equals("validateddata")) {
+                            String[] dataUpdated = createUpdatedData(data, headers, columnCount);
+                            listOfDeviceTestData.add(new DeviceData(dataUpdated));
+                        }
+                    }
+
+                }else{
+                    String [] headings = line.split(",");
+                    for(String hd: headings){
+                        //else if(field.equals("toxicologicaldataavailable")){
+                        //System.out.println("else if(field.equals(\""+ hd.toLowerCase() + "\")){\n}");
+                        if(!hd.trim().equals(""))
+                            headers.add(hd);
+                    }
+                }
+                lineCount++;
+            }catch (Exception e){
+                //break;
+            }
+        }
+
+        return listOfDeviceTestData;
+    }
+
+
+    private boolean isEmptyLine(String line) {
+        boolean empty = false;
+        if(line == null || line.trim().equals(""))
+            empty = true;
+
+        return empty;
+    }
+
+    private String areAllTheLinesValidInExcelDataSheet(String dataFile, String sheet, List<String> headers, String line, int count) {
+        String message = null;
+        String[] data = line.split(",");
+        if(headers.size() != data.length){
+            message = ("\nExcel Data File : " + dataFile + "\nSheet : " + sheet + "\nLine number : " + count + "\nInvalid line : " + line + "\nEmpty cells are not allowed, replace with : 'none'" + "\nRead : HowToUse section of excel data file" + "\n");
+        }
+        return message;
+    }
+
+    private String[] createUpdatedData(String[] data, List<String> headers, int columnCount) {
+        String[] dataUpdated = new String[data.length];
+        for(String dt: data){
+            if(dt.equals("TRUE") || dt.equals("FALSE")){
+                dt = dt.toLowerCase();
+            }
+            if(dt.contains("_XXX_"))
+            dt = dt.replace("_XXX_", ",");
+
+            dt = headers.get(columnCount)+"="+dt;
+            dataUpdated[columnCount] = dt;
+            columnCount++;
+        }
+        return dataUpdated;
+    }
+
     public Object[][] getListOf2DObjects(String fileName, String sheet){
 
         //Point to the resource file
@@ -184,4 +275,14 @@ public class ExcelDataSheet {
         return filteredUser;
     }
 
+
+    public static String getFieldValue(String dt, int pos) {
+        try{
+            String[] split = dt.split("=");
+            return split[pos];
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

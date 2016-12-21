@@ -1,13 +1,18 @@
 package com.mhra.mdcm.devices.dd.appian.utils.selenium.page;
 
 
+import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.FileUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.RandomDataUtils;
+import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -153,4 +158,41 @@ public class PageUtils {
     public static boolean isCorrectPage(WebDriver driver, String ecid) {
         return driver.getTitle().contains(ecid);
     }
+
+
+    public static void selectFromAutoSuggests(WebDriver driver, By elementPath, String text )   {
+        boolean completed = true;
+        int count = 0;
+        do {
+            try {
+
+                count++;    //It will go forever without this
+                WebElement country = driver.findElements(elementPath).get(0);
+                new Actions(driver).moveToElement(country).perform();
+
+                //Enter the country I am interested in
+                country.sendKeys("\n");
+                country.clear();
+                country.sendKeys(text, Keys.ENTER);
+                new WebDriverWait(driver, 3).until(ExpectedConditions.elementToBeClickable(By.cssSelector(".item")));
+                country.sendKeys(Keys.ARROW_DOWN, Keys.ENTER);
+
+                completed = true;
+            } catch (Exception e) {
+                completed = false;
+                WaitUtils.nativeWaitInSeconds(1);
+                //PageFactory.initElements(driver, this);
+            }
+        } while (!completed && count < 1);
+    }
+
+
+    public static void uploadDocument(WebElement element, String fileName, int timeWaitForItToBeClickable, int timeWaitForDocumentUploadToFinish){
+        String fullPath = FileUtils.getFileFullPath("tmp" + File.separator + "data" + File.separator + "reps", fileName);
+        WaitUtils.nativeWaitInSeconds(timeWaitForItToBeClickable);
+        element.sendKeys(fullPath);
+        //We will have to wait for uploading to finish
+        WaitUtils.nativeWaitInSeconds(timeWaitForDocumentUploadToFinish);
+    }
+
 }

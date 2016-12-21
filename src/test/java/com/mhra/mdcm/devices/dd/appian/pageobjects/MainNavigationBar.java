@@ -2,7 +2,7 @@ package com.mhra.mdcm.devices.dd.appian.pageobjects;
 
 
 import com.mhra.mdcm.devices.dd.appian.pageobjects.business.*;
-import com.mhra.mdcm.devices.dd.appian.pageobjects.external.PortalPage;
+import com.mhra.mdcm.devices.dd.appian.pageobjects.external.ExternalHomePage;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.PageUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.WaitUtils;
 import org.openqa.selenium.By;
@@ -107,7 +107,7 @@ public class MainNavigationBar extends _Page {
     //==========================================================
 
 
-    public PortalPage clickHome() {
+    public ExternalHomePage clickHome() {
         try {
             WaitUtils.waitForElementToBeClickable(driver, linkHOME, TIMEOUT_DEFAULT, false);
             PageUtils.doubleClick(driver, linkHOME);
@@ -116,6 +116,6 @@ public class MainNavigationBar extends _Page {
             WaitUtils.waitForElementToBeClickable(driver, xp, TIMEOUT_DEFAULT, false);
             PageUtils.doubleClick(driver, driver.findElement(xp));
         }
-        return new PortalPage(driver);
+        return new ExternalHomePage(driver);
     }
 }

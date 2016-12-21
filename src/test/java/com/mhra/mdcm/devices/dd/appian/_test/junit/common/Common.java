@@ -2,7 +2,8 @@ package com.mhra.mdcm.devices.dd.appian._test.junit.common;
 
 import com.mhra.mdcm.devices.dd.appian.pageobjects.business.*;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.business.sections.*;
-import com.mhra.mdcm.devices.dd.appian.pageobjects.external.PortalPage;
+import com.mhra.mdcm.devices.dd.appian.pageobjects.external.ExternalHomePage;
+import com.mhra.mdcm.devices.dd.appian.utils.datadriven.ExcelDataSheet;
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.rules.TestRule;
@@ -28,6 +29,8 @@ public class Common {
         System.setProperty("current.date", dateFormat.format(new Date()) + "_" + hour + "_" + min);
     }
 
+    public static
+    ExcelDataSheet excelUtils = new ExcelDataSheet();
     public static final Logger log = LoggerFactory.getLogger(Common.class);
     public static long totalTime = 0;
 
@@ -94,7 +97,7 @@ public class Common {
     public Accounts accounts;
     public Devices devices;
     public AllOrganisations allOrganisations;
-    public PortalPage portalPage;
+    public ExternalHomePage externalHomePage;
     public CreateTestsData createTestsData;
     public TaskSection taskSection;
     public AllDevices allDevices;

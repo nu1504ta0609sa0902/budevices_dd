@@ -126,4 +126,16 @@ public class RandomDataUtils {
         double td = ((int)(x * 100))/100.0;
         return String.valueOf(td);
     }
+
+
+    public static int getNumberBetween(int min, int max) {
+        if(max >= 0) {
+            Random random = new Random(System.currentTimeMillis());
+            int val = random.nextInt(max - min + 1) + min;
+            //val = new Random().nextInt(max) + min;
+            return val;
+        }else{
+            return 0;
+        }
+    }
 }

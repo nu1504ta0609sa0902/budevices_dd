@@ -1,8 +1,9 @@
-package com.mhra.mdcm.devices.dd.appian._test.junit.smoke;
+package com.mhra.mdcm.devices.dd.appian._test.junit.device_injection;
 
 import com.mhra.mdcm.devices.dd.appian._test.junit.common.Common;
 import com.mhra.mdcm.devices.dd.appian.domains.junit.User;
 import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.AccountRequest;
+import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.DeviceData;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.LoginPage;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.MainNavigationBar;
 import com.mhra.mdcm.devices.dd.appian.utils.datadriven.ExcelDataSheet;
@@ -16,6 +17,7 @@ import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -27,11 +29,12 @@ import static org.hamcrest.Matchers.is;
  * Created by TPD_Auto on 01/11/2016.
  */
 @RunWith(Parameterized.class)
-public class SmokeTestsBusiness extends Common {
+public class AddDevicesToBusiness extends Common {
 
     public static final String AUTHORISED_REP_SMOKE_TEST = "AuthorisedRepST";
     public static final String MANUFACTURER_SMOKE_TEST = "ManufacturerST";
 
+    public static List<DeviceData> listOfDeviceData = new ArrayList<>();
     public static WebDriver driver;
     public static String baseUrl;
     private String username;
@@ -40,14 +43,14 @@ public class SmokeTestsBusiness extends Common {
     @Parameterized.Parameters(name = "{0}")
     public static Collection<User> spreadsheetData() throws IOException {
         ExcelDataSheet excelUtils = new ExcelDataSheet();//
-        List<User> listOfUsers = excelUtils.getListOfUsers("configs/data/excel/users.xlsx", "Sheet1");
+        List<User> listOfUsers = excelUtils.getListOfUsers("configs/data/excel/users_setup.xlsx", "Sheet1");
         listOfUsers = excelUtils.filterUsersBy(listOfUsers, "business");
         log.info("Business Users : " + listOfUsers);
         return listOfUsers;
     }
 
 
-    public SmokeTestsBusiness(User user) {
+    public AddDevicesToBusiness(User user) {
         this.username = user.getUserName();
         this.password = user.getPassword();
     }
@@ -55,6 +58,7 @@ public class SmokeTestsBusiness extends Common {
     @BeforeClass
     public static void setUpDriver() {
         if (driver == null) {
+            listOfDeviceData = excelUtils.getListOfDeviceData("configs/data/excel/DevicesData.xlsx", "TestDataWellFormed_Simple");
             driver = new BrowserConfig().getDriver();
             baseUrl = FileUtils.getTestUrl();
             log.warn("\n\nRUNNING BUSINESS SMOKE TESTS");
@@ -73,6 +77,19 @@ public class SmokeTestsBusiness extends Common {
         //driver.manage().deleteAllCookies();
     }
 
+    @Test
+    public void setUpInitialDeviceDataForBusiness() {
+
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage = loginPage.loadPage(baseUrl);
+        password = "IsIncorrectPassword";
+        loginPage.loginAs(username, password, false);
+
+        String expectedErrorMsg = "The username/password entered is invalid";
+        loginPage = new LoginPage(driver);
+        boolean isCorrect = loginPage.isErrorMessageCorrect(expectedErrorMsg);
+        Assert.assertThat("Error message should contain : " + expectedErrorMsg, isCorrect, Matchers.is(true));
+    }
 
     @Test
     public void asAUserIShouldSeeErrorMessagesIfCredentialsAreIncorrect() {
