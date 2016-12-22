@@ -14,6 +14,7 @@ public class DeviceData {
 
     public static final String MANUFACTURER_RT_TEST = "ManufacturerRT01Test";
     public static final String AUTHORISED_REP_RT_TEST = "AuthorisedRepRT01Test";
+    public int lineNumber;
 
     //Device data
     public String validatedData;
@@ -53,6 +54,11 @@ public class DeviceData {
         //System.out.println("DONE");
     }
 
+    public DeviceData(int lineNumber, String[] dataUpdated) {
+        this(dataUpdated);
+        this.lineNumber = lineNumber;
+    }
+
 
     private void populateCorrectField(String fieldName, String fieldValue) {
         String field = fieldName.toLowerCase().trim();
@@ -61,7 +67,7 @@ public class DeviceData {
             validatedData = fieldValue;
         }
         else if(field.equals("device type")){
-            deviceType = fieldValue;
+            deviceType = getDeviceType(fieldValue);
         }
         else if(field.equals("risk classification")){
             riskClassification = fieldValue;
@@ -123,11 +129,27 @@ public class DeviceData {
         }
     }
 
+    private String getDeviceType(String fieldValue) {
+        String deviceType = fieldValue.toLowerCase();
+
+        if(deviceType.contains("general medical device") || deviceType.contains("gmd")){
+            deviceType = "general medical device";
+        }else if(deviceType.contains("vitro diagnostic") || deviceType.contains("ivd")){
+            deviceType = "vitro diagnostic";
+        }else if(deviceType.contains("active implantable") || deviceType.contains("aimd")){
+            deviceType = "active implantable";
+        }else if(deviceType.contains("procedure pack") || deviceType.contains("spp")){
+            deviceType = "procedure pack";
+        }
+        return  deviceType;
+    }
+
 
     @Override
     public String toString() {
         return "DeviceData{" +
-                "validatedData='" + validatedData + '\'' +
+                "lineNumber='" + lineNumber + '\'' +
+                ",validatedData='" + validatedData + '\'' +
                 ", deviceType='" + deviceType + '\'' +
                 ", riskClassification='" + riskClassification + '\'' +
                 ", device='" + device + '\'' +

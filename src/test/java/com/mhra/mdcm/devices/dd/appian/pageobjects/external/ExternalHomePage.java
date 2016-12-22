@@ -38,7 +38,7 @@ public class ExternalHomePage extends _Page {
     }
 
     public ManufacturerList gotoListOfManufacturerPage() {
-        WaitUtils.waitForElementToBeClickable(driver, linkManufacturerRegistration, TIMEOUT_DEFAULT, false);
+        WaitUtils.waitForElementToBeClickable(driver, linkManufacturerRegistration, TIMEOUT_VERY_HIGH, false);
         linkManufacturerRegistration.click();
         return new ManufacturerList(driver);
     }

@@ -60,6 +60,7 @@ public class AddDevicesToBusiness extends Common {
         if (driver == null) {
             listOfDeviceData = excelUtils.getListOfDeviceData("configs/data/excel/DevicesData.xlsx", "TestDataWellFormed_Simple");
             driver = new BrowserConfig().getDriver();
+            driver.manage().window().maximize();
             baseUrl = FileUtils.getTestUrl();
             log.warn("\n\nRUNNING BUSINESS SMOKE TESTS");
         }

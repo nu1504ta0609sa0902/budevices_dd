@@ -75,8 +75,20 @@ public class AddDevices extends _Page {
     WebElement radioRiskClass2b;
     @FindBy(xpath = ".//*[contains(text(),'risk class')]//following::input[4]")
     WebElement radioRiskClass3;
+
+    //Notified body
     @FindBy(xpath = ".//*[contains(text(),'Notified Body')]//following::input[1]")
     WebElement nb0086BSI;
+    @FindBy(xpath = ".//*[contains(text(),'Notified Body')]//following::input[2]")
+    WebElement nb0088LLOYDS;
+    @FindBy(xpath = ".//*[contains(text(),'Notified Body')]//following::input[3]")
+    WebElement nb0120SGS;
+    @FindBy(xpath = ".//*[contains(text(),'Notified Body')]//following::input[4]")
+    WebElement nb00473AMTAC;
+    @FindBy(xpath = ".//*[contains(text(),'Notified Body')]//following::input[5]")
+    WebElement nb00843UL;
+    @FindBy(xpath = ".//*[contains(text(),'Notified Body')]//following::input[6]")
+    WebElement nbOthers;
 
     //IVD risk classification
     @FindBy(xpath = ".//label[contains(text(),'List A')]")
@@ -158,6 +170,8 @@ public class AddDevices extends _Page {
     //Device Summary
     @FindBy(xpath = ".//th[.='GMDN definition']//following::a")
     List<WebElement> listOfGMDNLinksInSummary;
+    @FindBy(partialLinkText = "Change Notified Body")
+    WebElement linkChangeNotifiedBody;
 
 
     public AddDevices(WebDriver driver) {
@@ -299,9 +313,10 @@ public class AddDevices extends _Page {
         customMade(dd);
         deviceSterile(dd);
         deviceMeasuring(dd);
-        if (dd.customMade.toLowerCase().equals("y")) {
-            riskClassification(dd);
-            notifiedBody(dd);
+
+        if (dd.sterile.toLowerCase().equals("y") || dd.measuring.toLowerCase().equals("y")) {
+            if (dd.customMade.toLowerCase().equals("n"))
+                notifiedBody(dd);
         }
         //saveProduct(dd);
     }
@@ -404,10 +419,30 @@ public class AddDevices extends _Page {
     }
 
     private void notifiedBody(DeviceData dd) {
+        changeNotifiedBody();
         WaitUtils.waitForElementToBeClickable(driver, nb0086BSI, TIMEOUT_MEDIUM, false);
         //Select notified body
         if (dd.notifiedBody!=null && dd.notifiedBody.toLowerCase().contains("0086")) {
-            PageUtils.clickIfVisible(driver, nb0086BSI);
+            PageUtils.doubleClick(driver, nb0086BSI);
+        }else if (dd.notifiedBody!=null && dd.notifiedBody.toLowerCase().contains("0088")) {
+            PageUtils.doubleClick(driver, nb0088LLOYDS);
+        }else if (dd.notifiedBody!=null && dd.notifiedBody.toLowerCase().contains("0120")) {
+            PageUtils.doubleClick(driver, nb0120SGS);
+        }else if (dd.notifiedBody!=null && dd.notifiedBody.toLowerCase().contains("0473")) {
+            PageUtils.doubleClick(driver, nb00473AMTAC);
+        }else if (dd.notifiedBody!=null && dd.notifiedBody.toLowerCase().contains("0843")) {
+            PageUtils.doubleClick(driver, nb00843UL);
+        }else {
+            PageUtils.doubleClick(driver, nbOthers);
+        }
+    }
+
+    private void changeNotifiedBody() {
+        try{
+            WaitUtils.waitForElementToBeClickable(driver, linkChangeNotifiedBody, 2, false);
+            linkChangeNotifiedBody.click();
+        }catch (Exception e){
+            //Bug which maintains previous selection of notified body
         }
     }
 
@@ -441,56 +476,64 @@ public class AddDevices extends _Page {
         String lcDeviceType = dd.deviceType.toLowerCase();
         if (lcDeviceType.contains("general medical device")) {
             PageUtils.clickIfVisible(driver, generalMedicalDevice);
+            PageUtils.doubleClick(driver, generalMedicalDevice);
         } else if (lcDeviceType.contains("vitro diagnostic")) {
             PageUtils.clickIfVisible(driver, inVitroDiagnosticDevice);
+            PageUtils.doubleClick(driver, inVitroDiagnosticDevice);
         } else if (lcDeviceType.contains("active implantable")) {
             PageUtils.clickIfVisible(driver, activeImplantableMedicalDevice);
+            PageUtils.doubleClick(driver, activeImplantableMedicalDevice);
         } else if (lcDeviceType.contains("procedure pack")) {
             PageUtils.clickIfVisible(driver, systemOrProcedurePack);
+            PageUtils.doubleClick(driver, systemOrProcedurePack);
         }
     }
 
     private void deviceMeasuring(DeviceData dd) {
         WaitUtils.waitForElementToBeClickable(driver, radioDeviceMeasuringYes, TIMEOUT_MEDIUM, false);
         if (dd.measuring.toLowerCase().equals("y")) {
-            PageUtils.clickIfVisible(driver, radioDeviceMeasuringYes);
+            PageUtils.doubleClick(driver, radioDeviceMeasuringYes);
+            //if(dd.customMade.toLowerCase().equals("n"))
+            //    notifiedBody(dd);
         } else {
-            PageUtils.clickIfVisible(driver, radioDeviceMeasuringNo);
+            PageUtils.doubleClick(driver, radioDeviceMeasuringNo);
         }
     }
 
     private void deviceSterile(DeviceData dd) {
         WaitUtils.waitForElementToBeClickable(driver, radioDeviceSterileYes, TIMEOUT_MEDIUM, false);
         if (dd.sterile.toLowerCase().equals("y")) {
-            PageUtils.clickIfVisible(driver, radioDeviceSterileYes);
+            PageUtils.doubleClick(driver, radioDeviceSterileYes);
+            //if(dd.customMade.toLowerCase().equals("n"))
+            //    notifiedBody(dd);
         } else {
-            PageUtils.clickIfVisible(driver, radioDeviceSterileNo);
+            PageUtils.doubleClick(driver, radioDeviceSterileNo);
         }
     }
 
     private void customMade(DeviceData dd) {
         WaitUtils.waitForElementToBeClickable(driver, radioCustomMadeYes, TIMEOUT_MEDIUM, false);
         if (dd.customMade.toLowerCase().equals("y")) {
-            PageUtils.clickIfVisible(driver, radioCustomMadeYes);
+            PageUtils.doubleClick(driver, radioCustomMadeYes);
         } else {
-            PageUtils.clickIfVisible(driver, radioCustomMadeNo);
-            //riskClassification(dd);
+            PageUtils.doubleClick(driver, radioCustomMadeNo);
+            riskClassification(dd);
         }
     }
 
     private void riskClassification(DeviceData dd) {
         WaitUtils.waitForElementToBeClickable(driver, radioRiskClass1, TIMEOUT_MEDIUM, false);
-        WaitUtils.waitForElementToBeClickable(driver, nb0086BSI, TIMEOUT_MEDIUM, false);
+        //WaitUtils.waitForElementToBeClickable(driver, nb0086BSI, TIMEOUT_MEDIUM, false);
         String lcRiskClassiffication = dd.riskClassification.toLowerCase();
         if(lcRiskClassiffication!=null) {
-            if (lcRiskClassiffication.contains("class1")) {
-                PageUtils.clickIfVisible(driver, radioRiskClass1);
-            } else if (lcRiskClassiffication.contains("class2a")) {
-                PageUtils.clickIfVisible(driver, radioRiskClass2a);
-            } else if (lcRiskClassiffication.contains("class2b")) {
-                PageUtils.clickIfVisible(driver, radioRiskClass2b);
-            } else if (lcRiskClassiffication.contains("class3")) {
-                PageUtils.clickIfVisible(driver, radioRiskClass3);
+            if (lcRiskClassiffication.contains("class i")) {
+                PageUtils.doubleClick(driver, radioRiskClass1);
+            } else if (lcRiskClassiffication.contains("class iia")) {
+                PageUtils.doubleClick(driver, radioRiskClass2a);
+            } else if (lcRiskClassiffication.contains("class iib")) {
+                PageUtils.doubleClick(driver, radioRiskClass2b);
+            } else if (lcRiskClassiffication.contains("class iii")) {
+                PageUtils.doubleClick(driver, radioRiskClass3);
             }
         }
     }
@@ -514,9 +557,13 @@ public class AddDevices extends _Page {
     }
 
     public boolean isOptionToAddAnotherDeviceVisible() {
-        WaitUtils.waitForElementToBeClickable(driver, btnAddAnotherDevice, TIMEOUT_MEDIUM, false);
-        boolean isVisible = btnAddAnotherDevice.isDisplayed() && btnAddAnotherDevice.isEnabled();
-        return isVisible;
+        try {
+            WaitUtils.waitForElementToBeClickable(driver, btnAddAnotherDevice, TIMEOUT_MEDIUM, false);
+            boolean isVisible = btnAddAnotherDevice.isDisplayed() && btnAddAnotherDevice.isEnabled();
+            return isVisible;
+        }catch (Exception e){
+            return false;
+        }
     }
 
     public AddDevices proceedToPayment() {

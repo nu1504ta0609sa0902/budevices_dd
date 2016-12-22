@@ -37,11 +37,6 @@ public class AddDevicesToManufacturers extends Common {
     private String username;
     private String password;
 
-    private ManufacturerList manufacturerList;
-    private ManufacturerDetails manufacturerDetails;
-    private AddDevices addDevices;
-    private MainNavigationBar mainNavigationBar;
-
     @Parameterized.Parameters(name = "{0}")
     public static Collection<User> spreadsheetData() throws IOException {
         ExcelDataSheet excelUtils = new ExcelDataSheet();//
@@ -61,6 +56,7 @@ public class AddDevicesToManufacturers extends Common {
         if (driver == null) {
             listOfDeviceData = excelUtils.getListOfDeviceData("configs/data/excel/DevicesData.xlsx", "TestDataWellFormed_Simple");
             driver = new BrowserConfig().getDriver();
+            driver.manage().window().maximize();
             baseUrl = FileUtils.getTestUrl();
             log.warn("\n\nRUNNING MANUFACTURER SMOKE TESTS");
         }
@@ -95,13 +91,64 @@ public class AddDevicesToManufacturers extends Common {
         log.info("Manufacturer selected : " + name + ", is " + registered);
         manufacturerDetails = manufacturerList.viewAManufacturer(name);
 
-        //Add devices
+        //Add devices: This needs to change to add all the devices
         if(registered!=null && registered.toLowerCase().equals("registered"))
             addDevices = manufacturerDetails.clickAddDeviceBtn();
+        else
+            addDevices = new AddDevices(driver);
 
         //Assumes we are in add device page
-        DeviceData dd = listOfDeviceData.get(0);
-        addDevices = addDevices.addFollowingDevice(dd);
+        //DeviceData dd = listOfDeviceData.get(0);
+        //addDevices = addDevices.addFollowingDevice(dd);
+
+        int count = 0;
+        int debugFromThisPosition = 10;
+        //Lets try to add multiple devices, it will take a long time
+        for(DeviceData dd: listOfDeviceData){
+
+            try {
+                //Only for DEBUGGING
+                System.out.println("Line number : " + debugFromThisPosition);
+                dd = listOfDeviceData.get(debugFromThisPosition);
+                debugFromThisPosition++;
+
+                addDevices = addDevices.addFollowingDevice(dd);
+                boolean isVisible = addDevices.isOptionToAddAnotherDeviceVisible();
+                if (!isVisible) {
+                    //Try again :
+                    //addDevices = addDevices.addFollowingDevice(dd);
+                    //isVisible = addDevices.isOptionToAddAnotherDeviceVisible();
+                    if (isVisible) {
+                        count++;
+                    } else {
+                        System.out.println("Problem adding device : " + dd);
+                    }
+                } else {
+                    count++;
+                }
+
+                if (count >= listOfDeviceData.size()) {
+                    //All done
+                    break;
+                }
+
+                //Try adding another device
+                if (isVisible)
+                    addDevices = addDevices.addAnotherDevice();
+
+            }catch (Exception e){
+                //Try next one
+                externalHomePage = mainNavigationBar.clickHome();
+                manufacturerList = externalHomePage.gotoListOfManufacturerPage();
+                manufacturerDetails = manufacturerList.viewAManufacturer(name);
+
+                //Add devices: This needs to change to add all the devices
+                if(registered!=null && registered.toLowerCase().equals("registered"))
+                    addDevices = manufacturerDetails.clickAddDeviceBtn();
+                else
+                    addDevices = new AddDevices(driver);
+            }
+        }
 
         //Verify option to add another device is there
         boolean isVisible = addDevices.isOptionToAddAnotherDeviceVisible();

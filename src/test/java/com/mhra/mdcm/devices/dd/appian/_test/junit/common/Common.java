@@ -1,8 +1,12 @@
 package com.mhra.mdcm.devices.dd.appian._test.junit.common;
 
+import com.mhra.mdcm.devices.dd.appian.pageobjects.MainNavigationBar;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.business.*;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.business.sections.*;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.external.ExternalHomePage;
+import com.mhra.mdcm.devices.dd.appian.pageobjects.external.sections.AddDevices;
+import com.mhra.mdcm.devices.dd.appian.pageobjects.external.sections.ManufacturerDetails;
+import com.mhra.mdcm.devices.dd.appian.pageobjects.external.sections.ManufacturerList;
 import com.mhra.mdcm.devices.dd.appian.utils.datadriven.ExcelDataSheet;
 import org.junit.ClassRule;
 import org.junit.Rule;
@@ -103,4 +107,9 @@ public class Common {
     public AllDevices allDevices;
     public Products products;
     public AllProducts allProducts;
+
+    public ManufacturerList manufacturerList;
+    public ManufacturerDetails manufacturerDetails;
+    public AddDevices addDevices;
+    public MainNavigationBar mainNavigationBar;
 }
