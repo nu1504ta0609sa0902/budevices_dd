@@ -45,7 +45,7 @@ public class AddDevicesToManufacturers extends Common {
     @Parameterized.Parameters(name = "{0}")
     public static Collection<User> spreadsheetData() throws IOException {
         ExcelDataSheet excelUtils = new ExcelDataSheet();//
-        List<User> listOfUsers = excelUtils.getListOfUsers("configs/data/excel/users_setup.xlsx", "Sheet1");
+        List<User> listOfUsers = excelUtils.getListOfUsers("configs/data/excel/users.xlsx", "DeviceSetupLogins");
         listOfUsers = excelUtils.filterUsersBy(listOfUsers, "manufacturer");
         log.info("Manufacturer Users : " + listOfUsers);
         return listOfUsers;
