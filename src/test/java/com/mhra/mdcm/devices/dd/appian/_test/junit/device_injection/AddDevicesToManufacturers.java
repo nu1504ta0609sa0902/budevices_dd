@@ -101,12 +101,13 @@ public class AddDevicesToManufacturers extends Common {
         List<DeviceData> listOfDevicesWhichHadProblems = new ArrayList<>();
 
         int count = 0;
-        int debugFromThisPosition = 0;
+        int debugFromThisPosition = 26;
         //Lets try to add multiple devices, it will take a long time
         for(DeviceData dd: listOfDeviceData){
 
             //Only for DEBUGGING
             dd = listOfDeviceData.get(debugFromThisPosition);
+
             if(dd.validatedData.toLowerCase().equals("y")) {
                 try {
                     //Only for DEBUGGING
@@ -132,7 +133,7 @@ public class AddDevicesToManufacturers extends Common {
                         count++;
                     }
 
-                    if (count <= listOfDeviceData.size()-1 && debugFromThisPosition <= listOfDeviceData.size()-1) {
+                    if (count >= listOfDeviceData.size()-1 && debugFromThisPosition >= listOfDeviceData.size()-1) {
                         //All done
                         break;
                     }
@@ -145,6 +146,7 @@ public class AddDevicesToManufacturers extends Common {
                     e.printStackTrace();
                     System.out.println("\nERROR ::::: Problem adding device");
                     listOfDevicesWhichHadProblems.add(dd);
+                    count++;
 //                    //Try next one
 //                    externalHomePage = mainNavigationBar.clickHome();
 //                    manufacturerList = externalHomePage.gotoListOfManufacturerPage();

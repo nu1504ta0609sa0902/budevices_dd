@@ -155,52 +155,6 @@ public class AddDevicesToAuthorisedRep extends Common {
         externalHomePage = addDevices.finish();
     }
 
-    @Test
-    public void asAUserIShouldSeeErrorMessagesIfCredentialsAreIncorrect() {
-
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage = loginPage.loadPage(baseUrl);
-        password = "IsIncorrectPassword";
-        loginPage.loginAsManufacturer(username, password);
-
-        String expectedErrorMsg = "The username/password entered is invalid";
-        loginPage = new LoginPage(driver);
-        boolean isCorrect = loginPage.isErrorMessageCorrect(expectedErrorMsg);
-        Assert.assertThat("Error message should contain : " + expectedErrorMsg, isCorrect, Matchers.is(true));
-    }
-
-    @Test
-    public void checkCorrectLinksAreDisplayedForAuthorisedRep() {
-
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage = loginPage.loadPage(baseUrl);
-        MainNavigationBar mainNavigationBar = loginPage.loginAsManufacturer(username, password);
-
-        externalHomePage = mainNavigationBar.clickHome();
-        String delimitedLinks = "Start now";
-        boolean areLinksVisible = externalHomePage.isStartNowLinkDisplayed();
-        Assert.assertThat("Expected to see the following links : " + delimitedLinks, areLinksVisible, Matchers.is(true));
-
-    }
-
-    @Test
-    public void asAUserIShouldBeAbleToLoginAndLogout() {
-
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage = loginPage.loadPage(baseUrl);
-        MainNavigationBar mainNavigationBar = loginPage.loginAsManufacturer(username, password);
-        String expectedHeading = JUnitUtils.getExpectedHeading(username);
-
-        boolean isCorrectPage = mainNavigationBar.isCorrectPage(expectedHeading);
-        Assert.assertThat("Expected page : " + expectedHeading, isCorrectPage, Matchers.is(true));
-
-        //Logout and verify its in logout page
-        loginPage = JUnitUtils.logoutIfLoggedIn(username, loginPage);
-
-        boolean isLoginPage = loginPage.isInLoginPage();
-        Assert.assertThat("Expected to be in login page", isLoginPage, Matchers.is(true));
-    }
-
     @Override
     public String toString() {
         return "SmokeTestsAuthorisedRep";
