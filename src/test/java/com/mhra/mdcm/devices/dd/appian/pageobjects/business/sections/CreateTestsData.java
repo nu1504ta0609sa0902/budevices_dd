@@ -137,7 +137,7 @@ public class CreateTestsData extends _Page {
 
         //Organisation Type
         if(ar.organisationType.equals("Limited Company")){
-            PageUtils.clickIfVisible(driver, limitedCompany);
+            PageUtils.doubleClick(driver, limitedCompany);
             PageFactory.initElements(driver, this);
             WaitUtils.waitForElementToBeVisible(driver, companyRegistrationNumber, 5, false);
             WaitUtils.nativeWaitInSeconds(1);
@@ -147,7 +147,7 @@ public class CreateTestsData extends _Page {
             companyRegistrationNumber.sendKeys(ar.companyRegistrationNumber);
 
         }else if(ar.organisationType.equals("Business Partnership")){
-            PageUtils.clickIfVisible(driver, businessPartnership);
+            PageUtils.doubleClick(driver, businessPartnership);
             PageFactory.initElements(driver, this);
             WaitUtils.waitForElementToBeVisible(driver, vatRegistrationNumber, 5, false);
             WaitUtils.nativeWaitInSeconds(1);
@@ -156,11 +156,11 @@ public class CreateTestsData extends _Page {
             vatRegistrationNumber.sendKeys(ar.vatRegistrationNumber);
 
         }else if(ar.organisationType.equals("Unincorporated Association")){
-            PageUtils.clickIfVisible(driver, unincorporatedAssociation);
+            PageUtils.doubleClick(driver, unincorporatedAssociation);
             PageFactory.initElements(driver, this);
 
         }else if(ar.organisationType.equals("Other")){
-            PageUtils.clickIfVisible(driver, other);
+            PageUtils.doubleClick(driver, other);
             PageFactory.initElements(driver, this);
 
         }

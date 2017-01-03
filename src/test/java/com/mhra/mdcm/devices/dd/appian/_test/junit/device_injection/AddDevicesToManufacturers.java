@@ -98,8 +98,10 @@ public class AddDevicesToManufacturers extends Common {
         //DeviceData dd = listOfDeviceData.get(0);
         //addDevices = addDevices.addFollowingDevice(dd);
 
+        List<DeviceData> listOfDevicesWhichHadProblems = new ArrayList<>();
+
         int count = 0;
-        int debugFromThisPosition = 23;
+        int debugFromThisPosition = 0;
         //Lets try to add multiple devices, it will take a long time
         for(DeviceData dd: listOfDeviceData){
 
@@ -117,14 +119,14 @@ public class AddDevicesToManufacturers extends Common {
                     addDevices = addDevices.addFollowingDevice(dd);
                     boolean isVisible = addDevices.isOptionToAddAnotherDeviceVisible();
                     if (!isVisible) {
-                        System.out.println("\nERROR ::::: Problem adding device");
+                        System.out.println("\nERROR ::::: Problem adding device TRY AGAIN");
                         //Try again :
-                        //addDevices = addDevices.addFollowingDevice(dd);
-                        //isVisible = addDevices.isOptionToAddAnotherDeviceVisible();
+                        addDevices = addDevices.addFollowingDevice(dd);
+                        isVisible = addDevices.isOptionToAddAnotherDeviceVisible();
                         if (isVisible) {
                             count++;
                         } else {
-                            System.out.println("\nERROR ::::: Problem adding device");
+                            throw new Exception("ERROR ::::: Problem adding device after 2 attempts");
                         }
                     } else {
                         count++;
@@ -142,6 +144,7 @@ public class AddDevicesToManufacturers extends Common {
                 } catch (Exception e) {
                     e.printStackTrace();
                     System.out.println("\nERROR ::::: Problem adding device");
+                    listOfDevicesWhichHadProblems.add(dd);
 //                    //Try next one
 //                    externalHomePage = mainNavigationBar.clickHome();
 //                    manufacturerList = externalHomePage.gotoListOfManufacturerPage();
@@ -172,52 +175,6 @@ public class AddDevicesToManufacturers extends Common {
         addDevices = addDevices.proceedToPayment();
         addDevices = addDevices.submitRegistration();
         externalHomePage = addDevices.finish();
-    }
-
-    @Test
-    public void asAUserIShouldSeeErrorMessagesIfCredentialsAreIncorrect() {
-
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage = loginPage.loadPage(baseUrl);
-        password = "IsIncorrectPassword";
-        loginPage.loginAsManufacturer(username, password);
-
-        String expectedErrorMsg = "The username/password entered is invalid";
-        loginPage = new LoginPage(driver);
-        boolean isCorrect = loginPage.isErrorMessageCorrect(expectedErrorMsg);
-        Assert.assertThat("Error message should contain : " + expectedErrorMsg, isCorrect, Matchers.is(true));
-    }
-
-
-    @Test
-    public void checkCorrectLinksAreDisplayedForManufacturer() {
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage = loginPage.loadPage(baseUrl);
-        MainNavigationBar mainNavigationBar = loginPage.loginAsManufacturer(username, password);
-
-        externalHomePage = mainNavigationBar.clickHome();
-        String delimitedLinks = "Start now";
-        boolean areLinksVisible = externalHomePage.isStartNowLinkDisplayed();
-        Assert.assertThat("Expected to see the following links : " + delimitedLinks, areLinksVisible, Matchers.is(true));
-    }
-
-
-    @Test
-    public void asAUserIShouldBeAbleToLoginAndLogout() {
-
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage = loginPage.loadPage(baseUrl);
-        MainNavigationBar mainNavigationBar = loginPage.loginAsManufacturer(username, password);
-        String expectedHeading = JUnitUtils.getExpectedHeading(username);
-
-        boolean isCorrectPage = mainNavigationBar.isCorrectPage(expectedHeading);
-        Assert.assertThat("Expected page : " + expectedHeading, isCorrectPage, Matchers.is(true));
-
-        //Logout and verify its in logout page
-        loginPage = JUnitUtils.logoutIfLoggedIn(username, loginPage);
-
-        boolean isLoginPage = loginPage.isInLoginPage();
-        Assert.assertThat("Expected tobe in login page", isLoginPage, Matchers.is(true));
     }
 
     @Override

@@ -195,4 +195,10 @@ public class PageUtils {
         WaitUtils.nativeWaitInSeconds(timeWaitForDocumentUploadToFinish);
     }
 
+    public static void clearAndTypeText(WebElement element, String text, boolean clearField) {
+        if(clearField) {
+            element.clear();
+        }
+        element.sendKeys(text);
+    }
 }

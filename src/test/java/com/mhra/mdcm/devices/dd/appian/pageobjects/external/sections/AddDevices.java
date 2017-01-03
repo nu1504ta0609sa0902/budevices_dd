@@ -345,7 +345,9 @@ public class AddDevices extends _Page {
         driver.findElement(By.xpath(".//button[.='Add Product']")).click();
         WaitUtils.waitForElementToBeClickable(driver, txtProductNameLabel, TIMEOUT_MEDIUM, false);
         //txtProductNameLabel.sendKeys(RandomDataUtils.getRandomTestName("Label"));
-        txtProductNameLabel.sendKeys(dd.deviceLabel);
+//        txtProductNameLabel.clear();
+//        txtProductNameLabel.sendKeys(dd.deviceLabel);
+        PageUtils.clearAndTypeText(txtProductNameLabel, dd.deviceLabel, true);
 
         PageUtils.uploadDocument(fileUpload, "DeviceLabelDoc2.pdf", 1, 3);
         txtDocumentDetails.sendKeys(dd.deviceDetails);
@@ -364,7 +366,9 @@ public class AddDevices extends _Page {
         driver.findElement(By.xpath(".//button[.='Add Product']")).click();
         WaitUtils.nativeWaitInSeconds(1);
         WaitUtils.waitForElementToBeClickable(driver, txtProductNameLabel, TIMEOUT_MEDIUM, false);
-        txtProductNameLabel.sendKeys(labelName);
+//        txtProductNameLabel.clear();
+//        txtProductNameLabel.sendKeys(labelName);
+        PageUtils.clearAndTypeText(txtProductNameLabel, labelName, true);
 
         PageUtils.uploadDocument(fileUpload, "DeviceLabelDoc2.pdf", 1, 3);
         PageUtils.uploadDocument(listOfFileUploads.get(1), "DeviceInstructionForUse1.pdf", 1, 3);
@@ -380,12 +384,18 @@ public class AddDevices extends _Page {
         if (dd.CTS.toLowerCase().equals("y")) {
             PageUtils.doubleClick(driver, radioConformsToCTSYes);
             WaitUtils.waitForElementToBeClickable(driver, txtCTSReference, TIMEOUT_MEDIUM, false);
-            txtCTSReference.sendKeys("CTS039458430958");
+//            txtCTSReference.clear();
+//            txtCTSReference.sendKeys("CTS039458430958");
+            PageUtils.clearAndTypeText(txtCTSReference, "CTS039458430958", true);
         } else {
             PageUtils.doubleClick(driver, radioConformsToCTSNo);
             WaitUtils.waitForElementToBeClickable(driver, txtDemonstratedCompliance, TIMEOUT_MEDIUM, false);
-            txtDemonstratedCompliance.sendKeys("Demonstrated Compliance");
-            txtTestingMethod.sendKeys("Manually Tested");
+//            txtDemonstratedCompliance.clear();
+//            txtDemonstratedCompliance.sendKeys("Demonstrated Compliance");
+//            txtTestingMethod.clear();
+//            txtTestingMethod.sendKeys("Manually Tested");
+            PageUtils.clearAndTypeText(txtDemonstratedCompliance,"Demonstrated Compliance" , true);
+            PageUtils.clearAndTypeText(txtTestingMethod,"Manually Tested" , true);
         }
     }
 
@@ -423,12 +433,18 @@ public class AddDevices extends _Page {
         String productModel = productDetail.model;
         WaitUtils.waitForElementToBeClickable(driver, pdProductModel, TIMEOUT_MEDIUM, false);
         if (productName != null || !productName.equals("")) {
-            pdProductName.sendKeys(productName);
+//            pdProductName.clear();
+//            pdProductName.sendKeys(productName);
+            PageUtils.clearAndTypeText(pdProductName,productName , true);
         } else if (productMake != null || !productMake.equals("")) {
-            pdProductMake.sendKeys(productMake);
+//            pdProductMake.click();
+//            pdProductMake.sendKeys(productMake);
+            PageUtils.clearAndTypeText(pdProductMake,productMake , true);
         }
-//
-        pdProductModel.sendKeys(productModel);
+
+//        pdProductModel.clear();
+//        pdProductModel.sendKeys(productModel);
+        PageUtils.clearAndTypeText(pdProductModel,productModel , true);
     }
 
     private void devicesCompatible(DeviceData dd) {
@@ -585,6 +601,7 @@ public class AddDevices extends _Page {
             //Default is search by gmdn term or definition
             WaitUtils.waitForElementToBeClickable(driver, radioGMDNDefinitionOrTerm, TIMEOUT_MEDIUM, false);
             radioGMDNDefinitionOrTerm.click();
+            //PageUtils.doubleClick(driver, radioByGMDNCode);
             PageUtils.doubleClick(driver, radioGMDNDefinitionOrTerm);
             WaitUtils.waitForElementToBeClickable(driver, tbxGMDNDefinitionOrTerm, TIMEOUT_MEDIUM, false);
             tbxGMDNDefinitionOrTerm.clear();

@@ -73,7 +73,7 @@ public class AccountRequest {
         website = "www." + organisationName.toLowerCase() + ".com";
 
         //Organisation type
-        organisationType = "Limited Company";
+        organisationType = "Other";
         vatRegistrationNumber = "0161" + (int) RandomDataUtils.getRandomDigits(7);
         companyRegistrationNumber = "0895" + (int) RandomDataUtils.getRandomDigits(7);
 
@@ -119,7 +119,7 @@ public class AccountRequest {
 
     public void setUserDetails(String loggedInAs) {
         String[] data = loggedInAs.split("\\.");
-        System.out.println(data);
+        //System.out.println(data);
         firstName = data[0];
 
         //Because we have Auto.Business and Noor.Uddin.Business
