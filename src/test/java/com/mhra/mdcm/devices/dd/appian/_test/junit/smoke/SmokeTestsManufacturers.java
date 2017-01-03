@@ -71,7 +71,7 @@ public class SmokeTestsManufacturers extends Common {
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
         password = "IsIncorrectPassword";
-        loginPage.loginAs(username, password, false);
+        loginPage.loginAsManufacturer(username, password);
 
         String expectedErrorMsg = "The username/password entered is invalid";
         loginPage = new LoginPage(driver);
@@ -84,7 +84,7 @@ public class SmokeTestsManufacturers extends Common {
     public void checkCorrectLinksAreDisplayedForManufacturer() {
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
-        MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password, false);
+        MainNavigationBar mainNavigationBar = loginPage.loginAsManufacturer(username, password);
 
         externalHomePage = mainNavigationBar.clickHome();
         String delimitedLinks = "Start now";
@@ -98,7 +98,7 @@ public class SmokeTestsManufacturers extends Common {
 
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
-        MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password, false);
+        MainNavigationBar mainNavigationBar = loginPage.loginAsManufacturer(username, password);
         String expectedHeading = JUnitUtils.getExpectedHeading(username);
 
         boolean isCorrectPage = mainNavigationBar.isCorrectPage(expectedHeading);
