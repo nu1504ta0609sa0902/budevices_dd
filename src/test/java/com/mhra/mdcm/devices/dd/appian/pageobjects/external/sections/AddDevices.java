@@ -243,12 +243,15 @@ public class AddDevices extends _Page {
     private void addGeneralMedicalDevice(DeviceData dd) {
         searchByGMDN(dd);
         customMade(dd);
-        deviceSterile(dd);
-        deviceMeasuring(dd);
 
-        if (dd.sterile.toLowerCase().equals("y") || dd.measuring.toLowerCase().equals("y")) {
-            if (dd.customMade.toLowerCase().equals("n"))
-                notifiedBody(dd);
+        if(dd.customMade.toLowerCase().equals("n")) {
+            deviceSterile(dd);
+            deviceMeasuring(dd);
+
+            if (dd.sterile.toLowerCase().equals("y") || dd.measuring.toLowerCase().equals("y")) {
+                if (dd.customMade.toLowerCase().equals("n"))
+                    notifiedBody(dd);
+            }
         }
         //saveProduct(dd);
     }
@@ -440,11 +443,12 @@ public class AddDevices extends _Page {
 //            pdProductMake.click();
 //            pdProductMake.sendKeys(productMake);
             PageUtils.clearAndTypeText(pdProductMake,productMake , true);
+            PageUtils.clearAndTypeText(pdProductModel,productModel , true);
         }
 
 //        pdProductModel.clear();
 //        pdProductModel.sendKeys(productModel);
-        PageUtils.clearAndTypeText(pdProductModel,productModel , true);
+//        PageUtils.clearAndTypeText(pdProductModel,productModel , true);
     }
 
     private void devicesCompatible(DeviceData dd) {
@@ -547,12 +551,20 @@ public class AddDevices extends _Page {
         }
     }
 
+    private void customMade(DeviceData dd) {
+        WaitUtils.waitForElementToBeClickable(driver, radioCustomMadeYes, TIMEOUT_MEDIUM, false);
+        if (dd.customMade.toLowerCase().equals("y")) {
+            PageUtils.doubleClick(driver, radioCustomMadeYes);
+        } else {
+            PageUtils.doubleClick(driver, radioCustomMadeNo);
+            riskClassification(dd);
+        }
+    }
+
     private void deviceMeasuring(DeviceData dd) {
         WaitUtils.waitForElementToBeClickable(driver, radioDeviceMeasuringYes, TIMEOUT_MEDIUM, false);
         if (dd.measuring.toLowerCase().equals("y")) {
             PageUtils.doubleClick(driver, radioDeviceMeasuringYes);
-            //if(dd.customMade.toLowerCase().equals("n"))
-            //    notifiedBody(dd);
         } else {
             PageUtils.doubleClick(driver, radioDeviceMeasuringNo);
         }
@@ -562,20 +574,8 @@ public class AddDevices extends _Page {
         WaitUtils.waitForElementToBeClickable(driver, radioDeviceSterileYes, TIMEOUT_MEDIUM, false);
         if (dd.sterile.toLowerCase().equals("y")) {
             PageUtils.doubleClick(driver, radioDeviceSterileYes);
-            //if(dd.customMade.toLowerCase().equals("n"))
-            //    notifiedBody(dd);
         } else {
             PageUtils.doubleClick(driver, radioDeviceSterileNo);
-        }
-    }
-
-    private void customMade(DeviceData dd) {
-        WaitUtils.waitForElementToBeClickable(driver, radioCustomMadeYes, TIMEOUT_MEDIUM, false);
-        if (dd.customMade.toLowerCase().equals("y")) {
-            PageUtils.doubleClick(driver, radioCustomMadeYes);
-        } else {
-            PageUtils.doubleClick(driver, radioCustomMadeNo);
-            riskClassification(dd);
         }
     }
 
@@ -601,7 +601,8 @@ public class AddDevices extends _Page {
             //Default is search by gmdn term or definition
             WaitUtils.waitForElementToBeClickable(driver, radioGMDNDefinitionOrTerm, TIMEOUT_MEDIUM, false);
             radioGMDNDefinitionOrTerm.click();
-            //PageUtils.doubleClick(driver, radioByGMDNCode);
+            PageUtils.doubleClick(driver, radioByGMDNCode);
+            WaitUtils.nativeWaitInSeconds(1);
             PageUtils.doubleClick(driver, radioGMDNDefinitionOrTerm);
             WaitUtils.waitForElementToBeClickable(driver, tbxGMDNDefinitionOrTerm, TIMEOUT_MEDIUM, false);
             tbxGMDNDefinitionOrTerm.clear();
