@@ -4,8 +4,6 @@ import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.DeviceData;
 import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.ProductDetail;
 import com.mhra.mdcm.devices.dd.appian.pageobjects._Page;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.external.ExternalHomePage;
-import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.RandomDataUtils;
-import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.CommonUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.PageUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.WaitUtils;
 import org.openqa.selenium.By;
@@ -102,13 +100,13 @@ public class AddDevices extends _Page {
 
     //Procedure pack
     @FindBy(xpath = ".//*[contains(text(),'pack incorporate')]//following::input[1]")
-    WebElement ppPackIncorporatedYes;
+    WebElement ppPackIncorporatedCEMarkingYes;
     @FindBy(xpath = ".//*[contains(text(),'pack incorporate')]//following::input[2]")
-    WebElement ppPackIncorporatedNo;
+    WebElement ppPackIncorporatedCEMarkingNo;
     @FindBy(xpath = ".//*[contains(text(),'devices compatible')]//following::input[1]")
-    WebElement ppDevicesCompatibleYes;
+    WebElement ppDevicesCompatibleOriginalIntendedUseYes;
     @FindBy(xpath = ".//*[contains(text(),'devices compatible')]//following::input[2]")
-    WebElement ppDevicesCompatibleNo;
+    WebElement ppDevicesCompatibleOriginalIntendedUseNo;
 
     //Add product
     @FindBy(xpath = ".//button[.='Add product']")
@@ -140,6 +138,10 @@ public class AddDevices extends _Page {
     WebElement txtTestingMethod;
     @FindBy(xpath = ".//*[contains(text(),'device label')]//following::input[1]")
     WebElement txtProductNameLabel;
+    @FindBy(xpath = ".//*[contains(text(),'device label')]//following::textarea[1]")
+    WebElement txtDocumentDetails;
+    @FindBy(xpath = ".//*[contains(text(),'device label')]//following::textarea[2]")
+    WebElement txtInstructionDetails;
 
     //Option to add other devices
     @FindBy(xpath = ".//button[contains(text(),'Add another device')]")
@@ -238,6 +240,71 @@ public class AddDevices extends _Page {
         return new AddDevices(driver);
     }
 
+    private void addGeneralMedicalDevice(DeviceData dd) {
+        searchByGMDN(dd);
+        customMade(dd);
+        deviceSterile(dd);
+        deviceMeasuring(dd);
+
+        if (dd.sterile.toLowerCase().equals("y") || dd.measuring.toLowerCase().equals("y")) {
+            if (dd.customMade.toLowerCase().equals("n"))
+                notifiedBody(dd);
+        }
+        //saveProduct(dd);
+    }
+
+    private void addVitroDiagnosticDevice(DeviceData dd) {
+        searchByGMDN(dd);
+        riskClassificationIVD(dd);
+
+        //No product needs to be added when Risk Classification = IVD General
+        if(dd.riskClassification!=null && !dd.riskClassification.equals("ivd general")) {
+            //If more than 1 product listed
+//            int numberOfProductName = dd.listOfProductDetails.size();
+//            if (numberOfProductName <= 1) {
+//                ProductDetail productDetail = dd.listOfProductDetails.get(0);
+//                if (numberOfProductName == 1) {
+//                    dd.productNames = productDetail.name;
+//                }
+//                //List of device to add
+//                addProduct(productDetail);
+//                subjectToPerformanceEval(dd);
+//                productNewToMarket(dd);
+//                if (dd.riskClassification.toLowerCase().contains("list a"))
+//                    conformToCTS(dd);
+//                notifiedBody(dd);
+//                saveProduct(dd);
+//            } else {
+//                for (ProductDetail x : dd.listOfProductDetails) {
+//                    dd.productNames = x.name;
+//                    addProduct(x);
+//                    subjectToPerformanceEval(dd);
+//                    productNewToMarket(dd);
+//                    if (dd.riskClassification.toLowerCase().contains("list a"))
+//                        conformToCTS(dd);
+//                    notifiedBody(dd);
+//                    saveProduct(dd);
+//
+//                    //Remove this if we find a better solution
+//                    WaitUtils.nativeWaitInSeconds(1);
+//                }
+//            }
+            for (ProductDetail x : dd.listOfProductDetails) {
+                dd.productNames = x.name;
+                addProduct(x);
+                subjectToPerformanceEval(dd);
+                productNewToMarket(dd);
+                if (dd.riskClassification.toLowerCase().contains("list a"))
+                    conformToCTS(dd);
+                notifiedBody(dd);
+                saveProduct(dd);
+
+                //Remove this if we find a better solution
+                WaitUtils.nativeWaitInSeconds(1);
+            }
+        }
+    }
+
     private void addActiveImplantableDevice(DeviceData dd) {
         searchByGMDN(dd);
         customMade(dd);
@@ -263,61 +330,13 @@ public class AddDevices extends _Page {
         customMade(dd);
         deviceSterile(dd);
         deviceMeasuring(dd);
-        notifiedBody(dd);
-        packIncorporated(dd);
-        devicesCompatible(dd);
-        //saveProduct(dd);
-    }
-
-    private void addVitroDiagnosticDevice(DeviceData dd) {
-        searchByGMDN(dd);
-        riskClassificationIVD(dd);
-
-        //No product needs to be added when Risk Classification = IVD General
-        if(dd.riskClassification!=null && !dd.riskClassification.equals("ivd general")) {
-            //If more than 1 product listed
-            int numberOfProductName = dd.listOfProductDetails.size();
-            if (numberOfProductName <= 1) {
-                if (numberOfProductName == 1) {
-                    dd.productNames = dd.listOfProductDetails.get(0).name;
-                }
-                //List of device to add
-                addProduct(dd);
-                notifiedBody(dd);
-                subjectToPerformanceEval(dd);
-                productNewToMarket(dd);
-                if (dd.riskClassification.toLowerCase().contains("list a"))
-                    conformToCTS(dd);
-                saveProduct(dd);
-            } else {
-                for (ProductDetail x : dd.listOfProductDetails) {
-                    dd.productNames = x.name;
-                    addProduct(dd);
-                    notifiedBody(dd);
-                    subjectToPerformanceEval(dd);
-                    productNewToMarket(dd);
-                    if (dd.riskClassification.toLowerCase().contains("list a"))
-                        conformToCTS(dd);
-                    saveProduct(dd);
-
-                    //Remove this if we find a better solution
-                    WaitUtils.nativeWaitInSeconds(1);
-                }
-            }
-        }
-    }
-
-
-    private void addGeneralMedicalDevice(DeviceData dd) {
-        searchByGMDN(dd);
-        customMade(dd);
-        deviceSterile(dd);
-        deviceMeasuring(dd);
 
         if (dd.sterile.toLowerCase().equals("y") || dd.measuring.toLowerCase().equals("y")) {
-            if (dd.customMade.toLowerCase().equals("n"))
+            //if (dd.customMade.toLowerCase().equals("n"))
                 notifiedBody(dd);
         }
+        packIncorporated(dd);
+        devicesCompatible(dd);
         //saveProduct(dd);
     }
 
@@ -325,10 +344,13 @@ public class AddDevices extends _Page {
         WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//button[.='Add Product']"), TIMEOUT_MEDIUM, false);
         driver.findElement(By.xpath(".//button[.='Add Product']")).click();
         WaitUtils.waitForElementToBeClickable(driver, txtProductNameLabel, TIMEOUT_MEDIUM, false);
-        txtProductNameLabel.sendKeys(RandomDataUtils.getRandomTestName("Label"));
+        //txtProductNameLabel.sendKeys(RandomDataUtils.getRandomTestName("Label"));
+        txtProductNameLabel.sendKeys(dd.deviceLabel);
 
         PageUtils.uploadDocument(fileUpload, "DeviceLabelDoc2.pdf", 1, 3);
+        txtDocumentDetails.sendKeys(dd.deviceDetails);
         PageUtils.uploadDocument(listOfFileUploads.get(1), "DeviceInstructionForUse1.pdf", 1, 3);
+        txtInstructionDetails.sendKeys(dd.instructionDetails);
 
         //Save product label details
         WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//button[.='Save Product']"), TIMEOUT_MEDIUM, false);
@@ -352,13 +374,15 @@ public class AddDevices extends _Page {
         driver.findElement(By.xpath(".//button[.='Save Product']")).click();
     }
 
+
     private void conformToCTS(DeviceData dd) {
+        WaitUtils.waitForElementToBeClickable(driver, radioConformsToCTSYes, TIMEOUT_MEDIUM, false);
         if (dd.CTS.toLowerCase().equals("y")) {
-            PageUtils.clickIfVisible(driver, radioConformsToCTSYes);
+            PageUtils.doubleClick(driver, radioConformsToCTSYes);
             WaitUtils.waitForElementToBeClickable(driver, txtCTSReference, TIMEOUT_MEDIUM, false);
             txtCTSReference.sendKeys("CTS039458430958");
         } else {
-            PageUtils.clickIfVisible(driver, radioConformsToCTSNo);
+            PageUtils.doubleClick(driver, radioConformsToCTSNo);
             WaitUtils.waitForElementToBeClickable(driver, txtDemonstratedCompliance, TIMEOUT_MEDIUM, false);
             txtDemonstratedCompliance.sendKeys("Demonstrated Compliance");
             txtTestingMethod.sendKeys("Manually Tested");
@@ -366,81 +390,99 @@ public class AddDevices extends _Page {
     }
 
     private void saveProduct(DeviceData dd) {
+        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//button[.='Save product']"), TIMEOUT_MEDIUM, false);
         WebElement saveProduct = driver.findElement(By.xpath(".//button[.='Save product']"));
         saveProduct.click();
     }
 
     private void productNewToMarket(DeviceData dd) {
+        WaitUtils.waitForElementToBeClickable(driver, radioProductNewYes, TIMEOUT_MEDIUM, false);
         if (dd.isNew.toLowerCase().contains("new")) {
-            PageUtils.clickIfVisible(driver, radioProductNewYes);
+            PageUtils.doubleClick(driver, radioProductNewYes);
         } else {
-            PageUtils.clickIfVisible(driver, radioProductNewNo);
+            PageUtils.doubleClick(driver, radioProductNewNo);
         }
     }
 
     private void subjectToPerformanceEval(DeviceData dd) {
+        WaitUtils.waitForElementToBeClickable(driver, radioSubjectToPerformanceEvalYes, TIMEOUT_MEDIUM, false);
         if (dd.evaluation.toLowerCase().equals("y")) {
-            PageUtils.clickIfVisible(driver, radioSubjectToPerformanceEvalYes);
+            PageUtils.doubleClick(driver, radioSubjectToPerformanceEvalYes);
         } else {
-            PageUtils.clickIfVisible(driver, radioSubjectToPerformanceEvalNo);
+            PageUtils.doubleClick(driver, radioSubjectToPerformanceEvalNo);
         }
     }
 
-    private void addProduct(DeviceData dd) {
+    private void addProduct(ProductDetail productDetail) {
         WaitUtils.waitForElementToBeClickable(driver, addProduct, TIMEOUT_MEDIUM, false);
         addProduct.click();
 
         //Wait for form to be visible
-        String productName = dd.device;
-//        WaitUtils.waitForElementToBeClickable(driver, pdProductModel, TIMEOUT_MEDIUM, false);
-//        if (productName != null || !productName.equals("")) {
-//            pdProductName.sendKeys(productName);
-//        } else if (productMake != null || !productMake.equals("")) {
-//            pdProductMake.sendKeys(productMake);
-//        }
+        String productName = productDetail.name;
+        String productMake = productDetail.make;
+        String productModel = productDetail.model;
+        WaitUtils.waitForElementToBeClickable(driver, pdProductModel, TIMEOUT_MEDIUM, false);
+        if (productName != null || !productName.equals("")) {
+            pdProductName.sendKeys(productName);
+        } else if (productMake != null || !productMake.equals("")) {
+            pdProductMake.sendKeys(productMake);
+        }
 //
-//        pdProductModel.sendKeys(dd.productModel);
+        pdProductModel.sendKeys(productModel);
     }
 
     private void devicesCompatible(DeviceData dd) {
-//        if (dd.) {
-//            PageUtils.clickIfVisible(driver, ppDevicesCompatibleYes);
-//        } else {
-//            PageUtils.clickIfVisible(driver, ppDevicesCompatibleNo);
-//        }
+        //Does the system or procedure pack incorporate a medical device that does not bear a CE marking?
+        WaitUtils.waitForElementToBeClickable(driver, ppDevicesCompatibleOriginalIntendedUseYes, TIMEOUT_MEDIUM, false);
+        if (dd.intended.toLowerCase().equals("y")) {
+            PageUtils.doubleClick(driver, ppDevicesCompatibleOriginalIntendedUseYes);
+        } else {
+            PageUtils.doubleClick(driver, ppDevicesCompatibleOriginalIntendedUseNo);
+        }
     }
 
     private void packIncorporated(DeviceData dd) {
-//        if (dd.isPackIncorporated) {
-//            PageUtils.clickIfVisible(driver, ppPackIncorporatedYes);
-//        } else {
-//            PageUtils.clickIfVisible(driver, ppPackIncorporatedNo);
-//        }
+        //Are the chosen combination of medical devices compatible in view of their original intended use?
+        WaitUtils.waitForElementToBeClickable(driver, ppPackIncorporatedCEMarkingYes, TIMEOUT_MEDIUM, false);
+        if (dd.CE.toLowerCase().equals("y")) {
+            PageUtils.doubleClick(driver, ppPackIncorporatedCEMarkingYes);
+        } else {
+            PageUtils.doubleClick(driver, ppPackIncorporatedCEMarkingNo);
+        }
     }
 
     private void notifiedBody(DeviceData dd) {
         changeNotifiedBody();
-        WaitUtils.waitForElementToBeClickable(driver, nb0086BSI, TIMEOUT_MEDIUM, false);
         //Select notified body
         if (dd.notifiedBody!=null && dd.notifiedBody.toLowerCase().contains("0086")) {
+            WaitUtils.waitForElementToBeClickable(driver, nb0086BSI, TIMEOUT_MEDIUM, false);
             PageUtils.doubleClick(driver, nb0086BSI);
         }else if (dd.notifiedBody!=null && dd.notifiedBody.toLowerCase().contains("0088")) {
+            WaitUtils.waitForElementToBeClickable(driver, nb0088LLOYDS, TIMEOUT_MEDIUM, false);
             PageUtils.doubleClick(driver, nb0088LLOYDS);
         }else if (dd.notifiedBody!=null && dd.notifiedBody.toLowerCase().contains("0120")) {
+            WaitUtils.waitForElementToBeClickable(driver, nb0120SGS, TIMEOUT_MEDIUM, false);
             PageUtils.doubleClick(driver, nb0120SGS);
         }else if (dd.notifiedBody!=null && dd.notifiedBody.toLowerCase().contains("0473")) {
+            WaitUtils.waitForElementToBeClickable(driver, nb00473AMTAC, TIMEOUT_MEDIUM, false);
             PageUtils.doubleClick(driver, nb00473AMTAC);
         }else if (dd.notifiedBody!=null && dd.notifiedBody.toLowerCase().contains("0843")) {
+            WaitUtils.waitForElementToBeClickable(driver, nb00843UL, TIMEOUT_MEDIUM, false);
             PageUtils.doubleClick(driver, nb00843UL);
         }else {
-            PageUtils.doubleClick(driver, nbOthers);
+            //THIS REQUIRES A NUMBER
+            //PageUtils.doubleClick(driver, nbOthers);
+            WaitUtils.waitForElementToBeClickable(driver, nb0086BSI, TIMEOUT_MEDIUM, false);
+            PageUtils.doubleClick(driver, nb0086BSI);
         }
     }
 
     private void changeNotifiedBody() {
         try{
-            WaitUtils.waitForElementToBeClickable(driver, linkChangeNotifiedBody, 2, false);
+            WaitUtils.waitForElementToBeClickable(driver, linkChangeNotifiedBody, TIMEOUT_SMALL, false);
             linkChangeNotifiedBody.click();
+            WaitUtils.waitForElementToBeClickable(driver, nb0086BSI, TIMEOUT_SMALL, false);
+            WaitUtils.nativeWaitInSeconds(1);
         }catch (Exception e){
             //Bug which maintains previous selection of notified body
         }
@@ -543,8 +585,9 @@ public class AddDevices extends _Page {
             //Default is search by gmdn term or definition
             WaitUtils.waitForElementToBeClickable(driver, radioGMDNDefinitionOrTerm, TIMEOUT_MEDIUM, false);
             radioGMDNDefinitionOrTerm.click();
+            PageUtils.doubleClick(driver, radioGMDNDefinitionOrTerm);
             WaitUtils.waitForElementToBeClickable(driver, tbxGMDNDefinitionOrTerm, TIMEOUT_MEDIUM, false);
-            //tbxGMDNDefinitionOrTerm.sendKeys(dd.gmdnTermOrDefinition);
+            tbxGMDNDefinitionOrTerm.clear();
             PageUtils.selectFromAutoSuggests(driver, By.cssSelector("input.gwt-SuggestBox"), dd.device);
         } else {
 //            WaitUtils.waitForElementToBeClickable(driver, radioByGMDNCode, TIMEOUT_MEDIUM, false);

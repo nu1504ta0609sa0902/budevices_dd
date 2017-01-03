@@ -6,13 +6,10 @@ import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.DeviceData;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.LoginPage;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.MainNavigationBar;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.external.sections.AddDevices;
-import com.mhra.mdcm.devices.dd.appian.pageobjects.external.sections.ManufacturerDetails;
-import com.mhra.mdcm.devices.dd.appian.pageobjects.external.sections.ManufacturerList;
 import com.mhra.mdcm.devices.dd.appian.utils.datadriven.ExcelDataSheet;
 import com.mhra.mdcm.devices.dd.appian.utils.datadriven.JUnitUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.driver.BrowserConfig;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.FileUtils;
-import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.TestHarnessUtils;
 import org.hamcrest.Matchers;
 import org.junit.*;
 import org.junit.runner.RunWith;
@@ -81,7 +78,7 @@ public class AddDevicesToManufacturers extends Common {
         //Login to app and add devices to the manufacturer
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
-        mainNavigationBar = loginPage.loginAs(username, password, false);
+        mainNavigationBar = loginPage.loginAsManufacturer(username, password);
         externalHomePage = mainNavigationBar.clickHome();
 
         //Click on a random manufacturer
@@ -102,52 +99,69 @@ public class AddDevicesToManufacturers extends Common {
         //addDevices = addDevices.addFollowingDevice(dd);
 
         int count = 0;
-        int debugFromThisPosition = 10;
+        int debugFromThisPosition = 23;
         //Lets try to add multiple devices, it will take a long time
         for(DeviceData dd: listOfDeviceData){
 
-            try {
-                //Only for DEBUGGING
-                System.out.println("Line number : " + debugFromThisPosition);
-                dd = listOfDeviceData.get(debugFromThisPosition);
-                debugFromThisPosition++;
+            //Only for DEBUGGING
+            dd = listOfDeviceData.get(debugFromThisPosition);
+            if(dd.validatedData.toLowerCase().equals("y")) {
+                try {
+                    //Only for DEBUGGING
+                    System.out.println("\n----------------------------------------------------------");
+                    System.out.println("Product number : " + (count+1) );
+                    System.out.println("Line number : " + debugFromThisPosition );
+                    System.out.println("Device Type : " + dd);
+                    System.out.println("----------------------------------------------------------\n");
 
-                addDevices = addDevices.addFollowingDevice(dd);
-                boolean isVisible = addDevices.isOptionToAddAnotherDeviceVisible();
-                if (!isVisible) {
-                    //Try again :
-                    //addDevices = addDevices.addFollowingDevice(dd);
-                    //isVisible = addDevices.isOptionToAddAnotherDeviceVisible();
-                    if (isVisible) {
-                        count++;
+                    addDevices = addDevices.addFollowingDevice(dd);
+                    boolean isVisible = addDevices.isOptionToAddAnotherDeviceVisible();
+                    if (!isVisible) {
+                        System.out.println("\nERROR ::::: Problem adding device");
+                        //Try again :
+                        //addDevices = addDevices.addFollowingDevice(dd);
+                        //isVisible = addDevices.isOptionToAddAnotherDeviceVisible();
+                        if (isVisible) {
+                            count++;
+                        } else {
+                            System.out.println("\nERROR ::::: Problem adding device");
+                        }
                     } else {
-                        System.out.println("Problem adding device : " + dd);
+                        count++;
                     }
-                } else {
-                    count++;
+
+                    if (count <= listOfDeviceData.size()-1 && debugFromThisPosition <= listOfDeviceData.size()-1) {
+                        //All done
+                        break;
+                    }
+
+                    //Try adding another device
+                    if (isVisible)
+                        addDevices = addDevices.addAnotherDevice();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    System.out.println("\nERROR ::::: Problem adding device");
+//                    //Try next one
+//                    externalHomePage = mainNavigationBar.clickHome();
+//                    manufacturerList = externalHomePage.gotoListOfManufacturerPage();
+//                    manufacturerDetails = manufacturerList.viewAManufacturer(name);
+//
+//                    //Add devices: This needs to change to add all the devices
+//                    if (registered != null && registered.toLowerCase().equals("registered"))
+//                        addDevices = manufacturerDetails.clickAddDeviceBtn();
+//                    else
+//                        addDevices = new AddDevices(driver);
                 }
-
-                if (count >= listOfDeviceData.size()) {
-                    //All done
-                    break;
-                }
-
-                //Try adding another device
-                if (isVisible)
-                    addDevices = addDevices.addAnotherDevice();
-
-            }catch (Exception e){
-                //Try next one
-                externalHomePage = mainNavigationBar.clickHome();
-                manufacturerList = externalHomePage.gotoListOfManufacturerPage();
-                manufacturerDetails = manufacturerList.viewAManufacturer(name);
-
-                //Add devices: This needs to change to add all the devices
-                if(registered!=null && registered.toLowerCase().equals("registered"))
-                    addDevices = manufacturerDetails.clickAddDeviceBtn();
-                else
-                    addDevices = new AddDevices(driver);
+            }else{
+                System.out.println("\n----------------------------------------------------------");
+                System.out.println("Line number : " + debugFromThisPosition );
+                System.out.println("Device Data Not Validated : \n" + dd.excelFileLineNumber);
+                System.out.println("----------------------------------------------------------\n");
             }
+
+            //Only for DEBUGGING
+            debugFromThisPosition++;
         }
 
         //Verify option to add another device is there
@@ -166,7 +180,7 @@ public class AddDevicesToManufacturers extends Common {
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
         password = "IsIncorrectPassword";
-        loginPage.loginAs(username, password, false);
+        loginPage.loginAsManufacturer(username, password);
 
         String expectedErrorMsg = "The username/password entered is invalid";
         loginPage = new LoginPage(driver);
@@ -179,7 +193,7 @@ public class AddDevicesToManufacturers extends Common {
     public void checkCorrectLinksAreDisplayedForManufacturer() {
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
-        MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password, false);
+        MainNavigationBar mainNavigationBar = loginPage.loginAsManufacturer(username, password);
 
         externalHomePage = mainNavigationBar.clickHome();
         String delimitedLinks = "Start now";
@@ -193,7 +207,7 @@ public class AddDevicesToManufacturers extends Common {
 
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
-        MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password, false);
+        MainNavigationBar mainNavigationBar = loginPage.loginAsManufacturer(username, password);
         String expectedHeading = JUnitUtils.getExpectedHeading(username);
 
         boolean isCorrectPage = mainNavigationBar.isCorrectPage(expectedHeading);

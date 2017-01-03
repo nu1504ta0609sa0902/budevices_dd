@@ -84,7 +84,7 @@ public class AddDevicesToBusiness extends Common {
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
         password = "IsIncorrectPassword";
-        loginPage.loginAs(username, password, false);
+        loginPage.loginAs(username, password);
 
         String expectedErrorMsg = "The username/password entered is invalid";
         loginPage = new LoginPage(driver);

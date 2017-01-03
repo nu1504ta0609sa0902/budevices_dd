@@ -152,7 +152,8 @@ public class ExcelDataSheet {
                     if(data.length > 5) {
                         String key = data[0];
                         if(key!=null && !key.toLowerCase().equals("validateddata")) {
-                            System.out.println("Line : " + (lineCount+1) + ": " + line);
+                            //System.out.println("Line : " + (lineCount+1) + ": " + line);
+                            //System.out.println(line);
                             String[] dataUpdated = createUpdatedData(data, headers, columnCount);
                             listOfDeviceTestData.add(new DeviceData((lineCount+1), dataUpdated));
                         }
@@ -167,10 +168,10 @@ public class ExcelDataSheet {
                             headers.add(hd);
                     }
                 }
-                lineCount++;
             }catch (Exception e){
                 //break;
             }
+            lineCount++;
         }
 
         return listOfDeviceTestData;

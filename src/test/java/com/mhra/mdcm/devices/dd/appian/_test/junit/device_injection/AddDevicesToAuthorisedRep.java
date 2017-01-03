@@ -76,7 +76,7 @@ public class AddDevicesToAuthorisedRep extends Common {
         //Login to app and add devices to the manufacturer
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
-        mainNavigationBar = loginPage.loginAs(username, password, false);
+        mainNavigationBar = loginPage.loginAsManufacturer(username, password);
         externalHomePage = mainNavigationBar.clickHome();
 
         //Click on a random manufacturer
@@ -97,7 +97,7 @@ public class AddDevicesToAuthorisedRep extends Common {
         //addDevices = addDevices.addFollowingDevice(dd);
 
         int count = 0;
-        int debugFromThisPosition = 10;
+        int debugFromThisPosition = 19;
         //Lets try to add multiple devices, it will take a long time
         for(DeviceData dd: listOfDeviceData){
 
@@ -161,7 +161,7 @@ public class AddDevicesToAuthorisedRep extends Common {
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
         password = "IsIncorrectPassword";
-        loginPage.loginAs(username, password, false);
+        loginPage.loginAsManufacturer(username, password);
 
         String expectedErrorMsg = "The username/password entered is invalid";
         loginPage = new LoginPage(driver);
@@ -174,7 +174,7 @@ public class AddDevicesToAuthorisedRep extends Common {
 
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
-        MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password,false);
+        MainNavigationBar mainNavigationBar = loginPage.loginAsManufacturer(username, password);
 
         externalHomePage = mainNavigationBar.clickHome();
         String delimitedLinks = "Start now";
@@ -188,7 +188,7 @@ public class AddDevicesToAuthorisedRep extends Common {
 
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
-        MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password,false);
+        MainNavigationBar mainNavigationBar = loginPage.loginAsManufacturer(username, password);
         String expectedHeading = JUnitUtils.getExpectedHeading(username);
 
         boolean isCorrectPage = mainNavigationBar.isCorrectPage(expectedHeading);

@@ -48,6 +48,9 @@ public class LoginPage extends _Page {
         return new LoginPage(driver);
     }
 
+    public MainNavigationBar loginAsManufacturer(String usernameTxt, String passwordTxt) {
+        return loginAsManufacturer(usernameTxt, passwordTxt, false);
+    }
 
     /**
      * This should only be used for Manufacturer and AuthorisedRep
@@ -55,7 +58,7 @@ public class LoginPage extends _Page {
      * @param passwordTxt
      * @param isBusinesss
      */
-    public MainNavigationBar loginAs(String usernameTxt, String passwordTxt, boolean isBusinesss) {
+    private MainNavigationBar loginAsManufacturer(String usernameTxt, String passwordTxt, boolean isBusinesss) {
         if(!isBusinesss){
             //This should check if we are in login page and we are logged in as a manufacturer and authorisedRep
             boolean inLoginPage = amIInLoginPageManufactuererOrAuthorisedRep();

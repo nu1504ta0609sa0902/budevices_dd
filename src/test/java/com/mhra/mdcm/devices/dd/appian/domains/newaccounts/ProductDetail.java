@@ -34,4 +34,13 @@ public class ProductDetail {
         }
     }
 
+    @Override
+    public String toString() {
+        return "ProductDetail{" +
+                "name='" + name + '\'' +
+                ", make='" + make + '\'' +
+                ", model='" + model + '\'' +
+                ", manCode='" + manCode + '\'' +
+                '}';
+    }
 }

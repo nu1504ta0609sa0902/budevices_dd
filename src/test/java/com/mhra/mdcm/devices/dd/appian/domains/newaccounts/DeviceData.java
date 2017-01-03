@@ -14,7 +14,7 @@ public class DeviceData {
 
     public static final String MANUFACTURER_RT_TEST = "ManufacturerRT01Test";
     public static final String AUTHORISED_REP_RT_TEST = "AuthorisedRepRT01Test";
-    public int lineNumber;
+    public int excelFileLineNumber;
 
     //Device data
     public String validatedData;
@@ -56,7 +56,7 @@ public class DeviceData {
 
     public DeviceData(int lineNumber, String[] dataUpdated) {
         this(dataUpdated);
-        this.lineNumber = lineNumber;
+        this.excelFileLineNumber = lineNumber;
     }
 
 
@@ -148,30 +148,30 @@ public class DeviceData {
     @Override
     public String toString() {
         return "DeviceData{" +
-                "lineNumber='" + lineNumber + '\'' +
-                ",validatedData='" + validatedData + '\'' +
-                ", deviceType='" + deviceType + '\'' +
-                ", riskClassification='" + riskClassification + '\'' +
-                ", device='" + device + '\'' +
-                ", description='" + description + '\'' +
-                ", sterile='" + sterile + '\'' +
-                ", customMade='" + customMade + '\'' +
-                ", measuring='" + measuring + '\'' +
-                ", evaluation='" + evaluation + '\'' +
-                ", isNew='" + isNew + '\'' +
-                ", CTS='" + CTS + '\'' +
-                ", CE='" + CE + '\'' +
-                ", intended='" + intended + '\'' +
-                ", notifiedBody='" + notifiedBody + '\'' +
-                ", productNames='" + productNames + '\'' +
-                ", productMakes='" + productMakes + '\'' +
-                ", productModels='" + productModels + '\'' +
-                ", manufacturerCodes='" + manufacturerCodes + '\'' +
-                ", ctsRef='" + ctsRef + '\'' +
-                ", deviceLabel='" + deviceLabel + '\'' +
-                ", deviceDetails='" + deviceDetails + '\'' +
-                ", instructionDetails='" + instructionDetails + '\'' +
-                ", listOfProducts=" + listOfProductDetails +
+                "\nexcelFileLineNumber='" + excelFileLineNumber + '\'' +
+                "\nvalidatedData='" + validatedData + '\'' +
+                "\ndeviceType='" + deviceType + '\'' +
+                "\nriskClassification='" + riskClassification + '\'' +
+                "\ndevice='" + device + '\'' +
+                "\ndescription='" + description + '\'' +
+                "\nsterile='" + sterile + '\'' +
+                "\ncustomMade='" + customMade + '\'' +
+                "\nmeasuring='" + measuring + '\'' +
+                "\nevaluation='" + evaluation + '\'' +
+                "\nisNew='" + isNew + '\'' +
+                "\nCTS='" + CTS + '\'' +
+                "\nCE='" + CE + '\'' +
+                "\nintended='" + intended + '\'' +
+                "\nnotifiedBody='" + notifiedBody + '\'' +
+                "\nproductNames='" + productNames + '\'' +
+                "\nproductMakes='" + productMakes + '\'' +
+                "\nproductModels='" + productModels + '\'' +
+                "\nmanufacturerCodes='" + manufacturerCodes + '\'' +
+                "\nctsRef='" + ctsRef + '\'' +
+                "\ndeviceLabel='" + deviceLabel + '\'' +
+                "\ndeviceDetails='" + deviceDetails + '\'' +
+                "\ninstructionDetails='" + instructionDetails + '\'' +
+                "\nlistOfProducts=" + listOfProductDetails +
                 '}';
     }
 }
