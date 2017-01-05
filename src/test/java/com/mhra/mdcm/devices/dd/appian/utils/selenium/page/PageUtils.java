@@ -160,7 +160,7 @@ public class PageUtils {
     }
 
 
-    public static void selectFromAutoSuggests(WebDriver driver, By elementPath, String text )   {
+    public static boolean selectFromAutoSuggests(WebDriver driver, By elementPath, String text )   {
         boolean completed = true;
         int count = 0;
         do {
@@ -184,6 +184,8 @@ public class PageUtils {
                 //PageFactory.initElements(driver, this);
             }
         } while (!completed && count < 1);
+
+        return completed;
     }
 
 

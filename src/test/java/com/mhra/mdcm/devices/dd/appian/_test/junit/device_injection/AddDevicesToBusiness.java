@@ -6,6 +6,7 @@ import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.AccountRequest;
 import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.DeviceData;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.LoginPage;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.MainNavigationBar;
+import com.mhra.mdcm.devices.dd.appian.pageobjects.external.sections.AddDevices;
 import com.mhra.mdcm.devices.dd.appian.utils.datadriven.ExcelDataSheet;
 import com.mhra.mdcm.devices.dd.appian.utils.datadriven.JUnitUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.driver.BrowserConfig;
@@ -62,7 +63,7 @@ public class AddDevicesToBusiness extends Common {
             driver = new BrowserConfig().getDriver();
             driver.manage().window().maximize();
             baseUrl = FileUtils.getTestUrl();
-            log.warn("\n\nRUNNING BUSINESS SMOKE TESTS");
+            log.warn("\n\nINSERT DEVICES AS BUSINESS USER");
         }
     }
 
@@ -81,15 +82,108 @@ public class AddDevicesToBusiness extends Common {
     @Test
     public void setUpInitialDeviceDataForBusiness() {
 
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage = loginPage.loadPage(baseUrl);
-        password = "IsIncorrectPassword";
-        loginPage.loginAs(username, password);
-
-        String expectedErrorMsg = "The username/password entered is invalid";
-        loginPage = new LoginPage(driver);
-        boolean isCorrect = loginPage.isErrorMessageCorrect(expectedErrorMsg);
-        Assert.assertThat("Error message should contain : " + expectedErrorMsg, isCorrect, Matchers.is(true));
+        //Login to app and add devices to the manufacturer
+//        LoginPage loginPage = new LoginPage(driver);
+//        loginPage = loginPage.loadPage(baseUrl);
+//        mainNavigationBar = loginPage.loginAs(username, password);
+//        externalHomePage = mainNavigationBar.clickHome();
+//
+//        //Click on a random manufacturer
+//        manufacturerList = externalHomePage.gotoListOfManufacturerPage();
+//        String name = manufacturerList.getARandomManufacturerName();
+//        String registered = manufacturerList.getRegistrationStatus(name);
+//        log.info("Manufacturer selected : " + name + ", is " + registered);
+//        manufacturerDetails = manufacturerList.viewAManufacturer(name);
+//
+//        //Add devices: This needs to change to add all the devices
+//        if(registered!=null && registered.toLowerCase().equals("registered"))
+//            addDevices = manufacturerDetails.clickAddDeviceBtn();
+//        else
+//            addDevices = new AddDevices(driver);
+//
+//        //Assumes we are in add device page
+//        //DeviceData dd = listOfDeviceData.get(0);
+//        //addDevices = addDevices.addFollowingDevice(dd);
+//
+//        List<DeviceData> listOfDevicesWhichHadProblems = new ArrayList<>();
+//
+//        int count = 0;
+//        int debugFromThisPosition = 0;
+//        //Lets try to add multiple devices, it will take a long time
+//        for(DeviceData dd: listOfDeviceData){
+//
+//            //Only for DEBUGGING
+//            dd = listOfDeviceData.get(debugFromThisPosition);
+//
+//            if(dd.validatedData.toLowerCase().equals("y")) {
+//                try {
+//                    //Only for DEBUGGING
+//                    System.out.println("\n----------------------------------------------------------");
+//                    System.out.println("Product number : " + (count+1) );
+//                    System.out.println("Line number : " + debugFromThisPosition );
+//                    System.out.println("Device Type : " + dd);
+//                    System.out.println("----------------------------------------------------------\n");
+//
+//                    addDevices = addDevices.addFollowingDevice(dd);
+//                    boolean isVisible = addDevices.isOptionToAddAnotherDeviceVisible();
+//                    if (!isVisible) {
+//                        System.out.println("\nERROR ::::: Problem adding device TRY AGAIN");
+//                        //Try again :
+//                        addDevices = addDevices.addFollowingDevice(dd);
+//                        isVisible = addDevices.isOptionToAddAnotherDeviceVisible();
+//                        if (isVisible) {
+//                            count++;
+//                        } else {
+//                            throw new Exception("ERROR ::::: Problem adding device after 2 attempts");
+//                        }
+//                    } else {
+//                        count++;
+//                    }
+//
+//                    if (count >= listOfDeviceData.size()-1 && debugFromThisPosition >= listOfDeviceData.size()-1) {
+//                        //All done
+//                        break;
+//                    }
+//
+//                    //Try adding another device
+//                    if (isVisible)
+//                        addDevices = addDevices.addAnotherDevice();
+//
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                    System.out.println("\nERROR ::::: Problem adding device");
+//                    listOfDevicesWhichHadProblems.add(dd);
+//                    count++;
+////                    //Try next one
+////                    externalHomePage = mainNavigationBar.clickHome();
+////                    manufacturerList = externalHomePage.gotoListOfManufacturerPage();
+////                    manufacturerDetails = manufacturerList.viewAManufacturer(name);
+////
+////                    //Add devices: This needs to change to add all the devices
+////                    if (registered != null && registered.toLowerCase().equals("registered"))
+////                        addDevices = manufacturerDetails.clickAddDeviceBtn();
+////                    else
+////                        addDevices = new AddDevices(driver);
+//                }
+//            }else{
+//                System.out.println("\n----------------------------------------------------------");
+//                System.out.println("Line number : " + debugFromThisPosition );
+//                System.out.println("Device Data Not Validated : \n" + dd.excelFileLineNumber);
+//                System.out.println("----------------------------------------------------------\n");
+//            }
+//
+//            //Only for DEBUGGING
+//            debugFromThisPosition++;
+//        }
+//
+//        //Verify option to add another device is there
+//        boolean isVisible = addDevices.isOptionToAddAnotherDeviceVisible();
+//        Assert.assertThat("Expected to see option to : Add another device" , isVisible, Matchers.is(true));
+//
+//        //Confirm
+//        addDevices = addDevices.proceedToPayment();
+//        addDevices = addDevices.submitRegistration();
+//        externalHomePage = addDevices.finish();
     }
 
     @Override

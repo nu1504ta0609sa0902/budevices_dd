@@ -55,7 +55,7 @@ public class AddDevicesToManufacturers extends Common {
             driver = new BrowserConfig().getDriver();
             driver.manage().window().maximize();
             baseUrl = FileUtils.getTestUrl();
-            log.warn("\n\nRUNNING MANUFACTURER SMOKE TESTS");
+            log.warn("\n\nINSERT DEVICES AS MANUFACTURER USER");
         }
     }
 
@@ -101,7 +101,7 @@ public class AddDevicesToManufacturers extends Common {
         List<DeviceData> listOfDevicesWhichHadProblems = new ArrayList<>();
 
         int count = 0;
-        int debugFromThisPosition = 26;
+        int debugFromThisPosition = 21;
         //Lets try to add multiple devices, it will take a long time
         for(DeviceData dd: listOfDeviceData){
 
@@ -169,6 +169,8 @@ public class AddDevicesToManufacturers extends Common {
             debugFromThisPosition++;
         }
 
+        printFailingData(listOfDevicesWhichHadProblems);
+
         //Verify option to add another device is there
         boolean isVisible = addDevices.isOptionToAddAnotherDeviceVisible();
         Assert.assertThat("Expected to see option to : Add another device" , isVisible, Matchers.is(true));
@@ -177,6 +179,18 @@ public class AddDevicesToManufacturers extends Common {
         addDevices = addDevices.proceedToPayment();
         addDevices = addDevices.submitRegistration();
         externalHomePage = addDevices.finish();
+    }
+
+    private void printFailingData(List<DeviceData> listOfDevicesWhichHadProblems) {
+        System.out.println("FINISHED NOW ");
+        System.out.println("Number of invalid data : " + listOfDevicesWhichHadProblems.size());
+        for(DeviceData data: listOfDevicesWhichHadProblems){
+            System.out.println("\n\nExcel File Line Number : " + data.excelFileLineNumber);
+            System.out.println("Validated Data : " + data.validatedData);
+            System.out.println("Device Type : " + data.deviceType);
+            System.out.println("Device Term/Definition : " + data.device);
+            System.out.println("Risk Classification : " + data.riskClassification);
+        }
     }
 
     @Override

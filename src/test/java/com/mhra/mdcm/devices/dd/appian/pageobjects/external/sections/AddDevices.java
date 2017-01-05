@@ -330,9 +330,10 @@ public class AddDevices extends _Page {
 
     private void addProcedurePackDevice(DeviceData dd) {
         searchByGMDN(dd);
-        customMade(dd);
+//        customMade(dd); removed since 04/01/2017
+//        deviceMeasuring(dd); removed since 04/01/2017
+
         deviceSterile(dd);
-        deviceMeasuring(dd);
 
         if (dd.sterile.toLowerCase().equals("y") || dd.measuring.toLowerCase().equals("y")) {
             //if (dd.customMade.toLowerCase().equals("n"))
@@ -606,7 +607,11 @@ public class AddDevices extends _Page {
             PageUtils.doubleClick(driver, radioGMDNDefinitionOrTerm);
             WaitUtils.waitForElementToBeClickable(driver, tbxGMDNDefinitionOrTerm, TIMEOUT_MEDIUM, false);
             tbxGMDNDefinitionOrTerm.clear();
-            PageUtils.selectFromAutoSuggests(driver, By.cssSelector("input.gwt-SuggestBox"), dd.device);
+            boolean completed = PageUtils.selectFromAutoSuggests(driver, By.cssSelector("input.gwt-SuggestBox"), dd.device);
+            if(!completed){
+                log.error("No items found for GMDN term : " + dd.device);
+            }
+
         } else {
 //            WaitUtils.waitForElementToBeClickable(driver, radioByGMDNCode, TIMEOUT_MEDIUM, false);
 //            radioByGMDNCode.click();
