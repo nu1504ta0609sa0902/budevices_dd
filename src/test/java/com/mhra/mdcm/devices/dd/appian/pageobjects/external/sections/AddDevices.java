@@ -602,6 +602,7 @@ public class AddDevices extends _Page {
             //Default is search by gmdn term or definition
             WaitUtils.waitForElementToBeClickable(driver, radioGMDNDefinitionOrTerm, TIMEOUT_MEDIUM, false);
             radioGMDNDefinitionOrTerm.click();
+            WaitUtils.nativeWaitInSeconds(1);
             PageUtils.doubleClick(driver, radioByGMDNCode);
             WaitUtils.nativeWaitInSeconds(1);
             PageUtils.doubleClick(driver, radioGMDNDefinitionOrTerm);

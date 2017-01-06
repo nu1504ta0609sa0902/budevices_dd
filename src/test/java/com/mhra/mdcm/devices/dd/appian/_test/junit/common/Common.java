@@ -1,5 +1,6 @@
 package com.mhra.mdcm.devices.dd.appian._test.junit.common;
 
+import com.mhra.mdcm.devices.dd.appian.pageobjects.LoginPage;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.MainNavigationBar;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.business.*;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.business.sections.*;
@@ -92,6 +93,7 @@ public class Common {
     };
 
     //Pages
+    public LoginPage loginPage;
     public NewsPage newsPage;
     public TasksPage tasksPage;
     public RecordsPage recordsPage;

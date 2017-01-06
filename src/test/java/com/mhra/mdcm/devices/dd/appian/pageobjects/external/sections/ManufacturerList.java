@@ -160,4 +160,24 @@ public class ManufacturerList extends _Page {
         }
         return country;
     }
+
+
+    public String getARandomManufacturerNameWithStatus(String status) {
+        String name = null;
+        boolean found = false;
+        int attempts = 0;
+        do {
+            WaitUtils.waitForElementToBeClickable(driver, By.cssSelector(".left>div>a"), TIMEOUT_VERY_HIGH, false);
+            WaitUtils.waitForElementToBeVisible(driver, By.cssSelector(".left>div>a"), TIMEOUT_MEDIUM, false);
+            WebElement link = listOfManufacturerNames.get(attempts);
+            name = link.getText();
+            String registered = getRegistrationStatus(name);
+            if(registered.toLowerCase().equals(status.toLowerCase())){
+                found = true;
+            }
+            attempts++;
+        }while(attempts < listOfManufacturerNames.size() && !found);
+
+        return name;
+    }
 }

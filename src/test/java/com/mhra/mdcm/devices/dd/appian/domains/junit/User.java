@@ -5,16 +5,22 @@ package com.mhra.mdcm.devices.dd.appian.domains.junit;
  */
 public class User {
 
+    private String initials;
     private String userName;
     private String password;
+
+    public User() {
+    }
 
     public User(String userName, String password) {
         this.userName = userName;
         this.password = password;
     }
 
-    public User() {
-
+    public User(String userName, String password, String initials) {
+        this.userName = userName;
+        this.password = password;
+        this.initials = initials;
     }
 
     public String getUserName() {
@@ -24,6 +30,12 @@ public class User {
     public String getPassword() {
         return password;
     }
+
+    public String getInitials() {
+        return initials;
+    }
+
+
 
     @Override
     public String toString() {

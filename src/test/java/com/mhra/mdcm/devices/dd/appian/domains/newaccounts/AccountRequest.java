@@ -150,4 +150,9 @@ public class AccountRequest {
             website = website.replace("organisationtest", nameBeginsWith);
         }
     }
+
+    public void updateNameEnding(String nameEndsWith) {
+        organisationName = organisationName + nameEndsWith;
+        website = website.replace(".com", nameEndsWith + ".com");
+    }
 }
