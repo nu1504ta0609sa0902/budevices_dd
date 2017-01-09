@@ -65,7 +65,7 @@ public class TasksPage extends _Page {
     }
 
     public TaskSection clickOnLinkWithText(String orgName) {
-        WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText(orgName), TIMEOUT_MEDIUM, false);
+        WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText(orgName), TIMEOUT_SMALL, false);
         WebElement taskLink = driver.findElement(By.partialLinkText(orgName));
         taskLink.click();
         return new TaskSection(driver);

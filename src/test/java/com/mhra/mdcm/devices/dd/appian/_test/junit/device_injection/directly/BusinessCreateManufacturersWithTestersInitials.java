@@ -9,6 +9,8 @@ import com.mhra.mdcm.devices.dd.appian.utils.datadriven.ExcelDataSheet;
 import com.mhra.mdcm.devices.dd.appian.utils.datadriven.JUnitUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.driver.BrowserConfig;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.FileUtils;
+import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.TestHarnessUtils;
+import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.WaitUtils;
 import org.hamcrest.Matchers;
 import org.junit.*;
 import org.junit.runner.RunWith;
@@ -17,7 +19,9 @@ import org.openqa.selenium.WebDriver;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -30,8 +34,9 @@ import static org.hamcrest.Matchers.is;
 public class BusinessCreateManufacturersWithTestersInitials extends Common {
 
     public String[] initialsArray = new String[]{
-            "NU", "HB", "YC", "PG", "AN"
+            "LP", //"NU", "HB", "YC", "PG", "AN", "LP"
     };
+
 
     public static final String AUTHORISED_REP_SMOKE_TEST = "AuthorisedRepST";
     public static final String MANUFACTURER_SMOKE_TEST = "ManufacturerST";
@@ -45,7 +50,7 @@ public class BusinessCreateManufacturersWithTestersInitials extends Common {
     @Parameterized.Parameters(name = "{0}")
     public static Collection<User> spreadsheetData() throws IOException {
         ExcelDataSheet excelUtils = new ExcelDataSheet();//
-        List<User> listOfUsers = excelUtils.getListOfUsers("configs/data/excel/users.xlsx", "InjectSpecificUser");
+        List<User> listOfUsers = excelUtils.getListOfUsers("configs/data/excel/users.xlsx", "Sheet1");
         listOfUsers = excelUtils.filterUsersBy(listOfUsers, "business");
         log.info("Business Users : " + listOfUsers);
         return listOfUsers;
@@ -89,7 +94,7 @@ public class BusinessCreateManufacturersWithTestersInitials extends Common {
      */
     public void asABusinessUsersShouldBeAbleToCreateMultipleManufacturerAccounts() {
 
-        //for (String initials : initialsArray) {
+        for (String initials : initialsArray) {
 
             AccountRequest ar = new AccountRequest();
             try {
@@ -107,6 +112,9 @@ public class BusinessCreateManufacturersWithTestersInitials extends Common {
                 ar.updateName(MANUFACTURER_SMOKE_TEST);
                 ar.updateNameEnding("_" + initials);
                 ar.setUserDetails(username);
+
+                ar.firstName = TestHarnessUtils.getName(initials, true);
+                ar.lastName = TestHarnessUtils.getName(initials, false);
 
                 actionsPage = createTestsData.createTestOrganisation(ar);
                 boolean isInCorrectPage = actionsPage.isInActionsPage();
@@ -150,14 +158,17 @@ public class BusinessCreateManufacturersWithTestersInitials extends Common {
                 e.printStackTrace();
             }
 
+            WaitUtils.nativeWaitInSeconds(2);
             System.out.println(ar.organisationName);
             log.info(ar.organisationName);
             loginPage.logoutIfLoggedIn();
-        //}
+        }
     }
 
 
+
     @Test
+    @Ignore
     public void asABusinessUsersShouldBeAbleToCreateMultipleAuthorisedRepAccountRequest() {
 
         for (String initials : initialsArray) {
@@ -176,6 +187,9 @@ public class BusinessCreateManufacturersWithTestersInitials extends Common {
             ar.updateName(AUTHORISED_REP_SMOKE_TEST);
             ar.updateNameEnding("_" + initials);
             ar.setUserDetails(username);
+
+            ar.firstName = TestHarnessUtils.getName(initials, true);
+            ar.lastName = TestHarnessUtils.getName(initials, false);
 
             actionsPage = createTestsData.createTestOrganisation(ar);
             boolean isInCorrectPage = actionsPage.isInActionsPage();

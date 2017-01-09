@@ -45,7 +45,7 @@ public class TaskSection extends _Page {
     }
 
     public boolean isCorrectTask(String orgName) {
-        WaitUtils.nativeWaitInSeconds(2);
+        WaitUtils.nativeWaitInSeconds(4);
         WaitUtils.waitForElementToBeVisible(driver, By.xpath(".//h4"), TIMEOUT_MEDIUM, false);
         boolean contains = taskHeading.getText().contains(orgName);
         return contains;
@@ -71,8 +71,13 @@ public class TaskSection extends _Page {
             //approve.click();
             PageUtils.doubleClick(driver, approve);
         }catch (Exception e){
-            WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//button[.='Approve']"), TIMEOUT_SMALL, false);
-            PageUtils.doubleClick(driver, driver.findElement(By.xpath(".//button[.='Approve']")));
+            try {
+                WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//button[.='Approve']"), TIMEOUT_SMALL, false);
+                PageUtils.doubleClick(driver, driver.findElement(By.xpath(".//button[.='Approve']")));
+            }catch(Exception e2){
+                WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//*[contains(text(),'Device Selection')]//following::button[.='Approve']"), TIMEOUT_SMALL, false);
+                PageUtils.doubleClick(driver, driver.findElement(By.xpath(".//*[contains(text(),'Device Selection')]//following::button[.='Approve']")));
+            }
         }
         return new TasksPage(driver);
     }
