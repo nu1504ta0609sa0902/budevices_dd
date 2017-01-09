@@ -17,6 +17,10 @@ public class ManufacturerList extends _Page {
 
     @FindBy(css = "button.GFWJSJ4DCF")
     WebElement linkRegisterNewManufacturer;
+    @FindBy(css = ".SafeImage.GFWJSJ4DOFB")
+    WebElement linkManufacturerRegistration;
+    @FindBy(xpath = ".//button[.='Register My Organisation']")
+    WebElement linkRegisterMyNewOrganisation;
 
     @FindBy(css = "td>div>a")
     List<WebElement> listOfManufacturerNames;
@@ -47,7 +51,7 @@ public class ManufacturerList extends _Page {
             WebElement link = listOfManufacturerNames.get(index);
             link.click();
         }else{
-            WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText(manufacturerName), TIMEOUT_MEDIUM, false);
+            WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText(manufacturerName), TIMEOUT_HIGH, false);
             WebElement man = driver.findElement(By.partialLinkText(manufacturerName));
             man.click();
         }
@@ -179,5 +183,25 @@ public class ManufacturerList extends _Page {
         }while(attempts < listOfManufacturerNames.size() && !found);
 
         return name;
+    }
+
+
+    public CreateManufacturerTestsData registerNewManufacturer() {
+        WaitUtils.waitForElementToBeClickable(driver, linkRegisterNewManufacturer, TIMEOUT_DEFAULT, false);
+        linkRegisterNewManufacturer.click();
+        return new CreateManufacturerTestsData(driver);
+    }
+
+    public CreateManufacturerTestsData registerMyOrganisation() {
+        WaitUtils.waitForElementToBeClickable(driver, linkRegisterMyNewOrganisation, TIMEOUT_DEFAULT, false);
+        linkRegisterMyNewOrganisation.click();
+        return new CreateManufacturerTestsData(driver);
+    }
+
+
+    public ManufacturerList gotoListOfManufacturerPage() {
+        WaitUtils.waitForElementToBeClickable(driver, linkManufacturerRegistration, TIMEOUT_DEFAULT, false);
+        linkManufacturerRegistration.click();
+        return new ManufacturerList(driver);
     }
 }

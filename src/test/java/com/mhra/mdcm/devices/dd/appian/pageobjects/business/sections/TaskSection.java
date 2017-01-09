@@ -65,10 +65,15 @@ public class TaskSection extends _Page {
     }
 
     public TasksPage approveTask() {
-        WaitUtils.nativeWaitInSeconds(2);
-        WaitUtils.waitForElementToBeClickable(driver, approve, TIMEOUT_SMALL, false);
-        //approve.click();
-        PageUtils.doubleClick(driver, approve);
+        try {
+            WaitUtils.nativeWaitInSeconds(2);
+            WaitUtils.waitForElementToBeClickable(driver, approve, TIMEOUT_SMALL, false);
+            //approve.click();
+            PageUtils.doubleClick(driver, approve);
+        }catch (Exception e){
+            WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//button[.='Approve']"), TIMEOUT_SMALL, false);
+            PageUtils.doubleClick(driver, driver.findElement(By.xpath(".//button[.='Approve']")));
+        }
         return new TasksPage(driver);
     }
 

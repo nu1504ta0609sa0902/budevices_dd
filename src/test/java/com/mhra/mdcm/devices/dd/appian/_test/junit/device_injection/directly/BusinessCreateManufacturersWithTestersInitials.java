@@ -1,0 +1,231 @@
+package com.mhra.mdcm.devices.dd.appian._test.junit.device_injection.directly;
+
+import com.mhra.mdcm.devices.dd.appian._test.junit.common.Common;
+import com.mhra.mdcm.devices.dd.appian.domains.junit.User;
+import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.AccountRequest;
+import com.mhra.mdcm.devices.dd.appian.pageobjects.LoginPage;
+import com.mhra.mdcm.devices.dd.appian.pageobjects.MainNavigationBar;
+import com.mhra.mdcm.devices.dd.appian.utils.datadriven.ExcelDataSheet;
+import com.mhra.mdcm.devices.dd.appian.utils.datadriven.JUnitUtils;
+import com.mhra.mdcm.devices.dd.appian.utils.driver.BrowserConfig;
+import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.FileUtils;
+import org.hamcrest.Matchers;
+import org.junit.*;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.openqa.selenium.WebDriver;
+
+import java.io.IOException;
+import java.util.Collection;
+import java.util.List;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+
+/**
+ * Created by TPD_Auto on 01/11/2016.
+ */
+@RunWith(Parameterized.class)
+public class BusinessCreateManufacturersWithTestersInitials extends Common {
+
+    public String[] initialsArray = new String[]{
+            "NU", "HB", "YC", "PG", "AN"
+    };
+
+    public static final String AUTHORISED_REP_SMOKE_TEST = "AuthorisedRepST";
+    public static final String MANUFACTURER_SMOKE_TEST = "ManufacturerST";
+
+    public static WebDriver driver;
+    public static String baseUrl;
+    private String username;
+    private String password;
+    private String initials;
+
+    @Parameterized.Parameters(name = "{0}")
+    public static Collection<User> spreadsheetData() throws IOException {
+        ExcelDataSheet excelUtils = new ExcelDataSheet();//
+        List<User> listOfUsers = excelUtils.getListOfUsers("configs/data/excel/users.xlsx", "InjectSpecificUser");
+        listOfUsers = excelUtils.filterUsersBy(listOfUsers, "business");
+        log.info("Business Users : " + listOfUsers);
+        return listOfUsers;
+    }
+
+
+    public BusinessCreateManufacturersWithTestersInitials(User user) {
+        this.username = user.getUserName();
+        this.password = user.getPassword();
+        this.initials = user.getInitials();
+    }
+
+    @BeforeClass
+    public static void setUpDriver() {
+        if (driver == null) {
+            driver = new BrowserConfig().getDriver();
+            baseUrl = FileUtils.getTestUrl();
+            log.warn("\n\nRUNNING SCRIPT TO CREATE INITIAL DATA FOR ENTERING DEVICES TEST DATA");
+        }
+    }
+
+    @AfterClass
+    public static void clearBrowsers() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
+
+    @Before
+    public void setupTest() {
+        //driver.manage().deleteAllCookies();
+        driver.manage().window().maximize();
+    }
+
+    @Test
+    /**
+     * IF YOU CREATE USING BUSINESS TEST HARNESS, YOU WILL LOOSE DATA FOR
+     *  - MANUFACTURERS AND AUTHORISEDREPS
+     *
+     *  SO IF YOU LOGIN AS Noor.Uddin.Business
+     */
+    public void asABusinessUsersShouldBeAbleToCreateMultipleManufacturerAccounts() {
+
+        //for (String initials : initialsArray) {
+
+            AccountRequest ar = new AccountRequest();
+            try {
+
+                loginPage = new LoginPage(driver);
+                loginPage = loginPage.loadPage(baseUrl);
+                MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
+
+                //go to accounts page > test harness page
+                actionsPage = mainNavigationBar.clickActions();
+                createTestsData = actionsPage.gotoTestsHarnessPage();
+
+                //Now create the test data using harness page
+                ar.isManufacturer = true;
+                ar.updateName(MANUFACTURER_SMOKE_TEST);
+                ar.updateNameEnding("_" + initials);
+                ar.setUserDetails(username);
+
+                actionsPage = createTestsData.createTestOrganisation(ar);
+                boolean isInCorrectPage = actionsPage.isInActionsPage();
+                if (!isInCorrectPage) {
+                    actionsPage = createTestsData.createTestOrganisation(ar);
+                }
+
+                boolean createdSuccessfully = actionsPage.isInActionsPage();
+                if (createdSuccessfully) {
+                    System.out.println("Created a new account : " + ar.organisationName);
+                }
+
+                String orgName = ar.organisationName;
+
+                //Verify new taskSection generated and its the correct one
+                boolean contains = false;
+                boolean isCorrectTask = false;
+                int count = 0;
+                do {
+                    mainNavigationBar = new MainNavigationBar(driver);
+                    tasksPage = mainNavigationBar.clickTasks();
+
+                    //Click on link number X
+                    taskSection = tasksPage.clickOnTaskNumber(count);
+                    isCorrectTask = taskSection.isCorrectTask(orgName);
+                    if (isCorrectTask) {
+                        contains = true;
+                    } else {
+                        count++;
+                    }
+                } while (!contains && count <= 5);
+
+                //Accept the task
+                if (contains) {
+                    taskSection = taskSection.acceptTask();
+                    tasksPage = taskSection.approveTask();
+                }
+
+                assertThat("Task not found for organisation : " + orgName, contains, is(equalTo(true)));
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+            System.out.println(ar.organisationName);
+            log.info(ar.organisationName);
+            loginPage.logoutIfLoggedIn();
+        //}
+    }
+
+
+    @Test
+    public void asABusinessUsersShouldBeAbleToCreateMultipleAuthorisedRepAccountRequest() {
+
+        for (String initials : initialsArray) {
+
+            LoginPage loginPage = new LoginPage(driver);
+            loginPage = loginPage.loadPage(baseUrl);
+            MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
+
+            //go to accounts page > test harness page
+            actionsPage = mainNavigationBar.clickActions();
+            createTestsData = actionsPage.gotoTestsHarnessPage();
+
+            //Now create the test data using harness page
+            AccountRequest ar = new AccountRequest();
+            ar.isManufacturer = false;
+            ar.updateName(AUTHORISED_REP_SMOKE_TEST);
+            ar.updateNameEnding("_" + initials);
+            ar.setUserDetails(username);
+
+            actionsPage = createTestsData.createTestOrganisation(ar);
+            boolean isInCorrectPage = actionsPage.isInActionsPage();
+            if (!isInCorrectPage) {
+                actionsPage = createTestsData.createTestOrganisation(ar);
+            }
+
+            boolean createdSuccessfully = actionsPage.isInActionsPage();
+            if (createdSuccessfully) {
+                System.out.println("Created a new account : " + ar.organisationName);
+            }
+
+            String orgName = ar.organisationName;
+
+            //Verify new taskSection generated and its the correct one
+            boolean contains = false;
+            boolean isCorrectTask = false;
+            int count = 0;
+            do {
+                mainNavigationBar = new MainNavigationBar(driver);
+                tasksPage = mainNavigationBar.clickTasks();
+
+                //Click on link number X
+                taskSection = tasksPage.clickOnTaskNumber(count);
+                isCorrectTask = taskSection.isCorrectTask(orgName);
+                if (isCorrectTask) {
+                    contains = true;
+                } else {
+                    count++;
+                }
+            } while (!contains && count <= 5);
+
+            //Accept the task
+            if (contains) {
+                taskSection = taskSection.acceptTask();
+                tasksPage = taskSection.approveTask();
+            }
+
+            assertThat("Task not found for organisation : " + orgName, contains, is(equalTo(true)));
+
+
+            System.out.println(ar.organisationName);
+            log.info(ar.organisationName);
+            loginPage.logoutIfLoggedIn();
+
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "SmokeTestsBusiness";
+    }
+}

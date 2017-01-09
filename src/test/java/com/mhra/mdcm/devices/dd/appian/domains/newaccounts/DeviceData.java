@@ -59,6 +59,10 @@ public class DeviceData {
         this.excelFileLineNumber = lineNumber;
     }
 
+    public DeviceData(){
+
+    }
+
 
     private void populateCorrectField(String fieldName, String fieldValue) {
         String field = fieldName.toLowerCase().trim();

@@ -6,6 +6,7 @@ import com.mhra.mdcm.devices.dd.appian.pageobjects.business.*;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.business.sections.*;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.external.ExternalHomePage;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.external.sections.AddDevices;
+import com.mhra.mdcm.devices.dd.appian.pageobjects.external.sections.CreateManufacturerTestsData;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.external.sections.ManufacturerDetails;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.external.sections.ManufacturerList;
 import com.mhra.mdcm.devices.dd.appian.utils.datadriven.ExcelDataSheet;
@@ -114,4 +115,5 @@ public class Common {
     public ManufacturerDetails manufacturerDetails;
     public AddDevices addDevices;
     public MainNavigationBar mainNavigationBar;
+    public CreateManufacturerTestsData createNewManufacturer;
 }

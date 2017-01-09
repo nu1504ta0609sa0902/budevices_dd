@@ -36,6 +36,7 @@ public class SmokeTestsBusiness extends Common {
     public static String baseUrl;
     private String username;
     private String password;
+    private String initials;
 
     @Parameterized.Parameters(name = "{0}")
     public static Collection<User> spreadsheetData() throws IOException {
@@ -50,6 +51,7 @@ public class SmokeTestsBusiness extends Common {
     public SmokeTestsBusiness(User user) {
         this.username = user.getUserName();
         this.password = user.getPassword();
+        this.initials = user.getInitials();
     }
 
     @BeforeClass
@@ -300,6 +302,7 @@ public class SmokeTestsBusiness extends Common {
         AccountRequest ar = new AccountRequest();
         ar.isManufacturer = true;
         ar.updateName(MANUFACTURER_SMOKE_TEST);
+        ar.updateNameEnding("_" + initials);
         ar.setUserDetails(username);
 
         actionsPage = createTestsData.createTestOrganisation(ar);
@@ -359,6 +362,7 @@ public class SmokeTestsBusiness extends Common {
         AccountRequest ar = new AccountRequest();
         ar.isManufacturer = false;
         ar.updateName(AUTHORISED_REP_SMOKE_TEST);
+        ar.updateNameEnding("_" + initials);
         ar.setUserDetails(username);
 
         actionsPage = createTestsData.createTestOrganisation(ar);

@@ -118,4 +118,17 @@ public class MainNavigationBar extends _Page {
         }
         return new ExternalHomePage(driver);
     }
+
+    public ExternalHomePage clickExternalHOME() {
+        try {
+            WaitUtils.waitForElementToBeClickable(driver, linkHOME, TIMEOUT_DEFAULT, false);
+            PageUtils.doubleClick(driver, linkHOME);
+        }catch (Exception e){
+            By xp = By.partialLinkText("home");
+            WaitUtils.waitForElementToBeClickable(driver, xp, TIMEOUT_DEFAULT, false);
+            PageUtils.doubleClick(driver, driver.findElement(xp));
+        }
+        //PageUtils.acceptAlert(driver, "accept", 1);
+        return new ExternalHomePage(driver);
+    }
 }
