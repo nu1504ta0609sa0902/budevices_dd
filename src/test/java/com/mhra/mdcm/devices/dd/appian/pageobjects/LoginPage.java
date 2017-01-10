@@ -59,7 +59,11 @@ public class LoginPage extends _Page {
      * @param isBusinesss
      */
     private MainNavigationBar loginAsManufacturer(String usernameTxt, String passwordTxt, boolean isBusinesss) {
-        if(!isBusinesss){
+
+        boolean loggedOut = isAlreadyLoggedOut();
+        if(loggedOut){
+            login(usernameTxt, passwordTxt);
+        }else{
             //This should check if we are in login page and we are logged in as a manufacturer and authorisedRep
             boolean inLoginPage = amIInLoginPageManufactuererOrAuthorisedRep();
             boolean isAlreadyLoggedInAaUser = isAlreadyLoggedInAsSpecifiedUserInManufactuererOrAuthorisedRep(usernameTxt);
@@ -70,40 +74,42 @@ public class LoginPage extends _Page {
 
             //I was logged in as someone else now login correctly
             if (!isAlreadyLoggedInAaUser) {
-                //logoutIfLoggedIn();
-                dontRemember();
-
-                //login
-                username.sendKeys(usernameTxt);
-                password.sendKeys(passwordTxt);
-                username.submit();
+                login(usernameTxt, passwordTxt);
             }
-
-            return new MainNavigationBar(driver);
-        }
-        return null;
-    }
-
-    public MainNavigationBar loginAs(String usernameTxt, String passwordTxt) {
-        boolean inLoginPage = amIInLoginPage();
-        boolean isAlreadyLoggedInAaUser = isAlreadyLoggedInAsSpecifiedUser(usernameTxt);
-
-        //Logout if not in login page and is not already logged in as someone else
-        if (!inLoginPage && !isAlreadyLoggedInAaUser)
-            logoutIfLoggedIn();
-
-        //I was logged in as someone else now login correctly
-        if (!isAlreadyLoggedInAaUser) {
-            //logoutIfLoggedIn();
-            dontRemember();
-
-            //login
-            username.sendKeys(usernameTxt);
-            password.sendKeys(passwordTxt);
-            username.submit();
         }
 
         return new MainNavigationBar(driver);
+    }
+
+    public MainNavigationBar loginAs(String usernameTxt, String passwordTxt) {
+        boolean loggedOut = isAlreadyLoggedOut();
+        if(loggedOut){
+            login(usernameTxt, passwordTxt);
+        }else {
+            boolean inLoginPage = amIInLoginPage();
+            boolean isAlreadyLoggedInAaUser = isAlreadyLoggedInAsSpecifiedUser(usernameTxt);
+
+            //Logout if not in login page and is not already logged in as someone else
+            if (!inLoginPage && !isAlreadyLoggedInAaUser)
+                logoutIfLoggedIn();
+
+            //I was logged in as someone else now login correctly
+            if (!isAlreadyLoggedInAaUser) {
+                //logoutIfLoggedIn();
+                login(usernameTxt, passwordTxt);
+            }
+        }
+
+        return new MainNavigationBar(driver);
+    }
+
+    private void login(String usernameTxt, String passwordTxt) {
+        dontRemember();
+
+        //login
+        username.sendKeys(usernameTxt);
+        password.sendKeys(passwordTxt);
+        username.submit();
     }
 
     public void dontRemember() {
@@ -140,21 +146,34 @@ public class LoginPage extends _Page {
      * @return
      */
     public LoginPage logoutIfLoggedInOthers() {
-        try {
-            WaitUtils.waitForElementToBeClickable(driver, photoIcon, 10, false);
-            if (photoIcon.isDisplayed()) {
-                //settings.click();
-                PageUtils.doubleClick(driver, photoIcon);
-                signOutLink.click();
-                WaitUtils.waitForElementToBeClickable(driver, remember, 10, false);
+        boolean loggedOut = isAlreadyLoggedOut();
+        if(!loggedOut) {
+            try {
+                WaitUtils.waitForElementToBeClickable(driver, photoIcon, 10, false);
+                if (photoIcon.isDisplayed()) {
+                    //settings.click();
+                    PageUtils.doubleClick(driver, photoIcon);
+                    signOutLink.click();
+                    WaitUtils.waitForElementToBeClickable(driver, remember, 10, false);
 
-                //If logout and login is too fast, appian system shows 404 in some instance of automation
-                WaitUtils.nativeWait(2);
+                    //If logout and login is too fast, appian system shows 404 in some instance of automation
+                    WaitUtils.nativeWait(2);
+                }
+            } catch (Exception e) {
+                //Probably not logged in
             }
-        } catch (Exception e) {
-            //Probably not logged in
         }
         return new LoginPage(driver);
+    }
+
+    private boolean isAlreadyLoggedOut() {
+        boolean loggedOut = true;
+        try{
+            WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText("Reset Your Password"), 5, false);
+        }catch (Exception e){
+            loggedOut = false;
+        }
+        return loggedOut;
     }
 
     public boolean isErrorMessageCorrect(String expectedErrorMsg) {

@@ -44,6 +44,18 @@ public class ExternalHomePage extends _Page {
         return clickable;
     }
 
+    public boolean isGotoListOfManufacturerPageLinkClickable() {
+        boolean isClickable = true;
+        try {
+            isClickable = linkManufacturerRegistration.isEnabled();
+            WaitUtils.waitForElementToBeVisible(driver, linkManufacturerRegistration, TIMEOUT_SMALL, false);
+            WaitUtils.waitForElementToBeClickable(driver, linkManufacturerRegistration, TIMEOUT_SMALL, false);
+        }catch (Exception e){
+            isClickable = false;
+        }
+        return isClickable;
+    }
+
     public ManufacturerList gotoListOfManufacturerPage() {
         WaitUtils.waitForElementToBeClickable(driver, linkManufacturerRegistration, TIMEOUT_VERY_HIGH, false);
         linkManufacturerRegistration.click();

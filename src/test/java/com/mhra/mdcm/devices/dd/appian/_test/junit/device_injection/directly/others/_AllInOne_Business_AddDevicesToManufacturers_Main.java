@@ -33,7 +33,7 @@ public class _AllInOne_Business_AddDevicesToManufacturers_Main extends Common {
 
     private static User businessUser;
     public String[] initialsArray = new String[]{
-            "LP", //"NU", "HB", "YC", "PG", "AN", "LP"
+            "NU", "LP", //"NU", "HB", "YC", "PG", "AN", "LP"
     };
     public static final String AUTHORISED_REP_SMOKE_TEST = "AuthorisedRepST";
     public static final String MANUFACTURER_SMOKE_TEST = "ManufacturerST";
@@ -53,35 +53,54 @@ public class _AllInOne_Business_AddDevicesToManufacturers_Main extends Common {
     private User manufacturerUser;
 
 
+
+    public _AllInOne_Business_AddDevicesToManufacturers_Main(User user) {
+        this.username = user.getUserName();
+        this.password = user.getPassword();
+    }
+
     public static void main(String[] args) {
         List<User> listOfUsers = getListOfUsersFromExcel();
         List<User> listOfBusinessUsersFromExcel = getListOfBusinessUsersFromExcel();
         System.setProperty("current.browser", "gc");
         setUpDriver();
 
-        //Always use one of the Business Accounts
+        //Always use one of the Business Accounts to create the test manufacturers
         businessUser = setCorrectLoginDetails("_NU", listOfBusinessUsersFromExcel);
         _AllInOne_Business_AddDevicesToManufacturers_Main tgs = new _AllInOne_Business_AddDevicesToManufacturers_Main(businessUser);
         tgs.createManufacturersWithBusinessTestHarness();
 
         //All data cleared:Provide indication of devices made
-        List<String> listOfManufacturerNames = getListOfManufacturerNames();
-
         //Create by logging into individual Account for the INITIALS
-        tgs.createByLoggingIntoAccountWithInitials(listOfManufacturerNames, listOfUsers);
+        tgs.createByLoggingIntoAccountWithInitials(listOfUsers);
 
     }
 
-    private void createByLoggingIntoAccountWithInitials(List<String> listOfManufacturerNames, List<User> listOfUsers) {
+    /**
+     * Add devices to each of the manufacturers successfully created
+     * @param listOfUsers
+     */
+    private void createByLoggingIntoAccountWithInitials(List<User> listOfUsers) {
+
+        List<String> listOfManufacturerNames = getListOfManufacturerNames();
         for (String manufacturerName : listOfManufacturerNames) {
             try {
+
+                WaitUtils.nativeWaitInSeconds(5);
+                loginPage = loginPage.logoutIfLoggedInOthers();
+                WaitUtils.nativeWaitInSeconds(2);
+
                 nameSelected = manufacturerName;
                 manufacturerUser = setCorrectLoginDetails(nameSelected, listOfUsers);
+                log.info("Provide Indication Of Devices For : " + manufacturerName);
                 provideIndicationOfDevicesMade(manufacturerUser);
 
+                log.info("Try And Add Devices For : " + manufacturerName);
                 _AllInOne_Business_AddDevicesToManufacturers_Main tc = new _AllInOne_Business_AddDevicesToManufacturers_Main(manufacturerUser);
                 tc.setLoginDetails(manufacturerUser);
                 tc.createDevicesFor(manufacturerUser, manufacturerName);
+                log.info("Create Devices For : " + manufacturerName);
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -156,17 +175,14 @@ public class _AllInOne_Business_AddDevicesToManufacturers_Main extends Common {
         if (contains) {
             //accept the taskSection and approve or reject it
             taskSection = taskSection.acceptTask();
-            if (taskType != null && taskType.contains("New Account")) {
-                tasksPage = taskSection.approveTask();
-            } else if (taskType != null && taskType.contains("New Service")) {
-                tasksPage = taskSection.approveTask();
-            } else if (taskType != null && taskType.contains("New Manufacturer")) {
-                //tasksPage = taskSection.acceptRegistrationTask();
-            } else if (taskType != null && taskType.contains("Update Manufacturer Registration Request")) {
-                tasksPage = taskSection.approveTask();
-            } else {
-                //Assume New Manufacturer
-                //tasksPage = taskSection.acceptRegistrationTask();
+            if(taskType!=null) {
+                if (taskType.contains("New Service") || taskType.contains("New Account")) {
+                    tasksPage = taskSection.approveTask();
+                } else if (taskType.contains("New Manufacturer")) {
+                    //tasksPage = taskSection.acceptRegistrationTask();
+                } else if (taskType.contains("Update Manufacturer Registration Request")) {
+                    tasksPage = taskSection.approveTask();
+                }
             }
 
         }
@@ -242,11 +258,6 @@ public class _AllInOne_Business_AddDevicesToManufacturers_Main extends Common {
     }
 
 
-    public _AllInOne_Business_AddDevicesToManufacturers_Main(User user) {
-        this.username = user.getUserName();
-        this.password = user.getPassword();
-    }
-
     private void loginAndViewManufacturer() {
 
         //Login to app and add devices to the manufacturer
@@ -256,25 +267,37 @@ public class _AllInOne_Business_AddDevicesToManufacturers_Main extends Common {
         externalHomePage = mainNavigationBar.clickHome();
 
         //Click on a random manufacturer
+        boolean isClickable = false;
+//        int count = 0;
+//        do {
+//            externalHomePage = mainNavigationBar.clickHome();
+//            isClickable = externalHomePage.isGotoListOfManufacturerPageLinkClickable();
+//            count++;
+//        }while(!isClickable && count < 5);
+        externalHomePage = mainNavigationBar.clickHome();
+        WaitUtils.nativeWaitInSeconds(3);
+        externalHomePage = mainNavigationBar.clickHome();
+        WaitUtils.nativeWaitInSeconds(4);
+        externalHomePage = mainNavigationBar.clickHome();
         manufacturerList = externalHomePage.gotoListOfManufacturerPage();
 
         //You will need to naviage to different pages to select the manufactuerer
         String name = null; //manufacturerList.getARandomManufacturerNameWithStatus(registered);
         if (nameSelected == null) {
-            int nop = manufacturerList.getNumberOfPages();
-            int page = 0;
-            do {
-                name = manufacturerList.getARandomManufacturerNameWithStatus(registered);
-                if (name == null) {
-                    manufacturerList = manufacturerList.clickNext();
-                } else {
-                    log.info("Manufacturer selected : " + name + ", is " + registered);
-                    manufacturerDetails = manufacturerList.viewAManufacturer(name);
-                    nameSelected = name;
-                    break;
-                }
-                page++;
-            } while (page < nop);
+//            int nop = manufacturerList.getNumberOfPages();
+//            int page = 0;
+//            do {
+//                name = manufacturerList.getARandomManufacturerNameWithStatus(registered);
+//                if (name == null) {
+//                    manufacturerList = manufacturerList.clickNext();
+//                } else {
+//                    log.info("Manufacturer selected : " + name + ", is " + registered);
+//                    manufacturerDetails = manufacturerList.viewAManufacturer(name);
+//                    nameSelected = name;
+//                    break;
+//                }
+//                page++;
+//            } while (page < nop);
         } else {
             name = nameSelected;
             log.info("Manufacturer selected : " + name + ", is " + registered);
@@ -366,6 +389,7 @@ public class _AllInOne_Business_AddDevicesToManufacturers_Main extends Common {
             System.out.println(ar.organisationName);
             log.info(ar.organisationName);
             loginPage.logoutIfLoggedIn();
+            WaitUtils.nativeWaitInSeconds(2);
         }
     }
 
@@ -374,7 +398,7 @@ public class _AllInOne_Business_AddDevicesToManufacturers_Main extends Common {
         loginAndViewManufacturer();
 
         String[] deviceTypes = new String[]{
-                "general medical"//, "vitro diagnostic", "active implantable", "procedure pack"
+                "all devices", //"general medical", "vitro diagnostic", "active implantable", "procedure pack"
         };
 
         List<DeviceData> listOfDevicesWhichHadProblems = new ArrayList<>();
@@ -383,6 +407,7 @@ public class _AllInOne_Business_AddDevicesToManufacturers_Main extends Common {
 
             //Assumes we are in add device page
             List<DeviceData> listOfDevicesOfSpecificType = getListOfDevicesOfSpecificType(listOfDeviceData, specificDeviceTypes);
+            listOfDevicesOfSpecificType = getValidatedDataOnly(true, listOfDevicesOfSpecificType);
             int count = 0;
 
             //Lets try to add multiple devices, it will take a long time
@@ -413,12 +438,12 @@ public class _AllInOne_Business_AddDevicesToManufacturers_Main extends Common {
                         }
 
                         //REMOVE - REMOVE -
-                        //if (count > 2) {
-                        //    break;
-                        //}
+//                        if (count > 5) {
+//                            break;
+//                        }
 
                         //Try adding another device
-                        if (isVisible && count < listOfDevicesOfSpecificType.size() - 1)
+                        if (isVisible && count < listOfDevicesOfSpecificType.size() )
                             addDevices = addDevices.addAnotherDevice();
                         else
                             break;
@@ -450,7 +475,7 @@ public class _AllInOne_Business_AddDevicesToManufacturers_Main extends Common {
             //@todo Now login as business user and approve the task
             WaitUtils.nativeWaitInSeconds(5);
             loginPage = loginPage.logoutIfLoggedInOthers();
-            mainNavigationBar = loginPage.loginAs("Noor.Uddin.Business", "MHRA1234");
+            mainNavigationBar = loginPage.loginAs(businessUser.getUserName(), businessUser.getPassword());
             //approveTheGeneratedTask(nameSelected);
             //approveTheGeneratedTaskSimple(nameSelected, registered);
             String link = "Update";
@@ -497,15 +522,36 @@ public class _AllInOne_Business_AddDevicesToManufacturers_Main extends Common {
         }
     }
 
+    private List<DeviceData> getValidatedDataOnly(boolean onlyValidatedData, List<DeviceData> listOfDevicesOfSpecificType) {
+        List<DeviceData> listOfValidatedData = new ArrayList<>();
+
+        if(onlyValidatedData){
+            for(DeviceData dd: listOfDevicesOfSpecificType){
+                if(dd.validatedData.equals("Y")){
+                    listOfValidatedData.add(dd);
+                }
+            }
+        }else{
+            listOfValidatedData = listOfDevicesOfSpecificType;
+        }
+        return listOfValidatedData;
+
+    }
+
 
     private List<DeviceData> getListOfDevicesOfSpecificType(List<DeviceData> listOfDeviceData, String specificType) {
-        List<DeviceData> listOfDevicesOfType = new ArrayList<>();
-        for (DeviceData dd : listOfDeviceData) {
-            if (dd.deviceType.contains(specificType)) {
-                listOfDevicesOfType.add(dd);
+        if(specificType.equals("all devices")){
+            return listOfDeviceData;
+        }else {
+            //Filter specific data
+            List<DeviceData> listOfDevicesOfType = new ArrayList<>();
+            for (DeviceData dd : listOfDeviceData) {
+                if (dd.deviceType.contains(specificType)) {
+                    listOfDevicesOfType.add(dd);
+                }
             }
+            return listOfDevicesOfType;
         }
-        return listOfDevicesOfType;
     }
 
     private void printFailingData(List<DeviceData> listOfDevicesWhichHadProblems, String deviceType) {
@@ -522,6 +568,6 @@ public class _AllInOne_Business_AddDevicesToManufacturers_Main extends Common {
 
     @Override
     public String toString() {
-        return "SmokeTestsManufacturers";
+        return "CREATE DEVICES FOR Manufacturers";
     }
 }

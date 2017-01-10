@@ -429,6 +429,7 @@ public class AddDevices extends _Page {
 
     private void addProduct(ProductDetail productDetail) {
         WaitUtils.waitForElementToBeClickable(driver, addProduct, TIMEOUT_MEDIUM, false);
+        WaitUtils.nativeWaitInSeconds(1);
         addProduct.click();
 
         //Wait for form to be visible
