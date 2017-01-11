@@ -38,40 +38,33 @@ public class AddDevicesToAuthorisedReps_Main extends Common {
     private String username;
     private String password;
 
+    public AddDevicesToAuthorisedReps_Main(User user) {
+        this.username = user.getUserName();
+        this.password = user.getPassword();
+    }
+
     public static void main(String [] args){
-        List<String> listOfManufacturerNames = getListOfAuthorisedRepNames();
+        List<String> listOfManufacturerNames = getListOfManufacturerNames();
         List<User> listOfUsers = getListOfUsersFromExcel();
         System.setProperty("current.browser", "gc");
         setUpDriver();
 
-        //For each user : THIS CASE A MANUFACTURER
-        for(User u: listOfUsers){
-            //Create Devices For Following user
-            for(String manufacturerName: listOfManufacturerNames){
-                nameSelected = manufacturerName;
-                AddDevicesToAuthorisedReps_Main tc = new AddDevicesToAuthorisedReps_Main(u);
-                tc.createDevicesFor(u, manufacturerName);
-            }
-        }
-    }
+        boolean loginBasedOnInitials = true;   //If we used BusinessCreateManufacturersWithTestersInitials
+        if(loginBasedOnInitials) {
+            //Create by logging into individual Account for the INITIALS
+            createByLoggingIntoAccountWithInitials(listOfManufacturerNames, listOfUsers);
+        }else {
+            //OR - OR
 
-    /**
-     * UPDATE THIS MANUALLY FOR NOW
-     *
-     * This is all the users created using : BusinessCreateManufacturersWithTestersInitials
-     * @return
-     */
-    private static List<String> getListOfAuthorisedRepNames() {
-        List<String> listOfManufactuersCreatedWithTesterInitials = new ArrayList<>();
-        listOfManufactuersCreatedWithTesterInitials.add("ManufacturerST61646530_NU");
-        listOfManufactuersCreatedWithTesterInitials.add("ManufacturerST61621340_HB");
-        listOfManufactuersCreatedWithTesterInitials.add("ManufacturerST61715801_YC");
-        return listOfManufactuersCreatedWithTesterInitials;
+            //Create for manufacturer from Excel sheet
+            createByLoggingIntoAccountWithExcelUser(listOfManufacturerNames, listOfUsers);
+        }
+
     }
 
     private static List<User> getListOfUsersFromExcel() {
         ExcelDataSheet excelUtils = new ExcelDataSheet();//
-        List<User> listOfUsers = excelUtils.getListOfUsers("configs/data/excel/users.xlsx", "DeviceSetupLogins");
+        List<User> listOfUsers = excelUtils.getListOfUsers("configs/data/excel/users.xlsx", "InjectSpecificUser");
         listOfUsers = excelUtils.filterUsersBy(listOfUsers, "authorised");
         return listOfUsers;
     }
@@ -82,13 +75,77 @@ public class AddDevicesToAuthorisedReps_Main extends Common {
             driver = new BrowserConfig().getDriver();
             driver.manage().window().maximize();
             baseUrl = FileUtils.getTestUrl();
-            log.warn("\n\nINSERT DEVICES AS AUTHORISEDREP USER VIA MAIN METHOD");
+            log.warn("\n\nINSERT DEVICES AS MANUFACTURER USER VIA MAIN METHOD");
         }
     }
 
-    public AddDevicesToAuthorisedReps_Main(User user) {
-        this.username = user.getUserName();
-        this.password = user.getPassword();
+
+
+    /**
+     * UPDATE THIS MANUALLY FOR NOW
+     *
+     * This is all the users created using : BusinessCreateManufacturersWithTestersInitials
+     * @return
+     */
+    private static List<String> getListOfManufacturerNames() {
+        List<String> listOfManufactuersCreatedWithTesterInitials = new ArrayList<>();
+//        listOfManufactuersCreatedWithTesterInitials.add("AuthorisedRepST11157024_LP");
+//        listOfManufactuersCreatedWithTesterInitials.add("AuthorisedRepST11157024_LP");
+//        listOfManufactuersCreatedWithTesterInitials.add("AuthorisedRepST11157024_LP");
+//        listOfManufactuersCreatedWithTesterInitials.add("AuthorisedRepST11157024_LP");
+//        listOfManufactuersCreatedWithTesterInitials.add("AuthorisedRepST11157024_LP");
+//        listOfManufactuersCreatedWithTesterInitials.add("AuthorisedRepST11157024_LP");
+
+        listOfManufactuersCreatedWithTesterInitials.add("AuthorisedRepST11157024_LP");
+        return listOfManufactuersCreatedWithTesterInitials;
+    }
+
+    private static void createByLoggingIntoAccountWithExcelUser(List<String> listOfManufacturerNames, List<User> listOfUsers) {
+        for(User selected: listOfUsers){
+            //Create Devices For Following user
+            for(String manufacturerName: listOfManufacturerNames){
+                try {
+                    nameSelected = manufacturerName;
+                    AddDevicesToAuthorisedReps_Main tc = new AddDevicesToAuthorisedReps_Main(selected);
+                    tc.setLoginDetails(selected);
+                    tc.createDevicesFor(selected, manufacturerName);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    private static void createByLoggingIntoAccountWithInitials(List<String> listOfManufacturerNames, List<User> listOfUsers) {
+        for(String manufacturerName: listOfManufacturerNames){
+            try {
+                nameSelected = manufacturerName;
+                User selected = setCorrectLoginDetails(nameSelected, listOfUsers);
+                AddDevicesToAuthorisedReps_Main tc = new AddDevicesToAuthorisedReps_Main(selected);
+                tc.setLoginDetails(selected);
+                tc.createDevicesFor(selected, manufacturerName);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void setLoginDetails(User selected) {
+        username = selected.getUserName();
+        password = selected.getPassword();
+    }
+
+    private static User setCorrectLoginDetails(String nameSelected, List<User> listOfUsers) {
+        User selectCorrectUser = null;
+        for(User u: listOfUsers){
+            String initials = "_"+u.getInitials();
+            if(nameSelected.contains(initials)){
+                selectCorrectUser = u;
+                break;
+            }
+        }
+
+        return selectCorrectUser;
     }
 
     private void loginAndViewManufacturer() {
@@ -126,10 +183,14 @@ public class AddDevicesToAuthorisedReps_Main extends Common {
         }
 
         //Add devices: This needs to change to add all the devices
-        if (registered != null && registered.toLowerCase().equals("registered"))
-            addDevices = manufacturerDetails.clickAddDeviceBtn();
-        else
+        try {
+            if (registered != null && registered.toLowerCase().equals("registered"))
+                addDevices = manufacturerDetails.clickAddDeviceBtn();
+            else
+                addDevices = new AddDevices(driver);
+        }catch (Exception e){
             addDevices = new AddDevices(driver);
+        }
     }
 
     private void createDevicesFor(User u, String manufacturerName) {
@@ -137,7 +198,7 @@ public class AddDevicesToAuthorisedReps_Main extends Common {
         loginAndViewManufacturer();
 
         String[] deviceTypes = new String[]{
-                "general medical", "vitro diagnostic", "active implantable", "procedure pack"
+                "general medical"//, "vitro diagnostic", "active implantable", "procedure pack"
         };
 
         List<DeviceData> listOfDevicesWhichHadProblems = new ArrayList<>();
@@ -175,10 +236,10 @@ public class AddDevicesToAuthorisedReps_Main extends Common {
                             count++;
                         }
 
-
-                        if (count >= 2) {
-                            break;
-                        }
+                        //REMOVE - REMOVE -
+                        //if (count > 2) {
+                        //    break;
+                        //}
 
                         //Try adding another device
                         if (isVisible && count < listOfDevicesOfSpecificType.size() - 1)
@@ -213,7 +274,7 @@ public class AddDevicesToAuthorisedReps_Main extends Common {
             //@todo Now login as business user and approve the task
             WaitUtils.nativeWaitInSeconds(5);
             loginPage = loginPage.logoutIfLoggedInOthers();
-            mainNavigationBar = loginPage.loginAs("Auto.Business", "MHRA1234");
+            mainNavigationBar = loginPage.loginAs("Noor.Uddin.Business", "MHRA1234");
             //approveTheGeneratedTask(nameSelected);
             //approveTheGeneratedTaskSimple(nameSelected, registered);
             String link = "Update";
@@ -254,6 +315,7 @@ public class AddDevicesToAuthorisedReps_Main extends Common {
             registered = "registered";
 
             //Logback in now
+            WaitUtils.nativeWaitInSeconds(5);
             loginPage.logoutIfLoggedIn();
             loginAndViewManufacturer();
         }

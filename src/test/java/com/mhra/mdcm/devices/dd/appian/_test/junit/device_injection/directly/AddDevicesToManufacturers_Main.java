@@ -38,22 +38,13 @@ public class AddDevicesToManufacturers_Main extends Common {
     private String username;
     private String password;
 
-    private static List<User> getListOfUsersFromExcel() {
-        ExcelDataSheet excelUtils = new ExcelDataSheet();//
-        List<User> listOfUsers = excelUtils.getListOfUsers("configs/data/excel/users.xlsx", "InjectSpecificUser");
-        listOfUsers = excelUtils.filterUsersBy(listOfUsers, "manufacturer");
-        return listOfUsers;
+
+
+    public AddDevicesToManufacturers_Main(User user) {
+        this.username = user.getUserName();
+        this.password = user.getPassword();
     }
 
-    public static void setUpDriver() {
-        if (driver == null) {
-            listOfDeviceData = excelUtils.getListOfDeviceData("configs/data/excel/DevicesData.xlsx", "TestDataWellFormed_Simple");
-            driver = new BrowserConfig().getDriver();
-            driver.manage().window().maximize();
-            baseUrl = FileUtils.getTestUrl();
-            log.warn("\n\nINSERT DEVICES AS MANUFACTURER USER VIA MAIN METHOD");
-        }
-    }
 
     public static void main(String [] args){
         List<String> listOfManufacturerNames = getListOfManufacturerNames();
@@ -73,6 +64,24 @@ public class AddDevicesToManufacturers_Main extends Common {
         }
 
     }
+
+    private static List<User> getListOfUsersFromExcel() {
+        ExcelDataSheet excelUtils = new ExcelDataSheet();//
+        List<User> listOfUsers = excelUtils.getListOfUsers("configs/data/excel/users.xlsx", "InjectSpecificUser");
+        listOfUsers = excelUtils.filterUsersBy(listOfUsers, "manufacturer");
+        return listOfUsers;
+    }
+
+    public static void setUpDriver() {
+        if (driver == null) {
+            listOfDeviceData = excelUtils.getListOfDeviceData("configs/data/excel/DevicesData.xlsx", "TestDataWellFormed_Simple");
+            driver = new BrowserConfig().getDriver();
+            driver.manage().window().maximize();
+            baseUrl = FileUtils.getTestUrl();
+            log.warn("\n\nINSERT DEVICES AS MANUFACTURER USER VIA MAIN METHOD");
+        }
+    }
+
 
 
     /**
@@ -142,12 +151,6 @@ public class AddDevicesToManufacturers_Main extends Common {
         return selectCorrectUser;
     }
 
-
-
-    public AddDevicesToManufacturers_Main(User user) {
-        this.username = user.getUserName();
-        this.password = user.getPassword();
-    }
 
     private void loginAndViewManufacturer() {
 

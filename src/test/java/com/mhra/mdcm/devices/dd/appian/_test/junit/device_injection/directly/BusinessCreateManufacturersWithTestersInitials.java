@@ -168,7 +168,6 @@ public class BusinessCreateManufacturersWithTestersInitials extends Common {
 
 
     @Test
-    @Ignore
     public void asABusinessUsersShouldBeAbleToCreateMultipleAuthorisedRepAccountRequest() {
 
         for (String initials : initialsArray) {
