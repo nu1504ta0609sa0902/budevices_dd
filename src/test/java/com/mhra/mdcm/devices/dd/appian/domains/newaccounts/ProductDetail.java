@@ -1,5 +1,7 @@
 package com.mhra.mdcm.devices.dd.appian.domains.newaccounts;
 
+import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.RandomDataUtils;
+
 /**
  * Created by TPD_Auto on 21/12/2016.
  */
@@ -24,7 +26,7 @@ public class ProductDetail {
         String value = dp[1];
 
         if(key.equals("name")){
-            name = value;
+            name = RandomDataUtils.getRandomTestName(value);
         }else if(key.equals("make")){
             make = value;
         }else if(key.equals("model")){

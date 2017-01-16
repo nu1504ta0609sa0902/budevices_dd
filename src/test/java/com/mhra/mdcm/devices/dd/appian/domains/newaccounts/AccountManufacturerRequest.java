@@ -129,7 +129,7 @@ public class AccountManufacturerRequest {
 
     public void setUserDetails(String loggedInAs) {
         String[] data = loggedInAs.split("\\.");
-        System.out.println(data);
+        //System.out.println(data);
         firstName = data[0];
 
         //Because we have Auto.Business and Noor.Uddin.Business

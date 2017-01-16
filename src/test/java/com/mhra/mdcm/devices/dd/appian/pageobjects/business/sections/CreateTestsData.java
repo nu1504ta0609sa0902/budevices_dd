@@ -199,7 +199,7 @@ public class CreateTestsData extends _Page {
 
         //Some weired bug where input boxes looses value on focus
         if(exception) {
-            orgName.click();
+            //orgName.click();
             try {
                 selectCountryFromAutoSuggests(driver, ".gwt-SuggestBox", ar.country, false);
             } catch (Exception e) {

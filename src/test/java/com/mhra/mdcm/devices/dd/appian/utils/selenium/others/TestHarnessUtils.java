@@ -1,5 +1,7 @@
 package com.mhra.mdcm.devices.dd.appian.utils.selenium.others;
 
+import com.mhra.mdcm.devices.dd.appian.domains.junit.User;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,5 +28,15 @@ public class TestHarnessUtils {
             return data[1];
         }
 
+    }
+
+    public static String getName(String initials, User user, boolean isFirstName) {
+        String names = user.getUserName();
+        String[] data = names.split("\\.");
+        if(isFirstName){
+            return data[0];
+        }else{
+            return data[1] + "." + data[2];
+        }
     }
 }

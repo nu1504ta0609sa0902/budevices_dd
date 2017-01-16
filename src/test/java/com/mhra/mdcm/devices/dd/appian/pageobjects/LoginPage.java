@@ -43,7 +43,7 @@ public class LoginPage extends _Page {
     }
 
     public LoginPage loadPage(String url) {
-        //WaitUtils.nativeWait(2);
+        WaitUtils.nativeWait(2);
         driver.get(url);
         return new LoginPage(driver);
     }

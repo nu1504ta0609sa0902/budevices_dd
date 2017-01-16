@@ -18,10 +18,7 @@ import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -33,8 +30,10 @@ import static org.hamcrest.Matchers.is;
 @RunWith(Parameterized.class)
 public class BusinessCreateManufacturersWithTestersInitials extends Common {
 
+    private static List<User> listOfBusinessUsers;
+    private static User businessUser;
     public String[] initialsArray = new String[]{
-            "LP", //"NU", "HB", "YC", "PG", "AN", "LP"
+            "NU", //"NU", "HB", "YC", "PG", "AN", "LP"
     };
 
 
@@ -47,14 +46,29 @@ public class BusinessCreateManufacturersWithTestersInitials extends Common {
     private String password;
     private String initials;
 
-    @Parameterized.Parameters(name = "{0}")
-    public static Collection<User> spreadsheetData() throws IOException {
-        ExcelDataSheet excelUtils = new ExcelDataSheet();//
-        List<User> listOfUsers = excelUtils.getListOfUsers("configs/data/excel/users.xlsx", "Sheet1");
-        listOfUsers = excelUtils.filterUsersBy(listOfUsers, "business");
-        log.info("Business Users : " + listOfUsers);
-        return listOfUsers;
+
+    public static void main(String [] args){
+        List<User> listOfUsers = getListOfUsersFromExcel();
+        List<User> listOfBusinessUsersFromExcel = getListOfBusinessUsersFromExcel();
+        System.setProperty("current.browser", "gc");
+        setUpDriver();
+
+        businessUser = setCorrectLoginDetails("_NU", listOfBusinessUsers);
+        BusinessCreateManufacturersWithTestersInitials tjs = new BusinessCreateManufacturersWithTestersInitials(businessUser);
+        boolean isManufacturer = false;
+        if(isManufacturer){
+            tjs.asABusinessUsersShouldBeAbleToCreateMultipleManufacturerAccounts();
+        }else{
+            tjs.asABusinessUsersShouldBeAbleToCreateMultipleAuthorisedRepAccountRequest();
+        }
+
+        int x = 10;
+        boolean t = (x == 9);
+        if(!t){
+
+        }
     }
+
 
 
     public BusinessCreateManufacturersWithTestersInitials(User user) {
@@ -63,29 +77,51 @@ public class BusinessCreateManufacturersWithTestersInitials extends Common {
         this.initials = user.getInitials();
     }
 
-    @BeforeClass
+
+    private static User setCorrectLoginDetails(String nameSelected, List<User> listOfUsers) {
+        User selectCorrectUser = null;
+        for (User u : listOfUsers) {
+            String initials = "_" + u.getInitials();
+            if (nameSelected.contains(initials)) {
+                selectCorrectUser = u;
+                break;
+            }
+        }
+
+        return selectCorrectUser;
+    }
+
     public static void setUpDriver() {
         if (driver == null) {
             driver = new BrowserConfig().getDriver();
+            driver.manage().window().maximize();
             baseUrl = FileUtils.getTestUrl();
-            log.warn("\n\nRUNNING SCRIPT TO CREATE INITIAL DATA FOR ENTERING DEVICES TEST DATA");
+            log.warn("\n\nCREATE MANUFACTURERS AND AUTHORISEDREPS USING BUSINESS TEST HARNESS");
         }
     }
 
-    @AfterClass
-    public static void clearBrowsers() {
+
+    private static List<User> getListOfUsersFromExcel() {
+        ExcelDataSheet excelUtils = new ExcelDataSheet();//
+        List<User> listOfUsers = excelUtils.getListOfUsers("configs/data/excel/users.xlsx", "InjectSpecificUser");
+        listOfUsers = excelUtils.filterUsersBy(listOfUsers, "authorised");
+        return listOfUsers;
+    }
+
+    private static List<User> getListOfBusinessUsersFromExcel() {
+        ExcelDataSheet excelUtils = new ExcelDataSheet();//
+        List<User> listOfUsers = excelUtils.getListOfUsers("configs/data/excel/users.xlsx", "Sheet1");
+        listOfBusinessUsers = excelUtils.filterUsersBy(listOfUsers, "business");
+        return listOfBusinessUsers;
+    }
+
+
+    public void clearBrowsers() {
         if (driver != null) {
             driver.quit();
         }
     }
 
-    @Before
-    public void setupTest() {
-        //driver.manage().deleteAllCookies();
-        driver.manage().window().maximize();
-    }
-
-    @Test
     /**
      * IF YOU CREATE USING BUSINESS TEST HARNESS, YOU WILL LOOSE DATA FOR
      *  - MANUFACTURERS AND AUTHORISEDREPS
@@ -166,13 +202,11 @@ public class BusinessCreateManufacturersWithTestersInitials extends Common {
     }
 
 
-
-    @Test
     public void asABusinessUsersShouldBeAbleToCreateMultipleAuthorisedRepAccountRequest() {
 
         for (String initials : initialsArray) {
 
-            LoginPage loginPage = new LoginPage(driver);
+            loginPage = new LoginPage(driver);
             loginPage = loginPage.loadPage(baseUrl);
             MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
 
