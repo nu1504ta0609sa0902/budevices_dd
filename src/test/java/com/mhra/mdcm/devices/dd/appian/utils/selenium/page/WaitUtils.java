@@ -1,10 +1,14 @@
 package com.mhra.mdcm.devices.dd.appian.utils.selenium.page;
 
 import com.google.common.base.Predicate;
+import com.mhra.mdcm.devices.dd.appian.pageobjects._Page;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -52,13 +56,13 @@ public class WaitUtils {
      *
      * @param tis
      */
-    public static void nativeWait(int tis) {
-        try {
-            Thread.sleep(1000 * tis);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
+//    public static void nativeWait(int tis) {
+//        try {
+//            Thread.sleep(1000 * tis);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     /**
      * @param driver
@@ -199,6 +203,27 @@ public class WaitUtils {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public static boolean isPageLoadingComplete(WebDriver driver, int timeout){
+        boolean isWorkingDisplayed = true;
+        try {
+            int count = 0;
+            do {
+                driver.manage().timeouts().implicitlyWait(timeout, TimeUnit.SECONDS);
+                List<WebElement> elements = driver.findElements(By.xpath(".//div[@class='appian-indicator-message' and @style='display: none;']"));
+                if (elements.size() == 1) {
+                    isWorkingDisplayed = false;
+                }
+                driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+                count++;
+            }while(isWorkingDisplayed && count < 5);
+
+        }catch (Exception e){
+            driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+            isWorkingDisplayed = false;
+        }
+        return isWorkingDisplayed;
     }
 
 }
