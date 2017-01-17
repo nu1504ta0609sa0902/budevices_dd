@@ -43,7 +43,7 @@ public class LoginPage extends _Page {
     }
 
     public LoginPage loadPage(String url) {
-        WaitUtils.nativeWait(2);
+        WaitUtils.nativeWaitInSeconds(2);
         driver.get(url);
         return new LoginPage(driver);
     }
@@ -171,7 +171,7 @@ public class LoginPage extends _Page {
                     WaitUtils.waitForElementToBeClickable(driver, remember, 10, false);
 
                     //If logout and login is too fast, appian system shows 404 in some instance of automation
-                    WaitUtils.nativeWait(2);
+                    WaitUtils.nativeWaitInSeconds(2);
                 }
             } catch (Exception e) {
                 //Probably not logged in

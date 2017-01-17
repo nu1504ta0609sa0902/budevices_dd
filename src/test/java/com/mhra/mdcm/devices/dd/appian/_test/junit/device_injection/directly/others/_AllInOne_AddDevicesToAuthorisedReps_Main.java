@@ -30,7 +30,7 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
 
     private static User businessUser;
     public String[] initialsArray = new String[]{
-            "YC",//"NU", "HB", "YC", "PG", "AN", "LP"
+            "YC", "NU"//"NU", "HB", "YC", "PG", "AN", "LP"
     };
     public static final String AUTHORISED_REP_SMOKE_TEST = "AuthorisedRepST";
 
@@ -46,7 +46,6 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
     private String username;
     private String password;
     private User manufacturerUser;
-
 
 
     public _AllInOne_AddDevicesToAuthorisedReps_Main(User user) {
@@ -88,13 +87,14 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
     }
 
     private static void closeDriver() {
-        if(driver!=null){
+        if (driver != null) {
             driver.quit();
         }
     }
 
     /**
      * Add devices to each of the manufacturers successfully created
+     *
      * @param listOfAuthorisedRepUsers
      */
     private void createByLoggingIntoAccountWithInitials(List<User> listOfAuthorisedRepUsers) {
@@ -106,11 +106,6 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
 
         for (String manufacturerName : listOfManufacturerNames) {
             try {
-
-                //System is taking long time to load pages
-                WaitUtils.nativeWaitInSeconds(5);
-                loginPage = loginPage.logoutIfLoggedInOthers();
-                WaitUtils.nativeWaitInSeconds(2);
 
                 //Set manufacturer account login details
                 nameSelected = manufacturerName;
@@ -127,13 +122,20 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
 
             } catch (Exception e) {
                 e.printStackTrace();
+
+
+                //System is taking long time to load pages
+                WaitUtils.nativeWaitInSeconds(2);
+                loginPage = loginPage.logoutIfLoggedInOthers();
+                WaitUtils.nativeWaitInSeconds(2);
+                loginPage = loginPage.logoutIfLoggedIn();
             }
         }
     }
 
     private List<String> getListOfManufacturerCreatedByBusiness() {
         List<String> listOfManufacturersCreatedByBusiness = new ArrayList<>();
-        for(String name: getListOfManufacturerNames()){
+        for (String name : getListOfManufacturerNames()) {
             listOfManufacturersCreatedByBusiness.add(name);
         }
         return listOfManufacturersCreatedByBusiness;
@@ -142,16 +144,17 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
 
     /**
      * This is a long process
-     *  - Indicate devices
-     *  - Logout and accept and approve the task
-     *  - Log back in
+     * - Indicate devices
+     * - Logout and accept and approve the task
+     * - Log back in
+     *
      * @param businessUser
      */
     private void provideIndicationOfDevicesMade(User businessUser) {
         indicateDevices();
         String accountName = getManufacturerWithInitials(initials, true);
         boolean approved = acceptNewServiceRequest(businessUser, accountName);
-        if(!approved){
+        if (!approved) {
             accountName = getManufacturerWithInitials(initials, false);
             approved = acceptNewServiceRequest(businessUser, accountName);
         }
@@ -164,16 +167,16 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
     private String getManufacturerWithInitials(String initials, boolean isMainAccount) {
         List<String> listOfManufacturerNames = getListOfManufacturerNames();
         String names = "";
-        for(String name: listOfManufacturerNames){
-            if(name.contains(initials)){
+        for (String name : listOfManufacturerNames) {
+            if (name.contains(initials)) {
                 names = names + name + ",";
             }
         }
 
         String[] data = names.split(",");
-        if(isMainAccount){
+        if (isMainAccount) {
             return data[0];
-        }else{
+        } else {
             return data[1];
         }
     }
@@ -204,7 +207,7 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
             } catch (Exception e) {
                 contains = false;
             }
-            if (!contains){
+            if (!contains) {
                 WaitUtils.nativeWaitInSeconds(2);
                 count++;
             }
@@ -213,7 +216,7 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
         if (contains) {
             //accept the taskSection and approve or reject it
             taskSection = taskSection.acceptTask();
-            if(taskType!=null) {
+            if (taskType != null) {
                 if (taskType.contains("New Service") || taskType.contains("New Account")) {
                     tasksPage = taskSection.approveTask();
                 } else if (taskType.contains("New Manufacturer")) {
@@ -233,7 +236,7 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
         for (int x = 0; x < 9; x++) {
             try {
                 externalHomePage = externalHomePage.provideIndicationOfDevicesMade(x);
-            }catch (Exception e){
+            } catch (Exception e) {
                 //Lazy : not recommended
             }
         }
@@ -259,7 +262,6 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
         //Click on a random manufacturer
         manufacturerList = externalHomePage.gotoListOfManufacturerPage();
     }
-
 
 
     private void setLoginDetails(User selected) {
@@ -288,15 +290,15 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
         externalHomePage = mainNavigationBar.clickHome();
 
         //Click on a random manufacturer
-        boolean isDisabled = false;
+        boolean isDisabled = true;
         int count = 0;
         do {
             externalHomePage = mainNavigationBar.clickHome();
             isDisabled = externalHomePage.isGotoListOfManufacturerPageLinkDisabled();
             count++;
-        }while(isDisabled && count < 5);
+        } while (isDisabled && count < 5);
 
-        if(isDisabled){
+        if (isDisabled) {
             externalHomePage = mainNavigationBar.clickHome();
             WaitUtils.nativeWaitInSeconds(3);
         }
@@ -305,7 +307,7 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
 
         //You will need to naviage to different pages to select the manufactuerer
         String name = nameSelected;
-        log.info("Manufacturer selected : " + name );
+        log.info("Manufacturer selected : " + name);
         manufacturerDetails = manufacturerList.viewAManufacturer(name);
 
         //Add devices: This needs to change to add all the devices
@@ -332,7 +334,7 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
                 ar.updateName(AUTHORISED_REP_SMOKE_TEST);
                 ar.updateNameEnding("_" + initials);
                 ar.setUserDetails(username);
-                initials = initials;
+
                 manufacturerUser = DirectDeviceDataUtils.getCorrectLoginDetailsManufacturer(initials, listOfAuthorisedRepUsers);
 
                 //ar.title = "Miss";
@@ -458,7 +460,7 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
 //                        }
 
                         //Try adding another device
-                        if (isVisible && count < listOfDevicesOfSpecificType.size() )
+                        if (isVisible && count < listOfDevicesOfSpecificType.size())
                             addDevices = addDevices.addAnotherDevice();
                         else
                             break;
@@ -480,7 +482,7 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
 
             //Verify option to add another device is there
             boolean isVisible = addDevices.isOptionToAddAnotherDeviceVisible();
-            if(!isVisible){
+            if (!isVisible) {
                 DeviceData dd = DirectDeviceDataUtils.getDeviceDataCalled(listOfDevicesWhichHadProblems, "Abacus");
                 addDevices = addDevices.addFollowingDevice(dd);
                 isVisible = addDevices.isOptionToAddAnotherDeviceVisible();
@@ -544,54 +546,47 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
 
     private void createAuthorisedRepsWithManufacturerTestHarness(User user) throws Exception {
 
+        //Now create the test data using harness page
         AccountManufacturerRequest ar = new AccountManufacturerRequest();
+        ar.isManufacturer = false;
+        ar.updateName(AUTHORISED_REP_SMOKE_TEST);
+        ar.updateNameEnding("_" + initials);
+        ar.setUserDetails(username);
+        ar.country = "Nepal";
 
-        //for (String initials : initialsArray) {
-            //try {
-                //Assuming all previous data removed
-                loginPage = new LoginPage(driver);
-                loginPage = loginPage.loadPage(baseUrl);
-                mainNavigationBar = loginPage.loginAsManufacturer(username, password);
-                externalHomePage = mainNavigationBar.clickHome();
+        manufacturerUser = user;
+        ar.firstName = TestHarnessUtils.getName(initials, manufacturerUser, true);
+        ar.lastName = TestHarnessUtils.getName(initials, manufacturerUser, false);
 
-                //Click on a random manufacturer
-                manufacturerList = externalHomePage.gotoListOfManufacturerPage();
-                //manufacturerList.go
-                //Now create the test data using harness page
-                ar.isManufacturer = false;
-                ar.updateName(AUTHORISED_REP_SMOKE_TEST);
-                ar.updateNameEnding("_" + initials);
-                ar.setUserDetails(username);
-                ar.country = "Nepal";
+        //Assuming all previous data removed
+        loginPage = new LoginPage(driver);
+        loginPage = loginPage.loadPage(baseUrl);
+        mainNavigationBar = loginPage.loginAsManufacturer(username, password);
+        externalHomePage = mainNavigationBar.clickHome();
 
-                manufacturerUser = user;
-                ar.firstName = TestHarnessUtils.getName(initials, manufacturerUser, true);
-                ar.lastName = TestHarnessUtils.getName(initials, manufacturerUser, false);
+        //Click on a random manufacturer
+        manufacturerList = externalHomePage.gotoListOfManufacturerPage();
+        //manufacturerList.go
 
-                //Create new manufacturer data
-                createNewManufacturer = new CreateManufacturerTestsData(driver);
-                addDevices = createNewManufacturer.createTestOrganisation(ar);
-                if (createNewManufacturer.isErrorMessageDisplayed()) {
-                    externalHomePage = mainNavigationBar.clickExternalHOME();
-                    manufacturerList = externalHomePage.gotoListOfManufacturerPage();
-                    createNewManufacturer = manufacturerList.registerNewManufacturer();
-                    addDevices = createNewManufacturer.createTestOrganisation(ar);
-                }
+        //Create new manufacturer data
+        createNewManufacturer = new CreateManufacturerTestsData(driver);
+        addDevices = createNewManufacturer.createTestOrganisation(ar);
+        if (createNewManufacturer.isErrorMessageDisplayed()) {
+            externalHomePage = mainNavigationBar.clickExternalHOME();
+            manufacturerList = externalHomePage.gotoListOfManufacturerPage();
+            createNewManufacturer = manufacturerList.registerNewManufacturer();
+            addDevices = createNewManufacturer.createTestOrganisation(ar);
+        }
 
-                log.info("Created a new account to add devices to : " + ar.organisationName);
+        log.info("Created a new account to add devices to : " + ar.organisationName);
 
-                //Provide indication of devices made to the newly created authoirisedRep
-                manufacturerUser = user;
-                //addToListOfManufacturersCreatedWithInitials(initials, listOfManufactuersCreatedWithTesterInitials, ar.organisationName);
-                listOfManufactuersCreatedWithTesterInitials.add(ar.organisationName);
-                nameSelected = ar.organisationName;
+        //Provide indication of devices made to the newly created authoirisedRep
+        manufacturerUser = user;
+        //addToListOfManufacturersCreatedWithInitials(initials, listOfManufactuersCreatedWithTesterInitials, ar.organisationName);
+        listOfManufactuersCreatedWithTesterInitials.add(ar.organisationName);
+        nameSelected = ar.organisationName;
 
-//            }catch (Exception e){
-//                e.printStackTrace();
-//            }
     }
-
-
 
 
     @Override

@@ -93,12 +93,6 @@ public class PageUtils {
         element.sendKeys(text);
     }
 
-    public static void uploadDocument(WebElement element, String fileName){
-        WaitUtils.nativeWait(2);
-        element.sendKeys(fileName);
-        //We will have to wait for uploading to finish
-        WaitUtils.nativeWait(6);
-    }
 
     public static WebElement getRandomNotification(List<WebElement> listOfECIDLinks) {
         String index = RandomDataUtils.getSimpleRandomNumberBetween(0, listOfECIDLinks.size() - 1);

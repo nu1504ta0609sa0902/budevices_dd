@@ -46,27 +46,24 @@ public class ExternalHomePage extends _Page {
 
     public boolean isGotoListOfManufacturerPageLinkDisabled() {
         boolean isDisabled = true;
-        try {
-            WaitUtils.waitForElementToBeVisible(driver, By.cssSelector(".SafeImage.GFWJSJ4DHFB.GFWJSJ4DOFB"), TIMEOUT_DEFAULT, false);
-            List<WebElement> listOfElements = driver.findElements(By.cssSelector(".SafeImage.GFWJSJ4DHFB.GFWJSJ4DOFB"));
-            if (listOfElements.size() > 0) {
-                isDisabled = false;
-            }else {
-                isDisabled = true;
-            }
-        }catch (Exception e){
+        WaitUtils.isPageLoadingComplete(driver, 30);
+        List<WebElement> listOfElements = driver.findElements(By.cssSelector(".SafeImage.GFWJSJ4DHFB.GFWJSJ4DOFB"));
+        if (listOfElements.size() == 0) {
             isDisabled = false;
         }
         return isDisabled;
     }
 
     public ManufacturerList gotoListOfManufacturerPage() {
+        WaitUtils.isPageLoadingComplete(driver, 10);
         WaitUtils.waitForElementToBeClickable(driver, linkManufacturerRegistration, TIMEOUT_VERY_HIGH, false);
         linkManufacturerRegistration.click();
         return new ManufacturerList(driver);
     }
 
     public ExternalHomePage provideIndicationOfDevicesMade(int index) {
+
+        WaitUtils.isPageLoadingComplete(driver, 5);
 
         WaitUtils.waitForElementToBePartOfDOM(driver, By.xpath(".//*[contains(text(),'ype of device')]//following::input[1]"), TIMEOUT_MEDIUM, false);
         WaitUtils.waitForElementToBeClickable(driver, generalMedicalDevice, TIMEOUT_MEDIUM, false);

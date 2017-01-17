@@ -34,6 +34,7 @@ public class ActionsPage extends _Page {
     }
 
     public CreateTestsData gotoTestsHarnessPage() {
+        WaitUtils.isPageLoadingComplete(driver, 10);
         WaitUtils.nativeWaitInSeconds(2);
         WaitUtils.waitForElementToBePartOfDOM(driver, By.partialLinkText("Create Test Account"), TIMEOUT_MEDIUM, false);
         WaitUtils.waitForElementToBeClickable(driver, linkCreateTestAccount, TIMEOUT_MEDIUM, false);
