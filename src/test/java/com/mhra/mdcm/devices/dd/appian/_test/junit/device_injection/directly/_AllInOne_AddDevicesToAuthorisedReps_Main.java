@@ -1,13 +1,14 @@
-package com.mhra.mdcm.devices.dd.appian._test.junit.device_injection.directly.others;
+package com.mhra.mdcm.devices.dd.appian._test.junit.device_injection.directly;
 
 import com.mhra.mdcm.devices.dd.appian._test.junit.common.Common;
 import com.mhra.mdcm.devices.dd.appian.domains.junit.User;
+import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.AccountManufacturerRequest;
 import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.AccountRequest;
 import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.DeviceData;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.LoginPage;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.MainNavigationBar;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.external.sections.AddDevices;
-import com.mhra.mdcm.devices.dd.appian.utils.datadriven.ExcelDataSheet;
+import com.mhra.mdcm.devices.dd.appian.pageobjects.external.sections.CreateManufacturerTestsData;
 import com.mhra.mdcm.devices.dd.appian.utils.driver.BrowserConfig;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.FileUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.TestHarnessUtils;
@@ -24,22 +25,20 @@ import java.util.List;
  * Created by TPD_Auto on 01/11/2016.
  */
 @RunWith(Parameterized.class)
-public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
+public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
 
     private static User businessUser;
     public String[] initialsArray = new String[]{
-            "NU",//"NU", "HB", "YC", "PG", "AN", "LP"
+            "LP"//"NU", "HB", "YC", "PG", "AN", "LP"
     };
-
-    public static final String MANUFACTURER_SMOKE_TEST = "ManufacturerST";
+    public static final String AUTHORISED_REP_SMOKE_TEST = "AuthorisedRepST";
 
     public static String registered = "registered";
     public static String nameSelected = null;
-
+    public static String initials = null;
+    public static String mainAccount = null;
 
     private static List<String> listOfManufactuersCreatedWithTesterInitials = new ArrayList<>();
-    private static List<User> listOfBusinessUsers = new ArrayList<>();
-    public static List<DeviceData> listOfDeviceData = new ArrayList<>();
 
     public static WebDriver driver;
     public static String baseUrl;
@@ -48,107 +47,145 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
     private User manufacturerUser;
 
 
-
-    public _AllInOne_AddDevicesToManufacturers_Main(User user) {
+    public _AllInOne_AddDevicesToAuthorisedReps_Main(User user) {
         this.username = user.getUserName();
         this.password = user.getPassword();
     }
 
     public static void main(String[] args) {
-        List<User> listOfManufacturerUsers = DirectDeviceDataUtils.getListOfUsersFromExcel("manufacturer");
+
+        List<User> listOfAuthorisedRepUsers = DirectDeviceDataUtils.getListOfUsersFromExcel("authorised");
         List<User> listOfBusinessUsersFromExcel = DirectDeviceDataUtils.getListOfBusinessUsersFromExcel("business");
         setUpDriver();
 
-        //Always use one of the Business Accounts to create the test manufacturers
-        //REMEMBER ALL PREVIOUS MANUFACTURERS DATA WILL BE REMOVED
-        businessUser = setCorrectLoginDetails("_NU", listOfBusinessUsersFromExcel);
-        _AllInOne_AddDevicesToManufacturers_Main tgs = new _AllInOne_AddDevicesToManufacturers_Main(businessUser);
-        tgs.createManufacturersWithBusinessTestHarness();
+        /**
+         * Always use one of the Business Accounts to create the test manufacturers
+         * This will create authorisedReps with users initials e.g _NU, _HB
+         */
+        businessUser = DirectDeviceDataUtils.getCorrectLoginDetails("_NU", listOfBusinessUsersFromExcel);
+        _AllInOne_AddDevicesToAuthorisedReps_Main tgs = new _AllInOne_AddDevicesToAuthorisedReps_Main(businessUser);
+        tgs.createAuthorisedRepWithBusinessTestHarness(listOfAuthorisedRepUsers);
 
-        //All data cleared:Provide indication of devices made
-        //Create by logging into individual Account for the INITIALS
-        tgs.createByLoggingIntoAccountWithInitials(listOfManufacturerUsers);
+        /**
+         * All data cleared:Provide indication of devices made
+         * Create by logging into individual Account for the INITIALS
+         */
+        tgs.createByLoggingIntoAccountWithInitials(listOfAuthorisedRepUsers);
 
         //closeDriver();
     }
 
+    public static void setUpDriver() {
+        System.setProperty("current.browser", "gc");
+        if (driver == null) {
+            driver = new BrowserConfig().getDriver();
+            driver.manage().window().maximize();
+            baseUrl = FileUtils.getTestUrl();
+            log.warn("\n\nINSERT DEVICES AS AUTHORISEDREP USER VIA MAIN METHOD");
+        }
+    }
+
     private static void closeDriver() {
-        if(driver!=null){
+        if (driver != null) {
             driver.quit();
         }
     }
 
     /**
      * Add devices to each of the manufacturers successfully created
-     * @param listOfUsers
+     *
+     * @param listOfAuthorisedRepUsers
      */
-    private void createByLoggingIntoAccountWithInitials(List<User> listOfUsers) {
+    private void createByLoggingIntoAccountWithInitials(List<User> listOfAuthorisedRepUsers) {
 
-        List<String> listOfManufacturerNames = getListOfManufacturerNames();
+        /**
+         * LIST OF MANUFACTURERS CREATED FOR EACH OF THE INITIALS IN THE ARRAY
+         */
+        List<String> listOfManufacturerNames = getListOfManufacturerCreatedByBusiness();
+
         for (String manufacturerName : listOfManufacturerNames) {
             try {
 
-                WaitUtils.nativeWaitInSeconds(5);
-                loginPage = loginPage.logoutIfLoggedInOthers();
-                WaitUtils.nativeWaitInSeconds(2);
-
+                //Set manufacturer account login details
                 nameSelected = manufacturerName;
-                manufacturerUser = setCorrectLoginDetails(nameSelected, listOfUsers);
-                log.info("Provide Indication Of Devices For : " + manufacturerName);
-                provideIndicationOfDevicesMade(manufacturerUser);
+                initials = nameSelected.substring(nameSelected.indexOf("_"));
+                manufacturerUser = DirectDeviceDataUtils.getCorrectLoginDetailsManufacturer(initials, listOfAuthorisedRepUsers);
+                setLoginDetails(manufacturerUser);
 
-                log.info("Try And Add Devices For : " + manufacturerName);
-                _AllInOne_AddDevicesToManufacturers_Main tc = new _AllInOne_AddDevicesToManufacturers_Main(manufacturerUser);
-                tc.setLoginDetails(manufacturerUser);
-                tc.createDevicesFor(manufacturerUser, manufacturerName);
-                log.info("Create Devices For : " + manufacturerName);
+                //"Provide Indication Of Devices For : " + manufacturerName
+                createAuthorisedRepsWithManufacturerTestHarness(manufacturerUser);
+                provideIndicationOfDevicesMade(businessUser);
+
+                //Log back in as the newly created authorisedRep and try adding devices
+                createDevicesFor(manufacturerUser, manufacturerName);
 
             } catch (Exception e) {
                 e.printStackTrace();
+
+
+                //System is taking long time to load pages
+                WaitUtils.nativeWaitInSeconds(2);
+                loginPage = loginPage.logoutIfLoggedInOthers();
+                WaitUtils.nativeWaitInSeconds(2);
+                loginPage = loginPage.logoutIfLoggedIn();
             }
         }
     }
 
-//    private static List<User> getListOfUsersFromExcel() {
-//        ExcelDataSheet excelUtils = new ExcelDataSheet();//
-//        List<User> listOfUsers = excelUtils.getListOfUsers("configs/data/excel/users.xlsx", "InjectSpecificUser");
-//        listOfUsers = excelUtils.filterUsersBy(listOfUsers, "manufacturer");
-//        return listOfUsers;
-//    }
-//
-//    private static List<User> getListOfBusinessUsersFromExcel() {
-//        ExcelDataSheet excelUtils = new ExcelDataSheet();//
-//        List<User> listOfUsers = excelUtils.getListOfUsers("configs/data/excel/users.xlsx", "Sheet1");
-//        listOfBusinessUsers = excelUtils.filterUsersBy(listOfUsers, "business");
-//        return listOfBusinessUsers;
-//    }
-
-    public static void setUpDriver() {
-        System.setProperty("current.browser", "gc");
-        if (driver == null) {
-            listOfDeviceData = excelUtils.getListOfDeviceData("configs/data/excel/DevicesData.xlsx", "TestDataWellFormed_Simple");
-            driver = new BrowserConfig().getDriver();
-            driver.manage().window().maximize();
-            baseUrl = FileUtils.getTestUrl();
-            log.warn("\n\nINSERT DEVICES AS MANUFACTURER USER VIA MAIN METHOD");
+    private List<String> getListOfManufacturerCreatedByBusiness() {
+        List<String> listOfManufacturersCreatedByBusiness = new ArrayList<>();
+        for (String name : getListOfManufacturerNames()) {
+            listOfManufacturersCreatedByBusiness.add(name);
         }
+        return listOfManufacturersCreatedByBusiness;
     }
 
 
-    private void provideIndicationOfDevicesMade(User selected) {
-
-        //User selected = setCorrectLoginDetails(nameSelected, listOfUsers);
-        setLoginDetails(selected);
-        loginAndGoToSetDeviceIndication();
+    /**
+     * This is a long process
+     * - Indicate devices
+     * - Logout and accept and approve the task
+     * - Log back in
+     *
+     * @param businessUser
+     */
+    private void provideIndicationOfDevicesMade(User businessUser) {
         indicateDevices();
-        acceptNewServiceRequest(businessUser);
+        String accountName = getManufacturerWithInitials(initials, true);
+        boolean approved = acceptNewServiceRequest(businessUser, accountName);
+        if (!approved) {
+            accountName = getManufacturerWithInitials(initials, false);
+            approved = acceptNewServiceRequest(businessUser, accountName);
+        }
 
         WaitUtils.nativeWaitInSeconds(2);
         loginPage = loginPage.logoutIfLoggedIn();
 
     }
 
-    private void acceptNewServiceRequest(User businessUser) {
+    private String getManufacturerWithInitials(String initials, boolean isMainAccount) {
+        List<String> listOfManufacturerNames = getListOfManufacturerNames();
+        String names = "";
+        for (String name : listOfManufacturerNames) {
+            if (name.contains(initials)) {
+                names = names + name + ",";
+            }
+        }
+
+        String[] data = names.split(",");
+        if (isMainAccount) {
+            return data[0];
+        } else {
+            return data[1];
+        }
+    }
+
+    private boolean acceptNewServiceRequest(User businessUser, String name) {
+        log.info("Find and accept the tasks for : " + name);
+
+        WaitUtils.nativeWaitInSeconds(5);
+        loginPage = loginPage.logoutIfLoggedInOthers();
+        WaitUtils.nativeWaitInSeconds(2);
 
         MainNavigationBar mainNavigationBar = loginPage.loginAs(businessUser.getUserName(), businessUser.getPassword());
 
@@ -156,7 +193,7 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
         boolean contains = false;
         boolean isCorrectTask = false;
         String taskType = "New Service";
-        String orgName = nameSelected;
+        String orgName = name;
         int count = 0;
         do {
             //Refresh each time, it may take a while for the new task to arrive
@@ -169,7 +206,7 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
             } catch (Exception e) {
                 contains = false;
             }
-            if (!contains){
+            if (!contains) {
                 WaitUtils.nativeWaitInSeconds(2);
                 count++;
             }
@@ -178,7 +215,7 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
         if (contains) {
             //accept the taskSection and approve or reject it
             taskSection = taskSection.acceptTask();
-            if(taskType!=null) {
+            if (taskType != null) {
                 if (taskType.contains("New Service") || taskType.contains("New Account")) {
                     tasksPage = taskSection.approveTask();
                 } else if (taskType.contains("New Manufacturer")) {
@@ -189,12 +226,18 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
             }
 
         }
+
+        return contains;
     }
 
     private void indicateDevices() {
-        WaitUtils.nativeWaitInSeconds(7);
+        WaitUtils.nativeWaitInSeconds(4);
         for (int x = 0; x < 9; x++) {
-            externalHomePage = externalHomePage.provideIndicationOfDevicesMade(x);
+            try {
+                externalHomePage = externalHomePage.provideIndicationOfDevicesMade(x);
+            } catch (Exception e) {
+                //Lazy : not recommended
+            }
         }
 
         //custom made
@@ -204,11 +247,7 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
         externalHomePage = externalHomePage.submitIndicationOfDevicesMade(true);
         externalHomePage = externalHomePage.submitIndicationOfDevicesMade(false);
 
-        WaitUtils.nativeWaitInSeconds(5);
-        loginPage = loginPage.logoutIfLoggedInOthers();
-        WaitUtils.nativeWaitInSeconds(2);
-
-        System.out.println("DONE");
+        //System.out.println("DONE");
     }
 
     private void loginAndGoToSetDeviceIndication() {
@@ -224,23 +263,9 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
     }
 
 
-
     private void setLoginDetails(User selected) {
         username = selected.getUserName();
         password = selected.getPassword();
-    }
-
-    private static User setCorrectLoginDetails(String nameSelected, List<User> listOfUsers) {
-        User selectCorrectUser = null;
-        for (User u : listOfUsers) {
-            String initials = "_" + u.getInitials();
-            if (nameSelected.contains(initials)) {
-                selectCorrectUser = u;
-                break;
-            }
-        }
-
-        return selectCorrectUser;
     }
 
     /**
@@ -251,12 +276,6 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
      * @return
      */
     private static List<String> getListOfManufacturerNames() {
-//        listOfManufactuersCreatedWithTesterInitials.add("ManufacturerST_9_1_948798_NU");
-//        listOfManufactuersCreatedWithTesterInitials.add("ManufacturerST91175215_HB");
-//        listOfManufactuersCreatedWithTesterInitials.add("ManufacturerST_9_1_142303_YC");
-//        listOfManufactuersCreatedWithTesterInitials.add("ManufacturerST_9_1_618693_PG");
-//        listOfManufactuersCreatedWithTesterInitials.add("ManufacturerST_9_1_386957_AN");
-//        listOfManufactuersCreatedWithTesterInitials.add("ManufacturerST91542581_LP");
         return listOfManufactuersCreatedWithTesterInitials;
     }
 
@@ -270,42 +289,25 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
         externalHomePage = mainNavigationBar.clickHome();
 
         //Click on a random manufacturer
-        boolean isClickable = false;
-//        int count = 0;
-//        do {
-//            externalHomePage = mainNavigationBar.clickHome();
-//            isClickable = externalHomePage.isGotoListOfManufacturerPageLinkClickable();
-//            count++;
-//        }while(!isClickable && count < 5);
-        externalHomePage = mainNavigationBar.clickHome();
-        WaitUtils.nativeWaitInSeconds(3);
-        externalHomePage = mainNavigationBar.clickHome();
-        WaitUtils.nativeWaitInSeconds(4);
-        externalHomePage = mainNavigationBar.clickHome();
+        boolean isDisabled = true;
+        int count = 0;
+        do {
+            externalHomePage = mainNavigationBar.clickHome();
+            isDisabled = externalHomePage.isGotoListOfManufacturerPageLinkDisabled();
+            count++;
+        } while (isDisabled && count < 5);
+
+        if (isDisabled) {
+            externalHomePage = mainNavigationBar.clickHome();
+            WaitUtils.nativeWaitInSeconds(3);
+        }
+
         manufacturerList = externalHomePage.gotoListOfManufacturerPage();
 
         //You will need to naviage to different pages to select the manufactuerer
-        String name = null; //manufacturerList.getARandomManufacturerNameWithStatus(registered);
-        if (nameSelected == null) {
-//            int nop = manufacturerList.getNumberOfPages();
-//            int page = 0;
-//            do {
-//                name = manufacturerList.getARandomManufacturerNameWithStatus(registered);
-//                if (name == null) {
-//                    manufacturerList = manufacturerList.clickNext();
-//                } else {
-//                    log.info("Manufacturer selected : " + name + ", is " + registered);
-//                    manufacturerDetails = manufacturerList.viewAManufacturer(name);
-//                    nameSelected = name;
-//                    break;
-//                }
-//                page++;
-//            } while (page < nop);
-        } else {
-            name = nameSelected;
-            log.info("Manufacturer selected : " + name + ", is " + registered);
-            manufacturerDetails = manufacturerList.viewAManufacturer(name);
-        }
+        String name = nameSelected;
+        log.info("Manufacturer selected : " + name);
+        manufacturerDetails = manufacturerList.viewAManufacturer(name);
 
         //Add devices: This needs to change to add all the devices
         try {
@@ -319,13 +321,27 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
     }
 
 
-    private void createManufacturersWithBusinessTestHarness() {
+    private void createAuthorisedRepWithBusinessTestHarness(List<User> listOfAuthorisedRepUsers) {
 
         for (String initials : initialsArray) {
 
             AccountRequest ar = new AccountRequest();
             try {
 
+                //Now create the test data using harness page
+                ar.isManufacturer = false;
+                ar.updateName(AUTHORISED_REP_SMOKE_TEST);
+                ar.updateNameEnding("_" + initials);
+                ar.setUserDetails(username);
+
+                manufacturerUser = DirectDeviceDataUtils.getCorrectLoginDetailsManufacturer(initials, listOfAuthorisedRepUsers);
+
+                //ar.title = "Miss";
+                ar.firstName = TestHarnessUtils.getName(initials, manufacturerUser, true);
+                ar.lastName = TestHarnessUtils.getName(initials, manufacturerUser, false);
+
+
+                //Login and try to create it
                 loginPage = new LoginPage(driver);
                 loginPage = loginPage.loadPage(baseUrl);
                 MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
@@ -334,24 +350,17 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
                 actionsPage = mainNavigationBar.clickActions();
                 createTestsData = actionsPage.gotoTestsHarnessPage();
 
-                //Now create the test data using harness page
-                ar.isManufacturer = true;
-                ar.updateName(MANUFACTURER_SMOKE_TEST);
-                ar.updateNameEnding("_" + initials);
-                ar.setUserDetails(username);
-
-                ar.firstName = TestHarnessUtils.getName(initials, true);
-                ar.lastName = TestHarnessUtils.getName(initials, false);
-
                 actionsPage = createTestsData.createTestOrganisation(ar);
                 boolean isInCorrectPage = actionsPage.isInActionsPage();
                 if (!isInCorrectPage) {
+                    actionsPage = mainNavigationBar.clickActions();
+                    createTestsData = actionsPage.gotoTestsHarnessPage();
                     actionsPage = createTestsData.createTestOrganisation(ar);
                 }
 
                 boolean createdSuccessfully = actionsPage.isInActionsPage();
                 if (createdSuccessfully) {
-                    System.out.println("Created a new account : " + ar.organisationName);
+                    log.info("Created a new account with business : " + ar.organisationName);
                 }
 
                 String orgName = ar.organisationName;
@@ -379,24 +388,27 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
                 if (contains) {
                     taskSection = taskSection.acceptTask();
                     tasksPage = taskSection.approveTask();
+                    log.info("Approved newly created account with business : " + ar.organisationName);
                 }
-
-                //assertThat("Task not found for organisation : " + orgName, contains, is(equalTo(true)));
 
                 listOfManufactuersCreatedWithTesterInitials.add(orgName);
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
+            log.info("Created The Following Accounts : " + listOfManufactuersCreatedWithTesterInitials + "\n");
+
             WaitUtils.nativeWaitInSeconds(2);
-            System.out.println(ar.organisationName);
-            log.info(ar.organisationName);
+            //log.info(ar.organisationName);
             loginPage.logoutIfLoggedIn();
             WaitUtils.nativeWaitInSeconds(2);
         }
     }
 
     private void createDevicesFor(User u, String manufacturerName) {
+        log.info("Try And Add Devices For : " + nameSelected);
+
+        List<DeviceData> listOfDeviceData = DirectDeviceDataUtils.getListOfDeviceData();
 
         loginAndViewManufacturer();
 
@@ -409,8 +421,8 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
         for (String specificDeviceTypes : deviceTypes) {
 
             //Assumes we are in add device page
-            List<DeviceData> listOfDevicesOfSpecificType = getListOfDevicesOfSpecificType(listOfDeviceData, specificDeviceTypes);
-            listOfDevicesOfSpecificType = getValidatedDataOnly(true, listOfDevicesOfSpecificType);
+            List<DeviceData> listOfDevicesOfSpecificType = DirectDeviceDataUtils.getListOfDevicesOfSpecificType(listOfDeviceData, specificDeviceTypes);
+            listOfDevicesOfSpecificType = DirectDeviceDataUtils.getValidatedDataOnly(true, listOfDevicesOfSpecificType);
             int count = 0;
 
             //Lets try to add multiple devices, it will take a long time
@@ -419,15 +431,16 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
                 if (dd.validatedData.toLowerCase().equals("y")) {
                     try {
                         //Only for DEBUGGING
-                        System.out.println("\n----------------------------------------------------------");
-                        System.out.println("Product number : " + (count + 1));
-                        System.out.println("Device Type : " + dd);
-                        System.out.println("----------------------------------------------------------\n");
+                        log.info("\n----------------------------------------------------------");
+                        log.info("Product number : " + (count + 1));
+                        //log.info("Device Type : " + dd);
+                        DirectDeviceDataUtils.printDeviceData(dd);
+                        log.info("----------------------------------------------------------\n");
 
                         addDevices = addDevices.addFollowingDevice(dd);
                         boolean isVisible = addDevices.isOptionToAddAnotherDeviceVisible();
                         if (!isVisible) {
-                            System.out.println("\nERROR ::::: Problem adding device TRY AGAIN");
+                            log.info("\nERROR ::::: Problem adding device TRY AGAIN");
                             //Try again :
                             addDevices = addDevices.addFollowingDevice(dd);
                             isVisible = addDevices.isOptionToAddAnotherDeviceVisible();
@@ -446,34 +459,33 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
 //                        }
 
                         //Try adding another device
-                        if (isVisible && count < listOfDevicesOfSpecificType.size() )
+                        if (isVisible && count < listOfDevicesOfSpecificType.size())
                             addDevices = addDevices.addAnotherDevice();
                         else
                             break;
 
                     } catch (Exception e) {
                         e.printStackTrace();
-                        System.out.println("\nERROR ::::: Problem adding device");
+                        log.info("\nERROR ::::: Problem adding device");
                         listOfDevicesWhichHadProblems.add(dd);
                         count++;
                     }
                 } else {
-                    System.out.println("\n----------------------------------------------------------");
-                    System.out.println("Device Data Not Validated : \n" + dd.excelFileLineNumber);
-                    System.out.println("----------------------------------------------------------\n");
+                    log.info("\n----------------------------------------------------------");
+                    log.info("Device Data Not Validated : \n" + dd.excelFileLineNumber);
+                    log.info("----------------------------------------------------------\n");
                 }
             }
 
-            printFailingData(listOfDevicesWhichHadProblems, specificDeviceTypes);
+            DirectDeviceDataUtils.printFailingData(listOfDevicesWhichHadProblems, specificDeviceTypes);
 
             //Verify option to add another device is there
             boolean isVisible = addDevices.isOptionToAddAnotherDeviceVisible();
-            if(!isVisible){
-                DeviceData dd = getDeviceDataCalled(listOfDevicesWhichHadProblems, "Abacus");
+            if (!isVisible) {
+                DeviceData dd = DirectDeviceDataUtils.getDeviceDataCalled(listOfDevicesWhichHadProblems, "Abacus");
                 addDevices = addDevices.addFollowingDevice(dd);
                 isVisible = addDevices.isOptionToAddAnotherDeviceVisible();
             }
-            //Assert.assertThat("Expected to see option to : Add another device", isVisible, Matchers.is(true));
 
             //Confirm
             addDevices = addDevices.proceedToPayment();
@@ -518,7 +530,7 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
                 tasksPage = taskSection.approveTask();
             }
 
-            //assertThat("Task not found for organisation : " + orgName, contains, is(equalTo(true)));
+            log.info("Create Devices For : " + nameSelected);
 
             //Update status
             registered = "registered";
@@ -526,68 +538,58 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
             //Logback in now
             WaitUtils.nativeWaitInSeconds(5);
             loginPage.logoutIfLoggedIn();
-            loginAndViewManufacturer();
+            //loginAndViewManufacturer();
         }
     }
 
-    private DeviceData getDeviceDataCalled(List<DeviceData> listOfDevicesWhichHadProblems, String abacus) {
-        DeviceData dd = null;
-        for(DeviceData data: listOfDevicesWhichHadProblems){
-            String definition = data.device;
-            if(definition.equals(abacus)){
-                dd = data;
-                break;
-            }
+
+    private void createAuthorisedRepsWithManufacturerTestHarness(User user) throws Exception {
+
+        //Now create the test data using harness page
+        AccountManufacturerRequest ar = new AccountManufacturerRequest();
+        ar.isManufacturer = false;
+        ar.updateName(AUTHORISED_REP_SMOKE_TEST);
+        ar.updateNameEnding("_" + initials);
+        ar.setUserDetails(username);
+        ar.country = "Nepal";
+
+        manufacturerUser = user;
+        ar.firstName = TestHarnessUtils.getName(initials, manufacturerUser, true);
+        ar.lastName = TestHarnessUtils.getName(initials, manufacturerUser, false);
+
+        //Assuming all previous data removed
+        loginPage = new LoginPage(driver);
+        loginPage = loginPage.loadPage(baseUrl);
+        mainNavigationBar = loginPage.loginAsManufacturer(username, password);
+        externalHomePage = mainNavigationBar.clickHome();
+
+        //Click on a random manufacturer
+        manufacturerList = externalHomePage.gotoListOfManufacturerPage();
+        //manufacturerList.go
+
+        //Create new manufacturer data
+        createNewManufacturer = new CreateManufacturerTestsData(driver);
+        addDevices = createNewManufacturer.createTestOrganisation(ar);
+        if (createNewManufacturer.isErrorMessageDisplayed()) {
+            externalHomePage = mainNavigationBar.clickExternalHOME();
+            manufacturerList = externalHomePage.gotoListOfManufacturerPage();
+            createNewManufacturer = manufacturerList.registerNewManufacturer();
+            addDevices = createNewManufacturer.createTestOrganisation(ar);
         }
-        return dd;
+
+        log.info("Created a new account to add devices to : " + ar.organisationName);
+
+        //Provide indication of devices made to the newly created authoirisedRep
+        manufacturerUser = user;
+        //addToListOfManufacturersCreatedWithInitials(initials, listOfManufactuersCreatedWithTesterInitials, ar.organisationName);
+        listOfManufactuersCreatedWithTesterInitials.add(ar.organisationName);
+        nameSelected = ar.organisationName;
+
     }
 
-    private List<DeviceData> getValidatedDataOnly(boolean onlyValidatedData, List<DeviceData> listOfDevicesOfSpecificType) {
-        List<DeviceData> listOfValidatedData = new ArrayList<>();
-
-        if(onlyValidatedData){
-            for(DeviceData dd: listOfDevicesOfSpecificType){
-                if(dd.validatedData.equals("Y")){
-                    listOfValidatedData.add(dd);
-                }
-            }
-        }else{
-            listOfValidatedData = listOfDevicesOfSpecificType;
-        }
-        return listOfValidatedData;
-
-    }
-
-
-    private List<DeviceData> getListOfDevicesOfSpecificType(List<DeviceData> listOfDeviceData, String specificType) {
-        if(specificType.equals("all devices")){
-            return listOfDeviceData;
-        }else {
-            //Filter specific data
-            List<DeviceData> listOfDevicesOfType = new ArrayList<>();
-            for (DeviceData dd : listOfDeviceData) {
-                if (dd.deviceType.contains(specificType)) {
-                    listOfDevicesOfType.add(dd);
-                }
-            }
-            return listOfDevicesOfType;
-        }
-    }
-
-    private void printFailingData(List<DeviceData> listOfDevicesWhichHadProblems, String deviceType) {
-        System.out.println("FINISHED ADDING DEVICE TYPE : " + deviceType);
-        System.out.println("Number of invalid data : " + listOfDevicesWhichHadProblems.size());
-        for (DeviceData data : listOfDevicesWhichHadProblems) {
-            System.out.println("\n\nExcel File Line Number : " + data.excelFileLineNumber);
-            System.out.println("Validated Data : " + data.validatedData);
-            System.out.println("Device Type : " + data.deviceType);
-            System.out.println("Device Term/Definition : " + data.device);
-            System.out.println("Risk Classification : " + data.riskClassification);
-        }
-    }
 
     @Override
     public String toString() {
-        return "CREATE DEVICES FOR Manufacturers";
+        return "CREATE DEVICES FOR AuthorisedReps";
     }
 }

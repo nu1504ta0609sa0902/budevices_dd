@@ -3,14 +3,13 @@
             "LP", //"NU", "HB", "YC", "PG", "AN", "LP"
     };
 
-Run BusinessCreateManufacturersWithTestersInitials
-    - To create a manufacturer for each initials
-    - Take notes or write to some file
-        - List of manufacturers created
+Run _AllInOne_AddDevicesToManufacturers_Main
+    THIS WILL DO:
+    - To create a manufacturer for each of the users ending with their initials
+    - Than for each manufacturer created it will create new devices
 
-Run AddDevicesToManufacturers_Main
-    - First time you run it
-        - Fill out the device indication section and approve it by logging in as business
-    - Once Approved
-        -
-        - Run it again and it will add Devices
+Run _AllInOne_AddDevicesToAuthorisedReps_Main
+    THIS WILL DO:
+    - To create a authorisedReps for each of the users ending with their initials
+    - Than for each manufacturer created it will create new devices
+

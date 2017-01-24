@@ -1,4 +1,4 @@
-package com.mhra.mdcm.devices.dd.appian._test.junit.device_injection.directly.others;
+package com.mhra.mdcm.devices.dd.appian._test.junit.device_injection.directly;
 
 import com.mhra.mdcm.devices.dd.appian._test.junit.common.Common;
 import com.mhra.mdcm.devices.dd.appian.domains.junit.User;

@@ -1,17 +1,11 @@
-package com.mhra.mdcm.devices.dd.appian._test.junit.device_injection.junit;
+package com.mhra.mdcm.devices.dd.appian._test.junit.device_injection.directly.OLD_STUFF.junit;
 
 import com.mhra.mdcm.devices.dd.appian._test.junit.common.Common;
 import com.mhra.mdcm.devices.dd.appian.domains.junit.User;
-import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.AccountRequest;
 import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.DeviceData;
-import com.mhra.mdcm.devices.dd.appian.pageobjects.LoginPage;
-import com.mhra.mdcm.devices.dd.appian.pageobjects.MainNavigationBar;
-import com.mhra.mdcm.devices.dd.appian.pageobjects.external.sections.AddDevices;
 import com.mhra.mdcm.devices.dd.appian.utils.datadriven.ExcelDataSheet;
-import com.mhra.mdcm.devices.dd.appian.utils.datadriven.JUnitUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.driver.BrowserConfig;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.FileUtils;
-import org.hamcrest.Matchers;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -23,7 +17,6 @@ import java.util.Collection;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
 /**
