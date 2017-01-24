@@ -31,8 +31,6 @@ public class SmokeTestsBusiness extends Common {
 
     public static final String AUTHORISED_REP_SMOKE_TEST = "AuthorisedRepST";
     public static final String MANUFACTURER_SMOKE_TEST = "ManufacturerST";
-
-    public static WebDriver driver;
     public static String baseUrl;
     private String username;
     private String password;

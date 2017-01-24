@@ -25,7 +25,7 @@ import java.util.List;
 public class SmokeTestsAuthorisedRep extends Common {
 
 
-    public static WebDriver driver;
+    //public static WebDriver driver;
     public static String baseUrl;
     private String username;
     private String password;

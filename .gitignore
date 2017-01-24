@@ -13,3 +13,4 @@ bu/*
 buAllClear/*
 /*.iml
 *.log
+/src/test/resources/screenshots

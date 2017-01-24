@@ -207,7 +207,7 @@ public class Accounts extends _Page {
     public boolean isInEditMode() {
         boolean isInEditPage = true;
         try {
-            WaitUtils.waitForElementToBeVisible(driver, submitBtn, TIMEOUT_SMALL, false);
+            WaitUtils.waitForElementToBeVisible(driver, submitBtn, TIMEOUT_MEDIUM, false);
         }catch (Exception e){
             isInEditPage = false;
         }

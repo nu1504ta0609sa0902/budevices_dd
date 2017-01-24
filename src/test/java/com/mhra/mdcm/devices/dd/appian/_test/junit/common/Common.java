@@ -10,14 +10,21 @@ import com.mhra.mdcm.devices.dd.appian.pageobjects.external.sections.CreateManuf
 import com.mhra.mdcm.devices.dd.appian.pageobjects.external.sections.ManufacturerDetails;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.external.sections.ManufacturerList;
 import com.mhra.mdcm.devices.dd.appian.utils.datadriven.ExcelDataSheet;
+import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.TestHarnessUtils;
+import org.apache.commons.io.FileUtils;
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.rules.TestRule;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -26,6 +33,8 @@ import java.util.Date;
  * Created by TPD_Auto on 07/11/2016.
  */
 public class Common {
+
+    public static WebDriver driver;
     static {
         //This helps with creating log files each time we run the tests, remember append=false needs to be set
         Calendar ins = Calendar.getInstance();
@@ -55,6 +64,20 @@ public class Common {
             //Log pass/fail message for the test
             log.warn(message + min + " min, " + sec + " seconds for test : " + description);
         }
+
+        @Override
+        public void failed(Throwable e, Description test){
+            File scrFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+            String currentDir = com.mhra.mdcm.devices.dd.appian.utils.selenium.others.FileUtils.getFileFullPath("tmp", "screenshots");
+
+            //String currentDir = System.getProperty("user.dir");
+            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+            try {
+                FileUtils.copyFile(scrFile, new File(currentDir + File.separator + "ss_" + timeStamp + ".png"));
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        }
     };
 
     @Rule
@@ -72,7 +95,10 @@ public class Common {
             //log.warn("Failed : " + description);
             logTime("Failed,", description);
             log.warn("Error : " + e.getMessage());
+
+            TestHarnessUtils.takeScreenShot(driver, description.getMethodName());
         }
+
 
         @Override
         protected void succeeded(Description description) {
