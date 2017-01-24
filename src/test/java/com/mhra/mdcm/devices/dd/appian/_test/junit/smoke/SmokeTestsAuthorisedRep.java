@@ -48,6 +48,7 @@ public class SmokeTestsAuthorisedRep extends Common {
     public static void setUpDriver() {
         if (driver == null) {
             driver = new BrowserConfig().getDriver();
+            driver.manage().window().maximize();
             baseUrl = FileUtils.getTestUrl();
             log.warn("\n\nRUNNING AUTHORISED REP SMOKE TESTS");
         }
