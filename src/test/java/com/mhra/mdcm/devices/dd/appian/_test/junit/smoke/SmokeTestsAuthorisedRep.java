@@ -58,6 +58,7 @@ public class SmokeTestsAuthorisedRep extends Common {
     public static void clearBrowsers() {
         if (driver != null) {
             driver.quit();
+            driver = null;
         }
     }
 
