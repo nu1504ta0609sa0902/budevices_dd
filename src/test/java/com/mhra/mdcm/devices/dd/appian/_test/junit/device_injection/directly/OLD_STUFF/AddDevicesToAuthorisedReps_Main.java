@@ -39,6 +39,8 @@ public class AddDevicesToAuthorisedReps_Main extends Common {
     public static final String AUTHORISED_REP_SMOKE_TEST = "AuthorisedRepST";
 
     public static List<DeviceData> listOfDeviceData = new ArrayList<>();
+    private static List<User> listOfAuthorisedRepUsers = new ArrayList<>();
+
     public static WebDriver driver;
     public static String baseUrl;
     private static List<User> listOfBusinessUsers;
@@ -79,6 +81,7 @@ public class AddDevicesToAuthorisedReps_Main extends Common {
         ExcelDataSheet excelUtils = new ExcelDataSheet();//
         List<User> listOfUsers = excelUtils.getListOfUsers("configs/data/excel/users.xlsx", "InjectSpecificUser");
         listOfUsers = excelUtils.filterUsersBy(listOfUsers, "authorised");
+        listOfAuthorisedRepUsers = listOfUsers;
         return listOfUsers;
     }
 
@@ -235,8 +238,8 @@ public class AddDevicesToAuthorisedReps_Main extends Common {
             ar.setUserDetails(username);
             ar.country = "Nepal";
 
-            ar.firstName = TestHarnessUtils.getName(initials, true);
-            ar.lastName = TestHarnessUtils.getName(initials, false);
+            ar.firstName = TestHarnessUtils.getName(initials, true, listOfAuthorisedRepUsers);
+            ar.lastName = TestHarnessUtils.getName(initials, false, listOfAuthorisedRepUsers);
 
             //Create new manufacturer data
             createNewManufacturer = new CreateManufacturerTestsData(driver);

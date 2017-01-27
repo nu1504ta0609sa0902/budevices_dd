@@ -3,7 +3,6 @@ package com.mhra.mdcm.devices.dd.appian._test.junit.device_injection.directly.ot
 import com.mhra.mdcm.devices.dd.appian._test.junit.common.Common;
 import com.mhra.mdcm.devices.dd.appian.domains.junit.User;
 import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.AccountManufacturerRequest;
-import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.AccountRequest;
 import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.DeviceData;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.LoginPage;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.MainNavigationBar;
@@ -21,13 +20,11 @@ import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
 /**
@@ -43,6 +40,8 @@ public class ManufacturerCreateManufacturersWithTestersInitials extends Common {
     public static final String AUTHORISED_REP_SMOKE_TEST = "AuthorisedRepST";
     public static final String MANUFACTURER_SMOKE_TEST = "ManufacturerST";
 
+    private static List<User> listOfManufacturerUsers = new ArrayList<>();
+
     public static WebDriver driver;
     public static String baseUrl;
     private String username;
@@ -54,6 +53,7 @@ public class ManufacturerCreateManufacturersWithTestersInitials extends Common {
         ExcelDataSheet excelUtils = new ExcelDataSheet();//
         List<User> listOfUsers = excelUtils.getListOfUsers("configs/data/excel/users.xlsx", "Sheet1");
         listOfUsers = excelUtils.filterUsersBy(listOfUsers, "manufacturer");
+        listOfManufacturerUsers = listOfUsers;
         log.info("Business Users : " + listOfUsers);
         return listOfUsers;
     }
@@ -111,8 +111,8 @@ public class ManufacturerCreateManufacturersWithTestersInitials extends Common {
                 ar.setUserDetails(username);
                 ar.country = "Nepal";
 
-                ar.firstName = TestHarnessUtils.getName(initials, true);
-                ar.lastName = TestHarnessUtils.getName(initials, false);
+                ar.firstName = TestHarnessUtils.getName(initials, true, listOfManufacturerUsers);
+                ar.lastName = TestHarnessUtils.getName(initials, false, listOfManufacturerUsers);
 
                 //Create new manufacturer data
                 addDevices = createNewManufacturer.createTestOrganisation(ar);

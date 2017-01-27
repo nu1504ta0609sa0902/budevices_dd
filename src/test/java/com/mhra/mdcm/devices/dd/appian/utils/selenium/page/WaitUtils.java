@@ -205,25 +205,57 @@ public class WaitUtils {
         }
     }
 
+//    public static boolean isPageLoadingComplete(WebDriver driver, int timeout){
+//        boolean isWorkingDisplayed = true;
+//        try {
+//            int count = 0;
+//            do {
+//                driver.manage().timeouts().implicitlyWait(timeout, TimeUnit.SECONDS);
+//                List<WebElement> elements = driver.findElements(By.xpath(".//div[@class='appian-indicator-message' and @style='display: none;']"));
+//                if (elements.size() == 1) {
+//                    isWorkingDisplayed = false;
+//                }
+//                driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+//                count++;
+//            }while(isWorkingDisplayed && count < 5);
+//
+//        }catch (Exception e){
+//            driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+//            isWorkingDisplayed = false;
+//        }
+//        return isWorkingDisplayed;
+//    }
+
     public static boolean isPageLoadingComplete(WebDriver driver, int timeout){
-        boolean isWorkingDisplayed = true;
+        boolean isLoadedFully = false;
+        long start = System.currentTimeMillis();
         try {
             int count = 0;
             do {
                 driver.manage().timeouts().implicitlyWait(timeout, TimeUnit.SECONDS);
                 List<WebElement> elements = driver.findElements(By.xpath(".//div[@class='appian-indicator-message' and @style='display: none;']"));
                 if (elements.size() == 1) {
-                    isWorkingDisplayed = false;
+                    isLoadedFully = true;
+                }else{
+                    //System.out.println("-----PAGE NOT LOADED YET-----");
                 }
+                driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+                elements = driver.findElements(By.xpath(".//div[@class='appian-indicator-message' and @style=' ']"));
                 driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
                 count++;
-            }while(isWorkingDisplayed && count < 5);
+            }while(!isLoadedFully && count < 50);
 
         }catch (Exception e){
             driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
-            isWorkingDisplayed = false;
+            isLoadedFully = false;
         }
-        return isWorkingDisplayed;
+        //long diff = (System.currentTimeMillis() - start)/1000;
+        //System.out.println("\nPage Took : " + diff + " seconds to load");
+        long diffMiliseconds = (System.currentTimeMillis() - start);
+        if(diffMiliseconds > 1000 * 3)
+            System.out.println("\nPage Took : " + diffMiliseconds + " milliseconds to load");
+
+        return isLoadedFully;
     }
 
 }

@@ -36,6 +36,8 @@ public class BusinessCreateManufacturersWithTestersInitials extends Common {
     public static final String AUTHORISED_REP_SMOKE_TEST = "AuthorisedRepST";
     public static final String MANUFACTURER_SMOKE_TEST = "ManufacturerST";
 
+    private static List<User> listOfManufacturerUsers = new ArrayList<>();
+
     public static WebDriver driver;
     public static String baseUrl;
     private String username;
@@ -100,7 +102,8 @@ public class BusinessCreateManufacturersWithTestersInitials extends Common {
     private static List<User> getListOfUsersFromExcel() {
         ExcelDataSheet excelUtils = new ExcelDataSheet();//
         List<User> listOfUsers = excelUtils.getListOfUsers("configs/data/excel/users.xlsx", "InjectSpecificUser");
-        listOfUsers = excelUtils.filterUsersBy(listOfUsers, "authorised");
+        listOfUsers = excelUtils.filterUsersBy(listOfUsers, "manufacturer");
+        listOfManufacturerUsers = listOfUsers;
         return listOfUsers;
     }
 
@@ -145,8 +148,8 @@ public class BusinessCreateManufacturersWithTestersInitials extends Common {
                 ar.updateNameEnding("_" + initials);
                 ar.setUserDetails(username);
 
-                ar.firstName = TestHarnessUtils.getName(initials, true);
-                ar.lastName = TestHarnessUtils.getName(initials, false);
+                ar.firstName = TestHarnessUtils.getName(initials, true, listOfManufacturerUsers);
+                ar.lastName = TestHarnessUtils.getName(initials, false, listOfManufacturerUsers);
 
                 actionsPage = createTestsData.createTestOrganisation(ar);
                 boolean isInCorrectPage = actionsPage.isInActionsPage();
@@ -217,8 +220,8 @@ public class BusinessCreateManufacturersWithTestersInitials extends Common {
             ar.updateNameEnding("_" + initials);
             ar.setUserDetails(username);
 
-            ar.firstName = TestHarnessUtils.getName(initials, true);
-            ar.lastName = TestHarnessUtils.getName(initials, false);
+            ar.firstName = TestHarnessUtils.getName(initials, true, listOfManufacturerUsers);
+            ar.lastName = TestHarnessUtils.getName(initials, false, listOfManufacturerUsers);
 
             actionsPage = createTestsData.createTestOrganisation(ar);
             boolean isInCorrectPage = actionsPage.isInActionsPage();

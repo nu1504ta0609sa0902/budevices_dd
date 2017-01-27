@@ -27,7 +27,7 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
 
     private static User businessUser;
     public String[] initialsArray = new String[]{
-            "LP",//"NU", "HB", "YC", "PG", "AN", "LP"
+            "AT",//"NU", "HB", "YC", "PG", "AN", "LP"
     };
 
     public static final String MANUFACTURER_SMOKE_TEST = "ManufacturerST";
@@ -37,6 +37,7 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
 
 
     private static List<String> listOfManufactuersCreatedWithTesterInitials = new ArrayList<>();
+    private static List<User> listOfManufacturerUsers = new ArrayList<>();
     private static List<User> listOfBusinessUsers = new ArrayList<>();
     public static List<DeviceData> listOfDeviceData = new ArrayList<>();
 
@@ -54,13 +55,13 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
     }
 
     public static void main(String[] args) {
-        List<User> listOfManufacturerUsers = DirectDeviceDataUtils.getListOfUsersFromExcel("manufacturer");
-        List<User> listOfBusinessUsersFromExcel = DirectDeviceDataUtils.getListOfBusinessUsersFromExcel("business");
+        listOfManufacturerUsers = DirectDeviceDataUtils.getListOfUsersFromExcel("manufacturer");
+        listOfBusinessUsers = DirectDeviceDataUtils.getListOfBusinessUsersFromExcel("business");
         setUpDriver();
 
         //Always use one of the Business Accounts to create the test manufacturers
         //REMEMBER ALL PREVIOUS MANUFACTURERS DATA WILL BE REMOVED
-        businessUser = setCorrectLoginDetails("_NU", listOfBusinessUsersFromExcel);
+        businessUser = setCorrectLoginDetails("_NU", listOfBusinessUsers);
         _AllInOne_AddDevicesToManufacturers_Main tgs = new _AllInOne_AddDevicesToManufacturers_Main(businessUser);
         tgs.createManufacturersWithBusinessTestHarness();
 
@@ -108,19 +109,6 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
         }
     }
 
-//    private static List<User> getListOfUsersFromExcel() {
-//        ExcelDataSheet excelUtils = new ExcelDataSheet();//
-//        List<User> listOfUsers = excelUtils.getListOfUsers("configs/data/excel/users.xlsx", "InjectSpecificUser");
-//        listOfUsers = excelUtils.filterUsersBy(listOfUsers, "manufacturer");
-//        return listOfUsers;
-//    }
-//
-//    private static List<User> getListOfBusinessUsersFromExcel() {
-//        ExcelDataSheet excelUtils = new ExcelDataSheet();//
-//        List<User> listOfUsers = excelUtils.getListOfUsers("configs/data/excel/users.xlsx", "Sheet1");
-//        listOfBusinessUsers = excelUtils.filterUsersBy(listOfUsers, "business");
-//        return listOfBusinessUsers;
-//    }
 
     public static void setUpDriver() {
         System.setProperty("current.browser", "gc");
@@ -129,6 +117,7 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
             driver = new BrowserConfig().getDriver();
             driver.manage().window().maximize();
             baseUrl = FileUtils.getTestUrl();
+            log.warn("\n\nTHIS IS NOT JUNIT, THIS IS NOT JUNIT");
             log.warn("\n\nINSERT DEVICES AS MANUFACTURER USER VIA MAIN METHOD");
         }
     }
@@ -339,8 +328,8 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
                 ar.updateNameEnding("_" + initials);
                 ar.setUserDetails(username);
 
-                ar.firstName = TestHarnessUtils.getName(initials, true);
-                ar.lastName = TestHarnessUtils.getName(initials, false);
+                ar.firstName = TestHarnessUtils.getName(initials, true, listOfManufacturerUsers);
+                ar.lastName = TestHarnessUtils.getName(initials, false, listOfManufacturerUsers);
 
                 actionsPage = createTestsData.createTestOrganisation(ar);
                 boolean isInCorrectPage = actionsPage.isInActionsPage();

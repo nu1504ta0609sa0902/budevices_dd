@@ -29,7 +29,7 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
 
     private static User businessUser;
     public String[] initialsArray = new String[]{
-            "LP"//"NU", "HB", "YC", "PG", "AN", "LP"
+            "AT"//"NU", "HB", "YC", "PG", "AN", "LP"
     };
     public static final String AUTHORISED_REP_SMOKE_TEST = "AuthorisedRepST";
 
@@ -39,6 +39,8 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
     public static String mainAccount = null;
 
     private static List<String> listOfManufactuersCreatedWithTesterInitials = new ArrayList<>();
+    private static List<User> listOfAuthorisedRepUsers = new ArrayList<>();
+    private static List<User> listOfBusinessUsers = new ArrayList<>();
 
     public static WebDriver driver;
     public static String baseUrl;
@@ -54,15 +56,15 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
 
     public static void main(String[] args) {
 
-        List<User> listOfAuthorisedRepUsers = DirectDeviceDataUtils.getListOfUsersFromExcel("authorised");
-        List<User> listOfBusinessUsersFromExcel = DirectDeviceDataUtils.getListOfBusinessUsersFromExcel("business");
+        listOfAuthorisedRepUsers = DirectDeviceDataUtils.getListOfUsersFromExcel("authorised");
+        listOfBusinessUsers = DirectDeviceDataUtils.getListOfBusinessUsersFromExcel("business");
         setUpDriver();
 
         /**
          * Always use one of the Business Accounts to create the test manufacturers
          * This will create authorisedReps with users initials e.g _NU, _HB
          */
-        businessUser = DirectDeviceDataUtils.getCorrectLoginDetails("_NU", listOfBusinessUsersFromExcel);
+        businessUser = DirectDeviceDataUtils.getCorrectLoginDetails("_NU", listOfBusinessUsers);
         _AllInOne_AddDevicesToAuthorisedReps_Main tgs = new _AllInOne_AddDevicesToAuthorisedReps_Main(businessUser);
         tgs.createAuthorisedRepWithBusinessTestHarness(listOfAuthorisedRepUsers);
 
@@ -81,6 +83,7 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
             driver = new BrowserConfig().getDriver();
             driver.manage().window().maximize();
             baseUrl = FileUtils.getTestUrl();
+            log.warn("\n\nTHIS IS NOT JUNIT, THIS IS NOT JUNIT");
             log.warn("\n\nINSERT DEVICES AS AUTHORISEDREP USER VIA MAIN METHOD");
         }
     }

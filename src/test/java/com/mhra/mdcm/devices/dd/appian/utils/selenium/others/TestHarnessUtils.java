@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,17 +19,22 @@ import java.util.Map;
 public class TestHarnessUtils {
 
 
-    public static String getName(String initials, boolean isFirstName) {
-        Map<String, String> mapOfFirstNames = new HashMap<>();
-        mapOfFirstNames.put("NU","Noor Uddin.Manufacturer");
-        mapOfFirstNames.put("HB","Hasanein Bal-Alawi.Manufacturer");
-        mapOfFirstNames.put("YC","Yaaseen Choudhury.Manufacturer");
-        mapOfFirstNames.put("AN","Andrew Nisbet.Manufacturer");
-        mapOfFirstNames.put("PG","Priya Giri.Manufacturer");
-        mapOfFirstNames.put("LP","Lambros Poullais.Manufacturer");
+    public static String getName(String initials, boolean isFirstName, List<User> listOfManufacturerUsers) {
+        String name = null;
+        if(listOfManufacturerUsers == null) {
+            User user = getUser(initials, listOfManufacturerUsers);
+            String[] split = user.getUserName().split("\\.");
+            name = split[0] + " " + split[1];
+            if(split.length > 2){
+                name = name + "." + split[2];
+            }
+        }else {
+            //REMOVE THIS WHEN BUG IS RESOLVED
+            Map<String, String> mapOfFirstNames = getHardcodedNames();
+            name = mapOfFirstNames.get(initials);
+        }
 
-        String names = mapOfFirstNames.get(initials);
-        String[] data = names.split(" ");
+        String[] data = name.split(" ");
         if(isFirstName){
             return data[0];
         }else{
@@ -37,13 +43,39 @@ public class TestHarnessUtils {
 
     }
 
+    private static Map<String,String> getHardcodedNames() {
+        Map<String, String> mapOfNames = new HashMap<>();
+        mapOfNames.put("NU", "Noor Uddin.Manufacturer");
+        mapOfNames.put("HB", "Hasanein Bal-Alawi.Manufacturer");
+        mapOfNames.put("YC", "Yaaseen Choudhury.Manufacturer");
+        mapOfNames.put("AN", "Andrew Nisbet.Manufacturer");
+        mapOfNames.put("PG", "Priya Giri.Manufacturer");
+        mapOfNames.put("LP", "Lambros Poullais.Manufacturer");
+        mapOfNames.put("AT", "Auto Manufacturer");
+        return mapOfNames;
+    }
+
+    private static User getUser(String initials, List<User> listOfManufacturerUsers) {
+        User user = null;
+        for (User u : listOfManufacturerUsers) {
+            if (u.getInitials().contains(initials)) {
+                user = u;
+                break;
+            }
+        }
+        return user;
+    }
+
     public static String getName(String initials, User user, boolean isFirstName) {
         String names = user.getUserName();
         String[] data = names.split("\\.");
         if(isFirstName){
             return data[0];
         }else{
-            return data[1] + "." + data[2];
+            if(data.length> 2)
+                return data[1] + "." + data[2];
+            else
+                return data[1];
         }
     }
 

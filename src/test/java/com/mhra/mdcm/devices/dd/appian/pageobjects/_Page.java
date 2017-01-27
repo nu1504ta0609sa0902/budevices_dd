@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory;
  */
 public class _Page {
 
+    public static final int TIMEOUT_PAGE_LOAD = 1;
+
     public static final boolean USE_DEBUG_TIME = true;
     public static final int TIMEOUT_VERY_SMALL = 1;
     public static final int TIMEOUT_SMALL = 5;
