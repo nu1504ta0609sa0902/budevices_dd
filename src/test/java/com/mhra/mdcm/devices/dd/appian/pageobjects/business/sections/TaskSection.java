@@ -65,18 +65,18 @@ public class TaskSection extends _Page {
     }
 
     public TasksPage approveTask() {
+        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+        //WaitUtils.nativeWaitInSeconds(2);
         try {
-            WaitUtils.nativeWaitInSeconds(2);
-            WaitUtils.waitForElementToBeClickable(driver, approve, TIMEOUT_SMALL, false);
-            //approve.click();
-            PageUtils.doubleClick(driver, approve);
+            WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//*[contains(text(),'Device Selection')]//following::button[.='Approve']"), TIMEOUT_SMALL, false);
+            PageUtils.doubleClick(driver, driver.findElement(By.xpath(".//*[contains(text(),'Device Selection')]//following::button[.='Approve']")));
         }catch (Exception e){
             try {
                 WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//button[.='Approve']"), TIMEOUT_SMALL, false);
                 PageUtils.doubleClick(driver, driver.findElement(By.xpath(".//button[.='Approve']")));
             }catch(Exception e2){
-                WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//*[contains(text(),'Device Selection')]//following::button[.='Approve']"), TIMEOUT_SMALL, false);
-                PageUtils.doubleClick(driver, driver.findElement(By.xpath(".//*[contains(text(),'Device Selection')]//following::button[.='Approve']")));
+                WaitUtils.waitForElementToBeClickable(driver, approve, TIMEOUT_SMALL, false);
+                PageUtils.doubleClick(driver, approve);
             }
         }
         return new TasksPage(driver);

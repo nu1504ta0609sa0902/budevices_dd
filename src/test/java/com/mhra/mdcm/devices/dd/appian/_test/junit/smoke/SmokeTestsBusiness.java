@@ -9,6 +9,8 @@ import com.mhra.mdcm.devices.dd.appian.utils.datadriven.ExcelDataSheet;
 import com.mhra.mdcm.devices.dd.appian.utils.datadriven.JUnitUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.driver.BrowserConfig;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.FileUtils;
+import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.RandomDataUtils;
+import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.WaitUtils;
 import org.hamcrest.Matchers;
 import org.junit.*;
 import org.junit.runner.RunWith;
@@ -29,8 +31,8 @@ import static org.hamcrest.Matchers.is;
 @RunWith(Parameterized.class)
 public class SmokeTestsBusiness extends Common {
 
-    public static final String AUTHORISED_REP_SMOKE_TEST = "AuthorisedRepST";
-    public static final String MANUFACTURER_SMOKE_TEST = "ManufacturerST";
+    public static final String AUTHORISED_REP_SMOKE_TEST = RandomDataUtils.getRandomTestNameWithTodaysDate("AuthorisedRepST","");
+    public static final String MANUFACTURER_SMOKE_TEST = RandomDataUtils.getRandomTestNameWithTodaysDate("ManufacturerST","");;
     public static String baseUrl;
     private String username;
     private String password;
@@ -267,7 +269,7 @@ public class SmokeTestsBusiness extends Common {
 
 
     @Test
-    public void asABusinessUsersShouldBeAbleToCreateManufacturerAccountRequest() {
+    public void businessUsersCanCreateManufacturerAccountRequest() {
 
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
@@ -306,19 +308,20 @@ public class SmokeTestsBusiness extends Common {
             tasksPage = mainNavigationBar.clickTasks();
 
             //Click on link number X
-            taskSection = tasksPage.clickOnTaskNumber(count);
-            isCorrectTask = taskSection.isCorrectTask(orgName);
-            if (isCorrectTask) {
+            try {
+                taskSection = tasksPage.clickOnLinkWithText(orgName);
                 contains = true;
-            } else {
-                count++;
+            } catch (Exception e) {
+                contains = false;
             }
+            count++;
         } while (!contains && count <= 5);
 
         //Accept the task
         if(contains) {
             taskSection = taskSection.acceptTask();
             tasksPage = taskSection.approveTask();
+            WaitUtils.nativeWaitInSeconds(5);
         }
 
         assertThat("Task not found for organisation : " + orgName, contains, is(equalTo(true)));
@@ -327,7 +330,7 @@ public class SmokeTestsBusiness extends Common {
 
 
     @Test
-    public void asABusinessUsersShouldBeAbleToCreateAuthorisedRepAccountRequest() {
+    public void businessUsersCanCreateAuthorisedRepAccountRequest() {
 
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
@@ -366,19 +369,20 @@ public class SmokeTestsBusiness extends Common {
             tasksPage = mainNavigationBar.clickTasks();
 
             //Click on link number X
-            taskSection = tasksPage.clickOnTaskNumber(count);
-            isCorrectTask = taskSection.isCorrectTask(orgName);
-            if (isCorrectTask) {
+            try {
+                taskSection = tasksPage.clickOnLinkWithText(orgName);
                 contains = true;
-            } else {
-                count++;
+            } catch (Exception e) {
+                contains = false;
             }
+            count++;
         } while (!contains && count <= 5);
 
         //Accept the task
         if(contains) {
             taskSection = taskSection.acceptTask();
             tasksPage = taskSection.approveTask();
+            WaitUtils.nativeWaitInSeconds(2);
         }
 
         assertThat("Task not found for organisation : " + orgName, contains, is(equalTo(true)));

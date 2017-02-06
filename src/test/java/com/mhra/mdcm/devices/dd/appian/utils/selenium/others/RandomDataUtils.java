@@ -45,6 +45,11 @@ public class RandomDataUtils {
         return test + "_" + cal.get(Calendar.DAY_OF_MONTH) + "_" + (cal.get(Calendar.MONTH)+1) + "_" + getRandomNumberBetween(100, 1000000);
     }
 
+    public static String getTodaysDate(String separator) {
+        Calendar cal = Calendar.getInstance();
+        return cal.get(Calendar.DAY_OF_MONTH) + separator + (cal.get(Calendar.MONTH)+1) + separator + (cal.get(Calendar.YEAR));
+    }
+
     public static String generateTestNameStartingWith(String test, int lengthOfString) {
         String SALTCHARS = "abcdefghijklmnopqrstuvwxyz";
         StringBuilder sb = new StringBuilder();
@@ -137,5 +142,9 @@ public class RandomDataUtils {
         }else{
             return 0;
         }
+    }
+
+    public static String getRandomTestNameWithTodaysDate(String authorisedRepST, String separator) {
+        return authorisedRepST + getTodaysDate(separator);
     }
 }

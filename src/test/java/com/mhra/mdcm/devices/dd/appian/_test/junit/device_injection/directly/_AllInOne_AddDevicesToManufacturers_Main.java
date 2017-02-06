@@ -98,9 +98,9 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
                 provideIndicationOfDevicesMade(manufacturerUser);
 
                 log.info("Try And Add Devices For : " + manufacturerName);
-                _AllInOne_AddDevicesToManufacturers_Main tc = new _AllInOne_AddDevicesToManufacturers_Main(manufacturerUser);
-                tc.setLoginDetails(manufacturerUser);
-                tc.createDevicesFor(manufacturerUser, manufacturerName);
+                //_AllInOne_AddDevicesToManufacturers_Main tc = new _AllInOne_AddDevicesToManufacturers_Main(manufacturerUser);
+                setLoginDetails(manufacturerUser);
+                createDevicesFor(manufacturerUser, manufacturerName);
                 log.info("Create Devices For : " + manufacturerName);
 
             } catch (Exception e) {
@@ -180,7 +180,7 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
     }
 
     private void indicateDevices() {
-        WaitUtils.nativeWaitInSeconds(7);
+        WaitUtils.nativeWaitInSeconds(3);
         for (int x = 0; x < 9; x++) {
             externalHomePage = externalHomePage.provideIndicationOfDevicesMade(x);
         }
