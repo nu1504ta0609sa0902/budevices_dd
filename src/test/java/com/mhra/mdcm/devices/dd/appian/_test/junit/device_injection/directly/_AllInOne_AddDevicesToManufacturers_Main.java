@@ -189,9 +189,8 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
         externalHomePage.selectCustomMade(true);
 
         //Submit devices made : They changed the work flow on 03/02/2017
-        //externalHomePage = externalHomePage.submitIndicationOfDevicesMade(true);
-        //externalHomePage = externalHomePage.submitIndicationOfDevicesMade(false);
         createNewManufacturer = externalHomePage.submitIndicationOfDevicesMade(true);
+        createNewManufacturer = externalHomePage.submitIndicationOfDevicesMade(false);
 
         WaitUtils.nativeWaitInSeconds(5);
         loginPage = loginPage.logoutIfLoggedInOthers();
@@ -259,51 +258,37 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
         externalHomePage = mainNavigationBar.clickHome();
 
         //Click on a random manufacturer
-        boolean isClickable = false;
-//        int count = 0;
-//        do {
-//            externalHomePage = mainNavigationBar.clickHome();
-//            isClickable = externalHomePage.isGotoListOfManufacturerPageLinkClickable();
-//            count++;
-//        }while(!isClickable && count < 5);
-        externalHomePage = mainNavigationBar.clickHome();
-        WaitUtils.nativeWaitInSeconds(3);
-        externalHomePage = mainNavigationBar.clickHome();
-        WaitUtils.nativeWaitInSeconds(4);
-        externalHomePage = mainNavigationBar.clickHome();
+        boolean isDisabled = true;
+        int count = 0;
+        do {
+            externalHomePage = mainNavigationBar.clickHome();
+            WaitUtils.nativeWaitInSeconds(2);
+            isDisabled = externalHomePage.isGotoListOfManufacturerPageLinkDisabled();
+            count++;
+        } while (isDisabled && count < 10);
+
+        if (isDisabled) {
+            externalHomePage = mainNavigationBar.clickHome();
+            WaitUtils.nativeWaitInSeconds(3);
+        }
+
         manufacturerList = externalHomePage.gotoListOfManufacturerPage();
 
         //You will need to naviage to different pages to select the manufactuerer
-        String name = null; //manufacturerList.getARandomManufacturerNameWithStatus(registered);
-        if (nameSelected == null) {
-//            int nop = manufacturerList.getNumberOfPages();
-//            int page = 0;
-//            do {
-//                name = manufacturerList.getARandomManufacturerNameWithStatus(registered);
-//                if (name == null) {
-//                    manufacturerList = manufacturerList.clickNext();
-//                } else {
-//                    log.info("Manufacturer selected : " + name + ", is " + registered);
-//                    manufacturerDetails = manufacturerList.viewAManufacturer(name);
-//                    nameSelected = name;
-//                    break;
-//                }
-//                page++;
-//            } while (page < nop);
-        } else {
-            name = nameSelected;
-            log.info("Manufacturer selected : " + name + ", is " + registered);
-            manufacturerDetails = manufacturerList.viewAManufacturer(name);
-        }
+        String name = nameSelected;
+        registered = manufacturerList.getRegistrationStatus(name);
+        log.info("Manufacturer selected : " + name + ", is " + registered);
+        manufacturerDetails = manufacturerList.viewAManufacturer(name);
 
         //Add devices: This needs to change to add all the devices
         try {
-            if (registered != null && registered.toLowerCase().equals("registered"))
+            if (registered != null && registered.toLowerCase().equals("registered")){
                 addDevices = manufacturerDetails.clickAddDeviceBtn();
-            else
-                addDevices = new AddDevices(driver);
+            } else{
+                addDevices = manufacturerDetails.clickDeclareDevicesBtn();
+            }
         } catch (Exception e) {
-            addDevices = new AddDevices(driver);
+            addDevices = manufacturerDetails.clickDeclareDevicesBtn();
         }
     }
 
@@ -515,7 +500,7 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
             //Logback in now
             WaitUtils.nativeWaitInSeconds(5);
             loginPage.logoutIfLoggedIn();
-            loginAndViewManufacturer();
+            //loginAndViewManufacturer();
         }
     }
 

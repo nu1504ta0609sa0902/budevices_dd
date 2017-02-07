@@ -349,20 +349,13 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
 
         //Add devices: This needs to change to add all the devices
         try {
-            if (registered != null && registered.toLowerCase().equals("registered"))
-                try{
-                    addDevices = manufacturerDetails.clickAddDeviceBtn();
-                }catch (Exception e){
-                    addDevices = manufacturerDetails.clickDeclareDevicesBtn();
-                }
-
-            else{
+            if (registered != null && registered.toLowerCase().equals("registered")){
+                addDevices = manufacturerDetails.clickAddDeviceBtn();
+            } else{
                 addDevices = manufacturerDetails.clickDeclareDevicesBtn();
-                addDevices = new AddDevices(driver);
             }
         } catch (Exception e) {
             addDevices = manufacturerDetails.clickDeclareDevicesBtn();
-            addDevices = new AddDevices(driver);
         }
     }
 
