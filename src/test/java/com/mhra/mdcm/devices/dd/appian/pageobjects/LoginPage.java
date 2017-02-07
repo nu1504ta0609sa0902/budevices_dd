@@ -181,6 +181,7 @@ public class LoginPage extends _Page {
     }
 
     private boolean isAlreadyLoggedOut() {
+        //WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
         boolean loggedOut = true;
         try{
             WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText("Reset Your Password"), 5, false);

@@ -2,6 +2,7 @@ package com.mhra.mdcm.devices.dd.appian.pageobjects.external.sections;
 
 import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.AccountManufacturerRequest;
 import com.mhra.mdcm.devices.dd.appian.pageobjects._Page;
+import com.mhra.mdcm.devices.dd.appian.pageobjects.external.ExternalHomePage;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.PageUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.WaitUtils;
 import org.openqa.selenium.By;
@@ -83,7 +84,7 @@ public class CreateManufacturerTestsData extends _Page {
     public AddDevices createTestOrganisation(AccountManufacturerRequest ar) throws Exception {
         WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
         //WaitUtils.waitForElementToBeClickable(driver, By.cssSelector(".gwt-SuggestBox"), TIMEOUT_10_SECOND, false);
-        WaitUtils.waitForElementToBeClickable(driver, orgName, TIMEOUT_DEFAULT, false);
+        WaitUtils.waitForElementToBeClickable(driver, orgName, TIMEOUT_SMALL, false);
         orgName.sendKeys(ar.organisationName);
         selectCountryFromAutoSuggests(driver, ".gwt-SuggestBox", ar.country, false);
 
@@ -163,5 +164,11 @@ public class CreateManufacturerTestsData extends _Page {
         }catch (Exception e){
             return false;
         }
+    }
+
+    public ExternalHomePage submitForApproval() {
+        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//button[.='Submit']"), TIMEOUT_HIGH, false);
+        driver.findElement(By.xpath(".//button[.='Submit']")).click();
+        return new ExternalHomePage(driver);
     }
 }

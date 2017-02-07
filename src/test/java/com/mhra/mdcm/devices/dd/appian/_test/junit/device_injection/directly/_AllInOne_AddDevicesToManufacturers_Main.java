@@ -188,9 +188,10 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
         //custom made
         externalHomePage.selectCustomMade(true);
 
-        //Submit devices made
-        externalHomePage = externalHomePage.submitIndicationOfDevicesMade(true);
-        externalHomePage = externalHomePage.submitIndicationOfDevicesMade(false);
+        //Submit devices made : They changed the work flow on 03/02/2017
+        //externalHomePage = externalHomePage.submitIndicationOfDevicesMade(true);
+        //externalHomePage = externalHomePage.submitIndicationOfDevicesMade(false);
+        createNewManufacturer = externalHomePage.submitIndicationOfDevicesMade(true);
 
         WaitUtils.nativeWaitInSeconds(5);
         loginPage = loginPage.logoutIfLoggedInOthers();

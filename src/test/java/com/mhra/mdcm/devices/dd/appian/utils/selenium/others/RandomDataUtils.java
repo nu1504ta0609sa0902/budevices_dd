@@ -99,6 +99,17 @@ public class RandomDataUtils {
         return String.valueOf(val);
     }
 
+
+    public static int getARandomNumberBetween(int min, int max) {
+        int val = ( int )( Math.random() * max );
+        if(val < min){
+            val = val + min;
+        }
+        return val;
+    }
+
+
+
     public static int getSimpleRandomNumberBetween(int min, int max, boolean even) {
         boolean found = false;
         int foundNumber = 0;

@@ -22,6 +22,8 @@ public class ManufacturerDetails extends _Page {
 
     @FindBy(css = "a.GFWJSJ4DGR[aria-label='Add a device']")
     WebElement addADevice;
+    @FindBy(xpath = ".//button[contains(text(),'Declare devices')]")
+    WebElement declareDevices;
     @FindBy(xpath = ".//a[contains(text(),'Amend Represented')]")
     WebElement amendRepresentativeParty;
     @FindBy(xpath = ".//a[contains(text(),'Edit Account Information')]")
@@ -90,6 +92,13 @@ public class ManufacturerDetails extends _Page {
         WaitUtils.waitForElementToBeVisible(driver, addADevice, TIMEOUT_MEDIUM, false);
         WaitUtils.waitForElementToBeClickable(driver, addADevice, TIMEOUT_MEDIUM, false);
         addADevice.click();
+        return new AddDevices(driver);
+    }
+
+    public AddDevices clickDeclareDevicesBtn() {
+        WaitUtils.waitForElementToBeVisible(driver, declareDevices, TIMEOUT_MEDIUM, false);
+        WaitUtils.waitForElementToBeClickable(driver, declareDevices, TIMEOUT_MEDIUM, false);
+        declareDevices.click();
         return new AddDevices(driver);
     }
 

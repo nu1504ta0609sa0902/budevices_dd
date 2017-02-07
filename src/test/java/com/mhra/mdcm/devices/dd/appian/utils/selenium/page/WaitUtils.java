@@ -239,8 +239,8 @@ public class WaitUtils {
                 }else{
                     //System.out.println("-----PAGE NOT LOADED YET-----");
                 }
-                driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
-                elements = driver.findElements(By.xpath(".//div[@class='appian-indicator-message' and @style=' ']"));
+                //driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+                //elements = driver.findElements(By.xpath(".//div[@class='appian-indicator-message' and @style=' ']"));
                 driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
                 count++;
             }while(!isLoadedFully && count < 50);

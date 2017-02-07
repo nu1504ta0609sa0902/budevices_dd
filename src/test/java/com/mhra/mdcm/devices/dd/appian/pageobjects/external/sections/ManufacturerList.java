@@ -45,6 +45,7 @@ public class ManufacturerList extends _Page {
 
 
     public ManufacturerDetails viewAManufacturer(String manufacturerName) {
+        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
         if(manufacturerName == null){
             //Than view a random one
             int index = RandomDataUtils.getNumberBetween(0, listOfManufacturerNames.size() - 1);

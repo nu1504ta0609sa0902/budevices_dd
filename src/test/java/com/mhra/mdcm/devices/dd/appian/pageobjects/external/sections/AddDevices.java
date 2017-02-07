@@ -4,6 +4,7 @@ import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.DeviceData;
 import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.ProductDetail;
 import com.mhra.mdcm.devices.dd.appian.pageobjects._Page;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.external.ExternalHomePage;
+import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.RandomDataUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.PageUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.WaitUtils;
 import org.openqa.selenium.By;
@@ -27,6 +28,8 @@ public class AddDevices extends _Page {
 
     @FindBy(css = ".GFWJSJ4DCW label")
     List<WebElement> listOfDeviceTypes;
+    @FindBy(xpath = ".//*[.='Term']//following::td[contains(@class, 'GFWJSJ4DCEB')]")
+    List<WebElement> listOfTermsOrCodeMatches;
 
     //Device types
     @FindBy(xpath = ".//*[contains(text(),'ype of device')]//following::input[1]")
@@ -44,6 +47,8 @@ public class AddDevices extends _Page {
     @FindBy(xpath = ".//*[contains(text(),'Search GMDN')]//following::input[2]")
     WebElement radioGMDNDefinitionOrTerm;
     @FindBy(css = "input.gwt-SuggestBox")
+    WebElement tbxGMDNDefinitionOrTermSuggest;
+    @FindBy(css = "input[type='text']")
     WebElement tbxGMDNDefinitionOrTerm;
     @FindBy(xpath = ".//label[.='GMDN term']")
     WebElement lblGMDNDefinitionOrTerm;
@@ -150,7 +155,7 @@ public class AddDevices extends _Page {
     //Confirm and btnDeclareDevices
     @FindBy(css = "button.GFWJSJ4DCF")
     WebElement btnConfirm;
-    @FindBy(css = "button.GFWJSJ4DAF.GFWJSJ4DCF")
+    @FindBy(xpath = ".//button[contains(text(),'Review your order')]")
     WebElement btnReviewYourOrder;
     @FindBy(xpath = ".//button[.='Proceed to payment']")
     WebElement btnProceedToPayment;
@@ -160,7 +165,7 @@ public class AddDevices extends _Page {
     WebElement btnRemove;
     @FindBy(css = ".left .GFWJSJ4DCF")
     WebElement submit;
-    @FindBy(css = ".left .GFWJSJ4DCF")
+    @FindBy(xpath = ".//button[.='Submit registration']")
     WebElement submitConfirm;
 
     //File upload buttons
@@ -208,6 +213,7 @@ public class AddDevices extends _Page {
     public boolean isErrorMessageDisplayed() {
         try {
             WaitUtils.waitForElementToBeVisible(driver, By.cssSelector(".component_error"), 3, false);
+            WaitUtils.waitForElementToBeClickable(driver, By.cssSelector(".component_error"), 3, false);
             boolean isDisplayed = errorMessages.size() > 0;
             return isDisplayed;
         } catch (Exception e) {
@@ -234,8 +240,8 @@ public class AddDevices extends _Page {
         }
 
         //Business doing testing so don't do any write only tests
-        WaitUtils.waitForElementToBeClickable(driver, btnConfirm, TIMEOUT_MEDIUM, false);
-        PageUtils.doubleClick(driver, btnConfirm);
+        WaitUtils.waitForElementToBeClickable(driver, btnReviewYourOrder, TIMEOUT_MEDIUM, false);
+        PageUtils.doubleClick(driver, btnReviewYourOrder);
 
         return new AddDevices(driver);
     }
@@ -600,19 +606,36 @@ public class AddDevices extends _Page {
 
     private void searchByGMDN(DeviceData dd) {
         if (dd.device != null) {
-            //Default is search by gmdn term or definition
-            WaitUtils.waitForElementToBeClickable(driver, radioGMDNDefinitionOrTerm, TIMEOUT_MEDIUM, false);
-            radioGMDNDefinitionOrTerm.click();
-            WaitUtils.nativeWaitInSeconds(1);
-            PageUtils.doubleClick(driver, radioByGMDNCode);
-            WaitUtils.nativeWaitInSeconds(1);
-            PageUtils.doubleClick(driver, radioGMDNDefinitionOrTerm);
-            WaitUtils.waitForElementToBeClickable(driver, tbxGMDNDefinitionOrTerm, TIMEOUT_MEDIUM, false);
-            tbxGMDNDefinitionOrTerm.clear();
-            boolean completed = PageUtils.selectFromAutoSuggests(driver, By.cssSelector("input.gwt-SuggestBox"), dd.device);
-            if(!completed){
-                log.error("No items found for GMDN term : " + dd.device);
-            }
+            String [] arrayOfDeviceBecauseTheyKeepBloodyChanging = {
+                    "cat", "res", "tis", "sco", "con"
+            };
+            int pos = 0;
+            String searchFor = arrayOfDeviceBecauseTheyKeepBloodyChanging[pos];
+            boolean isErrorMessageDisplayed = false;
+            do {
+                WaitUtils.waitForElementToBeClickable(driver, tbxGMDNDefinitionOrTerm, TIMEOUT_MEDIUM, false);
+                tbxGMDNDefinitionOrTerm.clear();
+                tbxGMDNDefinitionOrTerm.sendKeys(searchFor);
+                WaitUtils.isPageLoadingComplete(driver, 2);
+
+                //Wait for list of items to appear and add it only if its not a duplicate
+                WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//*[.='Term']//following::td[contains(@class, 'GFWJSJ4DCEB')]"), TIMEOUT_DEFAULT, false);
+                int randomPosition = RandomDataUtils.getARandomNumberBetween(0, listOfTermsOrCodeMatches.size());
+                WebElement element = listOfTermsOrCodeMatches.get(randomPosition);
+                element.findElement(By.tagName("a")).click();
+                WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+
+                //If its a duplicate Try again
+                isErrorMessageDisplayed = isErrorMessageDisplayed();
+                if(isErrorMessageDisplayed) {
+                    //Try again
+                    pos++;
+                    searchFor = arrayOfDeviceBecauseTheyKeepBloodyChanging[pos];
+                }
+            }while (isErrorMessageDisplayed);
+
+            //Default is search by gmdn term or definition : This removed 03/02/2017 push
+            //previousGMDNSelection(dd);
 
         } else {
 //            WaitUtils.waitForElementToBeClickable(driver, radioByGMDNCode, TIMEOUT_MEDIUM, false);
@@ -624,7 +647,24 @@ public class AddDevices extends _Page {
         }
     }
 
+    private void previousGMDNSelection(DeviceData dd) {
+        WaitUtils.waitForElementToBeClickable(driver, radioGMDNDefinitionOrTerm, TIMEOUT_MEDIUM, false);
+        radioGMDNDefinitionOrTerm.click();
+        WaitUtils.nativeWaitInSeconds(1);
+        PageUtils.doubleClick(driver, radioByGMDNCode);
+        WaitUtils.nativeWaitInSeconds(1);
+        PageUtils.doubleClick(driver, radioGMDNDefinitionOrTerm);
+        WaitUtils.waitForElementToBeClickable(driver, tbxGMDNDefinitionOrTermSuggest, TIMEOUT_MEDIUM, false);
+        tbxGMDNDefinitionOrTermSuggest.clear();
+        boolean completed = PageUtils.selectFromAutoSuggests(driver, By.cssSelector("input.gwt-SuggestBox"), dd.device);
+        if(!completed){
+            log.error("No items found for GMDN term : " + dd.device);
+        }
+    }
+
     public boolean isOptionToAddAnotherDeviceVisible() {
+        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+        WaitUtils.nativeWaitInSeconds(2);
         try {
             WaitUtils.waitForElementToBeClickable(driver, btnAddAnotherDevice, TIMEOUT_MEDIUM, false);
             boolean isVisible = btnAddAnotherDevice.isDisplayed() && btnAddAnotherDevice.isEnabled();
@@ -634,21 +674,32 @@ public class AddDevices extends _Page {
         }
     }
 
+    public boolean isOptionToReviewYourOrderVisible() {
+        try {
+            WaitUtils.waitForElementToBeClickable(driver, btnReviewYourOrder, TIMEOUT_MEDIUM, false);
+            boolean isVisible = btnReviewYourOrder.isDisplayed() && btnReviewYourOrder.isEnabled();
+            return isVisible;
+        }catch (Exception e){
+            return false;
+        }
+    }
+
     public AddDevices proceedToPayment() {
-        WaitUtils.nativeWaitInSeconds(1);
+        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
         WaitUtils.waitForElementToBeClickable(driver, btnProceedToPayment, TIMEOUT_MEDIUM, false);
         btnProceedToPayment.click();
         return new AddDevices(driver);
     }
 
     public AddDevices submitRegistration() {
-        WaitUtils.nativeWaitInSeconds(1);
+        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
         WaitUtils.waitForElementToBeClickable(driver, submitConfirm, TIMEOUT_MEDIUM, false);
         submitConfirm.click();
         return new AddDevices(driver);
     }
 
     public ExternalHomePage finish() {
+        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
         WaitUtils.waitForElementToBeClickable(driver, btnFinish, TIMEOUT_MEDIUM, false);
         btnFinish.click();
         return new ExternalHomePage(driver);

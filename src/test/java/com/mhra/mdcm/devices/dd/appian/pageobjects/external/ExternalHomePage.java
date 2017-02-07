@@ -1,6 +1,7 @@
 package com.mhra.mdcm.devices.dd.appian.pageobjects.external;
 
 import com.mhra.mdcm.devices.dd.appian.pageobjects._Page;
+import com.mhra.mdcm.devices.dd.appian.pageobjects.external.sections.CreateManufacturerTestsData;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.external.sections.ManufacturerList;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.CommonUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.PageUtils;
@@ -55,7 +56,7 @@ public class ExternalHomePage extends _Page {
     }
 
     public ManufacturerList gotoListOfManufacturerPage() {
-        WaitUtils.isPageLoadingComplete(driver, 10);
+        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
         WaitUtils.waitForElementToBeClickable(driver, linkManufacturerRegistration, TIMEOUT_VERY_HIGH, false);
         linkManufacturerRegistration.click();
         return new ManufacturerList(driver);
@@ -63,7 +64,7 @@ public class ExternalHomePage extends _Page {
 
     public ExternalHomePage provideIndicationOfDevicesMade(int index) {
 
-        WaitUtils.isPageLoadingComplete(driver, 5);
+        WaitUtils.isPageLoadingComplete(driver, 2);
 
         WaitUtils.waitForElementToBePartOfDOM(driver, By.xpath(".//*[contains(text(),'ype of device')]//following::input[1]"), TIMEOUT_MEDIUM, false);
         WaitUtils.waitForElementToBeClickable(driver, generalMedicalDevice, TIMEOUT_MEDIUM, false);
@@ -76,7 +77,7 @@ public class ExternalHomePage extends _Page {
         WaitUtils.waitForElementToBeClickable(driver, e, TIMEOUT_MEDIUM, false);
 
         PageUtils.doubleClick(driver, e);
-        WaitUtils.nativeWaitInSeconds(2);
+        //WaitUtils.nativeWaitInSeconds(2);
 
         return new ExternalHomePage(driver);
     }
@@ -93,7 +94,7 @@ public class ExternalHomePage extends _Page {
         }
     }
 
-    public ExternalHomePage submitIndicationOfDevicesMade(boolean clickNext) {
+    public CreateManufacturerTestsData submitIndicationOfDevicesMade(boolean clickNext) {
         if(clickNext) {
             driver.findElements(By.cssSelector(".gwt-RadioButton.GFWJSJ4DGAD.GFWJSJ4DCW>label")).get(0).click();
             driver.findElement(By.xpath(".//button[.='Next']")).click();
@@ -101,6 +102,6 @@ public class ExternalHomePage extends _Page {
             WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//button[.='Submit']"), TIMEOUT_HIGH, false);
             driver.findElement(By.xpath(".//button[.='Submit']")).click();
         }
-        return new ExternalHomePage(driver);
+        return new CreateManufacturerTestsData(driver);
     }
 }
