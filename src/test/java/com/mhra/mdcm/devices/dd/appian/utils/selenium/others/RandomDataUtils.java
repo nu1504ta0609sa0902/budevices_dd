@@ -56,12 +56,12 @@ public class RandomDataUtils {
     }
 
     public static String generateTestNameStartingWith(String test, int lengthOfString) {
-        String SALTCHARS = "abcdefghijklmnopqrstuvwxyz";
+        String aToZChars = "abcdefghijklmnopqrstuvwxyz";
         StringBuilder sb = new StringBuilder();
         Random rnd = new Random();
         while (sb.length() < lengthOfString) {
-            int index = (int) (rnd.nextFloat() * SALTCHARS.length());
-            sb.append(SALTCHARS.charAt(index));
+            int index = (int) (rnd.nextFloat() * aToZChars.length());
+            sb.append(aToZChars.charAt(index));
         }
         String x = sb.toString();
         return test + x;
