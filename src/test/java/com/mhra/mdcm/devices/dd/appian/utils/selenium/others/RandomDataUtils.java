@@ -45,6 +45,11 @@ public class RandomDataUtils {
         return test + "_" + cal.get(Calendar.DAY_OF_MONTH) + "_" + (cal.get(Calendar.MONTH)+1) + "_" + getRandomNumberBetween(100, 1000000);
     }
 
+    /**
+     * Helps with identifying orgs created within a specific hours
+     * @param separator
+     * @return
+     */
     public static String getTodaysDate(String separator) {
         Calendar cal = Calendar.getInstance();
         return cal.get(Calendar.DAY_OF_MONTH) + separator + (cal.get(Calendar.MONTH)+1) + separator + (cal.get(Calendar.YEAR));
