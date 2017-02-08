@@ -249,10 +249,10 @@ public class WaitUtils {
             driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
             isLoadedFully = false;
         }
-        //long diff = (System.currentTimeMillis() - start)/1000;
-        //System.out.println("\nPage Took : " + diff + " seconds to load");
+
+        //display time
         long diffMiliseconds = (System.currentTimeMillis() - start);
-        if(diffMiliseconds > 1000 * 3)
+        if(diffMiliseconds > 1000 * 5)
             System.out.println("\nPage Took : " + diffMiliseconds + " milliseconds to load");
 
         return isLoadedFully;

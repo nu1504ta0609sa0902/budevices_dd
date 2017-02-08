@@ -538,7 +538,7 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
             externalHomePage = addDevices.finish();
 
             //@todo Now login as business user and approve the task
-            WaitUtils.nativeWaitInSeconds(2);
+            WaitUtils.nativeWaitInSeconds(4);
             loginPage = loginPage.logoutIfLoggedInOthers();
             mainNavigationBar = loginPage.loginAs(businessUser.getUserName(), businessUser.getPassword());
             //approveTheGeneratedTask(nameSelected);
@@ -656,16 +656,6 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
         manufacturerUser = user;
         ar.firstName = TestHarnessUtils.getName(initials, manufacturerUser, true);
         ar.lastName = TestHarnessUtils.getName(initials, manufacturerUser, false);
-
-        //Assuming all previous data removed
-//        loginPage = new LoginPage(driver);
-//        loginPage = loginPage.loadPage(baseUrl);
-//        mainNavigationBar = loginPage.loginAsManufacturer(username, password);
-//        externalHomePage = mainNavigationBar.clickHome();
-//
-//        //Click on a random manufacturer
-//        manufacturerList = externalHomePage.gotoListOfManufacturerPage();
-        //manufacturerList.go
 
         //Create new manufacturer data
         createNewManufacturer = new CreateManufacturerTestsData(driver);

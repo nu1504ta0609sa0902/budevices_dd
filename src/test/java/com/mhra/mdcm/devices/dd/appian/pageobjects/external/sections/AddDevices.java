@@ -607,7 +607,7 @@ public class AddDevices extends _Page {
     private void searchByGMDN(DeviceData dd) {
         if (dd.device != null) {
             String [] arrayOfDeviceBecauseTheyKeepBloodyChanging = {
-                    "cat", "res", "tis", "sco", "con"
+                    "cat", "res", "tis", "sco", "con", "pro"
             };
             int pos = 0;
             String searchFor = arrayOfDeviceBecauseTheyKeepBloodyChanging[pos];
