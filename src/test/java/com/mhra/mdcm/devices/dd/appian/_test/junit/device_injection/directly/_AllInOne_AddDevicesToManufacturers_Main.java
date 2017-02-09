@@ -27,7 +27,7 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
 
     private static User businessUser;
     public String[] initialsArray = new String[]{
-            "AT",//"NU", "HB", "YC", "PG", "AN", "LP"
+            "NU",//"NU", "HB", "YC", "PG", "AN", "LP"
     };
 
     public static final String MANUFACTURER_SMOKE_TEST = "ManufacturerST";
@@ -330,24 +330,27 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
 
                 String orgName = ar.organisationName;
 
-                //Verify new taskSection generated and its the correct one
                 boolean contains = false;
                 boolean isCorrectTask = false;
-                int count = 0;
+                int count2 = 0;
+                nameSelected = orgName;
                 do {
                     mainNavigationBar = new MainNavigationBar(driver);
                     tasksPage = mainNavigationBar.clickTasks();
 
                     //Click on link number X
-                    taskSection = tasksPage.clickOnTaskNumber(count);
-                    WaitUtils.nativeWaitInSeconds(2);
-                    isCorrectTask = taskSection.isCorrectTask(orgName);
-                    if (isCorrectTask) {
-                        contains = true;
-                    } else {
-                        count++;
+                    boolean isLinkVisible = tasksPage.isLinkVisible(orgName);
+                    //WaitUtils.nativeWaitInSeconds(3);
+                    if (isLinkVisible) {
+                        taskSection = tasksPage.clickOnLinkWithText(orgName);
+                        isCorrectTask = taskSection.isCorrectTask(orgName);
+                        if (isCorrectTask) {
+                            contains = true;
+                        } else {
+                            count2++;
+                        }
                     }
-                } while (!contains && count <= 5);
+                } while (!contains && count2 <= 5);
 
                 //Accept the task
                 if (contains) {

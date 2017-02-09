@@ -68,10 +68,12 @@ public class TasksPage extends _Page {
         WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText(orgName), TIMEOUT_SMALL, false);
         WebElement taskLink = driver.findElement(By.partialLinkText(orgName));
         taskLink.click();
+        log.info("Task found for : " + orgName);
         return new TaskSection(driver);
     }
 
     public boolean isLinkVisible(String link){
+        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
         boolean isVisible = true;
         try{
             WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText(link), TIMEOUT_SMALL, false);

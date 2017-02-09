@@ -29,7 +29,7 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
 
     private static User businessUser;
     public String[] initialsArray = new String[]{
-            "AT"//"NU", "HB", "YC", "PG", "AN", "LP"
+            "NU"//"NU", "HB", "YC", "PG", "AN", "LP"
     };
     public static final String AUTHORISED_REP_SMOKE_TEST = "AuthorisedRepST";
 
@@ -607,7 +607,7 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
         ar.updateName(AUTHORISED_REP_SMOKE_TEST);
         ar.updateNameEnding("_" + initials);
         ar.setUserDetails(username);
-        ar.country = "Nepal";
+        ar.country = "Brazil";
 
         manufacturerUser = user;
         ar.firstName = TestHarnessUtils.getName(initials, manufacturerUser, true);
@@ -651,7 +651,7 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
         ar.updateName(AUTHORISED_REP_SMOKE_TEST);
         ar.updateNameEnding("_" + initials);
         ar.setUserDetails(username);
-        ar.country = "Nepal";
+        ar.country = "Brazil";
 
         manufacturerUser = user;
         ar.firstName = TestHarnessUtils.getName(initials, manufacturerUser, true);

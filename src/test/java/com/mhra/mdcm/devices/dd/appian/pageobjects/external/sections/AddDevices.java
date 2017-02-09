@@ -631,6 +631,8 @@ public class AddDevices extends _Page {
                     //Try again
                     pos++;
                     searchFor = arrayOfDeviceBecauseTheyKeepBloodyChanging[pos];
+                }else{
+                    log.info(dd.deviceType + " => " + searchFor);
                 }
             }while (isErrorMessageDisplayed);
 
@@ -686,20 +688,25 @@ public class AddDevices extends _Page {
 
     public AddDevices proceedToPayment() {
         WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+        WaitUtils.nativeWaitInSeconds(2);
         WaitUtils.waitForElementToBeClickable(driver, btnProceedToPayment, TIMEOUT_MEDIUM, false);
         btnProceedToPayment.click();
+        log.info("Proceed to payment");
         return new AddDevices(driver);
     }
 
     public AddDevices submitRegistration() {
         WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+        WaitUtils.nativeWaitInSeconds(1);
         WaitUtils.waitForElementToBeClickable(driver, submitConfirm, TIMEOUT_MEDIUM, false);
         submitConfirm.click();
+        log.info("Submit for registration");
         return new AddDevices(driver);
     }
 
     public ExternalHomePage finish() {
         WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+        WaitUtils.nativeWaitInSeconds(1);
         WaitUtils.waitForElementToBeClickable(driver, btnFinish, TIMEOUT_MEDIUM, false);
         btnFinish.click();
         return new ExternalHomePage(driver);
