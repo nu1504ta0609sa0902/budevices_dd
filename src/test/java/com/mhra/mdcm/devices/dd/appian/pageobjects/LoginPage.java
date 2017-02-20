@@ -1,5 +1,6 @@
 package com.mhra.mdcm.devices.dd.appian.pageobjects;
 
+import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.FileUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.PageUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.WaitUtils;
 import org.openqa.selenium.By;
@@ -144,8 +145,13 @@ public class LoginPage extends _Page {
                     //settings.click();
                     PageUtils.doubleClick(driver, settings);
                     driver.findElement(By.linkText("Sign Out")).click();
+
+                    //If logout and login is too fast, appian system shows 404 in some instance of automation
+                    WaitUtils.nativeWaitInSeconds(2);
+
+                    String baseUrl = FileUtils.getTestUrl();
+                    driver.get(baseUrl);
                     WaitUtils.waitForElementToBeClickable(driver, remember, TIMEOUT_SMALL, false);
-                    //WaitUtils.nativeWait(2);
                 }
             } catch (Exception e) {
                 //Probably not logged in
@@ -168,10 +174,13 @@ public class LoginPage extends _Page {
                     //settings.click();
                     PageUtils.doubleClick(driver, photoIcon);
                     signOutLink.click();
-                    WaitUtils.waitForElementToBeClickable(driver, remember, 10, false);
 
                     //If logout and login is too fast, appian system shows 404 in some instance of automation
                     WaitUtils.nativeWaitInSeconds(2);
+
+                    String baseUrl = FileUtils.getTestUrl();
+                    driver.get(baseUrl);
+                    WaitUtils.waitForElementToBeClickable(driver, remember, 10, false);
                 }
             } catch (Exception e) {
                 //Probably not logged in

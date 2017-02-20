@@ -29,7 +29,7 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
 
     private static User businessUser;
     public String[] initialsArray = new String[]{
-            "NU"//"NU", "HB", "YC", "PG", "AN", "LP"
+            "AT"//"AT", "NU", "HB", "YC", "PG", "AN", "LP"
     };
     public static final String AUTHORISED_REP_SMOKE_TEST = "AuthorisedRepST";
 
@@ -83,6 +83,7 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
             driver = new BrowserConfig().getDriver();
             driver.manage().window().maximize();
             baseUrl = FileUtils.getTestUrl();
+            log.warn("URL : " + baseUrl);
             log.warn("\n\nTHIS IS NOT JUNIT, THIS IS NOT JUNIT");
             log.warn("\n\nINSERT DEVICES AS AUTHORISEDREP USER VIA MAIN METHOD");
         }

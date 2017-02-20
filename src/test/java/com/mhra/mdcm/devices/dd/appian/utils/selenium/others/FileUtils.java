@@ -50,7 +50,7 @@ public class FileUtils {
 
 
     public static String getTestUrl() {
-        String testUrl = "mhratest.appiancloud.com";
+        String testUrl = "https://mhratest.appiancloud.com";
         String profile = System.getProperty("spring.profiles.active");
         if(profile==null || profile.trim().equals("")){
             profile = "mhratest";
@@ -62,6 +62,9 @@ public class FileUtils {
         if (baseUrl != null) {
             testUrl = baseUrl;
         }
+
+        //Giving me 401 error message : Appian said to use https://mhratest.appiancloud.com/suite/portal/loginPage.none
+        testUrl = testUrl + "/suite/portal/loginPage.none";
         return testUrl;
     }
 
