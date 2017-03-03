@@ -27,7 +27,7 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
 
     private static User businessUser;
     public String[] initialsArray = new String[]{
-            "AT",//"AT", "NU", "HB", "YC", "PG", "AN", "LP"
+            "NU",//"AT", "NU", "HB", "YC", "PG", "AN", "LP"
     };
 
     public static final String MANUFACTURER_SMOKE_TEST = "ManufacturerST";

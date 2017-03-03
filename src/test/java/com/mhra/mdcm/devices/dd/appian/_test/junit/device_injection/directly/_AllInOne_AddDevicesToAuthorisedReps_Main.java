@@ -29,7 +29,7 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
 
     private static User businessUser;
     public String[] initialsArray = new String[]{
-            "AT"//"AT", "NU", "HB", "YC", "PG", "AN", "LP"
+            "NU"//"AT", "NU", "HB", "YC", "PG", "AN", "LP"
     };
     public static final String AUTHORISED_REP_SMOKE_TEST = "AuthorisedRepST";
 
