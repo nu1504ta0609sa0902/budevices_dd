@@ -10,6 +10,7 @@ import com.mhra.mdcm.devices.dd.appian.utils.datadriven.JUnitUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.driver.BrowserConfig;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.FileUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.RandomDataUtils;
+import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.PageUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.WaitUtils;
 import org.hamcrest.Matchers;
 import org.junit.*;
@@ -306,6 +307,7 @@ public class SmokeTestsBusiness extends Common {
         do {
             mainNavigationBar = new MainNavigationBar(driver);
             tasksPage = mainNavigationBar.clickTasks();
+            PageUtils.acceptAlert(driver, true);
 
             //Click on link number X
             try {

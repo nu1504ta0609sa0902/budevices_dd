@@ -13,7 +13,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 /**
  * Use this or the cucumber.xml don't use both
- *
+ *  mac : /Users/tayyibah/Downloads/MyProjects/chromedriver
  * @author tayyibah
  */
 public class BrowserConfig {
@@ -84,7 +84,7 @@ public class BrowserConfig {
     }
 
     private DesiredCapabilities getGoogleChromeDesiredCapabilities() {
-        System.setProperty("webdriver.chrome.driver", "C:\\Selenium\\chrome\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "/Users/tayyibah/Downloads/MyProjects/chromedriver");
         DesiredCapabilities capabilities = DesiredCapabilities.chrome();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("test-type");

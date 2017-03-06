@@ -405,24 +405,46 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
 
                 String orgName = ar.organisationName;
 
-                //Verify new taskSection generated and its the correct one
                 boolean contains = false;
                 boolean isCorrectTask = false;
-                int count = 0;
+                int count2 = 0;
+                nameSelected = orgName;
                 do {
                     mainNavigationBar = new MainNavigationBar(driver);
                     tasksPage = mainNavigationBar.clickTasks();
 
                     //Click on link number X
-                    taskSection = tasksPage.clickOnTaskNumber(count);
-                    WaitUtils.nativeWaitInSeconds(2);
-                    isCorrectTask = taskSection.isCorrectTask(orgName);
-                    if (isCorrectTask) {
-                        contains = true;
-                    } else {
-                        count++;
+                    boolean isLinkVisible = tasksPage.isLinkVisible(orgName);
+                    //WaitUtils.nativeWaitInSeconds(3);
+                    if (isLinkVisible) {
+                        taskSection = tasksPage.clickOnLinkWithText(orgName);
+                        isCorrectTask = taskSection.isCorrectTask(orgName);
+                        if (isCorrectTask) {
+                            contains = true;
+                        } else {
+                            count2++;
+                        }
                     }
-                } while (!contains && count <= 5);
+                } while (!contains && count2 <= 5);
+
+                //Verify new taskSection generated and its the correct one
+//                boolean contains = false;
+//                boolean isCorrectTask = false;
+//                int count = 0;
+//                do {
+//                    mainNavigationBar = new MainNavigationBar(driver);
+//                    tasksPage = mainNavigationBar.clickTasks();
+//
+//                    //Click on link number X
+//                    taskSection = tasksPage.clickOnTaskNumber(count);
+//                    WaitUtils.nativeWaitInSeconds(2);
+//                    isCorrectTask = taskSection.isCorrectTask(orgName);
+//                    if (isCorrectTask) {
+//                        contains = true;
+//                    } else {
+//                        count++;
+//                    }
+//                } while (!contains && count <= 5);
 
                 //Accept the task
                 if (contains) {
@@ -491,6 +513,10 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
                             }
                         } else {
                             count++;
+                        }
+
+                        if(count > 5){
+                            break;
                         }
 
                         //Try adding another device
