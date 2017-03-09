@@ -512,6 +512,8 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
             WaitUtils.nativeWaitInSeconds(5);
             loginPage.logoutIfLoggedIn();
             //loginAndViewManufacturer();
+
+            log.info("\nCREATED NEW MANUFACTURER WITH DEVICES : COMPLETED NOW");
         }
     }
 

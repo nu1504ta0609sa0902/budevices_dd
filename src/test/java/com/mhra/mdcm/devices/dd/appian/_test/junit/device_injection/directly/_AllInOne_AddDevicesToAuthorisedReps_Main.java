@@ -515,9 +515,10 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
                             count++;
                         }
 
-                        if(count > 5){
-                            break;
-                        }
+                        //REMOVE REMOVE REMOVE
+                        //if(count > 5){
+                        //    break;
+                        //}
 
                         //Try adding another device
                         if (isVisible && count < listOfDevicesOfSpecificType.size())
@@ -611,6 +612,8 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
             WaitUtils.nativeWaitInSeconds(3);
             loginPage.logoutIfLoggedIn();
             //loginAndViewManufacturer();
+
+            log.info("\nCREATED NEW AUTHORISED-REP WITH DEVICES : COMPLETED NOW");
         }
     }
 
