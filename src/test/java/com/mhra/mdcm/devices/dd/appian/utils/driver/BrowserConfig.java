@@ -19,13 +19,23 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 public class BrowserConfig {
 
     public String browser;
+    public String seleniumExecutableLocation = "C:\\Selenium";
 
     public WebDriver getDriver() {
+
+        //Override if necessary the location of selenium executable
+        String exeLocation = System.getProperty("exe.location");
+        if(exeLocation!=null){
+            seleniumExecutableLocation = exeLocation;
+        }
+        System.out.println("Location of EXE : " + seleniumExecutableLocation);
 
         if (browser == null) {
             //Should be picked up
             browser = System.getProperty("current.browser");
         }
+
+
 
         if (browser != null) {
             System.out.println("Browser : " + browser);
@@ -76,7 +86,7 @@ public class BrowserConfig {
     }
 
     private DesiredCapabilities getFirefoxDesiredCapabilities(boolean isMarionette) {
-        //System.setProperty("webdriver.gecko.driver","C:\\Selenium\\firefox\\geckodriver.exe");
+        //System.setProperty("webdriver.gecko.driver", seleniumExecutableLocation + "\\firefox\\geckodriver.exe");
         DesiredCapabilities capabilities = DesiredCapabilities.firefox();
         if (isMarionette)
             capabilities.setCapability("marionette", true);
@@ -84,7 +94,7 @@ public class BrowserConfig {
     }
 
     private DesiredCapabilities getGoogleChromeDesiredCapabilities() {
-        System.setProperty("webdriver.chrome.driver", "C:\\Selenium\\chrome\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", seleniumExecutableLocation + "\\chrome\\chromedriver.exe");
         DesiredCapabilities capabilities = DesiredCapabilities.chrome();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("test-type");
@@ -101,7 +111,7 @@ public class BrowserConfig {
      * @return
      */
     private DesiredCapabilities getPJSDesiredCapabilities() {
-        System.setProperty("webdriver.ie.driver", "C:\\Selenium\\phantomjs\\phantomjs\\bin\\phantomjs.exe");
+        System.setProperty("webdriver.ie.driver", seleniumExecutableLocation + "\\phantomjs\\phantomjs\\bin\\phantomjs.exe");
         String path = System.getProperty("phantomjs.binary.path");
         DesiredCapabilities caps = new DesiredCapabilities();
         caps.setJavascriptEnabled(true);
@@ -122,7 +132,7 @@ public class BrowserConfig {
 
     private DesiredCapabilities getIEDesiredCapabilities() {
 
-        System.setProperty("webdriver.ie.driver", "C:\\Selenium\\ie32\\IEDriverServer.exe");
+        System.setProperty("webdriver.ie.driver", seleniumExecutableLocation + "\\ie32\\IEDriverServer.exe");
         DesiredCapabilities ieCapabilities = DesiredCapabilities.internetExplorer();
 
         ieCapabilities.setCapability("unexpectedAlertBehaviour", "accept");

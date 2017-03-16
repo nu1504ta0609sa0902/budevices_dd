@@ -29,7 +29,7 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
 
     private static User businessUser;
     public String[] initialsArray = new String[]{
-            "NU"//"AT", "NU", "HB", "YC", "PG", "AN", "LP"
+            "AT"//"AT", "NU", "HB", "YC", "PG", "AN", "LP"
     };
     public static final String AUTHORISED_REP_SMOKE_TEST = "AuthorisedRepST";
 
@@ -450,7 +450,7 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
                 if (contains) {
                     taskSection = taskSection.acceptTask();
                     tasksPage = taskSection.approveTask();
-                    log.info("Approved newly created account with business : " + ar.organisationName);
+                    log.info("Approved newly created organisation with business : " + ar.organisationName);
                 }
 
                 listOfManufactuersCreatedWithTesterInitials.add(orgName);
@@ -662,7 +662,7 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
             addDevices = createNewManufacturer.createTestOrganisation(ar);
         }
 
-        log.info("Created a new account to add devices to : " + ar.organisationName);
+        log.info("Created a new org to add devices to : " + ar.organisationName);
 
         //Provide indication of devices made to the newly created authoirisedRep
         manufacturerUser = user;
@@ -699,7 +699,7 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
 
         externalHomePage = createNewManufacturer.submitForApproval();
 
-        log.info("Created a new account to add devices to : " + ar.organisationName);
+        log.info("Created a new org to add devices to : " + ar.organisationName);
 
         //Provide indication of devices made to the newly created authoirisedRep
         manufacturerUser = user;
