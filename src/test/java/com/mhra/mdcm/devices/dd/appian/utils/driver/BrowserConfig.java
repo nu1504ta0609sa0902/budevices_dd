@@ -100,7 +100,7 @@ public class BrowserConfig {
         options.addArguments("test-type");
         options.addArguments("disable-popup-blocking");
         capabilities.setCapability(ChromeOptions.CAPABILITY, options);
-        System.out.println("Location of exe : " + System.getProperty("webdriver.chrome.driver"));
+        System.out.println("Location - exe : " + System.getProperty("webdriver.chrome.driver"));
         return capabilities;
     }
 
