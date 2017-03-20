@@ -20,13 +20,13 @@ import java.util.List;
 
 public class Accounts extends _Page {
 
-    @FindBy(xpath = ".//h2[.='Status']//following::a")
+    @FindBy(xpath = ".//div[.='Status']//following::a")
     List<WebElement> listOfAccounts;
     @FindBy(xpath = ".//table//th")
     List<WebElement> listOfTableColumns;
 
     //Edit information related to an account
-    @FindBy(linkText = "Edit Account Information")
+    @FindBy(xpath = ".//button[contains(text(),'Edit Account')]")
     WebElement editAccountInfoLink;
     @FindBy(xpath = ".//span[.='Address type']//following::input[1]")
     WebElement addressType;
@@ -51,8 +51,8 @@ public class Accounts extends _Page {
 
 
     public boolean isHeadingCorrect(String expectedHeadings) {
-        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//h2[.='" + expectedHeadings + "']") , TIMEOUT_DEFAULT, false);
-        WebElement heading = driver.findElement(By.xpath(".//h2[.='" + expectedHeadings + "']"));
+        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//h1[.='" + expectedHeadings + "']") , TIMEOUT_DEFAULT, false);
+        WebElement heading = driver.findElement(By.xpath(".//h1[.='" + expectedHeadings + "']"));
         boolean contains = heading.getText().contains(expectedHeadings);
         return contains;
     }
@@ -60,7 +60,7 @@ public class Accounts extends _Page {
 
     public boolean isItemsDisplayed(String expectedHeadings) {
         boolean itemsDisplayed = false;
-        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//h2[.='" + expectedHeadings + "']") , TIMEOUT_DEFAULT, false);
+        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//h1[.='" + expectedHeadings + "']") , TIMEOUT_DEFAULT, false);
 
         if(expectedHeadings.contains("Accounts")){
             itemsDisplayed = listOfAccounts.size() > 0;
@@ -102,7 +102,7 @@ public class Accounts extends _Page {
 
     public boolean numberOfMatchesShouldBe(int minCount) {
         try{
-            WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//h2[.='Status']//following::a[2]"), TIMEOUT_SMALL, false);
+            WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//div[.='Status']//following::a[2]"), TIMEOUT_SMALL, false);
             int actualCount = (listOfAccounts.size()-1)/2;
             return actualCount >= minCount;
         }catch (Exception e){
@@ -115,7 +115,8 @@ public class Accounts extends _Page {
      * @return
      */
     public String getARandomAccount() {
-        WaitUtils.waitForElementToBeClickable(driver, By.cssSelector(".appian-informationPanel b"), TIMEOUT_HIGH, false);
+        WaitUtils.isPageLoadingComplete(driver, 1);
+        WaitUtils.waitForElementToBeClickable(driver, By.linkText("Clear Filters"), TIMEOUT_HIGH, false);
         int position = RandomDataUtils.getSimpleRandomNumberBetween(1, listOfAccounts.size() - 1, false);
         WebElement accountLinks = listOfAccounts.get(position);
         String accountName = accountLinks.getText();
@@ -180,7 +181,7 @@ public class Accounts extends _Page {
     public boolean isOrderedAtoZ() {
         int getFirstX = 20;
         List<String> listOfOrderedOrganisations = new ArrayList<>();
-        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//h2[.='Status']//following::a[2]"), TIMEOUT_SMALL, false);
+        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//div[.='Status']//following::a[2]"), TIMEOUT_SMALL, false);
 
         //Get list of organisation names
         int position = 0;   //Only even ones are organisation name

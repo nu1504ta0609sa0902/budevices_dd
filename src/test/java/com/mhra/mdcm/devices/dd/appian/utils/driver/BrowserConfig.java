@@ -25,7 +25,7 @@ public class BrowserConfig {
 
         //Override if necessary the location of selenium executable
         String exeLocation = System.getProperty("exe.location");
-        if(exeLocation!=null){
+        if(exeLocation!=null && !exeLocation.trim().equals("")){
             seleniumExecutableLocation = exeLocation;
         }
         System.out.println("Location of EXE : " + seleniumExecutableLocation);
@@ -86,7 +86,7 @@ public class BrowserConfig {
     }
 
     private DesiredCapabilities getFirefoxDesiredCapabilities(boolean isMarionette) {
-        //System.setProperty("webdriver.gecko.driver", seleniumExecutableLocation + "\\firefox\\geckodriver.exe");
+        System.setProperty("webdriver.gecko.driver", seleniumExecutableLocation + "\\firefox\\geckodriver.exe");
         DesiredCapabilities capabilities = DesiredCapabilities.firefox();
         if (isMarionette)
             capabilities.setCapability("marionette", true);

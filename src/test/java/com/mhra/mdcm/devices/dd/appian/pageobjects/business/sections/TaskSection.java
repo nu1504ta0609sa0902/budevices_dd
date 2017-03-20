@@ -19,12 +19,14 @@ public class TaskSection extends _Page {
     WebElement taskHeading;
 
     //Accept taskSection
-    @FindBy(xpath = ".//button[.='Accept']")
+    @FindBy(xpath = ".//button[contains(text(), 'Accept')]")
     WebElement accept;
     @FindBy(xpath = ".//button[.='Go Back']")
     WebElement goBack;
 
     //Approve reject taskSection
+    @FindBy(xpath = ".//button[contains(text(), 'Approve')]")
+    WebElement approveNewAccount;
     @FindBy(xpath = ".//button[.='Accept Registration']")
     WebElement approve;
     @FindBy(xpath = ".//button[.='Reject Registration']")
@@ -79,6 +81,14 @@ public class TaskSection extends _Page {
                 PageUtils.doubleClick(driver, approve);
             }
         }
+        log.info("Task should be approved now");
+        return new TasksPage(driver);
+    }
+
+    public TasksPage approveTaskNewAccount() {
+        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+        WaitUtils.waitForElementToBeClickable(driver, approveNewAccount, TIMEOUT_SMALL, false);
+        PageUtils.doubleClick(driver, approveNewAccount);
         log.info("Task should be approved now");
         return new TasksPage(driver);
     }

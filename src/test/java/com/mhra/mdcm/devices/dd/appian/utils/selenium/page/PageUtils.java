@@ -1,6 +1,7 @@
 package com.mhra.mdcm.devices.dd.appian.utils.selenium.page;
 
 
+import com.gargoylesoftware.htmlunit.Page;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.FileUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.RandomDataUtils;
 import org.openqa.selenium.By;
@@ -34,25 +35,25 @@ public class PageUtils {
         select.selectByIndex(i);
     }
 
-    public static void clickOption(WebDriver driver, WebElement option,  boolean status) {
-        if(status){
+    public static void clickOption(WebDriver driver, WebElement option, boolean status) {
+        if (status) {
             clickIfVisible(driver, option);
             //option.click();
         }
     }
 
     public static void clickOption(WebElement option1, WebElement option2, boolean status) {
-        if(status){
+        if (status) {
             option1.click();
-        }else{
+        } else {
             option2.click();
         }
     }
 
     public static void clickOptionAdvanced(WebDriver driver, WebElement option1, WebElement option2, boolean status) {
-        if(status){
+        if (status) {
             clickIfVisible(driver, option1);
-        }else{
+        } else {
             clickIfVisible(driver, option2);
         }
     }
@@ -74,10 +75,10 @@ public class PageUtils {
     }
 
     public static void clickIfVisible(WebDriver driver, WebElement element) {
-        try{
+        try {
             //IE sometimes doesn't click the element
             element.sendKeys(Keys.SPACE);
-        }catch(Exception e){
+        } catch (Exception e) {
             try {
                 if (element.isDisplayed() && !element.isSelected()) {
                     Actions ac = new Actions(driver);
@@ -85,7 +86,8 @@ public class PageUtils {
                     ac.moveToElement(element).click(element).sendKeys(Keys.SPACE).build().perform();
                     //ac.moveToElement(element).sendKeys(Keys.SPACE).build().perform();
                 }
-            }catch(Exception e2){}
+            } catch (Exception e2) {
+            }
         }
     }
 
@@ -101,21 +103,19 @@ public class PageUtils {
     }
 
 
-
     public static String getText(WebElement element) {
         element.click();
         String existingName = element.getText();
-        if(existingName.equals(""))
+        if (existingName.equals(""))
             existingName = element.getAttribute("value");
         return existingName;
     }
 
 
-
     public static void setBrowserZoom(WebDriver driver, String currentBrowser) {
         String selectedProfile = System.getProperty("current.browser");
         System.out.println(currentBrowser);
-        if(currentBrowser!=null && currentBrowser.equals("ie")){
+        if (currentBrowser != null && currentBrowser.equals("ie")) {
             Actions action = new Actions(driver);
             action.keyDown(Keys.CONTROL).sendKeys(String.valueOf(0)).perform();
         }
@@ -132,7 +132,8 @@ public class PageUtils {
                     driver.switchTo().alert().dismiss();
                 }
             }
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
     }
 
     public static void acceptAlert(WebDriver driver, boolean accept) {
@@ -146,7 +147,8 @@ public class PageUtils {
                     driver.switchTo().alert().dismiss();
                 }
             }
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
     }
 
     public static boolean isCorrectPage(WebDriver driver, String ecid) {
@@ -154,7 +156,7 @@ public class PageUtils {
     }
 
 
-    public static boolean selectFromAutoSuggests(WebDriver driver, By elementPath, String text )   {
+    public static boolean selectFromAutoSuggests(WebDriver driver, By elementPath, String text) {
         boolean completed = true;
         int count = 0;
         do {
@@ -183,7 +185,7 @@ public class PageUtils {
     }
 
 
-    public static void uploadDocument(WebElement element, String fileName, int timeWaitForItToBeClickable, int timeWaitForDocumentUploadToFinish){
+    public static void uploadDocument(WebElement element, String fileName, int timeWaitForItToBeClickable, int timeWaitForDocumentUploadToFinish) {
         String fullPath = FileUtils.getFileFullPath("tmp" + File.separator + "data" + File.separator + "reps", fileName);
         WaitUtils.nativeWaitInSeconds(timeWaitForItToBeClickable);
         element.sendKeys(fullPath);
@@ -192,9 +194,99 @@ public class PageUtils {
     }
 
     public static void clearAndTypeText(WebElement element, String text, boolean clearField) {
-        if(clearField) {
+        if (clearField) {
             element.clear();
         }
         element.sendKeys(text);
+    }
+
+    public static void selectCountryFromAutoSuggests(WebDriver driver, String elementPath, String countryName, boolean throwException) throws Exception {
+        boolean completed = true;
+        int count = 0;
+        do {
+            try {
+
+                count++;    //It will go forever without this
+                WebElement country = driver.findElements(By.cssSelector(elementPath)).get(0);
+                new Actions(driver).moveToElement(country).perform();
+
+                //Enter the country I am interested in
+                country.sendKeys("\n");
+                country.clear();
+                country.sendKeys(countryName, Keys.ENTER);
+                new WebDriverWait(driver, 3).until(ExpectedConditions.elementToBeClickable(By.cssSelector("li[role='option']")));
+                country.sendKeys(Keys.ARROW_DOWN, Keys.ENTER);
+
+                completed = true;
+            } catch (Exception e) {
+                completed = false;
+                WaitUtils.nativeWaitInSeconds(1);
+                //PageFactory.initElements(driver, this);
+            }
+        } while (!completed && count < 1);
+
+        if (!completed && throwException) {
+            throw new Exception("Country name not selected");
+        }
+    }
+
+
+
+    public static void selectFromAutoSuggestedListItems(WebDriver driver, String elementPath, String countryName, boolean throwException) throws Exception {
+        boolean completed = true;
+        int count = 0;
+        do {
+            try {
+
+                count++;    //It will go forever without this
+                WebElement country = driver.findElements(By.cssSelector(elementPath)).get(0);
+                country.sendKeys(countryName);
+                WaitUtils.nativeWaitInSeconds(1);
+                new WebDriverWait(driver, 3).until(ExpectedConditions.elementToBeClickable(By.cssSelector("li[role='option']")));
+
+                //Get list of options displayed
+                WaitUtils.isPageLoadingComplete(driver, 1);
+                List<WebElement> countryOptions = driver.findElements(By.cssSelector("li[role='option']"));
+                WebElement item = countryOptions.get(0);
+                String text = item.getText();
+                //System.out.println("country : " + text);
+
+                if(text!=null && !text.contains("Searching")) {
+                    PageUtils.singleClick(driver, item);
+                    completed = true;
+                }
+            } catch (Exception e) {
+                completed = false;
+                WaitUtils.nativeWaitInSeconds(1);
+            }
+        } while (!completed && count < 3);
+
+        if (!completed && throwException) {
+            throw new Exception("Country name not selected");
+        }
+    }
+
+    public static void selectFromDropDownListItems(WebDriver driver, String dropDownPath, String title) {
+        boolean completed = true;
+        int count = 0;
+        do {
+            try {
+
+                count++;    //It will go forever without this
+                WebElement titleDropDwon = driver.findElements(By.cssSelector(dropDownPath)).get(0);
+                titleDropDwon.click();
+
+                //Select from a dropdown which is a div (not a normal select box)
+                PageUtils.singleClick(driver, titleDropDwon);
+                WaitUtils.isPageLoadingComplete(driver, 1);
+                WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//div[contains(text(), '"+ title + "')]"), 3, false);
+                WebElement titleToSelect = driver.findElement(By.xpath(".//div[contains(text(), '"+ title + "')]"));
+                PageUtils.singleClick(driver, titleToSelect);
+
+                completed = true;
+            } catch (Exception e) {
+                completed = false;
+            }
+        } while (!completed && count < 3);
     }
 }

@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class AllDevices extends _Page {
 
-    @FindBy(xpath = ".//h2[.='GMDN term']//following::a")
+    @FindBy(xpath = ".//div[contains(text(),'GMDN code')]//following::a")
     List<WebElement> listOfAllDevices;
 
     public AllDevices(WebDriver driver) {
@@ -23,8 +23,8 @@ public class AllDevices extends _Page {
 
 
     public boolean isHeadingCorrect(String expectedHeadings) {
-        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//h2[.='" + expectedHeadings + "']") , TIMEOUT_DEFAULT, false);
-        WebElement heading = driver.findElement(By.xpath(".//h2[.='" + expectedHeadings + "']"));
+        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//h1[.='" + expectedHeadings + "']") , TIMEOUT_DEFAULT, false);
+        WebElement heading = driver.findElement(By.xpath(".//h1[.='" + expectedHeadings + "']"));
         boolean contains = heading.getText().contains(expectedHeadings);
         return contains;
     }
@@ -32,7 +32,7 @@ public class AllDevices extends _Page {
 
     public boolean isItemsDisplayed(String expectedHeadings) {
         boolean itemsDisplayed = false;
-        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//h2[.='" + expectedHeadings + "']") , TIMEOUT_DEFAULT, false);
+        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//h1[.='" + expectedHeadings + "']") , TIMEOUT_DEFAULT, false);
 
         if(expectedHeadings.contains("All Devices")){
             itemsDisplayed = listOfAllDevices.size() > 0;

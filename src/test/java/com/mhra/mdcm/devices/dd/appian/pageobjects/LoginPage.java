@@ -20,6 +20,8 @@ public class LoginPage extends _Page {
     WebElement password;
     @FindBy(css = "input#remember")
     WebElement remember;
+    @FindBy(css = ".choice_pair>label")
+    WebElement rememberLabel;
     @FindBy(css = ".gwt-Anchor.pull-down-toggle")
     WebElement settings;
     @FindBy(css = ".settings-pull-down .gwt-Anchor.pull-down-toggle")
@@ -127,7 +129,8 @@ public class LoginPage extends _Page {
     public void dontRemember() {
         WaitUtils.waitForElementToBeClickable(driver, remember, TIMEOUT_HIGH, false);
         if (remember.getAttribute("checked") != null) {
-            remember.click();
+            //remember.click();
+            rememberLabel.click();
         }
     }
 
@@ -193,7 +196,7 @@ public class LoginPage extends _Page {
         //WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
         boolean loggedOut = true;
         try{
-            WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText("Reset Your Password"), 5, false);
+            WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText("Forgot your password"), 5, false);
         }catch (Exception e){
             loggedOut = false;
         }

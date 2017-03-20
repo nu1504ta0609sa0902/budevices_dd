@@ -67,15 +67,17 @@ public class Common {
 
         @Override
         public void failed(Throwable e, Description test){
-            File scrFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
-            String currentDir = com.mhra.mdcm.devices.dd.appian.utils.selenium.others.FileUtils.getFileFullPath("tmp", "screenshots");
+            if(driver!=null) {
+                File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+                String currentDir = com.mhra.mdcm.devices.dd.appian.utils.selenium.others.FileUtils.getFileFullPath("tmp", "screenshots");
 
-            //String currentDir = System.getProperty("user.dir");
-            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
-            try {
-                FileUtils.copyFile(scrFile, new File(currentDir + File.separator + "ss_" + timeStamp + ".png"));
-            } catch (IOException e1) {
-                e1.printStackTrace();
+                //String currentDir = System.getProperty("user.dir");
+                String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+                try {
+                    FileUtils.copyFile(scrFile, new File(currentDir + File.separator + "ss_" + timeStamp + ".png"));
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
             }
         }
     };

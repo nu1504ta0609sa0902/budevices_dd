@@ -322,7 +322,7 @@ public class SmokeTestsBusiness extends Common {
         //Accept the task
         if(contains) {
             taskSection = taskSection.acceptTask();
-            tasksPage = taskSection.approveTask();
+            tasksPage = taskSection.approveTaskNewAccount();
             WaitUtils.nativeWaitInSeconds(5);
         }
 

@@ -19,7 +19,7 @@ import java.util.List;
 
 public class ExternalHomePage extends _Page {
 
-    @FindBy(css = ".SafeImage.GFWJSJ4DOFB")
+    @FindBy(css = ".DocumentImage---image.DocumentImage---small")
     WebElement linkManufacturerRegistration;
 
     @FindBy(xpath = ".//*[contains(text(),'ype of device')]//following::input[1]")
