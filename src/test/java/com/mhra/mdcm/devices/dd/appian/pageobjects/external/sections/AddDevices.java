@@ -32,13 +32,13 @@ public class AddDevices extends _Page {
     List<WebElement> listOfTermsOrCodeMatches;
 
     //Device types
-    @FindBy(xpath = ".//*[contains(text(),'ype of device')]//following::input[1]")
+    @FindBy(xpath = ".//label[contains(text(),'General Medical')]")
     WebElement generalMedicalDevice;
-    @FindBy(xpath = ".//*[contains(text(),'ype of device')]//following::input[2]")
+    @FindBy(xpath = ".//label[contains(text(),'Vitro Diagnostic Device')]")
     WebElement inVitroDiagnosticDevice;
-    @FindBy(xpath = ".//*[contains(text(),'ype of device')]//following::input[3]")
+    @FindBy(xpath = ".//label[contains(text(),'Active Implantable')]")
     WebElement activeImplantableMedicalDevice;
-    @FindBy(xpath = ".//*[contains(text(),'ype of device')]//following::input[4]")
+    @FindBy(xpath = ".//label[contains(text(),'Procedure Pack')]")
     WebElement systemOrProcedurePack;
 
     //GMDN search by

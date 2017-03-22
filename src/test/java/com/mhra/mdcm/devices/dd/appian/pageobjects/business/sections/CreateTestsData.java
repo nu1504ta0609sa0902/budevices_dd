@@ -165,7 +165,6 @@ public class CreateTestsData extends _Page {
         }
 
         //Contact Person Details
-        //PageUtils.selectByText(title, ar.title);
         try {
             PageUtils.singleClick(driver, title);
             WaitUtils.isPageLoadingComplete(driver, 1);

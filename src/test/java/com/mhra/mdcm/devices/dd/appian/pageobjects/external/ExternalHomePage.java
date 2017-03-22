@@ -22,8 +22,14 @@ public class ExternalHomePage extends _Page {
     @FindBy(css = ".DocumentImage---image.DocumentImage---small")
     WebElement linkManufacturerRegistration;
 
-    @FindBy(xpath = ".//*[contains(text(),'ype of device')]//following::input[1]")
+    @FindBy(xpath = ".//button[contains(text(),'Register new manufacturer')]")
+    WebElement registerANewManufacturer;
+
+    @FindBy(xpath = ".//*[contains(text(),'ype of device')]//following::label[1]")
     WebElement generalMedicalDevice;
+
+    @FindBy(css=".CheckboxGroup---choice_pair>label")
+    List<WebElement> listOfDeviceTypes;
 
     public ExternalHomePage(WebDriver driver) {
         super(driver);
@@ -56,7 +62,7 @@ public class ExternalHomePage extends _Page {
     }
 
     public ManufacturerList gotoListOfManufacturerPage() {
-        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+        //WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
         WaitUtils.waitForElementToBeClickable(driver, linkManufacturerRegistration, TIMEOUT_VERY_HIGH, false);
         linkManufacturerRegistration.click();
         return new ManufacturerList(driver);
@@ -64,15 +70,14 @@ public class ExternalHomePage extends _Page {
 
     public ExternalHomePage provideIndicationOfDevicesMade(int index) {
 
-        WaitUtils.isPageLoadingComplete(driver, 2);
-
-        WaitUtils.waitForElementToBePartOfDOM(driver, By.xpath(".//*[contains(text(),'ype of device')]//following::input[1]"), TIMEOUT_MEDIUM, false);
+        //WaitUtils.isPageLoadingComplete(driver, 2);
+        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//*[contains(text(),'ype of device')]//following::label[1]"), TIMEOUT_MEDIUM, false);
         WaitUtils.waitForElementToBeClickable(driver, generalMedicalDevice, TIMEOUT_MEDIUM, false);
 
         //Find element
-        WaitUtils.waitForElementToBePartOfDOM(driver, By.cssSelector(".GFWJSJ4DPV.GFWJSJ4DCAD input"), TIMEOUT_MEDIUM, false);
-        WaitUtils.nativeWaitInSeconds(1);
-        List<WebElement> elements = driver.findElements(By.cssSelector(".GFWJSJ4DPV.GFWJSJ4DCAD input"));
+        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//*[contains(text(),'ype of device')]//following::label"), TIMEOUT_MEDIUM, false);
+        //WaitUtils.nativeWaitInSeconds(1);
+        List<WebElement> elements = driver.findElements(By.xpath(".//*[contains(text(),'ype of device')]//following::label"));
         WebElement e = elements.get(index);
         WaitUtils.waitForElementToBeClickable(driver, e, TIMEOUT_MEDIUM, false);
 
@@ -83,8 +88,10 @@ public class ExternalHomePage extends _Page {
     }
 
     public void selectCustomMade(boolean isCustomMade) {
-        By customMadeYes = By.xpath(".//*[contains(text(),'custom made')]//following::input[1]");
-        By customMadeNo = By.xpath(".//*[contains(text(),'custom made)]//following::input[2]");
+        By customMadeYes = By.xpath(".//*[contains(text(),'type of device')]//following::label[2]");
+        By customMadeNo = By.xpath(".//*[contains(text(),'type of device')]//following::label[3]");
+
+        //General medical devices
         if(isCustomMade) {
             WaitUtils.waitForElementToBeClickable(driver,customMadeYes , TIMEOUT_MEDIUM, false);
             driver.findElement(customMadeYes).click();
@@ -92,6 +99,22 @@ public class ExternalHomePage extends _Page {
             WaitUtils.waitForElementToBeClickable(driver, customMadeNo, TIMEOUT_MEDIUM, false);
             driver.findElement(customMadeNo).click();
         }
+
+        //AIMD
+        By aimdCustomMadeYes = By.xpath(".//*[contains(text(),'type of device')]//following::label[6]");
+        By aimdCustomMadeNo = By.xpath(".//*[contains(text(),'type of device')]//following::label[7]");
+        if(isCustomMade) {
+            WaitUtils.waitForElementToBeClickable(driver,aimdCustomMadeYes , TIMEOUT_MEDIUM, false);
+            driver.findElement(aimdCustomMadeYes).click();
+        }else{
+            WaitUtils.waitForElementToBeClickable(driver, aimdCustomMadeNo, TIMEOUT_MEDIUM, false);
+            driver.findElement(aimdCustomMadeNo).click();
+        }
+
+        //Others related to SSP
+        By sppCustomMadeYes = By.xpath(".//*[contains(text(),'type of device')]//following::label[9]");
+        WaitUtils.waitForElementToBeClickable(driver, sppCustomMadeYes, TIMEOUT_MEDIUM, false);
+        driver.findElement(sppCustomMadeYes).click();
     }
 
     public CreateManufacturerTestsData submitIndicationOfDevicesMade(boolean clickNext) {
@@ -99,9 +122,34 @@ public class ExternalHomePage extends _Page {
             driver.findElements(By.cssSelector(".gwt-RadioButton.GFWJSJ4DGAD.GFWJSJ4DCW>label")).get(0).click();
             driver.findElement(By.xpath(".//button[.='Next']")).click();
         }else{
-            WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//button[.='Submit']"), TIMEOUT_HIGH, false);
-            driver.findElement(By.xpath(".//button[.='Submit']")).click();
+            WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//button[contains(text(),'Submit')]"), TIMEOUT_HIGH, false);
+            driver.findElement(By.xpath(".//button[contains(text(),'Submit')]")).click();
         }
         return new CreateManufacturerTestsData(driver);
+    }
+
+    public ExternalHomePage indicateDeviceTypes(boolean isGMD, boolean isIVD, boolean isAIMD, boolean isSPP) {
+        int count = 0;
+        for(WebElement deviceType: listOfDeviceTypes){
+
+            if(count == 0 && isGMD){
+                deviceType.click();
+            }else if (count == 1 && isIVD){
+                deviceType.click();
+            }else if (count == 2 && isAIMD){
+                deviceType.click();
+            }else if (count == 3 && isSPP){
+                deviceType.click();
+            }
+
+            count++;
+        }
+        return new ExternalHomePage(driver);
+    }
+
+    public ExternalHomePage registerANewManufacturer() {
+        WaitUtils.waitForElementToBeClickable(driver, registerANewManufacturer, TIMEOUT_SMALL, false);
+        registerANewManufacturer.click();
+        return new ExternalHomePage(driver);
     }
 }

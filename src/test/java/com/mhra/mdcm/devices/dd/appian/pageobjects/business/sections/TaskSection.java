@@ -15,7 +15,7 @@ import org.openqa.selenium.support.FindBy;
 
 public class TaskSection extends _Page {
 
-    @FindBy(xpath = ".//h4")
+    @FindBy(xpath = ".//h3")
     WebElement taskHeading;
 
     //Accept taskSection
@@ -48,7 +48,7 @@ public class TaskSection extends _Page {
 
     public boolean isCorrectTask(String orgName) {
         WaitUtils.nativeWaitInSeconds(4);
-        WaitUtils.waitForElementToBeVisible(driver, By.xpath(".//h4"), TIMEOUT_MEDIUM, false);
+        WaitUtils.waitForElementToBeVisible(driver, accept, TIMEOUT_MEDIUM, false);
         boolean contains = taskHeading.getText().contains(orgName);
         return contains;
     }

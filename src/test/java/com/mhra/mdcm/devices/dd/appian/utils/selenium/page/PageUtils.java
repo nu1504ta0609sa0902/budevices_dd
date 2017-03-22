@@ -2,6 +2,7 @@ package com.mhra.mdcm.devices.dd.appian.utils.selenium.page;
 
 
 import com.gargoylesoftware.htmlunit.Page;
+import com.mhra.mdcm.devices.dd.appian.pageobjects._Page;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.FileUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.RandomDataUtils;
 import org.openqa.selenium.By;
@@ -170,7 +171,8 @@ public class PageUtils {
                 country.sendKeys("\n");
                 country.clear();
                 country.sendKeys(text, Keys.ENTER);
-                new WebDriverWait(driver, 4).until(ExpectedConditions.elementToBeClickable(By.cssSelector(".item")));
+                //new WebDriverWait(driver, 4).until(ExpectedConditions.elementToBeClickable(By.cssSelector(".item")));
+                WaitUtils.waitForElementToBeClickable(driver,By.cssSelector(".item") , _Page.TIMEOUT_SMALL, false);
                 country.sendKeys(Keys.ARROW_DOWN, Keys.ENTER);
 
                 completed = true;
@@ -214,7 +216,8 @@ public class PageUtils {
                 country.sendKeys("\n");
                 country.clear();
                 country.sendKeys(countryName, Keys.ENTER);
-                new WebDriverWait(driver, 3).until(ExpectedConditions.elementToBeClickable(By.cssSelector("li[role='option']")));
+                //new WebDriverWait(driver, 3).until(ExpectedConditions.elementToBeClickable(By.cssSelector("li[role='option']")));
+                WaitUtils.waitForElementToBeClickable(driver, By.cssSelector("li[role='option']"), _Page.TIMEOUT_SMALL, false);
                 country.sendKeys(Keys.ARROW_DOWN, Keys.ENTER);
 
                 completed = true;
@@ -242,10 +245,47 @@ public class PageUtils {
                 WebElement country = driver.findElements(By.cssSelector(elementPath)).get(0);
                 country.sendKeys(countryName);
                 WaitUtils.nativeWaitInSeconds(1);
-                new WebDriverWait(driver, 3).until(ExpectedConditions.elementToBeClickable(By.cssSelector("li[role='option']")));
+                //new WebDriverWait(driver, 3).until(ExpectedConditions.elementToBeClickable(By.cssSelector("li[role='option']")));
+                WaitUtils.waitForElementToBeClickable(driver,By.cssSelector("li[role='option']") , _Page.TIMEOUT_SMALL, false);
 
                 //Get list of options displayed
                 WaitUtils.isPageLoadingComplete(driver, 1);
+                List<WebElement> countryOptions = driver.findElements(By.cssSelector("li[role='option']"));
+                WebElement item = countryOptions.get(0);
+                String text = item.getText();
+                //System.out.println("country : " + text);
+
+                if(text!=null && !text.contains("Searching")) {
+                    PageUtils.singleClick(driver, item);
+                    completed = true;
+                }
+            } catch (Exception e) {
+                completed = false;
+                WaitUtils.nativeWaitInSeconds(1);
+            }
+        } while (!completed && count < 3);
+
+        if (!completed && throwException) {
+            throw new Exception("Country name not selected");
+        }
+    }
+
+
+    public static void selectFromAutoSuggestedListItemsManufacturers(WebDriver driver, String elementPath, String countryName, boolean throwException) throws Exception {
+        boolean completed = true;
+        int count = 0;
+        do {
+            try {
+
+                count++;    //It will go forever without this
+                WebElement country = driver.findElements(By.cssSelector(elementPath)).get(0);
+                country.sendKeys(countryName);
+                WaitUtils.nativeWaitInSeconds(1);
+                //new WebDriverWait(driver, 3).until(ExpectedConditions.elementToBeClickable(By.cssSelector("li[role='option']")));
+                WaitUtils.waitForElementToBeClickable(driver,By.cssSelector("li[role='option']") , _Page.TIMEOUT_SMALL, false);
+
+                //Get list of options displayed
+                WaitUtils.nativeWaitInSeconds(1);
                 List<WebElement> countryOptions = driver.findElements(By.cssSelector("li[role='option']"));
                 WebElement item = countryOptions.get(0);
                 String text = item.getText();

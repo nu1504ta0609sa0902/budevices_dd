@@ -5,7 +5,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.MarionetteDriver;
+
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriverService;
@@ -44,10 +44,8 @@ public class BrowserConfig {
             if (browser.equals("ff") || browser.equals("firefox")) {
                 DesiredCapabilities gcCap = getFirefoxDesiredCapabilities(false);
                 return new FirefoxDriver(gcCap);
-            } else if (browser.equals("ff2") || browser.equals("firefox2")) {
-                DesiredCapabilities gcCap = getFirefoxDesiredCapabilities(true);
-                return new MarionetteDriver(gcCap);
             }
+
             //Chrome
             else if (browser.equals("gc") || browser.equals("chrome")) {
                 DesiredCapabilities gcCap = getGoogleChromeDesiredCapabilities();

@@ -9,6 +9,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -46,7 +47,7 @@ public class CreateManufacturerTestsData extends _Page {
     WebElement website;
 
     //Contact Person Details
-    @FindBy(xpath = ".//span[contains(text(),'Title')]//following::select[1]")
+    @FindBy(xpath = ".//span[contains(text(),'Title')]//following::div[@role='listbox']")
     WebElement title;
     @FindBy(xpath = ".//label[.='First name']//following::input[1]")
     WebElement firstName;
@@ -54,17 +55,17 @@ public class CreateManufacturerTestsData extends _Page {
     WebElement lastName;
     @FindBy(xpath = ".//label[contains(text(),'Job title')]//following::input[1]")
     WebElement jobTitle;
-    @FindBy(xpath = ".//h3[contains(text(),'Person Details')]//following::input[5]")
-    WebElement phoneNumber;
     @FindBy(xpath = ".//label[.='Email']//following::input[1]")
     WebElement emailAddress;
+    @FindBy(xpath = ".//label[.='Email']//following::input[2]")
+    WebElement phoneNumber;
 
     //Letter of designation
-    @FindBy(css = ".gwt-FileUpload")
+    @FindBy(xpath = ".//button[contains(text(),'Upload')]")
     WebElement fileUpload;
 
     //Submit and cancel
-    @FindBy(xpath = ".//button[.='Declare devices']")
+    @FindBy(xpath = ".//button[contains(text(),'Declare devices')]")
     WebElement btnDeclareDevices;
     @FindBy(xpath = ".//button[.='Next']")
     WebElement next;
@@ -82,11 +83,18 @@ public class CreateManufacturerTestsData extends _Page {
      * @return
      */
     public AddDevices createTestOrganisation(AccountManufacturerRequest ar) throws Exception {
-        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
-        //WaitUtils.waitForElementToBeClickable(driver, By.cssSelector(".gwt-SuggestBox"), TIMEOUT_10_SECOND, false);
+        //WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+        WaitUtils.nativeWaitInSeconds(3);
+        WaitUtils.waitForElementToBeClickable(driver, By.cssSelector(".PickerWidget---picker_value"), TIMEOUT_SMALL, false);
         WaitUtils.waitForElementToBeClickable(driver, orgName, TIMEOUT_SMALL, false);
         orgName.sendKeys(ar.organisationName);
-        selectCountryFromAutoSuggests(driver, ".gwt-SuggestBox", ar.country, false);
+        //PageUtils.selectCountryFromAutoSuggests(driver, ".gwt-SuggestBox", ar.country, false);
+        boolean exception = false;
+        try {
+            PageUtils.selectFromAutoSuggestedListItemsManufacturers(driver, ".PickerWidget---picker_value", ar.country, true);
+        }catch (Exception e){
+            exception = true;
+        }
 
         //Organisation details
         WaitUtils.waitForElementToBeClickable(driver, addressLine1, TIMEOUT_DEFAULT, false);
@@ -100,12 +108,24 @@ public class CreateManufacturerTestsData extends _Page {
         website.sendKeys(ar.website);
 
         //Contact Person Details
-        PageUtils.selectByText(title, ar.title);
+        //PageUtils.selectByText(title, ar.title);
+        try {
+            PageUtils.singleClick(driver, title);
+            WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//div[contains(text(), '"+ ar.title + "')]"), TIMEOUT_SMALL, false);
+            WebElement titleToSelect = driver.findElement(By.xpath(".//div[contains(text(), '"+ ar.title + "')]"));
+            PageUtils.singleClick(driver, titleToSelect);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         firstName.sendKeys(ar.firstName);
         lastName.sendKeys(ar.lastName);
         jobTitle.sendKeys(ar.jobTitle);
         phoneNumber.sendKeys(ar.phoneNumber);
         emailAddress.sendKeys(ar.email);
+
+        if(exception){
+            PageUtils.selectFromAutoSuggestedListItemsManufacturers(driver, ".PickerWidget---picker_value", ar.country, true);
+        }
 
         //Upload letter of designation
         String fileName = "DesignationLetter1.pdf";
@@ -138,7 +158,8 @@ public class CreateManufacturerTestsData extends _Page {
                 country.sendKeys("\n");
                 country.clear();
                 country.sendKeys(countryName, Keys.ENTER);
-                new WebDriverWait(driver, 3).until(ExpectedConditions.elementToBeClickable(By.cssSelector(".item")));
+                //new WebDriverWait(driver, 3).until(ExpectedConditions.elementToBeClickable(By.cssSelector(".item")));
+                WaitUtils.waitForElementToBeClickable(driver, By.cssSelector(".item"), TIMEOUT_SMALL, false);
                 country.sendKeys(Keys.ARROW_DOWN, Keys.ENTER);
 
                 completed = true;
