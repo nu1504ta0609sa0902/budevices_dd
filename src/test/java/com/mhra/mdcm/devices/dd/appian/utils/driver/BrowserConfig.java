@@ -42,7 +42,7 @@ public class BrowserConfig {
 
             //Firefox
             if (browser.equals("ff") || browser.equals("firefox")) {
-                DesiredCapabilities gcCap = getFirefoxDesiredCapabilities(false);
+                DesiredCapabilities gcCap = getFirefoxDesiredCapabilities(true);
                 return new FirefoxDriver(gcCap);
             }
 

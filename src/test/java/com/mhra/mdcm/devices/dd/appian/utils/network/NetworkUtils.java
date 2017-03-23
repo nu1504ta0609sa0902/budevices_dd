@@ -1,5 +1,6 @@
 package com.mhra.mdcm.devices.dd.appian.utils.network;
 
+import org.openqa.selenium.Proxy;
 import org.slf4j.Logger;
 
 import java.net.Socket;
@@ -49,5 +50,14 @@ public class NetworkUtils {
             log.info("\n==========================================\n");
             networkConnectionDownCount++;
         }
+    }
+
+    public static Proxy getProxy() {
+        String PROXY = "10.2.22.60:8000";
+        Proxy proxy = new Proxy();
+        proxy.setHttpProxy(PROXY)
+                .setFtpProxy(PROXY)
+                .setSslProxy(PROXY);
+        return proxy;
     }
 }
