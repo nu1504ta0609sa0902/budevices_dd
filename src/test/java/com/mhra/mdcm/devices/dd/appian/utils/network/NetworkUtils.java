@@ -53,6 +53,7 @@ public class NetworkUtils {
     }
 
     public static Proxy getProxy() {
+        //Not sure if this is correct
         String PROXY = "10.2.22.60:8000";
         Proxy proxy = new Proxy();
         proxy.setHttpProxy(PROXY)
