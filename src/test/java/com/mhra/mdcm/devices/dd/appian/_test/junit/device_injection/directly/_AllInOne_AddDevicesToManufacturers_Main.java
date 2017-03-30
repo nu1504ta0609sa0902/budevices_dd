@@ -27,7 +27,7 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
 
     private static User businessUser;
     public String[] initialsArray = new String[]{
-            "YC",//"AT", "NU", "HB", "YC", "PG", "AN", "LP"
+            "NU",//"AT", "NU", "HB", "YC", "PG", "AN", "LP"
     };
 
     public static final String MANUFACTURER_SMOKE_TEST = "ManufacturerST";
@@ -129,10 +129,11 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
         setLoginDetails(selected);
         loginAndGoToSetDeviceIndication();
         indicateDevices();
-        acceptNewServiceRequest(businessUser);
 
-        WaitUtils.nativeWaitInSeconds(2);
-        loginPage = loginPage.logoutIfLoggedIn();
+        //Removed : 03/03 drop or around that date
+        //acceptNewServiceRequest(businessUser);
+        //WaitUtils.nativeWaitInSeconds(2);
+        //loginPage = loginPage.logoutIfLoggedIn();
 
     }
 
@@ -182,21 +183,25 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
     private void indicateDevices() {
         WaitUtils.nativeWaitInSeconds(3);
         for (int x = 0; x < 9; x++) {
-            externalHomePage = externalHomePage.provideIndicationOfDevicesMade(x);
+            try {
+                externalHomePage = externalHomePage.provideIndicationOfDevicesMade(x);
+            }catch (Exception e){}
         }
 
         //custom made
         externalHomePage.selectCustomMade(true);
 
         //Submit devices made : They changed the work flow on 03/02/2017
-        createNewManufacturer = externalHomePage.submitIndicationOfDevicesMade(true);
+        //createNewManufacturer = externalHomePage.submitIndicationOfDevicesMade(true);
+        //createNewManufacturer = externalHomePage.submitIndicationOfDevicesMade(false);
+
         createNewManufacturer = externalHomePage.submitIndicationOfDevicesMade(false);
-
         WaitUtils.nativeWaitInSeconds(5);
-        loginPage = loginPage.logoutIfLoggedInOthers();
-        WaitUtils.nativeWaitInSeconds(2);
 
-        System.out.println("DONE");
+        //loginPage = loginPage.logoutIfLoggedInOthers();
+        //WaitUtils.nativeWaitInSeconds(2);
+
+        //System.out.println("DONE");
     }
 
     private void loginAndGoToSetDeviceIndication() {

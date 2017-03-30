@@ -115,12 +115,12 @@ public class ManufacturerCreateManufacturersWithTestersInitials extends Common {
                 ar.lastName = TestHarnessUtils.getName(initials, false, listOfManufacturerUsers);
 
                 //Create new manufacturer data
-                addDevices = createNewManufacturer.createTestOrganisation(ar);
+                addDevices = createNewManufacturer.createTestOrganisation(ar, true);
                 if(createNewManufacturer.isErrorMessageDisplayed()){
                     externalHomePage = mainNavigationBar.clickExternalHOME();
                     manufacturerList = externalHomePage.gotoListOfManufacturerPage();
                     createNewManufacturer = manufacturerList.registerNewManufacturer();
-                    addDevices = createNewManufacturer.createTestOrganisation(ar);
+                    addDevices = createNewManufacturer.createTestOrganisation(ar, true);
                 }
 
                 boolean createdSuccessfully = addDevices.isDeviceTypeCorrect();
