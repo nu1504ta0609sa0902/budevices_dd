@@ -7,7 +7,7 @@ import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.AccountRequest;
 import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.DeviceData;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.LoginPage;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.MainNavigationBar;
-import com.mhra.mdcm.devices.dd.appian.pageobjects.external.sections.CreateManufacturerTestsData;
+import com.mhra.mdcm.devices.dd.appian.pageobjects.external._CreateManufacturerTestsData;
 import com.mhra.mdcm.devices.dd.appian.utils.driver.BrowserConfig;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.FileUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.TestHarnessUtils;
@@ -649,7 +649,7 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
         manufacturerList = externalHomePage.gotoListOfManufacturerPage();
 
         //Create new manufacturer data
-        createNewManufacturer = new CreateManufacturerTestsData(driver);
+        createNewManufacturer = new _CreateManufacturerTestsData(driver);
         addDevices = createNewManufacturer.createTestOrganisation(ar, false);
         if (createNewManufacturer.isErrorMessageDisplayed()) {
             externalHomePage = mainNavigationBar.clickExternalHOME();
@@ -687,7 +687,7 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
         ar.lastName = TestHarnessUtils.getName(initials, manufacturerUser, false);
 
         //Create new manufacturer data
-        createNewManufacturer = new CreateManufacturerTestsData(driver);
+        createNewManufacturer = new _CreateManufacturerTestsData(driver);
         addDevices = createNewManufacturer.createTestOrganisation(ar, false);
         if (createNewManufacturer.isErrorMessageDisplayed()) {
             externalHomePage = mainNavigationBar.clickExternalHOME();

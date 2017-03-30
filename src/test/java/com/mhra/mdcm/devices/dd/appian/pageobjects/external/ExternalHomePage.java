@@ -1,7 +1,6 @@
 package com.mhra.mdcm.devices.dd.appian.pageobjects.external;
 
 import com.mhra.mdcm.devices.dd.appian.pageobjects._Page;
-import com.mhra.mdcm.devices.dd.appian.pageobjects.external.sections.CreateManufacturerTestsData;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.external.sections.ManufacturerList;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.CommonUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.PageUtils;
@@ -129,7 +128,7 @@ public class ExternalHomePage extends _Page {
         driver.findElement(sppCustomMadeYes).click();
     }
 
-    public CreateManufacturerTestsData submitIndicationOfDevicesMade(boolean clickNext) {
+    public _CreateManufacturerTestsData submitIndicationOfDevicesMade(boolean clickNext) {
         if(clickNext) {
             driver.findElements(By.cssSelector(".gwt-RadioButton.GFWJSJ4DGAD.GFWJSJ4DCW>label")).get(0).click();
             driver.findElement(By.xpath(".//button[.='Next']")).click();
@@ -137,7 +136,7 @@ public class ExternalHomePage extends _Page {
             WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//button[contains(text(),'Submit')]"), TIMEOUT_HIGH, false);
             driver.findElement(By.xpath(".//button[contains(text(),'Submit')]")).click();
         }
-        return new CreateManufacturerTestsData(driver);
+        return new _CreateManufacturerTestsData(driver);
     }
 
     public ExternalHomePage indicateDeviceTypes(boolean isGMD, boolean isIVD, boolean isAIMD, boolean isSPP) {

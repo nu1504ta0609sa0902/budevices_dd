@@ -1,8 +1,9 @@
-package com.mhra.mdcm.devices.dd.appian.pageobjects.external.sections;
+package com.mhra.mdcm.devices.dd.appian.pageobjects.external;
 
 import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.AccountManufacturerRequest;
 import com.mhra.mdcm.devices.dd.appian.pageobjects._Page;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.external.ExternalHomePage;
+import com.mhra.mdcm.devices.dd.appian.pageobjects.external.sections.AddDevices;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.PageUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.WaitUtils;
 import org.openqa.selenium.By;
@@ -19,7 +20,7 @@ import java.util.List;
 /**
  * Created by TPD_Auto
  */
-public class CreateManufacturerTestsData extends _Page {
+public class _CreateManufacturerTestsData extends _Page {
 
     @FindBy(css = ".component_error")
     List<WebElement> errorMessages;
@@ -73,7 +74,7 @@ public class CreateManufacturerTestsData extends _Page {
     WebElement cancel;
 
 
-    public CreateManufacturerTestsData(WebDriver driver) {
+    public _CreateManufacturerTestsData(WebDriver driver) {
         super(driver);
     }
 
