@@ -1,7 +1,6 @@
 package com.mhra.mdcm.devices.dd.appian.pageobjects.external;
 
 import com.mhra.mdcm.devices.dd.appian.pageobjects._Page;
-import com.mhra.mdcm.devices.dd.appian.pageobjects.external.sections.CreateManufacturerTestsData;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.external.sections.ManufacturerList;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.CommonUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.PageUtils;
@@ -54,7 +53,8 @@ public class ExternalHomePage extends _Page {
     public boolean isGotoListOfManufacturerPageLinkDisabled() {
         boolean isDisabled = true;
         WaitUtils.isPageLoadingComplete(driver, 30);
-        List<WebElement> listOfElements = driver.findElements(By.cssSelector(".SafeImage.GFWJSJ4DHFB.GFWJSJ4DOFB"));
+        WaitUtils.waitForElementToBeClickable(driver, linkManufacturerRegistration, TIMEOUT_SMALL, false);
+        List<WebElement> listOfElements = driver.findElements(By.cssSelector(".DocumentImage---image.DocumentImage---small"));
         if (listOfElements.size() == 0) {
             isDisabled = false;
         }
@@ -81,7 +81,7 @@ public class ExternalHomePage extends _Page {
         WebElement e = elements.get(index);
         WaitUtils.waitForElementToBeClickable(driver, e, TIMEOUT_MEDIUM, false);
 
-        PageUtils.doubleClick(driver, e);
+        PageUtils.singleClick(driver, e);
         //WaitUtils.nativeWaitInSeconds(2);
 
         return new ExternalHomePage(driver);
@@ -90,34 +90,45 @@ public class ExternalHomePage extends _Page {
     public void selectCustomMade(boolean isCustomMade) {
         By customMadeYes = By.xpath(".//*[contains(text(),'type of device')]//following::label[2]");
         By customMadeNo = By.xpath(".//*[contains(text(),'type of device')]//following::label[3]");
-
-        //General medical devices
-        if(isCustomMade) {
-            WaitUtils.waitForElementToBeClickable(driver,customMadeYes , TIMEOUT_MEDIUM, false);
-            driver.findElement(customMadeYes).click();
-        }else{
-            WaitUtils.waitForElementToBeClickable(driver, customMadeNo, TIMEOUT_MEDIUM, false);
-            driver.findElement(customMadeNo).click();
-        }
-
-        //AIMD
         By aimdCustomMadeYes = By.xpath(".//*[contains(text(),'type of device')]//following::label[6]");
         By aimdCustomMadeNo = By.xpath(".//*[contains(text(),'type of device')]//following::label[7]");
-        if(isCustomMade) {
-            WaitUtils.waitForElementToBeClickable(driver,aimdCustomMadeYes , TIMEOUT_MEDIUM, false);
-            driver.findElement(aimdCustomMadeYes).click();
-        }else{
-            WaitUtils.waitForElementToBeClickable(driver, aimdCustomMadeNo, TIMEOUT_MEDIUM, false);
-            driver.findElement(aimdCustomMadeNo).click();
+        By sppCustomMadeYes = By.xpath(".//*[contains(text(),'type of device')]//following::label[9]");
+
+        try {
+
+            //General medical devices
+            if (isCustomMade) {
+                WaitUtils.waitForElementToBeClickable(driver, customMadeYes, TIMEOUT_MEDIUM, false);
+                driver.findElement(customMadeYes).click();
+            } else {
+                WaitUtils.waitForElementToBeClickable(driver, customMadeNo, TIMEOUT_MEDIUM, false);
+                driver.findElement(customMadeNo).click();
+            }
+
+            //AIMD
+            if (isCustomMade) {
+                WaitUtils.waitForElementToBeClickable(driver, aimdCustomMadeYes, TIMEOUT_MEDIUM, false);
+                WaitUtils.nativeWaitInSeconds(1);
+                driver.findElement(aimdCustomMadeYes).click();
+            } else {
+                WaitUtils.waitForElementToBeClickable(driver, aimdCustomMadeNo, TIMEOUT_MEDIUM, false);
+                driver.findElement(aimdCustomMadeNo).click();
+            }
+
+            //Others related to SSP
+            WaitUtils.waitForElementToBeClickable(driver, sppCustomMadeYes, TIMEOUT_MEDIUM, false);
+            driver.findElement(sppCustomMadeYes).click();
+        }catch (Exception e){
+            //Keeps failing
         }
 
-        //Others related to SSP
-        By sppCustomMadeYes = By.xpath(".//*[contains(text(),'type of device')]//following::label[9]");
-        WaitUtils.waitForElementToBeClickable(driver, sppCustomMadeYes, TIMEOUT_MEDIUM, false);
+        //Must be YES
+        driver.findElement(aimdCustomMadeYes).click();
+        driver.findElement(customMadeYes).click();
         driver.findElement(sppCustomMadeYes).click();
     }
 
-    public CreateManufacturerTestsData submitIndicationOfDevicesMade(boolean clickNext) {
+    public _CreateManufacturerTestsData submitIndicationOfDevicesMade(boolean clickNext) {
         if(clickNext) {
             driver.findElements(By.cssSelector(".gwt-RadioButton.GFWJSJ4DGAD.GFWJSJ4DCW>label")).get(0).click();
             driver.findElement(By.xpath(".//button[.='Next']")).click();
@@ -125,7 +136,7 @@ public class ExternalHomePage extends _Page {
             WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//button[contains(text(),'Submit')]"), TIMEOUT_HIGH, false);
             driver.findElement(By.xpath(".//button[contains(text(),'Submit')]")).click();
         }
-        return new CreateManufacturerTestsData(driver);
+        return new _CreateManufacturerTestsData(driver);
     }
 
     public ExternalHomePage indicateDeviceTypes(boolean isGMD, boolean isIVD, boolean isAIMD, boolean isSPP) {

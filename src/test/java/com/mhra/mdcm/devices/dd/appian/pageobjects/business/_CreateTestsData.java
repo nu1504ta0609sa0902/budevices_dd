@@ -1,4 +1,4 @@
-package com.mhra.mdcm.devices.dd.appian.pageobjects.business.sections;
+package com.mhra.mdcm.devices.dd.appian.pageobjects.business;
 
 import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.AccountRequest;
 import com.mhra.mdcm.devices.dd.appian.pageobjects._Page;
@@ -19,7 +19,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  * Created by TPD_Auto 
  */
 
-public class CreateTestsData extends _Page {
+public class _CreateTestsData extends _Page {
 
     //Organisation details
     @FindBy(xpath = ".//label[.='Organisation name']//following::input[1]")
@@ -97,7 +97,7 @@ public class CreateTestsData extends _Page {
     @FindBy(xpath = ".//button[.='Cancel']")
     WebElement cancel;
 
-    public CreateTestsData(WebDriver driver) {
+    public _CreateTestsData(WebDriver driver) {
         super(driver);
     }
 

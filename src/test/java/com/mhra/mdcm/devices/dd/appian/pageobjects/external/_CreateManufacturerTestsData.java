@@ -1,8 +1,9 @@
-package com.mhra.mdcm.devices.dd.appian.pageobjects.external.sections;
+package com.mhra.mdcm.devices.dd.appian.pageobjects.external;
 
 import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.AccountManufacturerRequest;
 import com.mhra.mdcm.devices.dd.appian.pageobjects._Page;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.external.ExternalHomePage;
+import com.mhra.mdcm.devices.dd.appian.pageobjects.external.sections.AddDevices;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.PageUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.WaitUtils;
 import org.openqa.selenium.By;
@@ -12,8 +13,6 @@ import org.openqa.selenium.WebElement;
 
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 
 import java.util.List;
@@ -21,7 +20,7 @@ import java.util.List;
 /**
  * Created by TPD_Auto
  */
-public class CreateManufacturerTestsData extends _Page {
+public class _CreateManufacturerTestsData extends _Page {
 
     @FindBy(css = ".component_error")
     List<WebElement> errorMessages;
@@ -61,10 +60,12 @@ public class CreateManufacturerTestsData extends _Page {
     WebElement phoneNumber;
 
     //Letter of designation
-    @FindBy(xpath = ".//button[contains(text(),'Upload')]")
+    @FindBy(css = "input.FileUploadWidget---ui-inaccessible")
     WebElement fileUpload;
 
     //Submit and cancel
+    @FindBy(xpath = ".//button[contains(text(),'Save Registration')]")
+    WebElement btnSaveRegistration;
     @FindBy(xpath = ".//button[contains(text(),'Declare devices')]")
     WebElement btnDeclareDevices;
     @FindBy(xpath = ".//button[.='Next']")
@@ -73,19 +74,20 @@ public class CreateManufacturerTestsData extends _Page {
     WebElement cancel;
 
 
-    public CreateManufacturerTestsData(WebDriver driver) {
+    public _CreateManufacturerTestsData(WebDriver driver) {
         super(driver);
     }
 
     /**
      * HELPS TESTERS CREATE TEST DATA ON THE GO
      * @param ar
+     * @param saveDontDeclareDevices
      * @return
      */
-    public AddDevices createTestOrganisation(AccountManufacturerRequest ar) throws Exception {
+    public AddDevices createTestOrganisation(AccountManufacturerRequest ar, boolean saveDontDeclareDevices) throws Exception {
         //WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
         WaitUtils.nativeWaitInSeconds(3);
-        WaitUtils.waitForElementToBeClickable(driver, By.cssSelector(".PickerWidget---picker_value"), TIMEOUT_SMALL, false);
+        //WaitUtils.waitForElementToBeClickable(driver, By.cssSelector(".PickerWidget---picker_value"), TIMEOUT_SMALL, false);
         WaitUtils.waitForElementToBeClickable(driver, orgName, TIMEOUT_SMALL, false);
         orgName.sendKeys(ar.organisationName);
         //PageUtils.selectCountryFromAutoSuggests(driver, ".gwt-SuggestBox", ar.country, false);
@@ -136,7 +138,11 @@ public class CreateManufacturerTestsData extends _Page {
 
         //Submit form : remember to verify
         try{
-            btnDeclareDevices.click();
+            if(saveDontDeclareDevices){
+                btnSaveRegistration.click();
+            }else {
+                btnDeclareDevices.click();
+            }
         }catch (Exception e){
             next.click();
         }
