@@ -18,7 +18,7 @@ import java.util.List;
 
 public class ExternalHomePage extends _Page {
 
-    @FindBy(css = ".DocumentImage---image.DocumentImage---small")
+    @FindBy(css = ".Button---btn.Button---default_direction.Button---primary")
     WebElement linkManufacturerRegistration;
 
     @FindBy(xpath = ".//button[contains(text(),'Register new manufacturer')]")
