@@ -1,5 +1,7 @@
 package com.mhra.mdcm.devices.dd.appian.utils.driver;
 
+import com.mhra.mdcm.devices.dd.appian.utils.network.NetworkUtils;
+import org.openqa.selenium.Proxy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -9,7 +11,13 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriverService;
+import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Arrays;
 
 /**
  * Use this or the cucumber.xml don't use both
@@ -64,6 +72,20 @@ public class BrowserConfig {
                 DesiredCapabilities ieCap = getPJSDesiredCapabilities();
                 return new PhantomJSDriver(ieCap);
             }
+
+            //Selenium Grid
+            else if (browser.equals("sg") || browser.equals("SG")) {
+                try {
+                    DesiredCapabilities gcCap = getGoogleChromeDesiredCapabilities();
+                    return new RemoteWebDriver(new URL("http://mdwin1008cog4:4444/wd/hub"), gcCap);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+
+                //If exception
+                DesiredCapabilities ieCap = getIEDesiredCapabilities();
+                return new InternetExplorerDriver(ieCap);
+            }
             //Defaults to project default IE
             else {
                 DesiredCapabilities ieCap = getIEDesiredCapabilities();
@@ -98,6 +120,9 @@ public class BrowserConfig {
         options.addArguments("test-type");
         options.addArguments("disable-popup-blocking");
         capabilities.setCapability(ChromeOptions.CAPABILITY, options);
+//        Proxy proxy = NetworkUtils.getProxy();
+//        capabilities.setCapability(CapabilityType.PROXY, proxy);
+//        capabilities.setCapability("chrome.switches", Arrays.asList("--proxy-server=https://mca\\uddinn:*********@10.2.22.60:8000"));
         System.out.println("Location - exe : " + System.getProperty("webdriver.chrome.driver"));
         return capabilities;
     }

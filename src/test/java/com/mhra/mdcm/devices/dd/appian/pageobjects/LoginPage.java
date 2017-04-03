@@ -128,7 +128,9 @@ public class LoginPage extends _Page {
 
     public void dontRemember() {
         WaitUtils.waitForElementToBeClickable(driver, rememberLabel, TIMEOUT_SMALL, false);
-        if (remember.getAttribute("checked") != null) {
+        String checked = remember.getAttribute("checked");
+        boolean selected = remember.isSelected();
+        if ( checked != null || selected) {
             //remember.click();
             rememberLabel.click();
         }

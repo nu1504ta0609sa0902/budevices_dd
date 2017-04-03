@@ -64,7 +64,10 @@ public class FileUtils {
         }
 
         //Giving me 401 error message : Appian said to use https://mhratest.appiancloud.com/suite/portal/loginPage.none
-        testUrl = testUrl + "/suite/portal/loginPage.none";
+        testUrl = testUrl + "/suite/portal/login.jsp";
+        //testUrl = testUrl + "/suite/portal/loginPage.none";
+        System.out.println("URL : " + testUrl);
+        
         return testUrl;
     }
 
