@@ -20,6 +20,7 @@
         <slf4j.version>1.5.6</slf4j.version>
         <apache.httpclient.version>4.5.2</apache.httpclient.version>
         <httpunit.driver>2.24</httpunit.driver>
+        <guava.version>21.0</guava.version>
         <selenium.java.version>3.3.1</selenium.java.version>
     </properties>
 
@@ -46,11 +47,13 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.19.1</version>
                 <configuration>
-                    <!--<argLine>-Dcurrent.browser=gc</argLine>-->
                     <includes>
                         <include>**/*Test.java</include>
                         <include>src/test/resources/log4j.xml</include>
                     </includes>
+                    <!--<parallel>classes</parallel>-->
+                    <!--<threadCount>5</threadCount>-->
+                    <!--<argLine>-Dcurrent.browser=gc</argLine>-->
                 </configuration>
             </plugin>
             <plugin>
@@ -71,6 +74,11 @@
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
+            <version>${selenium.java.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-firefox-driver</artifactId>
             <version>${selenium.java.version}</version>
         </dependency>
 
@@ -97,7 +105,7 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>21.0</version>
+            <version>${guava.version}</version>
         </dependency>
 
         <!-- JUnit -->

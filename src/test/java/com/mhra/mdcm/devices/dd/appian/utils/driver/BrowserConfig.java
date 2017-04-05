@@ -73,16 +73,24 @@ public class BrowserConfig {
                 return new PhantomJSDriver(ieCap);
             }
 
-            //Selenium Grid
-            else if (browser.equals("sg") || browser.equals("SG")) {
+            //Selenium Grid with Chrome
+            else if (browser.equals("sgc") || browser.equals("SGC")) {
                 try {
                     DesiredCapabilities gcCap = getGoogleChromeDesiredCapabilities();
                     return new RemoteWebDriver(new URL("http://mdwin1008cog4:4444/wd/hub"), gcCap);
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
+
+                    //If exception
+                    try {
+                        DesiredCapabilities ieCap = getIEDesiredCapabilities();
+                        return new RemoteWebDriver(new URL("http://mdwin1008cog4:4444/wd/hub"), ieCap);
+                    } catch (MalformedURLException e1) {
+                        e1.printStackTrace();
+                    }
                 }
 
-                //If exception
+                //No Grid
                 DesiredCapabilities ieCap = getIEDesiredCapabilities();
                 return new InternetExplorerDriver(ieCap);
             }
@@ -110,20 +118,22 @@ public class BrowserConfig {
         DesiredCapabilities capabilities = DesiredCapabilities.firefox();
         if (isMarionette)
             capabilities.setCapability("marionette", true);
+        System.out.println("Location - exe : " + System.getProperty("webdriver.gecko.driver"));
         return capabilities;
     }
 
     private DesiredCapabilities getGoogleChromeDesiredCapabilities() {
         System.setProperty("webdriver.chrome.driver", seleniumExecutableLocation + "\\chrome\\chromedriver.exe");
         DesiredCapabilities capabilities = DesiredCapabilities.chrome();
+
+//        Proxy proxy = NetworkUtils.getProxy();
+//        capabilities.setCapability(CapabilityType.PROXY, proxy);
+        //capabilities.setCapability("chrome.switches", Arrays.asList("--proxy-server=http://mca\\uddinn:@10.2.22.60:8000"));
+
         ChromeOptions options = new ChromeOptions();
         options.addArguments("test-type");
         options.addArguments("disable-popup-blocking");
         capabilities.setCapability(ChromeOptions.CAPABILITY, options);
-//        Proxy proxy = NetworkUtils.getProxy();
-//        capabilities.setCapability(CapabilityType.PROXY, proxy);
-//        capabilities.setCapability("chrome.switches", Arrays.asList("--proxy-server=https://mca\\uddinn:*********@10.2.22.60:8000"));
-        System.out.println("Location - exe : " + System.getProperty("webdriver.chrome.driver"));
         return capabilities;
     }
 

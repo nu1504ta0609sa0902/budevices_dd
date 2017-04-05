@@ -56,10 +56,12 @@ public class NetworkUtils {
         //Not sure if this is correct
         String PROXY = "10.2.22.60:8000";
         Proxy proxy = new Proxy();
+        proxy.setProxyType(Proxy.ProxyType.SYSTEM);
 
-        proxy.setHttpProxy(PROXY)
-                //.setFtpProxy(PROXY)
-                .setSslProxy(PROXY);
+//        proxy.setHttpProxy(PROXY)
+//                .setFtpProxy(PROXY)
+//                .setSslProxy(PROXY);
+
         return proxy;
     }
 }
