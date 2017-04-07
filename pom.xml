@@ -101,7 +101,7 @@
             <version>${apache.httpclient.version}</version>
         </dependency>
 
-        <!-- Without this WebDriverWait.until fails -->
+        <!-- Without this WebDriverWait.until fails, Selenium 3 needs guava-->
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>

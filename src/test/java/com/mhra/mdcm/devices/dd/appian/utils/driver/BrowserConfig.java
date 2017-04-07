@@ -126,8 +126,8 @@ public class BrowserConfig {
         System.setProperty("webdriver.chrome.driver", seleniumExecutableLocation + "\\chrome\\chromedriver.exe");
         DesiredCapabilities capabilities = DesiredCapabilities.chrome();
 
-//        Proxy proxy = NetworkUtils.getProxy();
-//        capabilities.setCapability(CapabilityType.PROXY, proxy);
+        //Proxy proxy = NetworkUtils.getProxy();
+        //capabilities.setCapability(CapabilityType.PROXY, proxy);
         //capabilities.setCapability("chrome.switches", Arrays.asList("--proxy-server=http://mca\\uddinn:@10.2.22.60:8000"));
 
         ChromeOptions options = new ChromeOptions();
