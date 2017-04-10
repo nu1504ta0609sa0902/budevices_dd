@@ -183,4 +183,13 @@ public class FileUtils {
         }
         return uname;
     }
+
+
+
+    public static String getTargetFileFullPath(String folderName, String fileName) {
+        File file = new File("");
+        String rootFolder = file.getAbsolutePath();
+        String data = (rootFolder + File.separator + folderName + File.separator + fileName);
+        return data;
+    }
 }

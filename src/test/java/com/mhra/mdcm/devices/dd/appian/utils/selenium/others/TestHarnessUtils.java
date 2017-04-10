@@ -79,9 +79,12 @@ public class TestHarnessUtils {
         }
     }
 
-    public static void takeScreenShot(WebDriver driver, String name) {
+    public static void takeScreenShot(WebDriver driver, String name, boolean saveInTargetFolder) {
         File scrFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
-        String currentDir = com.mhra.mdcm.devices.dd.appian.utils.selenium.others.FileUtils.getFileFullPath("tmp", "screenshots");
+        String currentDir = FileUtils.getFileFullPath("tmp", "screenshots");
+        if(saveInTargetFolder){
+            currentDir = FileUtils.getTargetFileFullPath("target", "screenshots");
+        }
         //String currentDir = System.getProperty("user.dir");
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
         try {
