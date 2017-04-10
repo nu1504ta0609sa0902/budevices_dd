@@ -98,7 +98,8 @@ public class Common {
             logTime("Failed,", description);
             log.warn("Error : " + e.getMessage());
 
-            TestHarnessUtils.takeScreenShot(driver, description.getMethodName());
+            TestHarnessUtils.takeScreenShot(driver, description.getMethodName(), false);
+            TestHarnessUtils.takeScreenShot(driver, description.getMethodName(), true);
         }
 
 
