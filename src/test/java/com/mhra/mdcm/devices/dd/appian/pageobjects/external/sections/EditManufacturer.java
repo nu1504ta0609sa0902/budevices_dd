@@ -1,7 +1,6 @@
 package com.mhra.mdcm.devices.dd.appian.pageobjects.external.sections;
 
 import com.mhra.mdcm.devices.dd.appian.pageobjects._Page;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;

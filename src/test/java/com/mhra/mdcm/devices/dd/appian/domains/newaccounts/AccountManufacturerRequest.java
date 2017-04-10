@@ -3,7 +3,6 @@ package com.mhra.mdcm.devices.dd.appian.domains.newaccounts;
 
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.RandomDataUtils;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
