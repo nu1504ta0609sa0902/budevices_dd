@@ -8,6 +8,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriverService;
+import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
@@ -164,12 +165,20 @@ public class BrowserConfig {
         System.setProperty("webdriver.ie.driver", seleniumExecutableLocation + "\\ie32\\IEDriverServer.exe");
         DesiredCapabilities ieCapabilities = DesiredCapabilities.internetExplorer();
 
-        ieCapabilities.setCapability("unexpectedAlertBehaviour", "accept");
-        ieCapabilities.setCapability("enablePersistentHover", false);
-
-        ieCapabilities.setCapability("nativeEvents", true);
+        //ieCapabilities.setCapability("unexpectedAlertBehaviour", "accept");
+        //ieCapabilities.setCapability("enablePersistentHover", false);
+        //ieCapabilities.setCapability("nativeEvents", true);
         ieCapabilities.setCapability("ignoreProtectedModeSettings", true);
         ieCapabilities.setCapability("disable-popup-blocking", false);
+
+        ieCapabilities.setCapability(InternetExplorerDriver.IE_ENSURE_CLEAN_SESSION, true);
+        ieCapabilities.setCapability(InternetExplorerDriver.UNEXPECTED_ALERT_BEHAVIOR, true);
+        ieCapabilities.setCapability(InternetExplorerDriver.ENABLE_PERSISTENT_HOVERING,false);
+        ieCapabilities.setCapability(InternetExplorerDriver.NATIVE_EVENTS, true);
+        ieCapabilities.setCapability(InternetExplorerDriver.REQUIRE_WINDOW_FOCUS, true);
+        ieCapabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
+        ieCapabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
+        ieCapabilities.setJavascriptEnabled(true);
 
         //ieCapabilities.setCapability(CapabilityType.UNEXPECTED_ALERT_BEHAVIOUR, "ignore");
         return ieCapabilities;
