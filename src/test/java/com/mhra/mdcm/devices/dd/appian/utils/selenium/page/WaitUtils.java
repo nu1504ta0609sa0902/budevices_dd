@@ -1,11 +1,10 @@
 package com.mhra.mdcm.devices.dd.appian.utils.selenium.page;
 
-import com.google.common.base.Predicate;
-import com.mhra.mdcm.devices.dd.appian.pageobjects._Page;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoAlertPresentException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.FluentWait;
-import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
