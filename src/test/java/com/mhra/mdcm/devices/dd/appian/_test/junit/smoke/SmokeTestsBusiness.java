@@ -16,7 +16,6 @@ import org.hamcrest.Matchers;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.openqa.selenium.WebDriver;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -59,8 +58,12 @@ public class SmokeTestsBusiness extends Common {
     public static void setUpDriver() {
         if (driver == null) {
             driver = new BrowserConfig().getDriver();
-            driver.manage().window().maximize();
+            //driver.manage().window().maximize();
             baseUrl = FileUtils.getTestUrl();
+
+            //This is for entering values in a popup
+            PageUtils.performBasicAuthentication(driver, baseUrl);
+
             log.warn("\n\nRUNNING BUSINESS SMOKE TESTS");
         }
     }

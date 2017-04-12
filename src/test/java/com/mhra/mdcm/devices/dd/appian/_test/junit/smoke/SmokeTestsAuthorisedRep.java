@@ -8,11 +8,11 @@ import com.mhra.mdcm.devices.dd.appian.utils.datadriven.ExcelDataSheet;
 import com.mhra.mdcm.devices.dd.appian.utils.datadriven.JUnitUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.driver.BrowserConfig;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.FileUtils;
+import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.PageUtils;
 import org.hamcrest.Matchers;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.openqa.selenium.WebDriver;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -50,6 +50,10 @@ public class SmokeTestsAuthorisedRep extends Common {
             driver = new BrowserConfig().getDriver();
             driver.manage().window().maximize();
             baseUrl = FileUtils.getTestUrl();
+
+            //This is for entering values in a popup
+            PageUtils.performBasicAuthentication(driver, baseUrl);
+
             log.warn("\n\nRUNNING AUTHORISED REP SMOKE TESTS");
         }
     }

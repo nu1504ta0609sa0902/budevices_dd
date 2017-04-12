@@ -1,7 +1,7 @@
 package com.mhra.mdcm.devices.dd.appian.utils.selenium.page;
 
 
-import com.gargoylesoftware.htmlunit.Page;
+import com.mhra.mdcm.devices.dd.appian._test.junit._others.ProxyAuthentication;
 import com.mhra.mdcm.devices.dd.appian.pageobjects._Page;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.FileUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.RandomDataUtils;
@@ -10,9 +10,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.File;
 import java.util.List;
@@ -92,8 +90,9 @@ public class PageUtils {
         }
     }
 
-    public static void typeText(WebElement element, String text) {
-        element.sendKeys(text);
+    public static void typeText(WebDriver driver, WebElement element, String text) {
+        Actions ac = new Actions(driver);
+        ac.moveToElement(element).click(element).sendKeys(text).build().perform();
     }
 
 
@@ -328,5 +327,14 @@ public class PageUtils {
                 completed = false;
             }
         } while (!completed && count < 3);
+    }
+
+    public static void performBasicAuthentication(WebDriver driver, String baseUrl) {
+        String browser = System.getProperty("current.browser");
+        if(browser!=null && browser.toLowerCase().equals("gc")) {
+            //Only required if behind a proxy : works for Chrome
+            driver.get(baseUrl);
+            (new Thread(new ProxyAuthentication(driver))).start();
+        }
     }
 }
