@@ -49,18 +49,26 @@ public class ProxyAuthenticationSikuli{
 
         //Find fields and enter values
         Screen screen = new Screen();
+        Pattern dialogBox = new Pattern(FileUtils.getFileFullPath("tmp" + File.separator + "sikuli", "dialogBox.png"));
         Pattern usernameField = new Pattern(FileUtils.getFileFullPath("tmp" + File.separator + "sikuli", "usernameField.png"));
         Pattern passwordField = new Pattern(FileUtils.getFileFullPath("tmp" + File.separator + "sikuli", "passwordField.png"));
         Pattern submitBtn = new Pattern(FileUtils.getFileFullPath("tmp" + File.separator + "sikuli", "submitBtn.png"));
-        screen.click(usernameField);
+        Pattern neverBtn = new Pattern(FileUtils.getFileFullPath("tmp" + File.separator + "sikuli", "neverBtn.png"));
 
         String userName = FileUtils.getSpecificPropertyFromFile("envs" + File.separator + "mhratest.properties", "proxy.username");
         String password = FileUtils.getSpecificPropertyFromFile("envs" + File.separator + "mhratest.properties", "proxy.password");
+
+        //Enter credentials
+        screen.click(dialogBox);
+        screen.click(usernameField);
         screen.type(usernameField, userName);
         screen.type(passwordField, password);
         screen.click(submitBtn);
 
         //wait
+//        Thread.sleep(1500);
+//        screen = new Screen();
+//        screen.click(neverBtn);
         Thread.sleep(1000);
 
         //maximise

@@ -95,7 +95,6 @@ public class SmokeTestsAuthorisedRep extends Common {
         externalHomePage = mainNavigationBar.clickHome();
         String delimitedLinks = "ENTER >";
         boolean areLinksVisible = externalHomePage.isStartNowLinkDisplayed();
-        areLinksVisible = false;
         Assert.assertThat("Expected to see the following links : " + delimitedLinks, areLinksVisible, Matchers.is(true));
 
     }
@@ -115,7 +114,6 @@ public class SmokeTestsAuthorisedRep extends Common {
         loginPage = JUnitUtils.logoutIfLoggedIn(username, loginPage);
 
         boolean isLoginPage = loginPage.isInLoginPage();
-        isLoginPage = false;
         Assert.assertThat("Expected to be in login page", isLoginPage, Matchers.is(true));
     }
 
