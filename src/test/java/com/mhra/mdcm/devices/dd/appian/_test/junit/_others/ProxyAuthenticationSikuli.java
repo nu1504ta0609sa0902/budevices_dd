@@ -41,7 +41,7 @@ public class ProxyAuthenticationSikuli{
             rb.keyRelease(KeyEvent.VK_WINDOWS);
             rb.keyRelease(KeyEvent.VK_DOWN);
         }else{
-            System.out.println("Running from CMD or IDE");
+            System.out.println("Running with CMD or IDE");
         }
 
         //Find fields and enter values
