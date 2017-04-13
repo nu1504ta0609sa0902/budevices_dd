@@ -85,10 +85,11 @@ public class TestHarnessUtils {
         if(saveInTargetFolder){
             currentDir = FileUtils.getTargetFileFullPath("target", "screenshots");
         }
-        //String currentDir = System.getProperty("user.dir");
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+
+        String timeStamp = new SimpleDateFormat("HHmm").format(Calendar.getInstance().getTime());
+        String subDir = "SS_" + new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime());
         try {
-            org.apache.commons.io.FileUtils.copyFile(scrFile, new File(currentDir + File.separator + "ss_" + timeStamp + ".png"));
+            org.apache.commons.io.FileUtils.copyFile(scrFile, new File(currentDir + File.separator + subDir + File.separator + timeStamp + "_" + name + ".png"));
         } catch (IOException e1) {
             e1.printStackTrace();
         }

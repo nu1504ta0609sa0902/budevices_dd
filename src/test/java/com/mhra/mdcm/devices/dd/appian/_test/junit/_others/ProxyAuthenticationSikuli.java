@@ -1,5 +1,6 @@
 package com.mhra.mdcm.devices.dd.appian._test.junit._others;
 
+import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.FileUtils;
 import org.openqa.selenium.WebDriver;
 import org.sikuli.script.Pattern;
 import org.sikuli.script.Screen;
@@ -7,6 +8,8 @@ import org.sikuli.script.Screen;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.util.Properties;
 
 /**
  * Created by a-Uddinn on 4/7/2017.
@@ -46,7 +49,16 @@ public class ProxyAuthenticationSikuli{
 
         //Find fields and enter values
         Screen screen = new Screen();
-        Pattern image = new Pattern("C:\\gmail.PNG");
+        Pattern usernameField = new Pattern(FileUtils.getFileFullPath("tmp" + File.separator + "sikuli", "usernameField.png"));
+        Pattern passwordField = new Pattern(FileUtils.getFileFullPath("tmp" + File.separator + "sikuli", "passwordField.png"));
+        Pattern submitBtn = new Pattern(FileUtils.getFileFullPath("tmp" + File.separator + "sikuli", "submitBtn.png"));
+        screen.click(usernameField);
+
+        String userName = FileUtils.getSpecificPropertyFromFile("envs" + File.separator + "mhratest.properties", "proxy.username");
+        String password = FileUtils.getSpecificPropertyFromFile("envs" + File.separator + "mhratest.properties", "proxy.password");
+        screen.type(usernameField, userName);
+        screen.type(passwordField, password);
+        screen.click(submitBtn);
 
         //wait
         Thread.sleep(1000);

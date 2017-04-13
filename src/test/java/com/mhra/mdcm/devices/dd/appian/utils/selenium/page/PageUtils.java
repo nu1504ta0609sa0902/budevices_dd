@@ -1,7 +1,7 @@
 package com.mhra.mdcm.devices.dd.appian.utils.selenium.page;
 
 
-import com.mhra.mdcm.devices.dd.appian._test.junit._others.ProxyAuthentication;
+import com.mhra.mdcm.devices.dd.appian._test.junit._others.ProxyAuthenticationSikuli;
 import com.mhra.mdcm.devices.dd.appian.pageobjects._Page;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.FileUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.RandomDataUtils;
@@ -334,7 +334,11 @@ public class PageUtils {
         if(browser!=null && browser.toLowerCase().equals("gc")) {
             //Only required if behind a proxy : works for Chrome
             driver.get(baseUrl);
-            (new Thread(new ProxyAuthentication(driver))).start();
+            try {
+                new ProxyAuthenticationSikuli(driver, baseUrl).login();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }

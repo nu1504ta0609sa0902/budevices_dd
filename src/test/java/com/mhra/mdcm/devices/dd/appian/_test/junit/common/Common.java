@@ -71,10 +71,10 @@ public class Common {
                 File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
                 String currentDir = com.mhra.mdcm.devices.dd.appian.utils.selenium.others.FileUtils.getFileFullPath("tmp", "screenshots");
 
-                //String currentDir = System.getProperty("user.dir");
-                String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+                String timeStamp = new SimpleDateFormat("HHmm").format(Calendar.getInstance().getTime());
+                String subDir = "SS_" + new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime());
                 try {
-                    FileUtils.copyFile(scrFile, new File(currentDir + File.separator + "ss_" + timeStamp + ".png"));
+                    FileUtils.copyFile(scrFile, new File(currentDir + File.separator + subDir + File.separator + timeStamp + "_" + test.getDisplayName() + ".png"));
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }

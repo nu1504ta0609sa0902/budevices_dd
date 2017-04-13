@@ -14,7 +14,7 @@ import java.util.Properties;
 public class FileUtils {
 
     private final static String resourceFolder = "src" + File.separator + "test" + File.separator + "resources" + File.separator;
-    private final static String userFileLocation = "configs" + File.separator ;
+    public final static String userFileLocation = "configs" + File.separator;
 
     private final static Map<String, Properties> mapOfProperties = new HashMap<String, Properties>();
 
@@ -69,6 +69,13 @@ public class FileUtils {
         System.out.println("URL : " + testUrl);
         
         return testUrl;
+    }
+
+
+    public static String getSpecificPropertyFromFile(String fileName, String property) {
+        Properties prop = loadPropertiesFile(fileName);
+        String o = prop.getProperty(property);
+        return o;
     }
 
     /**

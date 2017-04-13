@@ -1,10 +1,12 @@
 package com.mhra.mdcm.devices.dd.appian._test.junit._others;
 
+import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.FileUtils;
 import org.openqa.selenium.WebDriver;
 
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
+import java.io.File;
 
 /**
  * Created by a-Uddinn on 4/7/2017.
@@ -47,8 +49,11 @@ public class ProxyAuthentication implements Runnable {
             System.out.println("Running from CMD or IDE");
         }
 
+        String userName = FileUtils.getSpecificPropertyFromFile("envs" + File.separator + "mhratest.properties", "proxy.username");
+        String password = FileUtils.getSpecificPropertyFromFile("envs" + File.separator + "mhratest.properties", "proxy.password");
+
         //Enter user name by ctrl-v
-        StringSelection username = new StringSelection("mca\\uddinn");
+        StringSelection username = new StringSelection(userName);
         Toolkit.getDefaultToolkit().getSystemClipboard().setContents(username, null);
         rb.keyPress(KeyEvent.VK_CONTROL);
         rb.keyPress(KeyEvent.VK_V);
@@ -61,7 +66,7 @@ public class ProxyAuthentication implements Runnable {
         Thread.sleep(1000);
 
         //Enter password by ctrl-v
-        StringSelection pwd = new StringSelection("Welcome2023");
+        StringSelection pwd = new StringSelection(password);
         Toolkit.getDefaultToolkit().getSystemClipboard().setContents(pwd, null);
         rb.keyPress(KeyEvent.VK_CONTROL);
         rb.keyPress(KeyEvent.VK_V);
