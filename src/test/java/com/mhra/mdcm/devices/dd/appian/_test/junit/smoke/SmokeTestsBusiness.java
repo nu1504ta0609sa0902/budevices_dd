@@ -489,7 +489,7 @@ public class SmokeTestsBusiness extends Common {
         MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
         tasksPage = mainNavigationBar.clickTasks();
 
-        //Verify data is displayed
+        //Verify data is correctly displayed
         taskSection = tasksPage.gotoWIPTasksPage();
         boolean wipRowsDisplayed = tasksPage.isWIPTableDisplayingData();
         assertThat("Expected to see at least 1 item by default " , wipRowsDisplayed, is(equalTo(true)));
