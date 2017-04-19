@@ -250,29 +250,6 @@ public class SmokeTestsBusiness extends Common {
 
 
     @Test
-    public void asABusinessUserIsAbleToSearchAndViewManufacturerAccounts() {
-
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage = loginPage.loadPage(baseUrl);
-        MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
-
-        //Go to accounts and perform a search for Manufacturer
-        recordsPage = mainNavigationBar.clickRecords();
-        accounts = recordsPage.clickOnAccounts();
-        accounts = accounts.searchForAccount(MANUFACTURER_SMOKE_TEST);
-
-        String randomAccountName = accounts.getARandomAccount();
-        accounts = accounts.viewSpecifiedAccount(randomAccountName);
-        accounts = this.accounts.gotoEditAccountInformation();
-
-        //Verify page is open to be edited
-        boolean isInEditMode = accounts.isInEditMode();
-        assertThat("Expected to be in edit view : " + randomAccountName, isInEditMode, is(equalTo(true)));
-    }
-
-
-
-    @Test
     public void businessUsersCanCreateManufacturerAccountRequest() {
 
         LoginPage loginPage = new LoginPage(driver);
@@ -394,8 +371,31 @@ public class SmokeTestsBusiness extends Common {
 
     }
 
+
     @Test
-    public void asABusinessUserIsAbleToSearchAndViewAuthorisedRepAccounts() {
+    public void asABusinessUserIAmAbleToSearchAndViewManufacturerAccounts() {
+
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage = loginPage.loadPage(baseUrl);
+        MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
+
+        //Go to accounts and perform a search for Manufacturer
+        recordsPage = mainNavigationBar.clickRecords();
+        accounts = recordsPage.clickOnAccounts();
+        accounts = accounts.searchForAccount(MANUFACTURER_SMOKE_TEST);
+
+        String randomAccountName = accounts.getARandomAccount();
+        accounts = accounts.viewSpecifiedAccount(randomAccountName);
+        accounts = this.accounts.gotoEditAccountInformation();
+
+        //Verify page is open to be edited
+        boolean isInEditMode = accounts.isInEditMode();
+        assertThat("Expected to be in edit view : " + randomAccountName, isInEditMode, is(equalTo(true)));
+    }
+
+
+    @Test
+    public void asABusinessUserIAmAbleToSearchAndViewAuthorisedRepAccounts() {
 
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
@@ -413,6 +413,95 @@ public class SmokeTestsBusiness extends Common {
         //Verify page is open to be edited
         boolean isInEditMode = accounts.isInEditMode();
         assertThat("Expected to be in edit view : " + randomAccountName, isInEditMode, is(equalTo(true)));
+    }
+
+
+
+
+    @Test
+    public void asABusinessUserIAmAbleToSearchAndViewRandomManufacturerAccounts() {
+
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage = loginPage.loadPage(baseUrl);
+        MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
+
+        //Go to accounts and perform a search for Manufacturer
+        recordsPage = mainNavigationBar.clickRecords();
+        accounts = recordsPage.clickOnAccounts();
+
+        String randomAccountName = accounts.getARandomAccount();
+        accounts = accounts.viewSpecifiedAccount(randomAccountName);
+        accounts = this.accounts.gotoEditAccountInformation();
+
+        //Verify page is open to be edited
+        boolean isInEditMode = accounts.isInEditMode();
+        assertThat("Expected to be in edit view : " + randomAccountName, isInEditMode, is(equalTo(true)));
+    }
+
+
+    @Test
+    public void asABusinessUserIAmAbleToSearchAndViewRandomAuthorisedRepAccounts() {
+
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage = loginPage.loadPage(baseUrl);
+        MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
+
+        //Go to accounts and perform a search for AuthorisedRep
+        recordsPage = mainNavigationBar.clickRecords();
+        accounts = recordsPage.clickOnAccounts();
+
+        String randomAccountName = accounts.getARandomAccount();
+        accounts = accounts.viewSpecifiedAccount(randomAccountName);
+        accounts = this.accounts.gotoEditAccountInformation();
+
+        //Verify page is open to be edited
+        boolean isInEditMode = accounts.isInEditMode();
+        assertThat("Expected to be in edit view : " + randomAccountName, isInEditMode, is(equalTo(true)));
+    }
+
+
+    @Test
+    public void asABusinessUserIsAbleToSearchAndViewRandomAuthorisedRepAccounts() {
+
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage = loginPage.loadPage(baseUrl);
+        MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
+
+        //Go to accounts and perform a search for AuthorisedRep
+        recordsPage = mainNavigationBar.clickRecords();
+        accounts = recordsPage.clickOnAccounts();
+
+        String randomAccountName = accounts.getARandomAccount();
+        accounts = accounts.viewSpecifiedAccount(randomAccountName);
+        accounts = this.accounts.gotoEditAccountInformation();
+
+        //Verify page is open to be edited
+        boolean isInEditMode = accounts.isInEditMode();
+        assertThat("Expected to be in edit view : " + randomAccountName, isInEditMode, is(equalTo(true)));
+    }
+
+
+    @Test
+    public void userIsAbleToViewWIPTableAndSortTheData() {
+
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage = loginPage.loadPage(baseUrl);
+        MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
+        tasksPage = mainNavigationBar.clickTasks();
+
+        //Verify data is displayed
+        taskSection = tasksPage.gotoWIPTasksPage();
+        boolean wipRowsDisplayed = tasksPage.isWIPTableDisplayingData();
+        assertThat("Expected to see at least 1 item by default " , wipRowsDisplayed, is(equalTo(true)));
+
+        //Sort and verify data is displayed
+        taskSection = taskSection.sortBy("Submitted", 1);
+        wipRowsDisplayed = tasksPage.isWIPTableDisplayingData();
+        assertThat("Expected to see at least 1 item by default " , wipRowsDisplayed, is(equalTo(true)));
+
+        taskSection = taskSection.sortBy("Submitted", 1);
+        wipRowsDisplayed = tasksPage.isWIPTableDisplayingData();
+        assertThat("Expected to see at least 1 item by default " , wipRowsDisplayed, is(equalTo(true)));
     }
 
     @Override

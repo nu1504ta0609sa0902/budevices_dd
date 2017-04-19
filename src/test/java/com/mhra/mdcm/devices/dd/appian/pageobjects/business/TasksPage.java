@@ -28,6 +28,11 @@ public class TasksPage extends _Page {
     @FindBy(partialLinkText = "New Account Request")
     List<WebElement> listOfNewAccount;
 
+    @FindBy(xpath = ".//span[contains(text(),'Work In Progress')]")
+    WebElement workInProgress;
+    @FindBy(css = "div > table > tbody > tr")
+    List<WebElement> listOfWIPTableRows;
+
 
     public TasksPage(WebDriver driver) {
         super(driver);
@@ -81,5 +86,26 @@ public class TasksPage extends _Page {
             isVisible = false;
         }
         return isVisible;
+    }
+
+    public TaskSection gotoWIPTasksPage() {
+        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+        WaitUtils.waitForElementToBeVisible(driver, workInProgress, TIMEOUT_DEFAULT, false);
+        WaitUtils.waitForElementToBeClickable(driver, workInProgress, TIMEOUT_DEFAULT, false);
+        workInProgress.click();
+        return new TaskSection(driver);
+    }
+
+    public boolean isWIPTableDisplayingData() {
+        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+        WaitUtils.waitForElementToBeClickable(driver, By.cssSelector("div > table > tbody > tr"), TIMEOUT_MEDIUM, false);
+
+        //Verify its not the No items available message
+        if(listOfWIPTableRows.size() == 1){
+            boolean noItems = listOfWIPTableRows.get(0).getText().contains("No items");
+            return !noItems;
+        }else {
+            return listOfWIPTableRows.size() > 0;
+        }
     }
 }

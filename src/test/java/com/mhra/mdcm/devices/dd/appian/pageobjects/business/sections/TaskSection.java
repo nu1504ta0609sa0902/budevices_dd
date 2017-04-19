@@ -17,6 +17,8 @@ public class TaskSection extends _Page {
 
     @FindBy(xpath = ".//h3")
     WebElement taskHeading;
+    @FindBy(xpath = ".//div[contains(text(),'Submitted')]")
+    WebElement thSubmitted;
 
     //Accept taskSection
     @FindBy(xpath = ".//button[contains(text(), 'Accept')]")
@@ -120,4 +122,17 @@ public class TaskSection extends _Page {
         return new TasksPage(driver);
     }
 
+    public TaskSection sortBy(String sortBy, int numberOfTimesToClick) {
+        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+        WaitUtils.waitForElementToBeClickable(driver, thSubmitted, TIMEOUT_SMALL, false);
+        if (sortBy.equals("Submitted")) {
+            for (int c = 0; c < numberOfTimesToClick; c++) {
+                thSubmitted.click();
+                WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+                WaitUtils.nativeWaitInSeconds(2);
+            }
+        }
+
+        return new TaskSection(driver);
+    }
 }
