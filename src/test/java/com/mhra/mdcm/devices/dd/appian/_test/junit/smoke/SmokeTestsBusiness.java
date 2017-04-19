@@ -415,52 +415,8 @@ public class SmokeTestsBusiness extends Common {
     }
 
 
-
-
     @Test
-    public void asABusinessUserIAmAbleToSearchAndViewRandomManufacturerAccounts() {
-
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage = loginPage.loadPage(baseUrl);
-        MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
-
-        //Go to accounts and perform a search for Manufacturer
-        recordsPage = mainNavigationBar.clickRecords();
-        accounts = recordsPage.clickOnAccounts();
-
-        String randomAccountName = accounts.getARandomAccount();
-        accounts = accounts.viewSpecifiedAccount(randomAccountName);
-        accounts = this.accounts.gotoEditAccountInformation();
-
-        //Verify page is open to be edited
-        boolean isInEditMode = accounts.isInEditMode();
-        assertThat("Expected to be in edit view : " + randomAccountName, isInEditMode, is(equalTo(true)));
-    }
-
-
-    @Test
-    public void asABusinessUserIAmAbleToSearchAndViewRandomAuthorisedRepAccounts() {
-
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage = loginPage.loadPage(baseUrl);
-        MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
-
-        //Go to accounts and perform a search for AuthorisedRep
-        recordsPage = mainNavigationBar.clickRecords();
-        accounts = recordsPage.clickOnAccounts();
-
-        String randomAccountName = accounts.getARandomAccount();
-        accounts = accounts.viewSpecifiedAccount(randomAccountName);
-        accounts = this.accounts.gotoEditAccountInformation();
-
-        //Verify page is open to be edited
-        boolean isInEditMode = accounts.isInEditMode();
-        assertThat("Expected to be in edit view : " + randomAccountName, isInEditMode, is(equalTo(true)));
-    }
-
-
-    @Test
-    public void asABusinessUserIsAbleToSearchAndViewRandomAuthorisedRepAccounts() {
+    public void asABusinessUserIAmAbleToViewRandomAccount() {
 
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);

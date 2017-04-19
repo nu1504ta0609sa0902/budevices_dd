@@ -175,7 +175,7 @@ public class BrowserConfig {
         ieCapabilities.setCapability(InternetExplorerDriver.UNEXPECTED_ALERT_BEHAVIOR, true);
         ieCapabilities.setCapability(InternetExplorerDriver.ENABLE_PERSISTENT_HOVERING,false);
         ieCapabilities.setCapability(InternetExplorerDriver.NATIVE_EVENTS, true);
-        ieCapabilities.setCapability(InternetExplorerDriver.REQUIRE_WINDOW_FOCUS, true);
+        ieCapabilities.setCapability(InternetExplorerDriver.REQUIRE_WINDOW_FOCUS, false);
         ieCapabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
         ieCapabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
         ieCapabilities.setJavascriptEnabled(true);
