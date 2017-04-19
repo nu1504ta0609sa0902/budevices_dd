@@ -48,7 +48,6 @@ public class SmokeTestsAuthorisedRep extends Common {
     public static void setUpDriver() {
         if (driver == null) {
             driver = new BrowserConfig().getDriver();
-            driver.manage().window().maximize();
             baseUrl = FileUtils.getTestUrl();
 
             //This is for entering values in a popup

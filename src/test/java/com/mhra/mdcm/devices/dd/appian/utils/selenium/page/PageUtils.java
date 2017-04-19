@@ -340,6 +340,8 @@ public class PageUtils {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }else{
+            driver.manage().window().maximize();
         }
     }
 }
