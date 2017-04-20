@@ -18,6 +18,9 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.nullValue;
+
 /**
  * Created by TPD_Auto on 01/11/2016.
  */
@@ -114,6 +117,19 @@ public class SmokeTestsManufacturers extends Common {
 
         boolean isLoginPage = loginPage.isInLoginPage();
         Assert.assertThat("Expected tobe in login page", isLoginPage, Matchers.is(true));
+    }
+
+
+    @Test
+    public void asAUserIShouldBeAbleToViewAListOfManufacturer() {
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage = loginPage.loadPage(baseUrl);
+        MainNavigationBar mainNavigationBar = loginPage.loginAsManufacturer(username, password);
+        externalHomePage = mainNavigationBar.clickHome();
+
+        manufacturerList = externalHomePage.gotoListOfManufacturerPage();
+        String name = manufacturerList.getARandomManufacturerName();
+        Assert.assertThat("List of manufacturers may not be visible", name, not(nullValue()));
     }
 
     @Override

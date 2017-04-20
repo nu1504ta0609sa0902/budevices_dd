@@ -9,7 +9,7 @@ import com.mhra.mdcm.devices.dd.appian.utils.datadriven.JUnitUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.driver.BrowserConfig;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.FileUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.PageUtils;
-import org.hamcrest.Matchers;
+import static org.hamcrest.Matchers.*;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -81,7 +81,7 @@ public class SmokeTestsAuthorisedRep extends Common {
         String expectedErrorMsg = "The username/password entered is invalid";
         loginPage = new LoginPage(driver);
         boolean isCorrect = loginPage.isErrorMessageCorrect(expectedErrorMsg);
-        Assert.assertThat("Error message should contain : " + expectedErrorMsg, isCorrect, Matchers.is(true));
+        Assert.assertThat("Error message should contain : " + expectedErrorMsg, isCorrect, is(true));
     }
 
     @Test
@@ -94,7 +94,7 @@ public class SmokeTestsAuthorisedRep extends Common {
         externalHomePage = mainNavigationBar.clickHome();
         String delimitedLinks = "ENTER >";
         boolean areLinksVisible = externalHomePage.isStartNowLinkDisplayed();
-        Assert.assertThat("Expected to see the following links : " + delimitedLinks, areLinksVisible, Matchers.is(true));
+        Assert.assertThat("Expected to see the following links : " + delimitedLinks, areLinksVisible, is(true));
 
     }
 
@@ -107,13 +107,26 @@ public class SmokeTestsAuthorisedRep extends Common {
         String expectedHeading = JUnitUtils.getExpectedHeading(username);
 
         boolean isCorrectPage = mainNavigationBar.isCorrectPage(expectedHeading);
-        Assert.assertThat("Expected page : " + expectedHeading, isCorrectPage, Matchers.is(true));
+        Assert.assertThat("Expected page : " + expectedHeading, isCorrectPage, is(true));
 
         //Logout and verify its in logout page
         loginPage = JUnitUtils.logoutIfLoggedIn(username, loginPage);
 
         boolean isLoginPage = loginPage.isInLoginPage();
-        Assert.assertThat("Expected to be in login page", isLoginPage, Matchers.is(true));
+        Assert.assertThat("Expected to be in login page", isLoginPage, is(true));
+    }
+
+
+    @Test
+    public void asAUserIShouldBeAbleToViewListOfAuthorisedReps() {
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage = loginPage.loadPage(baseUrl);
+        MainNavigationBar mainNavigationBar = loginPage.loginAsManufacturer(username, password);
+        externalHomePage = mainNavigationBar.clickHome();
+
+        manufacturerList = externalHomePage.gotoListOfManufacturerPage();
+        String name = manufacturerList.getARandomManufacturerName();
+        Assert.assertThat("List of manufacturers may not be visible", name, not(nullValue()) );
     }
 
     @Override

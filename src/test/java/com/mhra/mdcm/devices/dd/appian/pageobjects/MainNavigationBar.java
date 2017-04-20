@@ -16,6 +16,7 @@ import org.openqa.selenium.support.FindBy;
 
 public class MainNavigationBar extends _Page {
 
+    //Business View
     @FindBy(partialLinkText = "News")
     WebElement news;
     @FindBy(partialLinkText = "Tasks")
@@ -27,7 +28,7 @@ public class MainNavigationBar extends _Page {
     @FindBy(partialLinkText = "Actions")
     WebElement actions;
 
-
+    //Manufacturer or AuthorisedRep View
     @FindBy(partialLinkText = "HOME")
     WebElement linkHOME;
     @FindBy(xpath = ".//a//following::div[.='MY ACCOUNT']")
