@@ -39,9 +39,10 @@ public class AccountRequest {
     public String email;
 
     //Organisation Role
-    public String autorisedRep;
-    public String manufacturer;
+//    public String autorisedRep;
+//    public String manufacturer;
     public boolean isManufacturer;
+    public String organisationRole;
 
     //Services of interest
     public boolean deviceRegistration;
@@ -86,9 +87,8 @@ public class AccountRequest {
         email = "mhra.uat@gmail.com";
 
         //Organisation Role
-        autorisedRep = "false";
-        manufacturer = "true";
         isManufacturer = true;
+        organisationRole = "Manufacturer";
 
         //Services of interest
         deviceRegistration = true;
@@ -133,21 +133,38 @@ public class AccountRequest {
 
     private String generateLastName() {
         String business = "";
-        if(isManufacturer){
-            business = "Manufacturer";
-        }else{
-            business = "AuthorisedRep";
+        if(organisationRole!=null){
+            if(organisationRole.toLowerCase().equals("distributor")){
+                business = "Manufacturer";
+            }else if(organisationRole.toLowerCase().equals("notifiedbody")){
+                business = "NotifiedBody";
+            }else{
+                //It can only be a manufacturer or authorisedRep
+                if(isManufacturer){
+                    business = "Manufacturer";
+                }else{
+                    business = "AuthorisedRep";
+                }
+            }
         }
         return business;
     }
 
     public void updateName(String nameBeginsWith) {
-        if(isManufacturer){
-            organisationName = organisationName.replace("OrganisationTest", nameBeginsWith);
-            website = website.replace("organisationtest", nameBeginsWith);
-        }else{
-            organisationName = organisationName.replace("OrganisationTest", nameBeginsWith);
-            website = website.replace("organisationtest", nameBeginsWith);
+        if(organisationRole!=null) {
+            if (organisationRole.toLowerCase().equals("distributor")) {
+                organisationName = organisationName.replace("OrganisationTest", nameBeginsWith);
+                website = website.replace("organisationtest", nameBeginsWith);
+            } else if (organisationRole.toLowerCase().equals("notifiedbody")) {
+                organisationName = organisationName.replace("OrganisationTest", nameBeginsWith);
+                website = website.replace("organisationtest", nameBeginsWith);
+            } else if (isManufacturer) {
+                organisationName = organisationName.replace("OrganisationTest", nameBeginsWith);
+                website = website.replace("organisationtest", nameBeginsWith);
+            } else {
+                organisationName = organisationName.replace("OrganisationTest", nameBeginsWith);
+                website = website.replace("organisationtest", nameBeginsWith);
+            }
         }
     }
 

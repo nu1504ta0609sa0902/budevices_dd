@@ -73,6 +73,10 @@ public class _CreateTestsData extends _Page {
     WebElement authorisedRep;
     @FindBy(xpath = ".//label[contains(text(),'Manufacturer')]")
     WebElement manufacturer;
+    @FindBy(xpath = ".//label[contains(text(),'Distributor')]")
+    WebElement distributor;
+    @FindBy(xpath = ".//label[contains(text(),'Notified Body')]")
+    WebElement notifiedBody;
 
     //Services of Interests
     @FindBy(xpath = ".//label[contains(text(),'Account Management')]")
@@ -177,10 +181,17 @@ public class _CreateTestsData extends _Page {
         emailAddress.sendKeys(ar.email);
 
         //Organisation Role
-        if(ar.isManufacturer){
-            PageUtils.doubleClick(driver, manufacturer);
+        if(ar.organisationRole.toLowerCase().equals("distributor")){
+            PageUtils.doubleClick(driver, distributor);
+        }else if(ar.organisationRole.toLowerCase().equals("notifiedbody")){
+            PageUtils.doubleClick(driver, notifiedBody);
         }else{
-            PageUtils.doubleClick(driver, authorisedRep);
+            //Is either a manufacturer or authorisedRep
+            if(ar.isManufacturer){
+                PageUtils.doubleClick(driver, manufacturer);
+            }else{
+                PageUtils.doubleClick(driver, authorisedRep);
+            }
         }
 
         //Services of Interests

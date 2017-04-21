@@ -179,6 +179,8 @@ public class AddDevices extends _Page {
     WebElement btnAddDevice;
     @FindBy(xpath = ".//button[.='Save']")
     WebElement btnSaveProgress;
+    @FindBy(xpath = ".//button[.='Save product']")
+    WebElement btnSaveProduct;
 
     //Error message
     @FindBy(css = ".component_error")
@@ -380,12 +382,12 @@ public class AddDevices extends _Page {
 
         PageUtils.uploadDocument(fileUpload, "DeviceLabelDoc2.pdf", 1, 3);
         txtDocumentDetails.sendKeys(dd.deviceDetails);
-        PageUtils.uploadDocument(listOfFileUploads.get(1), "DeviceInstructionForUse1.pdf", 1, 3);
+        PageUtils.uploadDocument(listOfFileUploads.get(0), "DeviceInstructionForUse1.pdf", 1, 3);
         txtInstructionDetails.sendKeys(dd.instructionDetails);
 
         //Save product label details
-        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//button[.='Save Product']"), TIMEOUT_MEDIUM, false);
-        driver.findElement(By.xpath(".//button[.='Save Product']")).click();
+        WaitUtils.waitForElementToBeClickable(driver, btnSaveProduct, TIMEOUT_MEDIUM, false);
+        btnSaveProduct.click();
 
     }
 
@@ -403,8 +405,8 @@ public class AddDevices extends _Page {
         PageUtils.uploadDocument(listOfFileUploads.get(1), "DeviceInstructionForUse1.pdf", 1, 3);
 
         //Save product label details
-        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//button[.='Save Product']"), TIMEOUT_MEDIUM, false);
-        driver.findElement(By.xpath(".//button[.='Save Product']")).click();
+        WaitUtils.waitForElementToBeClickable(driver, btnSaveProduct, TIMEOUT_MEDIUM, false);
+        btnSaveProduct.click();
     }
 
 
@@ -429,9 +431,8 @@ public class AddDevices extends _Page {
     }
 
     private void saveProduct(DeviceData dd) {
-        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//button[.='Save product']"), TIMEOUT_MEDIUM, false);
-        WebElement saveProduct = driver.findElement(By.xpath(".//button[.='Save product']"));
-        saveProduct.click();
+        WaitUtils.waitForElementToBeClickable(driver, btnSaveProduct, TIMEOUT_MEDIUM, false);
+        btnSaveProduct.click();
     }
 
     private void productNewToMarket(DeviceData dd) {
@@ -638,8 +639,8 @@ public class AddDevices extends _Page {
                 WaitUtils.isPageLoadingComplete(driver, 1);
 
                 //Wait for list of items to appear and add it only if its not a duplicate
-                WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//div[contains(text(),'Term')]//following::td"), TIMEOUT_DEFAULT, false);
-                int randomPosition = RandomDataUtils.getARandomNumberBetween(0, listOfGmdnMatchesReturnedBySearch.size());
+                WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//div[contains(text(),'Term')]//following::td"), TIMEOUT_SMALL, false);
+                int randomPosition = RandomDataUtils.getARandomNumberBetween(0, listOfGmdnMatchesReturnedBySearch.size()-1);
                 WebElement element = listOfGmdnMatchesReturnedBySearch.get(randomPosition);
                 element.click();
                 //element.findElement(By.tagName("a")).click();

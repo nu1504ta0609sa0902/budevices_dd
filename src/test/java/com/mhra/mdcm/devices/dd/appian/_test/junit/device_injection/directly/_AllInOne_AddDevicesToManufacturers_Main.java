@@ -54,8 +54,8 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
     }
 
     public static void main(String[] args) {
-        listOfManufacturerUsers = DirectDeviceDataUtils.getListOfUsersFromExcel("manufacturer");
-        listOfBusinessUsers = DirectDeviceDataUtils.getListOfBusinessUsersFromExcel("business");
+        listOfManufacturerUsers = ExcelDirectDeviceDataUtils.getListOfUsersFromExcel("manufacturer");
+        listOfBusinessUsers = ExcelDirectDeviceDataUtils.getListOfBusinessUsersFromExcel("business");
         setUpDriver();
 
         //Always use one of the Business Accounts to create the test manufacturers
@@ -451,10 +451,10 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
             try {
                 boolean isVisible = addDevices.isOptionToAddAnotherDeviceVisible();
                 if (!isVisible) {
-                    DeviceData dd = DirectDeviceDataUtils.getDeviceDataCalled(listOfDevicesWhichHadProblems, "Abacus");
+                    DeviceData dd = ExcelDirectDeviceDataUtils.getDeviceDataCalled(listOfDevicesWhichHadProblems, "Abacus");
                     if(dd == null){
                         //System keeps bloody changing the GMDN
-                        dd = DirectDeviceDataUtils.getListOfDevicesOfSpecificType(listOfDeviceData, "general medical").get(0);
+                        dd = ExcelDirectDeviceDataUtils.getListOfDevicesOfSpecificType(listOfDeviceData, "general medical").get(0);
                     }
                     dd.device = "con";
                     addDevices = addDevices.addFollowingDevice(dd);

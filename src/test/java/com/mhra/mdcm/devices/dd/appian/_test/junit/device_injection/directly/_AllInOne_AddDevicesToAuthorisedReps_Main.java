@@ -55,8 +55,8 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
 
     public static void main(String[] args) {
 
-        listOfAuthorisedRepUsers = DirectDeviceDataUtils.getListOfUsersFromExcel("authorised");
-        listOfBusinessUsers = DirectDeviceDataUtils.getListOfBusinessUsersFromExcel("business");
+        listOfAuthorisedRepUsers = ExcelDirectDeviceDataUtils.getListOfUsersFromExcel("authorised");
+        listOfBusinessUsers = ExcelDirectDeviceDataUtils.getListOfBusinessUsersFromExcel("business");
         setUpDriver();
 
         /**
@@ -64,7 +64,7 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
          * This will create authorisedReps with users initials e.g _NU, _HB
          */
         log.info("First CREATE New Accounts To Add Manufactures/Devices To : ");
-        businessUser = DirectDeviceDataUtils.getCorrectLoginDetails("_NU", listOfBusinessUsers);
+        businessUser = ExcelDirectDeviceDataUtils.getCorrectLoginDetails("_NU", listOfBusinessUsers);
         _AllInOne_AddDevicesToAuthorisedReps_Main tgs = new _AllInOne_AddDevicesToAuthorisedReps_Main(businessUser);
         tgs.createNewAccountForAuthorisedRepWithBusinessTestHarness(listOfAuthorisedRepUsers);
 
@@ -116,7 +116,7 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
                 //Set manufacturer account login details
                 nameSelected = manufacturerName;
                 initials = nameSelected.substring(nameSelected.indexOf("_"));
-                manufacturerUser = DirectDeviceDataUtils.getCorrectLoginDetailsManufacturer(initials, listOfAuthorisedRepUsers);
+                manufacturerUser = ExcelDirectDeviceDataUtils.getCorrectLoginDetailsManufacturer(initials, listOfAuthorisedRepUsers);
                 setLoginDetails(manufacturerUser);
 
                 //"Provide Indication Of Devices For : " + manufacturerName
@@ -288,7 +288,9 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
         }
 
         //custom made
-        externalHomePage.selectCustomMade(true);
+        try {
+            externalHomePage.selectCustomMade(true);
+        }catch (Exception e){}
 
         //Submit devices made
         //externalHomePage = externalHomePage.submitIndicationOfDevicesMade(true);
@@ -388,7 +390,7 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
                 ar.updateNameEnding("_" + initials);
                 ar.setUserDetails(username);
 
-                manufacturerUser = DirectDeviceDataUtils.getCorrectLoginDetailsManufacturer(initials, listOfAuthorisedRepUsers);
+                manufacturerUser = ExcelDirectDeviceDataUtils.getCorrectLoginDetailsManufacturer(initials, listOfAuthorisedRepUsers);
 
                 //ar.title = "Miss";
                 ar.firstName = TestHarnessUtils.getName(initials, manufacturerUser, true);
@@ -465,7 +467,7 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
     private void createDevicesFor(User u, String manufacturerName, boolean loginAgain) {
         log.info("Try And Add Devices For : " + nameSelected);
 
-        List<DeviceData> listOfDeviceData = DirectDeviceDataUtils.getListOfDeviceData();
+        List<DeviceData> listOfDeviceData = ExcelDirectDeviceDataUtils.getListOfDeviceData();
 
         if(loginAgain)
         loginAndViewManufacturer();
@@ -479,8 +481,8 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
         for (String specificDeviceTypes : deviceTypes) {
 
             //Assumes we are in add device page
-            List<DeviceData> listOfDevicesOfSpecificType = DirectDeviceDataUtils.getListOfDevicesOfSpecificType(listOfDeviceData, specificDeviceTypes);
-            listOfDevicesOfSpecificType = DirectDeviceDataUtils.getValidatedDataOnly(true, listOfDevicesOfSpecificType);
+            List<DeviceData> listOfDevicesOfSpecificType = ExcelDirectDeviceDataUtils.getListOfDevicesOfSpecificType(listOfDeviceData, specificDeviceTypes);
+            listOfDevicesOfSpecificType = ExcelDirectDeviceDataUtils.getValidatedDataOnly(true, listOfDevicesOfSpecificType);
             int count = 0;
 
             //Lets try to add multiple devices, it will take a long time
@@ -492,7 +494,7 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
                         log.info("\n----------------------------------------------------------");
                         log.info("Product number : " + (count + 1));
                         //log.info("Device Type : " + dd);
-                        DirectDeviceDataUtils.printDeviceData(dd);
+                        ExcelDirectDeviceDataUtils.printDeviceData(dd);
                         log.info("----------------------------------------------------------\n");
 
                         addDevices = addDevices.addFollowingDevice(dd);
@@ -537,16 +539,16 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
                 }
             }
 
-            DirectDeviceDataUtils.printFailingData(listOfDevicesWhichHadProblems, specificDeviceTypes);
+            ExcelDirectDeviceDataUtils.printFailingData(listOfDevicesWhichHadProblems, specificDeviceTypes);
 
             //Verify option to add another device is there
             try {
                 boolean isVisible = addDevices.isOptionToAddAnotherDeviceVisible();
                 if (!isVisible) {
-                    DeviceData dd = DirectDeviceDataUtils.getDeviceDataCalled(listOfDevicesWhichHadProblems, "Abacus");
+                    DeviceData dd = ExcelDirectDeviceDataUtils.getDeviceDataCalled(listOfDevicesWhichHadProblems, "Abacus");
                     if(dd == null){
                         //System keeps bloody changing the GMDN
-                        dd = DirectDeviceDataUtils.getListOfDevicesOfSpecificType(listOfDeviceData, "general medical").get(0);
+                        dd = ExcelDirectDeviceDataUtils.getListOfDevicesOfSpecificType(listOfDeviceData, "general medical").get(0);
                     }
                     dd.device = "con";
                     addDevices = addDevices.addFollowingDevice(dd);
