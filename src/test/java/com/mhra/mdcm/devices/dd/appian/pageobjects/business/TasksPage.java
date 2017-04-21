@@ -73,7 +73,7 @@ public class TasksPage extends _Page {
         WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText(orgName), TIMEOUT_SMALL, false);
         WebElement taskLink = driver.findElement(By.partialLinkText(orgName));
         taskLink.click();
-        log.info("Task found for : " + orgName);
+        //log.info("Task found for : " + orgName);
         return new TaskSection(driver);
     }
 

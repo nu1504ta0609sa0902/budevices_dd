@@ -121,6 +121,7 @@ public class SmokeTestsManufacturers extends Common {
 
 
     @Test
+    @Ignore
     public void asAUserIShouldBeAbleToViewAListOfManufacturer() {
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);

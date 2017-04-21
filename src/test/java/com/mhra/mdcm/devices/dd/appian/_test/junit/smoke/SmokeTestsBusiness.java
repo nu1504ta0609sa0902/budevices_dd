@@ -487,6 +487,7 @@ public class SmokeTestsBusiness extends Common {
 
 
     @Test
+    @Ignore
     public void asABusinessUserIAmAbleToViewRandomAccount() {
 
         LoginPage loginPage = new LoginPage(driver);

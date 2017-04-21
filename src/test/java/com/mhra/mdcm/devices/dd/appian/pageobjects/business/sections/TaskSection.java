@@ -83,7 +83,7 @@ public class TaskSection extends _Page {
                 PageUtils.doubleClick(driver, approve);
             }
         }
-        log.info("Task should be approved now");
+        //log.info("Task should be approved now");
         return new TasksPage(driver);
     }
 
@@ -91,7 +91,7 @@ public class TaskSection extends _Page {
         WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
         WaitUtils.waitForElementToBeClickable(driver, approveNewAccount, TIMEOUT_SMALL, false);
         PageUtils.doubleClick(driver, approveNewAccount);
-        log.info("Task should be approved now");
+        //log.info("Task should be approved now");
         return new TasksPage(driver);
     }
 

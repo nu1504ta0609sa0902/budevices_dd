@@ -118,6 +118,7 @@ public class SmokeTestsAuthorisedRep extends Common {
 
 
     @Test
+    @Ignore
     public void asAUserIShouldBeAbleToViewListOfAuthorisedReps() {
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
