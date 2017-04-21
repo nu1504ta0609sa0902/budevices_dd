@@ -1,8 +1,7 @@
 package com.mhra.mdcm.devices.dd.appian.utils.selenium.page;
 
-
-import com.mhra.mdcm.devices.dd.appian._test.junit._others.ProxyAuthenticationSikuli;
 import com.mhra.mdcm.devices.dd.appian.pageobjects._Page;
+import com.mhra.mdcm.devices.dd.appian.utils.jenkins.ProxyAuthenticationSikuli;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.FileUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.RandomDataUtils;
 import org.openqa.selenium.By;

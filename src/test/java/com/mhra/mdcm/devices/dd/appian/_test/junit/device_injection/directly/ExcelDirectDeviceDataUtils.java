@@ -11,14 +11,14 @@ import java.util.List;
 /**
  * Created by TPD_Auto on 16/01/2017.
  */
-public class DirectDeviceDataUtils extends Common {
+public class ExcelDirectDeviceDataUtils extends Common {
 
     private static List<DeviceData> listOfDeviceData = null;
 
 
     public static List<User> getListOfUsersFromExcel(String typeOfUsers) {
         ExcelDataSheet excelUtils = new ExcelDataSheet();//
-        List<User> listOfUsers = excelUtils.getListOfUsers("configs/data/excel/users.xlsx", "InjectSpecificUser");
+        List<User> listOfUsers = excelUtils.getListOfUsers("configs/data/excel/users.xlsx", "Sheet1");
         listOfUsers = excelUtils.filterUsersBy(listOfUsers, typeOfUsers);
         return listOfUsers;
     }

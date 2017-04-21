@@ -33,6 +33,7 @@ public class SmokeTestsBusiness extends Common {
 
     public static final String AUTHORISED_REP_SMOKE_TEST = RandomDataUtils.getRandomTestNameWithTodaysDate("AuthorisedRepST","");
     public static final String MANUFACTURER_SMOKE_TEST = RandomDataUtils.getRandomTestNameWithTodaysDate("ManufacturerST","");;
+    public static final String DISTRIBUTOR_SMOKE_TEST = RandomDataUtils.getRandomTestNameWithTodaysDate("DistributorST","");;
     public static String baseUrl;
     private String username;
     private String password;
@@ -251,6 +252,15 @@ public class SmokeTestsBusiness extends Common {
     @Test
     public void businessUsersCanCreateManufacturerAccountRequest() {
 
+        //New account data
+        AccountRequest ar = new AccountRequest();
+        ar.isManufacturer = true;
+        ar.updateName(MANUFACTURER_SMOKE_TEST);
+        ar.updateNameEnding("_" + initials);
+        ar.organisationRole = "Manufacturer";
+        ar.setUserDetails(username);
+
+        //Now create the test data using harness page
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
         MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
@@ -259,16 +269,10 @@ public class SmokeTestsBusiness extends Common {
         actionsPage = mainNavigationBar.clickActions();
         createTestsData = actionsPage.gotoTestsHarnessPage();
 
-        //Now create the test data using harness page
-        AccountRequest ar = new AccountRequest();
-        ar.isManufacturer = true;
-        ar.updateName(MANUFACTURER_SMOKE_TEST);
-        ar.updateNameEnding("_" + initials);
-        ar.setUserDetails(username);
-
         actionsPage = createTestsData.createTestOrganisation(ar);
         boolean isInCorrectPage = actionsPage.isInActionsPage();
         if(!isInCorrectPage){
+            PageUtils.acceptAlert(driver, true);
             actionsPage = createTestsData.createTestOrganisation(ar);
         }
 
@@ -313,6 +317,15 @@ public class SmokeTestsBusiness extends Common {
     @Test
     public void businessUsersCanCreateAuthorisedRepAccountRequest() {
 
+        //Actual account data
+        AccountRequest ar = new AccountRequest();
+        ar.isManufacturer = false;
+        ar.updateName(AUTHORISED_REP_SMOKE_TEST);
+        ar.updateNameEnding("_" + initials);
+        //ar.organisationRole = "Authorised Representation";
+        ar.setUserDetails(username);
+
+        //Now create the test data using harness page
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
         MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
@@ -321,16 +334,74 @@ public class SmokeTestsBusiness extends Common {
         actionsPage = mainNavigationBar.clickActions();
         createTestsData = actionsPage.gotoTestsHarnessPage();
 
-        //Now create the test data using harness page
+        actionsPage = createTestsData.createTestOrganisation(ar);
+        boolean isInCorrectPage = actionsPage.isInActionsPage();
+        if(!isInCorrectPage){
+            PageUtils.acceptAlert(driver, true);
+            actionsPage = createTestsData.createTestOrganisation(ar);
+        }
+
+        boolean createdSuccessfully = actionsPage.isInActionsPage();
+        if (createdSuccessfully) {
+            System.out.println("Created a new account : " + ar.organisationName);
+        }
+
+        String orgName = ar.organisationName;
+
+        //Verify new taskSection generated and its the correct one
+        boolean contains = false;
+        boolean isCorrectTask = false;
+        int count = 0;
+        do {
+            mainNavigationBar = new MainNavigationBar(driver);
+            tasksPage = mainNavigationBar.clickTasks();
+
+            //Click on link number X
+            try {
+                taskSection = tasksPage.clickOnLinkWithText(orgName);
+                contains = true;
+            } catch (Exception e) {
+                contains = false;
+            }
+            count++;
+        } while (!contains && count <= 5);
+
+        //Accept the task
+        if(contains) {
+            taskSection = taskSection.acceptTask();
+            tasksPage = taskSection.approveTask();
+            WaitUtils.nativeWaitInSeconds(2);
+        }
+
+        assertThat("Task not found for organisation : " + orgName, contains, is(equalTo(true)));
+
+    }
+
+
+    @Test
+    public void businessUsersCanCreateDistributorAccountRequest() {
+
+        //Actual data
         AccountRequest ar = new AccountRequest();
         ar.isManufacturer = false;
-        ar.updateName(AUTHORISED_REP_SMOKE_TEST);
+        ar.updateName(DISTRIBUTOR_SMOKE_TEST);
         ar.updateNameEnding("_" + initials);
+        ar.organisationRole = "Distributor";
         ar.setUserDetails(username);
+
+        //Now create the test data using harness page
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage = loginPage.loadPage(baseUrl);
+        MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
+
+        //go to accounts page > test harness page
+        actionsPage = mainNavigationBar.clickActions();
+        createTestsData = actionsPage.gotoTestsHarnessPage();
 
         actionsPage = createTestsData.createTestOrganisation(ar);
         boolean isInCorrectPage = actionsPage.isInActionsPage();
         if(!isInCorrectPage){
+            PageUtils.acceptAlert(driver, true);
             actionsPage = createTestsData.createTestOrganisation(ar);
         }
 

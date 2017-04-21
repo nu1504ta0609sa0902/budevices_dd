@@ -1,4 +1,4 @@
-package com.mhra.mdcm.devices.dd.appian._test.junit._others;
+package com.mhra.mdcm.devices.dd.appian.utils.jenkins;
 
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.FileUtils;
 import org.openqa.selenium.WebDriver;

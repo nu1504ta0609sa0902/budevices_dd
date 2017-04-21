@@ -212,40 +212,6 @@ public class ExcelDataSheet {
         return dataUpdated;
     }
 
-//    public Object[][] getListOf2DObjects(String fileName, String sheet){
-//
-//        //Point to the resource file
-//        String dataFile = getDataFileFullPath(fileName);
-//
-//        //Get all the data as string separated by \n
-//        String linesOfData = getDataFromFile(dataFile, sheet);
-//
-//        //Create arraylist
-//        List<User> listOfCountries = new ArrayList<User>();
-//        String[] linesOfCSVData = linesOfData.split("\n");
-//        int lineCount = 0;
-//        for(String line: linesOfCSVData){
-//
-//            if(lineCount > 0) {
-//                try {
-//                    String[] excelData = line.split(",");
-//                    String userName = excelData[0];
-//                    String password = excelData[1];
-//                    //String age = excelData[2];
-//                    //String job = excelData[3];
-//                    listOfCountries.add(new User(userName, password));
-//                }catch (Exception e){}
-//            }
-//            lineCount++;
-//        }
-//
-//        //Convert to 2D Array Object
-//        Object[][] o = convertListTo2DArray(listOfCountries);
-//
-//        return o;
-//    }
-
-
     private Object[][] convertListTo2DArray(List<?> listOfCountries) {
         Object[][] o = new Object[listOfCountries.size()][1];
         int pos = 0;

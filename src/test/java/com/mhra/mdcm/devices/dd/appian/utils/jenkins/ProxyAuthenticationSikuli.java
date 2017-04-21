@@ -1,4 +1,4 @@
-package com.mhra.mdcm.devices.dd.appian._test.junit._others;
+package com.mhra.mdcm.devices.dd.appian.utils.jenkins;
 
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.FileUtils;
 import org.openqa.selenium.WebDriver;
@@ -6,10 +6,8 @@ import org.sikuli.script.Pattern;
 import org.sikuli.script.Screen;
 
 import java.awt.*;
-import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
 import java.io.File;
-import java.util.Properties;
 
 /**
  * Created by a-Uddinn on 4/7/2017.
