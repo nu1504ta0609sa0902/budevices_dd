@@ -23,7 +23,7 @@ public class ManufacturerList extends _Page {
     @FindBy(xpath = ".//button[.='Register My Organisation']")
     WebElement linkRegisterMyNewOrganisation;
 
-    @FindBy(css = "td>div>a")
+    @FindBy(css = "div>p>a")
     List<WebElement> listOfManufacturerNames;
     @FindBy(xpath = ".//*[contains(text(), 'registration status')]//following::tr[@__gwt_subrow='0']")
     List<WebElement> listOfTableRows;
@@ -61,8 +61,8 @@ public class ManufacturerList extends _Page {
     }
 
     public String getARandomManufacturerName() {
-        WaitUtils.waitForElementToBeClickable(driver, By.cssSelector(".left>div>a"), TIMEOUT_VERY_HIGH, false);
-        WaitUtils.waitForElementToBeVisible(driver, By.cssSelector(".left>div>a"), TIMEOUT_MEDIUM, false);
+        WaitUtils.waitForElementToBeClickable(driver, By.cssSelector("div>p>a"), TIMEOUT_VERY_HIGH, false);
+        WaitUtils.waitForElementToBeVisible(driver, By.cssSelector("div>p>a"), TIMEOUT_MEDIUM, false);
         int index = RandomDataUtils.getNumberBetween(0, listOfManufacturerNames.size() - 1);
         WebElement link = listOfManufacturerNames.get(index);
         String name = link.getText();

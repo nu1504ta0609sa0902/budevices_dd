@@ -21,7 +21,7 @@ public class ManufacturerDetails extends _Page {
 
     @FindBy(css = "a.GFWJSJ4DGR[aria-label='Add a device']")
     WebElement addADevice;
-    @FindBy(xpath = ".//button[contains(text(),'Declare devices')]")
+    @FindBy(xpath = ".//button[contains(text(),'Continue')]")
     WebElement declareDevices;
     @FindBy(xpath = ".//a[contains(text(),'Amend Represented')]")
     WebElement amendRepresentativeParty;
@@ -102,7 +102,7 @@ public class ManufacturerDetails extends _Page {
     }
 
 //    public boolean isDisplayedDataCorrect(AccountManufacturerRequest manufacaturerData, DeviceData deviceData) {
-//        //Check displayed devices are correct
+//        //Check displayed registeredDevices are correct
 //        String device = deviceData.gmdnTermOrDefinition;
 //        boolean allValid = isDevicesDisplayedCorrect(device);
 //        return allValid;

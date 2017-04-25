@@ -11,6 +11,7 @@ import com.mhra.mdcm.devices.dd.appian.pageobjects.external._CreateManufacturerT
 import com.mhra.mdcm.devices.dd.appian.utils.driver.BrowserConfig;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.FileUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.TestHarnessUtils;
+import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.PageUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.WaitUtils;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -84,6 +85,7 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
             driver = new BrowserConfig().getDriver();
             driver.manage().window().maximize();
             baseUrl = FileUtils.getTestUrl();
+            PageUtils.performBasicAuthentication(driver, baseUrl);
             log.warn("URL : " + baseUrl);
             log.warn("\n\nTHIS IS NOT JUNIT, THIS IS NOT JUNIT");
             log.warn("\n\nINSERT DEVICES AS AUTHORISEDREP USER VIA MAIN METHOD");
@@ -144,8 +146,8 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
                 }catch (Exception e){
                     e.printStackTrace();
                     //This is what it was before push on 03/02/2017
-                    createAuthorisedRepsWithManufacturerTestHarness(manufacturerUser);
-                    provideIndicationOfDevicesMade(businessUser);
+                    //createAuthorisedRepsWithManufacturerTestHarness(manufacturerUser);
+                    //provideIndicationOfDevicesMade(businessUser);
                 }
 
                 //Log back in as the newly created authorisedRep and try adding devices
@@ -553,15 +555,19 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
                     dd.device = "con";
                     addDevices = addDevices.addFollowingDevice(dd);
                     isVisible = addDevices.isOptionToAddAnotherDeviceVisible();
+                    if(!isVisible){
+                        addDevices = addDevices.saveDevice();
+                    }
                 }
             }catch (Exception e){
 
             }
 
             //Confirm payment and submit registration
+            addDevices = addDevices.proceedToReview();
             addDevices = addDevices.proceedToPayment();
-            addDevices = addDevices.submitRegistration();
-            externalHomePage = addDevices.finish();
+            addDevices = addDevices.confirmPayment();
+            manufacturerList = addDevices.backToService();
 
             //@todo Now login as business user and approve the task
             WaitUtils.nativeWaitInSeconds(4);

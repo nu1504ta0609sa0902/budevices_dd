@@ -12,14 +12,15 @@ import java.util.List;
 /**
  * Created by TPD_Auto 
  */
-public class AllProducts extends _Page {
+public class GMDNDevices extends _Page {
 
-    @FindBy(xpath = ".//div[contains(text(),'Country')]//following::a")
-    List<WebElement> listOfAllProducts;
+    @FindBy(xpath = ".//div[contains(text(),'GMDN code')]//following::a")
+    List<WebElement> listOfAllDevices;
 
-    public AllProducts(WebDriver driver) {
+    public GMDNDevices(WebDriver driver) {
         super(driver);
     }
+
 
     public boolean isHeadingCorrect(String expectedHeadings) {
         WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//h1[.='" + expectedHeadings + "']") , TIMEOUT_DEFAULT, false);
@@ -28,15 +29,11 @@ public class AllProducts extends _Page {
         return contains;
     }
 
+
     public boolean isItemsDisplayed(String expectedHeadings) {
         boolean itemsDisplayed = false;
         WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//h1[.='" + expectedHeadings + "']") , TIMEOUT_DEFAULT, false);
-
-        if(expectedHeadings.contains("All Products")){
-            itemsDisplayed = listOfAllProducts.size() > 0;
-        }
-
+        itemsDisplayed = listOfAllDevices.size() > 0;
         return itemsDisplayed;
     }
-
 }

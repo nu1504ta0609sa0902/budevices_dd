@@ -165,14 +165,18 @@ public class AddDevices extends _Page {
     //Confirm and btnDeclareDevices
     @FindBy(xpath = ".//button[contains(text(),'Review your order')]")
     WebElement btnReviewYourOrder;
-    @FindBy(xpath = ".//button[.='Proceed to payment']")
+    @FindBy(xpath = ".//button[.='Continue']")
     WebElement btnProceedToPayment;
+    @FindBy(xpath = ".//button[.='Continue']")
+    WebElement btnProceedToReview;
     @FindBy(xpath = ".//button[contains(text(),'Finish')]")
     WebElement btnFinish;
     @FindBy(xpath = ".//button[.='Remove']")
     WebElement btnRemove;
     @FindBy(css = ".Button---primary")
-    WebElement submitConfirm;
+    WebElement bthSubmitConfirm;
+    @FindBy(css = ".CheckboxGroup---choice_pair>label")
+    WebElement cbxConfirmInformation;
 
     //Submit and save buttons
     @FindBy(xpath = ".//button[.='Add device']")
@@ -201,6 +205,8 @@ public class AddDevices extends _Page {
     //Links
     @FindBy(partialLinkText = "View all GMDN terms")
     WebElement viewAllGMDNTermDefinition;
+    @FindBy(partialLinkText = "Back to service")
+    WebElement linkBackToService;
 
     public AddDevices(WebDriver driver) {
         super(driver);
@@ -233,6 +239,7 @@ public class AddDevices extends _Page {
 
     public boolean isErrorMessageDisplayed() {
         try {
+            WaitUtils.nativeWaitInSeconds(1);
             WaitUtils.waitForElementToBeVisible(driver, By.cssSelector(".FieldLayout---field_error"), 3, false);
             WaitUtils.waitForElementToBeClickable(driver, By.cssSelector(".FieldLayout---field_error"), 3, false);
             boolean isDisplayed = errorMessages.size() > 0;
@@ -261,8 +268,8 @@ public class AddDevices extends _Page {
         }
 
         //Business doing testing so don't do any write only tests
-        WaitUtils.waitForElementToBeClickable(driver, btnReviewYourOrder, TIMEOUT_MEDIUM, false);
-        PageUtils.doubleClick(driver, btnReviewYourOrder);
+        WaitUtils.waitForElementToBeClickable(driver, btnSaveProgress, TIMEOUT_MEDIUM, false);
+        PageUtils.doubleClick(driver, btnSaveProgress);
 
         return new AddDevices(driver);
     }
@@ -372,8 +379,8 @@ public class AddDevices extends _Page {
     }
 
     private void productLabelName(DeviceData dd) {
-        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//button[.='Add Product']"), TIMEOUT_MEDIUM, false);
-        driver.findElement(By.xpath(".//button[.='Add Product']")).click();
+        WaitUtils.waitForElementToBeClickable(driver, btnSaveProduct, TIMEOUT_MEDIUM, false);
+        btnSaveProduct.click();
         WaitUtils.waitForElementToBeClickable(driver, txtProductNameLabel, TIMEOUT_MEDIUM, false);
         //txtProductNameLabel.sendKeys(RandomDataUtils.getRandomTestName("Label"));
 //        txtProductNameLabel.clear();
@@ -454,9 +461,9 @@ public class AddDevices extends _Page {
     }
 
     private void addProduct(ProductDetail productDetail) {
-        WaitUtils.waitForElementToBeClickable(driver, addProduct, TIMEOUT_MEDIUM, false);
-        WaitUtils.nativeWaitInSeconds(1);
-        addProduct.click();
+        WaitUtils.waitForElementToBeClickable(driver, btnSaveProduct, TIMEOUT_MEDIUM, false);
+
+        btnSaveProduct.click();
 
         //Wait for form to be visible
         String productName = productDetail.name;
@@ -709,18 +716,18 @@ public class AddDevices extends _Page {
 
     public AddDevices proceedToPayment() {
         WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
-        WaitUtils.nativeWaitInSeconds(2);
+        WaitUtils.waitForElementToBeClickable(driver, cbxConfirmInformation, TIMEOUT_SMALL, false);
+        cbxConfirmInformation.click();
         WaitUtils.waitForElementToBeClickable(driver, btnProceedToPayment, TIMEOUT_MEDIUM, false);
         btnProceedToPayment.click();
         log.info("Proceed to payment");
         return new AddDevices(driver);
     }
 
-    public AddDevices submitRegistration() {
+    public AddDevices confirmPayment() {
         WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
-        WaitUtils.nativeWaitInSeconds(1);
-        WaitUtils.waitForElementToBeClickable(driver, submitConfirm, TIMEOUT_MEDIUM, false);
-        submitConfirm.click();
+        WaitUtils.waitForElementToBeClickable(driver, bthSubmitConfirm, TIMEOUT_MEDIUM, false);
+        bthSubmitConfirm.click();
         log.info("Submit for registration");
         return new AddDevices(driver);
     }
@@ -731,6 +738,13 @@ public class AddDevices extends _Page {
         WaitUtils.waitForElementToBeClickable(driver, btnFinish, TIMEOUT_MEDIUM, false);
         btnFinish.click();
         return new ExternalHomePage(driver);
+    }
+
+    public ManufacturerList backToService() {
+        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+        WaitUtils.waitForElementToBeClickable(driver, linkBackToService, TIMEOUT_MEDIUM, false);
+        linkBackToService.click();
+        return new ManufacturerList(driver);
     }
 
     public boolean isGMDNValueDisplayed(DeviceData data) {
@@ -788,6 +802,21 @@ public class AddDevices extends _Page {
     public AddDevices removeSelectedDevice() {
         WaitUtils.waitForElementToBeClickable(driver, btnRemove, TIMEOUT_MEDIUM, false);
         btnRemove.click();
+        return new AddDevices(driver);
+    }
+
+    public AddDevices proceedToReview() {
+        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+        WaitUtils.nativeWaitInSeconds(2);
+        WaitUtils.waitForElementToBeClickable(driver, btnProceedToReview, TIMEOUT_MEDIUM, false);
+        btnProceedToReview.click();
+        log.info("Proceed to review before payment");
+        return new AddDevices(driver);
+    }
+
+    public AddDevices saveDevice() {
+        WaitUtils.waitForElementToBeClickable(driver, btnSaveProgress, TIMEOUT_MEDIUM, false);
+        PageUtils.doubleClick(driver, btnSaveProgress);
         return new AddDevices(driver);
     }
 }

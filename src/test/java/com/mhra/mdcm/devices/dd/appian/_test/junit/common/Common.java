@@ -133,14 +133,14 @@ public class Common {
     public ActionsPage actionsPage;
 
     public Accounts accounts;
-    public Devices devices;
-    public AllOrganisations allOrganisations;
+    public RegisteredDevices registeredDevices;
+    public Organisations organisations;
     public ExternalHomePage externalHomePage;
     public _CreateTestsData createTestsData;
     public TaskSection taskSection;
-    public AllDevices allDevices;
-    public Products products;
-    public AllProducts allProducts;
+    public GMDNDevices devicesGMDN;
+
+    public RegisteredProducts registeredProducts;
 
     public ManufacturerList manufacturerList;
     public ManufacturerDetails manufacturerDetails;

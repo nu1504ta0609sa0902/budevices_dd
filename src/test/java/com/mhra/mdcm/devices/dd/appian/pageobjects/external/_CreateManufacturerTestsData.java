@@ -23,19 +23,17 @@ public class _CreateManufacturerTestsData extends _Page {
     List<WebElement> errorMessages;
 
     //Organisation details
-    @FindBy(xpath = ".//label[.='Organisation name']//following::input[1]")
+    @FindBy(xpath = ".//label[.='Name']//following::input[1]")
     WebElement orgName;
-    @FindBy(xpath = ".//label[contains(text(),'Address line 1')]//following::input[1]")
+    @FindBy(xpath = ".//*[contains(text(),'Address Details')]//following::input[1]")
     WebElement addressLine1;
-    @FindBy(xpath = ".//label[contains(text(),'Address line 2')]//following::input[1]")
+    @FindBy(xpath = ".//*[contains(text(),'Address Details')]//following::input[1]")
     WebElement addressLine2;
     @FindBy(xpath = ".//label[contains(text(),'City')]//following::input[1]")
     WebElement townCity;
-    @FindBy(xpath = ".//label[contains(text(),'Postcode')]//following::input[1]")
+    @FindBy(xpath = ".//label[contains(text(),'Post')]//following::input[1]")
     WebElement postCode;
-    @FindBy(xpath = ".//label[contains(text(),'Country')]//following::input[1]")
-    WebElement country;
-    @FindBy(xpath = ".//label[contains(text(),'Telephone')]//following::input[1]")
+    @FindBy(xpath = ".//label[contains(text(),'Post')]//following::input[@type='text'][2]")
     WebElement telephone;
     @FindBy(xpath = ".//label[contains(text(),'Fax')]//following::input[1]")
     WebElement fax;
@@ -53,7 +51,7 @@ public class _CreateManufacturerTestsData extends _Page {
     WebElement jobTitle;
     @FindBy(xpath = ".//label[.='Email']//following::input[1]")
     WebElement emailAddress;
-    @FindBy(xpath = ".//label[.='Email']//following::input[2]")
+    @FindBy(xpath = ".//label[contains(text(),'Job title')]//following::input[2]")
     WebElement phoneNumber;
 
     //Letter of designation
@@ -63,7 +61,7 @@ public class _CreateManufacturerTestsData extends _Page {
     //Submit and cancel
     @FindBy(xpath = ".//button[contains(text(),'Save Registration')]")
     WebElement btnSaveRegistration;
-    @FindBy(xpath = ".//button[contains(text(),'Declare devices')]")
+    @FindBy(xpath = ".//button[contains(text(),'Continue')]")
     WebElement btnDeclareDevices;
     @FindBy(xpath = ".//button[.='Next']")
     WebElement next;

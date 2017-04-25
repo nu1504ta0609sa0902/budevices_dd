@@ -168,19 +168,19 @@ public class SmokeTestsBusiness extends Common {
 
 
     @Test
-    public void asABusinessUserIShouldBeAbleToViewAllDevicesPage() {
+    public void asABusinessUserIShouldBeAbleToViewGMDNDevicesPage() {
 
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
         MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
 
-        String expectedHeadings = "All Devices";
+        String expectedHeadings = "GMDN Devices";
         recordsPage = mainNavigationBar.clickRecords();
-        allDevices = recordsPage.clickOnAllDevices();
+        devicesGMDN = recordsPage.clickOnGMDNDevices();
 
         //Go to all devices page
-        boolean isHeadingVisibleAndCorrect = allDevices.isHeadingCorrect(expectedHeadings);
-        boolean isItemsDisplayedAndCorrect = allDevices.isItemsDisplayed(expectedHeadings);
+        boolean isHeadingVisibleAndCorrect = devicesGMDN.isHeadingCorrect(expectedHeadings);
+        boolean isItemsDisplayedAndCorrect = devicesGMDN.isItemsDisplayed(expectedHeadings);
         //Verify results
         Assert.assertThat("Heading should be : " + expectedHeadings, isHeadingVisibleAndCorrect, is(true));
         Assert.assertThat("Expected to see at least 1 item", isItemsDisplayedAndCorrect, is(true));
@@ -188,19 +188,19 @@ public class SmokeTestsBusiness extends Common {
     }
 
     @Test
-    public void asABusinessUserIShouldBeAbleToViewAllProductsPage() {
+    public void asABusinessUserIShouldBeAbleToViewRegisteredProductsPage() {
 
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
         MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
 
-        String expectedHeadings = "All Products";
+        String expectedHeadings = "Registered Products";
         recordsPage = mainNavigationBar.clickRecords();
-        allProducts = recordsPage.clickOnAllProducts();
+        registeredProducts = recordsPage.clickOnRegisteredProducts();
 
         //Go to all devices page
-        boolean isHeadingVisibleAndCorrect = allProducts.isHeadingCorrect(expectedHeadings);
-        boolean isItemsDisplayedAndCorrect = allProducts.isItemsDisplayed(expectedHeadings);
+        boolean isHeadingVisibleAndCorrect = registeredProducts.isHeadingCorrect(expectedHeadings);
+        boolean isItemsDisplayedAndCorrect = registeredProducts.isItemsDisplayed(expectedHeadings);
         //Verify results
         Assert.assertThat("Heading should be : " + expectedHeadings, isHeadingVisibleAndCorrect, is(true));
         Assert.assertThat("Expected to see at least 1 item", isItemsDisplayedAndCorrect, is(true));
@@ -208,19 +208,19 @@ public class SmokeTestsBusiness extends Common {
     }
 
     @Test
-    public void asABusinessUserIShouldBeAbleToViewAllOrganisationPage() {
+    public void asABusinessUserIShouldBeAbleToViewOrganisationPage() {
 
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
         MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
 
-        String expectedHeadings = "All Organisations";
+        String expectedHeadings = "Organisations";
         recordsPage = mainNavigationBar.clickRecords();
-        allOrganisations = recordsPage.clickOnAllOrganisations();
+        organisations = recordsPage.clickOnOrganisations();
 
         //Go to all devices page
-        boolean isHeadingVisibleAndCorrect = allOrganisations.isHeadingCorrect(expectedHeadings);
-        boolean isItemsDisplayedAndCorrect = allOrganisations.isItemsDisplayed(expectedHeadings);
+        boolean isHeadingVisibleAndCorrect = organisations.isHeadingCorrect(expectedHeadings);
+        boolean isItemsDisplayedAndCorrect = organisations.isItemsDisplayed(expectedHeadings);
         //Verify results
         Assert.assertThat("Heading should be : " + expectedHeadings, isHeadingVisibleAndCorrect, is(true));
         Assert.assertThat("Expected to see at least 1 item", isItemsDisplayedAndCorrect, is(true));
@@ -228,19 +228,19 @@ public class SmokeTestsBusiness extends Common {
     }
 
     @Test
-    public void asABusinessUserIShouldBeAbleToViewDevicesPage() {
+    public void asABusinessUserIShouldBeAbleToViewRegisteredDevicesPage() {
 
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
         MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
 
-        String expectedHeadings = "Devices";
+        String expectedHeadings = "Registered Devices";
         recordsPage = mainNavigationBar.clickRecords();
-        devices = recordsPage.clickOnDevices();
+        registeredDevices = recordsPage.clickOnRegisteredDevices();
 
         //Go to all devices page
-        boolean isHeadingVisibleAndCorrect = devices.isHeadingCorrect(expectedHeadings);
-        boolean isItemsDisplayedAndCorrect = devices.isItemsDisplayed(expectedHeadings);
+        boolean isHeadingVisibleAndCorrect = registeredDevices.isHeadingCorrect(expectedHeadings);
+        boolean isItemsDisplayedAndCorrect = registeredDevices.isItemsDisplayed(expectedHeadings);
         //Verify results
         Assert.assertThat("Heading should be : " + expectedHeadings, isHeadingVisibleAndCorrect, is(true));
         Assert.assertThat("Expected to see at least 1 item", isItemsDisplayedAndCorrect, is(true));

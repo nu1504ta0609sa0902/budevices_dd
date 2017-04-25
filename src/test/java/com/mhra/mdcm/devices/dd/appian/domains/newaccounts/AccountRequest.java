@@ -135,7 +135,7 @@ public class AccountRequest {
         String business = "";
         if(organisationRole!=null){
             if(organisationRole.toLowerCase().equals("distributor")){
-                business = "Manufacturer";
+                business = "Distributor";
             }else if(organisationRole.toLowerCase().equals("notifiedbody")){
                 business = "NotifiedBody";
             }else{

@@ -16,7 +16,7 @@ import java.util.List;
  * Created by TPD_Auto 
  */
 
-public class AllOrganisations extends _Page {
+public class Organisations extends _Page {
 
     @FindBy(xpath = ".//div[contains(text(),'Status')]//following::a")
     List<WebElement> listOfAllOrganisations;
@@ -28,7 +28,7 @@ public class AllOrganisations extends _Page {
     WebElement searchBox;
 
 
-    public AllOrganisations(WebDriver driver) {
+    public Organisations(WebDriver driver) {
         super(driver);
     }
 
@@ -42,10 +42,7 @@ public class AllOrganisations extends _Page {
     public boolean isItemsDisplayed(String expectedHeadings) {
         boolean itemsDisplayed = false;
         WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//h1[.='" + expectedHeadings + "']") , TIMEOUT_DEFAULT, false);
-
-        if(expectedHeadings.contains("All Organisations")){
-            itemsDisplayed = listOfAllOrganisations.size() > 0;
-        }
+        itemsDisplayed = listOfAllOrganisations.size() > 0;
         return itemsDisplayed;
     }
 
@@ -93,12 +90,12 @@ public class AllOrganisations extends _Page {
         return name;
     }
 
-    public AllOrganisations searchForOrganisation(String organisationName) {
+    public Organisations searchForOrganisation(String organisationName) {
         WaitUtils.waitForElementToBeClickable(driver, searchBox, TIMEOUT_DEFAULT, false);
         searchBox.clear();
         searchBox.sendKeys(organisationName);
         searchBox.sendKeys(Keys.ENTER);
-        return new AllOrganisations(driver);
+        return new Organisations(driver);
     }
 
     /**

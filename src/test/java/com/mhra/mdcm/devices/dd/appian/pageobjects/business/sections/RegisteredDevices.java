@@ -13,16 +13,13 @@ import java.util.List;
  * Created by TPD_Auto 
  */
 
-public class Devices extends _Page {
+public class RegisteredDevices extends _Page {
 
     @FindBy(xpath = ".//div[.='Registration Status Id']//following::a")
     List<WebElement> listOfDevices;
 
-    @FindBy(xpath = ".//div[.='GMDN definition']//following::a")
-    List<WebElement> listOfAllDevices;
 
-
-    public Devices(WebDriver driver) {
+    public RegisteredDevices(WebDriver driver) {
         super(driver);
     }
 
@@ -38,13 +35,7 @@ public class Devices extends _Page {
     public boolean isItemsDisplayed(String expectedHeadings) {
         boolean itemsDisplayed = false;
         WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//h1[.='" + expectedHeadings + "']") , 10, false);
-
-        if(expectedHeadings.equals("Devices")){
-            itemsDisplayed = listOfDevices.size() > 0;
-        }else if(expectedHeadings.equals("All Devices")){
-            itemsDisplayed = listOfAllDevices.size() > 0;
-        }
-
+        itemsDisplayed = listOfDevices.size() > 0;
         return itemsDisplayed;
     }
 }

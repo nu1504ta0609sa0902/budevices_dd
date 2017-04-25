@@ -17,14 +17,14 @@ public class RecordsPage extends _Page {
 
     @FindBy(linkText = "Accounts")
     WebElement linkAccounts;
-    @FindBy(linkText = "All Devices")
-    WebElement linkAllDevices;
-    @FindBy(linkText = "All Organisations")
-    WebElement linkAllOrganisations;
-    @FindBy(linkText = "All Products")
-    WebElement linkAllProducts;
-    @FindBy(linkText = "Devices")
-    WebElement linkDevices;
+    @FindBy(linkText = "GMDN Devices")
+    WebElement linkGMDNDevices;
+    @FindBy(linkText = "Organisations")
+    WebElement linkOrganisations;
+    @FindBy(linkText = "Registered Products")
+    WebElement linkRegisteredProducts;
+    @FindBy(linkText = "Registered Devices")
+    WebElement linkRegisteredDevices;
 
 
 
@@ -40,32 +40,32 @@ public class RecordsPage extends _Page {
         return new Accounts(driver);
     }
 
-    public AllDevices clickOnAllDevices() {
-        WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText("All Devices"), TIMEOUT_DEFAULT, false);
-        WaitUtils.waitForElementToBeClickable(driver, linkAllDevices, TIMEOUT_DEFAULT, false);
-        linkAllDevices.click();
-        return new AllDevices(driver);
+    public GMDNDevices clickOnGMDNDevices() {
+        WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText("GMDN Devices"), TIMEOUT_DEFAULT, false);
+        WaitUtils.waitForElementToBeClickable(driver, linkGMDNDevices, TIMEOUT_DEFAULT, false);
+        linkGMDNDevices.click();
+        return new GMDNDevices(driver);
     }
 
-    public Devices clickOnDevices() {
-        WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText("Devices"), TIMEOUT_DEFAULT, false);
-        WaitUtils.waitForElementToBeClickable(driver, linkDevices, TIMEOUT_DEFAULT, false);
-        linkDevices.click();
-        return new Devices(driver);
+    public RegisteredDevices clickOnRegisteredDevices() {
+        WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText("Registered Devices"), TIMEOUT_DEFAULT, false);
+        WaitUtils.waitForElementToBeClickable(driver, linkRegisteredDevices, TIMEOUT_DEFAULT, false);
+        linkRegisteredDevices.click();
+        return new RegisteredDevices(driver);
     }
 
-    public AllProducts clickOnAllProducts() {
-        WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText("Products"), TIMEOUT_DEFAULT, false);
-        WaitUtils.waitForElementToBeClickable(driver, linkAllProducts, TIMEOUT_DEFAULT, false);
-        linkAllProducts.click();
-        return new AllProducts(driver);
+    public RegisteredProducts clickOnRegisteredProducts() {
+        WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText("Registered Products"), TIMEOUT_DEFAULT, false);
+        WaitUtils.waitForElementToBeClickable(driver, linkRegisteredProducts, TIMEOUT_DEFAULT, false);
+        linkRegisteredProducts.click();
+        return new RegisteredProducts(driver);
     }
 
-    public AllOrganisations clickOnAllOrganisations() {
-        WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText("All Organisations"), TIMEOUT_DEFAULT, false);
-        WaitUtils.waitForElementToBeClickable(driver, linkAllOrganisations, TIMEOUT_DEFAULT, false);
-        linkAllOrganisations.click();
-        return new AllOrganisations(driver);
+    public Organisations clickOnOrganisations() {
+        WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText("Organisations"), TIMEOUT_DEFAULT, false);
+        WaitUtils.waitForElementToBeClickable(driver, linkOrganisations, TIMEOUT_DEFAULT, false);
+        linkOrganisations.click();
+        return new Organisations(driver);
     }
 
 }

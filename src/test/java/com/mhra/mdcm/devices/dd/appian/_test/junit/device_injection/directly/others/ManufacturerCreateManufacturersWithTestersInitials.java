@@ -134,9 +134,10 @@ public class ManufacturerCreateManufacturersWithTestersInitials extends Common {
                 addDevices = addDevices.addFollowingDevice(dd);
 
                 //Proceed to payment
+                addDevices = addDevices.proceedToReview();
                 addDevices = addDevices.proceedToPayment();
-                addDevices = addDevices.submitRegistration();
-                externalHomePage = addDevices.finish();
+                addDevices = addDevices.confirmPayment();
+                manufacturerList = addDevices.backToService();
 
                 WaitUtils.nativeWaitInSeconds(3);
                 loginPage = loginPage.logoutIfLoggedInOthers();

@@ -96,7 +96,7 @@ public class ExternalHomePage extends _Page {
 
         try {
 
-            //General medical devices
+            //General medical registeredDevices
             if (isCustomMade) {
                 WaitUtils.waitForElementToBeClickable(driver, customMadeYes, TIMEOUT_MEDIUM, false);
                 driver.findElement(customMadeYes).click();
