@@ -379,6 +379,7 @@ public class SmokeTestsBusiness extends Common {
 
 
     @Test
+    @Ignore
     public void businessUsersCanCreateDistributorAccountRequest() {
 
         //Actual data
