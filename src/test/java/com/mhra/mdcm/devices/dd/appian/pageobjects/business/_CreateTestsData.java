@@ -105,7 +105,7 @@ public class _CreateTestsData extends _Page {
      * @param ar
      * @return
      */
-    public ActionsPage createTestOrganisation(AccountRequest ar) {
+    public ActionsPage createNewAccountUsingBusinessTestHarness(AccountRequest ar) {
         WaitUtils.waitForPageToLoad(driver, By.xpath(".//label[.='Organisation name']//following::input[1]"), 5, false); ;
         WaitUtils.waitForElementToBeClickable(driver, orgName, 5, false);
         orgName.sendKeys(ar.organisationName);

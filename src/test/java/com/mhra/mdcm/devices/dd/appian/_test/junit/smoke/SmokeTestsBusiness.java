@@ -31,9 +31,10 @@ import static org.hamcrest.Matchers.is;
 @RunWith(Parameterized.class)
 public class SmokeTestsBusiness extends Common {
 
-    public static final String AUTHORISED_REP_SMOKE_TEST = RandomDataUtils.getRandomTestNameWithTodaysDate("AuthorisedRepST","");
-    public static final String MANUFACTURER_SMOKE_TEST = RandomDataUtils.getRandomTestNameWithTodaysDate("ManufacturerST","");;
+    public static final String MANUFACTURER_SMOKE_TEST = RandomDataUtils.getRandomTestNameWithTodaysDate("ManufacturerAccountST","");;
+    public static final String AUTHORISED_REP_SMOKE_TEST = RandomDataUtils.getRandomTestNameWithTodaysDate("AuthorisedRepAccountST","");
     public static final String DISTRIBUTOR_SMOKE_TEST = RandomDataUtils.getRandomTestNameWithTodaysDate("DistributorST","");;
+
     public static String baseUrl;
     private String username;
     private String password;
@@ -269,11 +270,11 @@ public class SmokeTestsBusiness extends Common {
         actionsPage = mainNavigationBar.clickActions();
         createTestsData = actionsPage.gotoTestsHarnessPage();
 
-        actionsPage = createTestsData.createTestOrganisation(ar);
+        actionsPage = createTestsData.createNewAccountUsingBusinessTestHarness(ar);
         boolean isInCorrectPage = actionsPage.isInActionsPage();
         if(!isInCorrectPage){
             PageUtils.acceptAlert(driver, true);
-            actionsPage = createTestsData.createTestOrganisation(ar);
+            actionsPage = createTestsData.createNewAccountUsingBusinessTestHarness(ar);
         }
 
         boolean createdSuccessfully = actionsPage.isInActionsPage();
@@ -311,6 +312,7 @@ public class SmokeTestsBusiness extends Common {
 
         assertThat("Task not found for organisation : " + orgName, contains, is(equalTo(true)));
 
+        //Add email checking here
     }
 
 
@@ -334,11 +336,11 @@ public class SmokeTestsBusiness extends Common {
         actionsPage = mainNavigationBar.clickActions();
         createTestsData = actionsPage.gotoTestsHarnessPage();
 
-        actionsPage = createTestsData.createTestOrganisation(ar);
+        actionsPage = createTestsData.createNewAccountUsingBusinessTestHarness(ar);
         boolean isInCorrectPage = actionsPage.isInActionsPage();
         if(!isInCorrectPage){
             PageUtils.acceptAlert(driver, true);
-            actionsPage = createTestsData.createTestOrganisation(ar);
+            actionsPage = createTestsData.createNewAccountUsingBusinessTestHarness(ar);
         }
 
         boolean createdSuccessfully = actionsPage.isInActionsPage();
@@ -375,6 +377,8 @@ public class SmokeTestsBusiness extends Common {
 
         assertThat("Task not found for organisation : " + orgName, contains, is(equalTo(true)));
 
+        //Add email checking here
+
     }
 
 
@@ -384,7 +388,7 @@ public class SmokeTestsBusiness extends Common {
 
         //Actual data
         AccountRequest ar = new AccountRequest();
-        ar.isManufacturer = false;
+        ar.isManufacturer = true;
         ar.updateName(DISTRIBUTOR_SMOKE_TEST);
         ar.updateNameEnding("_" + initials);
         ar.organisationRole = "Distributor";
@@ -399,11 +403,11 @@ public class SmokeTestsBusiness extends Common {
         actionsPage = mainNavigationBar.clickActions();
         createTestsData = actionsPage.gotoTestsHarnessPage();
 
-        actionsPage = createTestsData.createTestOrganisation(ar);
+        actionsPage = createTestsData.createNewAccountUsingBusinessTestHarness(ar);
         boolean isInCorrectPage = actionsPage.isInActionsPage();
         if(!isInCorrectPage){
             PageUtils.acceptAlert(driver, true);
-            actionsPage = createTestsData.createTestOrganisation(ar);
+            actionsPage = createTestsData.createNewAccountUsingBusinessTestHarness(ar);
         }
 
         boolean createdSuccessfully = actionsPage.isInActionsPage();

@@ -323,10 +323,10 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
                 ar.firstName = TestHarnessUtils.getName(initials, true, listOfManufacturerUsers);
                 ar.lastName = TestHarnessUtils.getName(initials, false, listOfManufacturerUsers);
 
-                actionsPage = createTestsData.createTestOrganisation(ar);
+                actionsPage = createTestsData.createNewAccountUsingBusinessTestHarness(ar);
                 boolean isInCorrectPage = actionsPage.isInActionsPage();
                 if (!isInCorrectPage) {
-                    actionsPage = createTestsData.createTestOrganisation(ar);
+                    actionsPage = createTestsData.createNewAccountUsingBusinessTestHarness(ar);
                 }
 
                 boolean createdSuccessfully = actionsPage.isInActionsPage();

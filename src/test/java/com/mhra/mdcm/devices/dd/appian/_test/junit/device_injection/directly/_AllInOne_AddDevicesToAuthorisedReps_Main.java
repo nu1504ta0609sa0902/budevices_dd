@@ -409,12 +409,12 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
                 actionsPage = mainNavigationBar.clickActions();
                 createTestsData = actionsPage.gotoTestsHarnessPage();
 
-                actionsPage = createTestsData.createTestOrganisation(ar);
+                actionsPage = createTestsData.createNewAccountUsingBusinessTestHarness(ar);
                 boolean isInCorrectPage = actionsPage.isInActionsPage();
                 if (!isInCorrectPage) {
                     actionsPage = mainNavigationBar.clickActions();
                     createTestsData = actionsPage.gotoTestsHarnessPage();
-                    actionsPage = createTestsData.createTestOrganisation(ar);
+                    actionsPage = createTestsData.createNewAccountUsingBusinessTestHarness(ar);
                 }
 
                 boolean createdSuccessfully = actionsPage.isInActionsPage();
