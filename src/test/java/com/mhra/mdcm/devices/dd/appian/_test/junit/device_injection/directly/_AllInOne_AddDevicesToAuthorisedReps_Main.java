@@ -31,6 +31,7 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
     public String[] initialsArray = new String[]{
             "NU"//"AT", "NU", "HB", "YC", "PG", "AN", "LP"
     };
+    public static final String AUTHORISED_REP_ACCOUNT_SMOKE_TEST = "AuthorisedRepAccountST";
     public static final String AUTHORISED_REP_SMOKE_TEST = "AuthorisedRepST";
 
     public static String registered = "registered";
@@ -388,7 +389,7 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
 
                 //Now create the test data using harness page
                 ar.isManufacturer = false;
-                ar.updateName(AUTHORISED_REP_SMOKE_TEST);
+                ar.updateName(AUTHORISED_REP_ACCOUNT_SMOKE_TEST);
                 ar.updateNameEnding("_" + initials);
                 ar.setUserDetails(username);
 

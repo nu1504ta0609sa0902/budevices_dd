@@ -30,7 +30,7 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
             "NU",//"AT", "NU", "HB", "YC", "PG", "AN", "LP"
     };
 
-    public static final String MANUFACTURER_SMOKE_TEST = "ManufacturerST";
+    public static final String MANUFACTURER_SMOKE_TEST = "ManufacturerAccountST";
 
     public static String registered = "registered";
     public static String nameSelected = null;
@@ -63,7 +63,7 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
         //REMEMBER ALL PREVIOUS MANUFACTURERS DATA WILL BE REMOVED
         businessUser = setCorrectLoginDetails("_NU", listOfBusinessUsers);
         _AllInOne_AddDevicesToManufacturers_Main tgs = new _AllInOne_AddDevicesToManufacturers_Main(businessUser);
-        tgs.createManufacturersWithBusinessTestHarness();
+        tgs.createManufacturerAccountWithBusinessTestHarness();
 
         //All data cleared:Provide indication of devices made
         //Create by logging into individual Account for the INITIALS
@@ -299,7 +299,7 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
     }
 
 
-    private void createManufacturersWithBusinessTestHarness() {
+    private void createManufacturerAccountWithBusinessTestHarness() {
 
         for (String initials : initialsArray) {
 
