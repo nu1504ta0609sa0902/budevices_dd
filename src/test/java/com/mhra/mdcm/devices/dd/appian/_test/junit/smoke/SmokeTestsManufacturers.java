@@ -132,6 +132,16 @@ public class SmokeTestsManufacturers extends Common {
         Assert.assertThat("List of manufacturers may not be visible", name, not(nullValue()));
     }
 
+    @Test
+    public void asAUserIShouldBeAbleToCreateNewManufacturerWithDevices(){
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage = loginPage.loadPage(baseUrl);
+        MainNavigationBar mainNavigationBar = loginPage.loginAsManufacturer(username, password);
+        externalHomePage = mainNavigationBar.clickHome();
+
+        //Go to list of manufacturers page and add a new manufacturer
+    }
+
     @Override
     public String toString() {
         return "SmokeTestsManufacturers";

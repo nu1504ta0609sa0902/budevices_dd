@@ -24,9 +24,9 @@ public class AddDevices extends _Page {
 
     @FindBy(css = ".RadioButtonGroup---choice_pair>label")
     List<WebElement> listOfDeviceTypes;
-//    @FindBy(xpath = ".//*[.='Term']//following::td[contains(@class, 'GFWJSJ4DCEB')]")
+    //    @FindBy(xpath = ".//*[.='Term']//following::td[contains(@class, 'GFWJSJ4DCEB')]")
 //    List<WebElement> listOfTermsOrCodeMatches;
-    @FindBy(xpath = ".//div[contains(text(),'Term')]//following::a[string-length(text()) > 0]")
+    @FindBy(xpath = ".//label[contains(text(),'GMDN Code')]//following::a[string-length(text()) > 0]")
     List<WebElement> listOfGmdnMatchesReturnedBySearch;
     @FindBy(css = ".ParagraphText---richtext_paragraph .StrongText---richtext_strong")
     WebElement labelValidGMDNCodeMessage;
@@ -119,12 +119,18 @@ public class AddDevices extends _Page {
     //Add product
     @FindBy(xpath = ".//button[.='Add product']")
     WebElement addProduct;
-    @FindBy(xpath = ".//*[contains(text(),'Product name')]//following::input[1]")
+    @FindBy(xpath = ".//button[contains(text(),'Add Product')]")
+    WebElement addProduct2;
+    @FindBy(xpath = ".//*[contains(text(),'Enter name')]//following::input[1]")
     WebElement pdProductName;
-    @FindBy(xpath = ".//*[contains(text(),'Product make')]//following::input[1]")
+    @FindBy(xpath = ".//*[contains(text(),'and model')]//following::input[1]")
     WebElement pdProductMake;
-    @FindBy(xpath = ".//*[contains(text(),'Product model')]//following::input[1]")
+    @FindBy(xpath = ".//*[contains(text(),'and model')]//following::input[2]")
     WebElement pdProductModel;
+    @FindBy(xpath = ".//label[.='Enter name']")
+    WebElement cbxProductName;
+    @FindBy(xpath = ".//label[contains(text(),'and model')]")
+    WebElement cbxMakeAndModel;
 
     @FindBy(xpath = ".//*[contains(text(),'performance eval')]//following::label[1]")
     WebElement radioSubjectToPerformanceEvalYes;
@@ -185,6 +191,8 @@ public class AddDevices extends _Page {
     WebElement btnSaveProgress;
     @FindBy(xpath = ".//button[.='Save product']")
     WebElement btnSaveProduct;
+    @FindBy(xpath = ".//button[.='Save product']")
+    WebElement btnSaveProduct2;
 
     //Error message
     @FindBy(css = ".component_error")
@@ -278,7 +286,7 @@ public class AddDevices extends _Page {
         searchByGMDN(dd);
         customMade(dd);
 
-        if(dd.customMade.toLowerCase().equals("n")) {
+        if (dd.customMade.toLowerCase().equals("n")) {
             deviceSterile(dd);
             deviceMeasuring(dd);
 
@@ -295,45 +303,16 @@ public class AddDevices extends _Page {
         riskClassificationIVD(dd);
 
         //No product needs to be added when Risk Classification = IVD General
-        if(dd.riskClassification!=null && !dd.riskClassification.equals("ivd general")) {
-            //If more than 1 product listed
-//            int numberOfProductName = dd.listOfProductDetails.size();
-//            if (numberOfProductName <= 1) {
-//                ProductDetail productDetail = dd.listOfProductDetails.get(0);
-//                if (numberOfProductName == 1) {
-//                    dd.productNames = productDetail.name;
-//                }
-//                //List of device to add
-//                addProduct(productDetail);
-//                subjectToPerformanceEval(dd);
-//                productNewToMarket(dd);
-//                if (dd.riskClassification.toLowerCase().contains("list a"))
-//                    conformToCTS(dd);
-//                notifiedBody(dd);
-//                saveProduct(dd);
-//            } else {
-//                for (ProductDetail x : dd.listOfProductDetails) {
-//                    dd.productNames = x.name;
-//                    addProduct(x);
-//                    subjectToPerformanceEval(dd);
-//                    productNewToMarket(dd);
-//                    if (dd.riskClassification.toLowerCase().contains("list a"))
-//                        conformToCTS(dd);
-//                    notifiedBody(dd);
-//                    saveProduct(dd);
-//
-//                    //Remove this if we find a better solution
-//                    WaitUtils.nativeWaitInSeconds(1);
-//                }
-//            }
+        if (dd.riskClassification != null && !dd.riskClassification.equals("ivd general")) {
             for (ProductDetail x : dd.listOfProductDetails) {
                 dd.productNames = x.name;
                 addProduct(x);
+                notifiedBody(dd);
                 subjectToPerformanceEval(dd);
                 productNewToMarket(dd);
                 if (dd.riskClassification.toLowerCase().contains("list a"))
                     conformToCTS(dd);
-                notifiedBody(dd);
+                //notifiedBody(dd);
                 saveProduct(dd);
 
                 //Remove this if we find a better solution
@@ -346,16 +325,16 @@ public class AddDevices extends _Page {
         searchByGMDN(dd);
         customMade(dd);
         int numberOfProductName = dd.listOfProductDetails.size();
-        if(numberOfProductName <= 1) {
-            if(numberOfProductName==1){
+        if (numberOfProductName <= 1) {
+            if (numberOfProductName == 1) {
                 dd.productNames = dd.listOfProductDetails.get(0).name;
             }
             //List of device to add
             if (dd.customMade.toLowerCase().equals("y")) {
                 productLabelName(dd);
             }
-        }else{
-            for(ProductDetail x: dd.listOfProductDetails){
+        } else {
+            for (ProductDetail x : dd.listOfProductDetails) {
                 productLabelName(x.name);
             }
         }
@@ -364,14 +343,10 @@ public class AddDevices extends _Page {
 
     private void addProcedurePackDevice(DeviceData dd) {
         searchByGMDN(dd);
-//        customMade(dd); removed since 04/01/2017
-//        deviceMeasuring(dd); removed since 04/01/2017
-
         deviceSterile(dd);
 
         if (dd.sterile.toLowerCase().equals("y") || dd.measuring.toLowerCase().equals("y")) {
-            //if (dd.customMade.toLowerCase().equals("n"))
-                notifiedBody(dd);
+            notifiedBody(dd);
         }
         packIncorporated(dd);
         devicesCompatible(dd);
@@ -379,41 +354,35 @@ public class AddDevices extends _Page {
     }
 
     private void productLabelName(DeviceData dd) {
-        WaitUtils.waitForElementToBeClickable(driver, btnSaveProduct, TIMEOUT_MEDIUM, false);
-        btnSaveProduct.click();
-        WaitUtils.waitForElementToBeClickable(driver, txtProductNameLabel, TIMEOUT_MEDIUM, false);
-        //txtProductNameLabel.sendKeys(RandomDataUtils.getRandomTestName("Label"));
-//        txtProductNameLabel.clear();
-//        txtProductNameLabel.sendKeys(dd.deviceLabel);
-        PageUtils.clearAndTypeText(txtProductNameLabel, dd.deviceLabel, true);
+        WaitUtils.waitForElementToBeClickable(driver, txtProductNameLabel, TIMEOUT_SMALL, false);
+        txtProductNameLabel.sendKeys(RandomDataUtils.getRandomTestName("Label"));
 
         PageUtils.uploadDocument(fileUpload, "DeviceLabelDoc2.pdf", 1, 3);
-        txtDocumentDetails.sendKeys(dd.deviceDetails);
         PageUtils.uploadDocument(listOfFileUploads.get(0), "DeviceInstructionForUse1.pdf", 1, 3);
-        txtInstructionDetails.sendKeys(dd.instructionDetails);
 
         //Save product label details
-        WaitUtils.waitForElementToBeClickable(driver, btnSaveProduct, TIMEOUT_MEDIUM, false);
-        btnSaveProduct.click();
+        WaitUtils.waitForElementToBeClickable(driver, btnSaveProduct2, TIMEOUT_SMALL, false);
+        btnSaveProduct2.click();
 
     }
 
 
     private void productLabelName(String labelName) {
-        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//button[.='Add Product']"), TIMEOUT_MEDIUM, false);
-        driver.findElement(By.xpath(".//button[.='Add Product']")).click();
+
+        WaitUtils.waitForElementToBeClickable(driver, addProduct2, TIMEOUT_MEDIUM, false);
+        addProduct2.click();
+
+        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
         WaitUtils.nativeWaitInSeconds(1);
         WaitUtils.waitForElementToBeClickable(driver, txtProductNameLabel, TIMEOUT_MEDIUM, false);
-//        txtProductNameLabel.clear();
-//        txtProductNameLabel.sendKeys(labelName);
-        PageUtils.clearAndTypeText(txtProductNameLabel, labelName, true);
+        txtProductNameLabel.sendKeys(labelName);
 
         PageUtils.uploadDocument(fileUpload, "DeviceLabelDoc2.pdf", 1, 3);
-        PageUtils.uploadDocument(listOfFileUploads.get(1), "DeviceInstructionForUse1.pdf", 1, 3);
+        PageUtils.uploadDocument(listOfFileUploads.get(0), "DeviceInstructionForUse1.pdf", 1, 3);
 
         //Save product label details
-        WaitUtils.waitForElementToBeClickable(driver, btnSaveProduct, TIMEOUT_MEDIUM, false);
-        btnSaveProduct.click();
+        WaitUtils.waitForElementToBeClickable(driver, btnSaveProduct2, TIMEOUT_SMALL, false);
+        btnSaveProduct2.click();
     }
 
 
@@ -432,14 +401,14 @@ public class AddDevices extends _Page {
 //            txtDemonstratedCompliance.sendKeys("Demonstrated Compliance");
 //            txtTestingMethod.clear();
 //            txtTestingMethod.sendKeys("Manually Tested");
-            PageUtils.clearAndTypeText(txtDemonstratedCompliance,"Demonstrated Compliance" , true);
-            PageUtils.clearAndTypeText(txtTestingMethod,"Manually Tested" , true);
+            PageUtils.clearAndTypeText(txtDemonstratedCompliance, "Demonstrated Compliance", true);
+            PageUtils.clearAndTypeText(txtTestingMethod, "Manually Tested", true);
         }
     }
 
     private void saveProduct(DeviceData dd) {
-        WaitUtils.waitForElementToBeClickable(driver, btnSaveProduct, TIMEOUT_MEDIUM, false);
-        btnSaveProduct.click();
+        WaitUtils.waitForElementToBeClickable(driver, btnSaveProduct2, TIMEOUT_MEDIUM, false);
+        btnSaveProduct2.click();
     }
 
     private void productNewToMarket(DeviceData dd) {
@@ -461,29 +430,25 @@ public class AddDevices extends _Page {
     }
 
     private void addProduct(ProductDetail productDetail) {
-        WaitUtils.waitForElementToBeClickable(driver, btnSaveProduct, TIMEOUT_MEDIUM, false);
-
-        btnSaveProduct.click();
+        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+//        WaitUtils.waitForElementToBeClickable(driver, btnSaveProduct, TIMEOUT_MEDIUM, false);
+//        btnSaveProduct.click();
 
         //Wait for form to be visible
         String productName = productDetail.name;
         String productMake = productDetail.make;
         String productModel = productDetail.model;
-        WaitUtils.waitForElementToBeClickable(driver, pdProductModel, TIMEOUT_MEDIUM, false);
+        WaitUtils.waitForElementToBeClickable(driver, cbxProductName, TIMEOUT_MEDIUM, false);
         if (productName != null || !productName.equals("")) {
-//            pdProductName.clear();
-//            pdProductName.sendKeys(productName);
-            PageUtils.clearAndTypeText(pdProductName,productName , true);
+            cbxProductName.click();
+            WaitUtils.waitForElementToBeClickable(driver, pdProductName, TIMEOUT_MEDIUM, false);
+            pdProductName.sendKeys(productName);
         } else if (productMake != null || !productMake.equals("")) {
-//            pdProductMake.click();
-//            pdProductMake.sendKeys(productMake);
-            PageUtils.clearAndTypeText(pdProductMake,productMake , true);
-            PageUtils.clearAndTypeText(pdProductModel,productModel , true);
+            cbxMakeAndModel.click();
+            WaitUtils.waitForElementToBeClickable(driver, pdProductModel, TIMEOUT_MEDIUM, false);
+            pdProductMake.sendKeys(productMake);
+            pdProductModel.sendKeys(productModel);
         }
-
-//        pdProductModel.clear();
-//        pdProductModel.sendKeys(productModel);
-//        PageUtils.clearAndTypeText(pdProductModel,productModel , true);
     }
 
     private void devicesCompatible(DeviceData dd) {
@@ -507,38 +472,40 @@ public class AddDevices extends _Page {
     }
 
     private void notifiedBody(DeviceData dd) {
+
+        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
         changeNotifiedBody();
+        boolean notifiedBodyOptionsCorrect = isNotifiedBodyListDisplayingCorrectDetails();
+
+        WaitUtils.waitForElementToBeVisible(driver, nb0086BSI, TIMEOUT_SMALL, false);
+        WaitUtils.waitForElementToBeClickable(driver, nb0086BSI, TIMEOUT_SMALL, false);
+
         //Select notified body
-        if (dd.notifiedBody!=null && dd.notifiedBody.toLowerCase().contains("0086")) {
-            WaitUtils.waitForElementToBeClickable(driver, nb0086BSI, TIMEOUT_MEDIUM, false);
-            PageUtils.doubleClick(driver, nb0086BSI);
-//        }else if (dd.notifiedBody!=null && dd.notifiedBody.toLowerCase().contains("0088")) {
-//            WaitUtils.waitForElementToBeClickable(driver, nb0088LLOYDS, TIMEOUT_MEDIUM, false);
-//            PageUtils.doubleClick(driver, nb0088LLOYDS);
-//        }else if (dd.notifiedBody!=null && dd.notifiedBody.toLowerCase().contains("0120")) {
-//            WaitUtils.waitForElementToBeClickable(driver, nb0120SGS, TIMEOUT_MEDIUM, false);
-//            PageUtils.doubleClick(driver, nb0120SGS);
-//        }else if (dd.notifiedBody!=null && dd.notifiedBody.toLowerCase().contains("0473")) {
-//            WaitUtils.waitForElementToBeClickable(driver, nb00473AMTAC, TIMEOUT_MEDIUM, false);
-//            PageUtils.doubleClick(driver, nb00473AMTAC);
-//        }else if (dd.notifiedBody!=null && dd.notifiedBody.toLowerCase().contains("0843")) {
-//            WaitUtils.waitForElementToBeClickable(driver, nb00843UL, TIMEOUT_MEDIUM, false);
-//            PageUtils.doubleClick(driver, nb00843UL);
-        }else {
-            //THIS REQUIRES A NUMBER
-            //PageUtils.doubleClick(driver, nbOthers);
-            WaitUtils.waitForElementToBeClickable(driver, nb0086BSI, TIMEOUT_MEDIUM, false);
-            PageUtils.doubleClick(driver, nb0086BSI);
+        if (notifiedBodyOptionsCorrect && dd.notifiedBody != null && dd.notifiedBody.toLowerCase().contains("bsi")) {
+            PageUtils.singleClick(driver, nb0086BSI);
+        } else if (notifiedBodyOptionsCorrect && dd.notifiedBody != null && dd.notifiedBody.toLowerCase().contains("Other")) {
+            PageUtils.clickIfVisible(driver, nbOther);
+        } else {
+            //PageUtils.clickIfVisible(driver, nb0086BSI);
         }
     }
 
+    private boolean isNotifiedBodyListDisplayingCorrectDetails() {
+        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+        WaitUtils.waitForElementToBeClickable(driver, nb0086BSI, TIMEOUT_VERY_SMALL, false);
+        boolean numberOfNB = listOfNotifiedBodies.size() >= 6;
+        String txt = PageUtils.getText(listOfNotifiedBodies.get(5));
+        boolean otherDisplayed = txt.contains("Other");
+        return numberOfNB && otherDisplayed;
+    }
+
     private void changeNotifiedBody() {
-        try{
+        try {
             WaitUtils.waitForElementToBeClickable(driver, linkChangeNotifiedBody, TIMEOUT_SMALL, false);
             linkChangeNotifiedBody.click();
             WaitUtils.waitForElementToBeClickable(driver, nb0086BSI, TIMEOUT_SMALL, false);
             WaitUtils.nativeWaitInSeconds(1);
-        }catch (Exception e){
+        } catch (Exception e) {
             //Bug which maintains previous selection of notified body
         }
     }
@@ -618,7 +585,7 @@ public class AddDevices extends _Page {
         WaitUtils.waitForElementToBeClickable(driver, radioRiskClass1, TIMEOUT_MEDIUM, false);
         //WaitUtils.waitForElementToBeClickable(driver, nb0086BSI, TIMEOUT_MEDIUM, false);
         String lcRiskClassiffication = dd.riskClassification.toLowerCase();
-        if(lcRiskClassiffication!=null) {
+        if (lcRiskClassiffication != null) {
             if (lcRiskClassiffication.contains("class i")) {
                 PageUtils.doubleClick(driver, radioRiskClass1);
             } else if (lcRiskClassiffication.contains("class iia")) {
@@ -633,7 +600,7 @@ public class AddDevices extends _Page {
 
     private void searchByGMDN(DeviceData dd) {
         if (dd.device != null) {
-            String [] arrayOfDeviceBecauseTheyKeepBloodyChanging = {
+            String[] arrayOfDeviceBecauseTheyKeepBloodyChanging = {
                     "cat", "res", "tis", "sco", "con", "pro"
             };
             int pos = 0;
@@ -646,23 +613,21 @@ public class AddDevices extends _Page {
                 WaitUtils.isPageLoadingComplete(driver, 1);
 
                 //Wait for list of items to appear and add it only if its not a duplicate
-                WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//div[contains(text(),'Term')]//following::td"), TIMEOUT_SMALL, false);
-                int randomPosition = RandomDataUtils.getARandomNumberBetween(0, listOfGmdnMatchesReturnedBySearch.size()-1);
+                WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//label[contains(text(),'GMDN Code')]//following::a[string-length(text()) > 0]"), TIMEOUT_SMALL, false);
+                int randomPosition = RandomDataUtils.getARandomNumberBetween(0, listOfGmdnMatchesReturnedBySearch.size() - 1);
                 WebElement element = listOfGmdnMatchesReturnedBySearch.get(randomPosition);
                 element.click();
-                //element.findElement(By.tagName("a")).click();
-                //WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
 
                 //If its a duplicate Try again
                 isErrorMessageDisplayed = isErrorMessageDisplayed();
-                if(isErrorMessageDisplayed) {
+                if (isErrorMessageDisplayed) {
                     //Try again
                     pos++;
                     searchFor = arrayOfDeviceBecauseTheyKeepBloodyChanging[pos];
-                }else{
+                } else {
                     log.info(dd.deviceType + " => " + searchFor);
                 }
-            }while (isErrorMessageDisplayed);
+            } while (isErrorMessageDisplayed);
 
             //Default is search by gmdn term or definition : This removed 03/02/2017 push
             //previousGMDNSelection(dd);
@@ -699,7 +664,7 @@ public class AddDevices extends _Page {
             WaitUtils.waitForElementToBeClickable(driver, btnAddAnotherDevice, TIMEOUT_MEDIUM, false);
             boolean isVisible = btnAddAnotherDevice.isDisplayed() && btnAddAnotherDevice.isEnabled();
             return isVisible;
-        }catch (Exception e){
+        } catch (Exception e) {
             return false;
         }
     }
@@ -709,7 +674,7 @@ public class AddDevices extends _Page {
             WaitUtils.waitForElementToBeClickable(driver, btnReviewYourOrder, TIMEOUT_MEDIUM, false);
             boolean isVisible = btnReviewYourOrder.isDisplayed() && btnReviewYourOrder.isEnabled();
             return isVisible;
-        }catch (Exception e){
+        } catch (Exception e) {
             return false;
         }
     }
@@ -753,15 +718,15 @@ public class AddDevices extends _Page {
         boolean isDisplayed = false;
         String valueToCheck = "";
 
-        if(data.device!=null){
+        if (data.device != null) {
             valueToCheck = data.device.toLowerCase();
-        }else{
+        } else {
             //valueToCheck = data.gmdnCode;
         }
 
-        for(WebElement el: listOfGMDNLinksInSummary){
+        for (WebElement el : listOfGMDNLinksInSummary) {
             String text = el.getText();
-            if(text.toLowerCase().contains(valueToCheck)){
+            if (text.toLowerCase().contains(valueToCheck)) {
                 isDisplayed = true;
                 break;
             }
@@ -773,9 +738,9 @@ public class AddDevices extends _Page {
     public boolean isGMDNValueDisplayed(String valueToCheck) {
         boolean isCorrect = false;
 
-        for(WebElement el: listOfGMDNLinksInSummary){
+        for (WebElement el : listOfGMDNLinksInSummary) {
             String text = el.getText();
-            if(text.contains(valueToCheck)){
+            if (text.contains(valueToCheck)) {
                 isCorrect = true;
                 break;
             }

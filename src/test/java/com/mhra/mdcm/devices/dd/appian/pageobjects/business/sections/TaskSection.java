@@ -17,6 +17,9 @@ public class TaskSection extends _Page {
 
     @FindBy(xpath = ".//h3")
     WebElement taskHeading;
+    @FindBy(xpath = ".//a[contains(text(),'Organisation Details')]//following::p[1]")
+    WebElement taskHeading2;
+
     @FindBy(xpath = ".//div[contains(text(),'Submitted')]")
     WebElement thSubmitted;
 
@@ -53,6 +56,23 @@ public class TaskSection extends _Page {
         WaitUtils.waitForElementToBeVisible(driver, accept, TIMEOUT_MEDIUM, false);
         boolean contains = taskHeading.getText().contains(orgName);
         return contains;
+    }
+    public boolean isCorrectTask(String orgName, String taskType) {
+
+        WebElement header = taskHeading2;
+        if(taskType!=null && taskType.contains("New Account Request")){
+            header = taskHeading;
+        }
+
+        try {
+            //For new account
+            WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+            WaitUtils.waitForElementToBeVisible(driver, header, TIMEOUT_SMALL, false);
+            boolean contains = header.getText().contains(orgName);
+            return contains;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public TaskSection acceptTask() {

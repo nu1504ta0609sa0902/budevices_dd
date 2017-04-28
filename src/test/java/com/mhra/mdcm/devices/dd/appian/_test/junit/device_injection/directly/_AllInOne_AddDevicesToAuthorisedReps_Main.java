@@ -29,7 +29,7 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
 
     private static User businessUser;
     public String[] initialsArray = new String[]{
-            "NU"//"AT", "NU", "HB", "YC", "PG", "AN", "LP"
+            "AT"//"AT", "NU", "HB", "YC", "PG", "AN", "LP"
     };
     public static final String AUTHORISED_REP_ACCOUNT_SMOKE_TEST = "AuthorisedRepAccountST";
     public static final String AUTHORISED_REP_SMOKE_TEST = "AuthorisedRepST";
@@ -61,21 +61,33 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
         listOfBusinessUsers = ExcelDirectDeviceDataUtils.getListOfBusinessUsersFromExcel("business");
         setUpDriver();
 
-        /**
-         * Always use one of the Business Accounts to create the test manufacturers
-         * This will create authorisedReps with users initials e.g _NU, _HB
-         */
-        log.info("First CREATE New Accounts To Add Manufactures/Devices To : ");
-        businessUser = ExcelDirectDeviceDataUtils.getCorrectLoginDetails("_NU", listOfBusinessUsers);
-        _AllInOne_AddDevicesToAuthorisedReps_Main tgs = new _AllInOne_AddDevicesToAuthorisedReps_Main(businessUser);
-        tgs.createNewAccountForAuthorisedRepWithBusinessTestHarness(listOfAuthorisedRepUsers);
+        for(User u: listOfBusinessUsers) {
+            try {
+                /**
+                 * Always use one of the Business Accounts to create the test manufacturers
+                 * This will create authorisedReps with users initials e.g _NU, _HB
+                 */
+                log.info("First CREATE New Accounts To Add Manufactures/Devices To : ");
+                businessUser = ExcelDirectDeviceDataUtils.getCorrectLoginDetails("_" + u.getInitials(), listOfBusinessUsers);
+                _AllInOne_AddDevicesToAuthorisedReps_Main tgs = new _AllInOne_AddDevicesToAuthorisedReps_Main(businessUser);
 
-        /**
-         * All data cleared:Provide indication of devices made
-         * Create by logging into individual Account for the INITIALS
-         */
-        log.info("Now create a new organisation and add devices to : ");
-        tgs.createByLoggingIntoAccountWithInitials(listOfAuthorisedRepUsers);
+                //We only want to do it if the INITIALS in our initialsArray list
+                boolean isInitialFound = tgs.isInitialsInTheList(businessUser.getInitials());
+                if (isInitialFound) {
+                    tgs.createNewAccountForAuthorisedRepWithBusinessTestHarness(listOfAuthorisedRepUsers);
+                    /**
+                     * All data cleared:Provide indication of devices made
+                     * Create by logging into individual Account for the INITIALS
+                     */
+                    log.info("Now create a new organisation and add devices to : ");
+                    tgs.createNewAuthorisedRepsWithDevices(listOfAuthorisedRepUsers);
+                } else {
+                    System.out.println("Not creating any data for : " + businessUser);
+                }
+            }catch (Exception e){
+                System.out.println("Try and setup data for next user ");
+            }
+        }
 
         //closeDriver();
     }
@@ -99,6 +111,17 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
         }
     }
 
+    private boolean isInitialsInTheList(String initials) {
+        boolean found = false;
+        for(String in: initialsArray){
+            if(in.equals(initials)){
+                found = true;
+                break;
+            }
+        }
+        return found;
+    }
+
     /**
      * For each accounts created with _UsersInitials create an organisation and add devices
      *
@@ -106,7 +129,7 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
      *
      * @param listOfAuthorisedRepUsers
      */
-    private void createByLoggingIntoAccountWithInitials(List<User> listOfAuthorisedRepUsers) {
+    private void createNewAuthorisedRepsWithDevices(List<User> listOfAuthorisedRepUsers) {
 
         /**
          * LIST OF MANUFACTURERS CREATED FOR EACH OF THE INITIALS IN THE ARRAY
@@ -126,16 +149,8 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
                 try {
                     //flow changed on 03/02/2017 : Now we indicate a device than create a new manufacturer
                     logBackInAsManufacturer(manufacturerUser);
-                    indicateDevices(false);
-
-
-                    //Accept the device indication for account : 03/03/3017 : REMOVED
-//                    String accountName = getManufacturerWithInitials(initials, true);
-                    //boolean approved = acceptNewServiceRequest(businessUser, accountName);
-//                    if (!approved) {
-//                        accountName = getManufacturerWithInitials(initials, false);
-//                        approved = acceptNewServiceRequest(businessUser, accountName);
-//                    }
+                    //Removed on 25/04 push
+                    //indicateDevices(false);
 
                     //
                     registerANewManufacturer();
@@ -146,9 +161,6 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
                     //loginPage = loginPage.logoutIfLoggedIn();
                 }catch (Exception e){
                     e.printStackTrace();
-                    //This is what it was before push on 03/02/2017
-                    //createAuthorisedRepsWithManufacturerTestHarness(manufacturerUser);
-                    //provideIndicationOfDevicesMade(businessUser);
                 }
 
                 //Log back in as the newly created authorisedRep and try adding devices
@@ -593,7 +605,7 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
                 boolean isLinkVisible = tasksPage.isLinkVisible(orgName);
                 if (isLinkVisible) {
                     taskSection = tasksPage.clickOnLinkWithText(orgName);
-                    isCorrectTask = taskSection.isCorrectTask(orgName);
+                    isCorrectTask = taskSection.isCorrectTask(orgName, "New Manufacturer Registration");
                     if (isCorrectTask) {
                         contains = true;
                     } else {

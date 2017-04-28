@@ -16,14 +16,10 @@ import java.util.List;
  */
 public class ManufacturerList extends _Page {
 
-    @FindBy(css = "button.GFWJSJ4DCF")
+    @FindBy(xpath = ".//button[contains(text(), 'Register new manufacturer')]")
     WebElement linkRegisterNewManufacturer;
-    @FindBy(css = ".SafeImage.GFWJSJ4DOFB")
-    WebElement linkManufacturerRegistration;
-    @FindBy(xpath = ".//button[.='Register My Organisation']")
-    WebElement linkRegisterMyNewOrganisation;
 
-    @FindBy(css = "div>p>a")
+    @FindBy(xpath = ".//h2[contains(text(),'Manufacturer')]//following::tbody[1]/tr/td[1]")
     List<WebElement> listOfManufacturerNames;
     @FindBy(xpath = ".//*[contains(text(), 'registration status')]//following::tr[@__gwt_subrow='0']")
     List<WebElement> listOfTableRows;
@@ -31,13 +27,15 @@ public class ManufacturerList extends _Page {
     WebElement manufacturerRegistrationStatus;
 
 
-    @FindBy(css = ".GFWJSJ4DFDC div")
+    @FindBy(css = ".GridWidget---count")
     WebElement itemCount;
-    @FindBy(css = ".gwt-Image[aria-label='Next page']")
+    @FindBy(css = ".GridWidget---count")
+    List<WebElement> itemCounts;
+    @FindBy(css = "[aria-label='Next page']")
     WebElement nextPage;
-    @FindBy(css = ".gwt-Image[aria-label='Previous page']")
+    @FindBy(css = "[aria-label='Previous page']")
     WebElement prevPage;
-    @FindBy(css = ".gwt-Image[aria-label='Last page']")
+    @FindBy(css = "[aria-label='Last page']")
     WebElement lastPage;
 
     public ManufacturerList(WebDriver driver) {
@@ -192,18 +190,5 @@ public class ManufacturerList extends _Page {
         WaitUtils.waitForElementToBeClickable(driver, linkRegisterNewManufacturer, TIMEOUT_DEFAULT, false);
         linkRegisterNewManufacturer.click();
         return new _CreateManufacturerTestsData(driver);
-    }
-
-    public _CreateManufacturerTestsData registerMyOrganisation() {
-        WaitUtils.waitForElementToBeClickable(driver, linkRegisterMyNewOrganisation, TIMEOUT_DEFAULT, false);
-        linkRegisterMyNewOrganisation.click();
-        return new _CreateManufacturerTestsData(driver);
-    }
-
-
-    public ManufacturerList gotoListOfManufacturerPage() {
-        WaitUtils.waitForElementToBeClickable(driver, linkManufacturerRegistration, TIMEOUT_DEFAULT, false);
-        linkManufacturerRegistration.click();
-        return new ManufacturerList(driver);
     }
 }

@@ -26,8 +26,10 @@ import java.util.List;
 public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
 
     private static User businessUser;
+
+    //This controls and limits the users (overrides excel)
     public String[] initialsArray = new String[]{
-            "NU",//"AT", "NU", "HB", "YC", "PG", "AN", "LP"
+            "AT",//"AT", "NU", "HB", "YC", "PG", "AN", "LP"
     };
 
     public static final String MANUFACTURER_SMOKE_TEST = "ManufacturerAccountST";
@@ -45,13 +47,14 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
     public static String baseUrl;
     private String username;
     private String password;
+    private String initials;
     private User manufacturerUser;
-
 
 
     public _AllInOne_AddDevicesToManufacturers_Main(User user) {
         this.username = user.getUserName();
         this.password = user.getPassword();
+        this.initials = user.getInitials();
     }
 
     public static void main(String[] args) {
@@ -59,27 +62,53 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
         listOfBusinessUsers = ExcelDirectDeviceDataUtils.getListOfBusinessUsersFromExcel("business");
         setUpDriver();
 
-        //Always use one of the Business Accounts to create the test manufacturers
-        //REMEMBER ALL PREVIOUS MANUFACTURERS DATA WILL BE REMOVED
-        businessUser = setCorrectLoginDetails("_NU", listOfBusinessUsers);
-        _AllInOne_AddDevicesToManufacturers_Main tgs = new _AllInOne_AddDevicesToManufacturers_Main(businessUser);
-        tgs.createManufacturerAccountWithBusinessTestHarness();
+        for (User u : listOfBusinessUsers) {
+            try {
+                //Always use one of the Business Accounts to create the test manufacturers
+                //REMEMBER ALL PREVIOUS MANUFACTURERS DATA WILL BE REMOVED
+                businessUser = setCorrectLoginDetails("_" + u.getInitials(), listOfBusinessUsers);
+                _AllInOne_AddDevicesToManufacturers_Main tgs = new _AllInOne_AddDevicesToManufacturers_Main(businessUser);
 
-        //All data cleared:Provide indication of devices made
-        //Create by logging into individual Account for the INITIALS
-        tgs.createByLoggingIntoAccountWithInitials(listOfManufacturerUsers);
+                //We only want to do it if the INITIALS in our initialsArray list
+                boolean isInitialFound = tgs.isInitialsInTheList(businessUser.getInitials());
+                if (isInitialFound) {
+                    tgs.createManufacturerAccountWithBusinessTestHarness();
+
+                    //All data cleared:Provide indication of devices made
+                    //Create by logging into individual Account for the INITIALS
+                    tgs.createByLoggingIntoAccountWithInitials(listOfManufacturerUsers);
+                } else {
+                    System.out.println("Not creating any data for : " + businessUser);
+                }
+
+            } catch (Exception e) {
+                System.out.println("Try and setup data for next user ");
+            }
+        }
 
         //closeDriver();
     }
 
     private static void closeDriver() {
-        if(driver!=null){
+        if (driver != null) {
             driver.quit();
         }
     }
 
+    private boolean isInitialsInTheList(String initials) {
+        boolean found = false;
+        for (String in : initialsArray) {
+            if (in.equals(initials)) {
+                found = true;
+                break;
+            }
+        }
+        return found;
+    }
+
     /**
      * Add devices to each of the manufacturers successfully created
+     *
      * @param listOfUsers
      */
     private void createByLoggingIntoAccountWithInitials(List<User> listOfUsers) {
@@ -94,8 +123,9 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
 
                 nameSelected = manufacturerName;
                 manufacturerUser = setCorrectLoginDetails(nameSelected, listOfUsers);
-                log.info("Provide Indication Of Devices For : " + manufacturerName);
-                provideIndicationOfDevicesMade(manufacturerUser);
+
+                //log.info("Provide Indication Of Devices For : " + manufacturerName);
+                //provideIndicationOfDevicesMade(manufacturerUser);
 
                 log.info("Try And Add Devices For : " + manufacturerName);
                 //_AllInOne_AddDevicesToManufacturers_Main tc = new _AllInOne_AddDevicesToManufacturers_Main(manufacturerUser);
@@ -159,7 +189,7 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
             } catch (Exception e) {
                 contains = false;
             }
-            if (!contains){
+            if (!contains) {
                 WaitUtils.nativeWaitInSeconds(2);
                 count++;
             }
@@ -168,7 +198,7 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
         if (contains) {
             //accept the taskSection and approve or reject it
             taskSection = taskSection.acceptTask();
-            if(taskType!=null) {
+            if (taskType != null) {
                 if (taskType.contains("New Service") || taskType.contains("New Account")) {
                     tasksPage = taskSection.approveTask();
                 } else if (taskType.contains("New Manufacturer")) {
@@ -186,7 +216,8 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
         for (int x = 0; x < 9; x++) {
             try {
                 externalHomePage = externalHomePage.provideIndicationOfDevicesMade(x);
-            }catch (Exception e){}
+            } catch (Exception e) {
+            }
         }
 
         //custom made
@@ -216,7 +247,6 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
         //Click on a random manufacturer
         manufacturerList = externalHomePage.gotoListOfManufacturerPage();
     }
-
 
 
     private void setLoginDetails(User selected) {
@@ -288,9 +318,9 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
 
         //Add devices: This needs to change to add all the devices
         try {
-            if (registered != null && registered.toLowerCase().equals("registered")){
+            if (registered != null && registered.toLowerCase().equals("registered")) {
                 addDevices = manufacturerDetails.clickAddDeviceBtn();
-            } else{
+            } else {
                 addDevices = manufacturerDetails.clickDeclareDevicesBtn();
             }
         } catch (Exception e) {
@@ -429,7 +459,7 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
 //                        }
 
                         //Try adding another device
-                        if (isVisible && count < listOfDevicesOfSpecificType.size() )
+                        if (isVisible && count < listOfDevicesOfSpecificType.size())
                             addDevices = addDevices.addAnotherDevice();
                         else
                             break;
@@ -454,7 +484,7 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
                 boolean isVisible = addDevices.isOptionToAddAnotherDeviceVisible();
                 if (!isVisible) {
                     DeviceData dd = ExcelDirectDeviceDataUtils.getDeviceDataCalled(listOfDevicesWhichHadProblems, "Abacus");
-                    if(dd == null){
+                    if (dd == null) {
                         //System keeps bloody changing the GMDN
                         dd = ExcelDirectDeviceDataUtils.getListOfDevicesOfSpecificType(listOfDeviceData, "general medical").get(0);
                     }
@@ -462,10 +492,10 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
                     addDevices = addDevices.addFollowingDevice(dd);
                     isVisible = addDevices.isOptionToAddAnotherDeviceVisible();
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
 
             }
-            
+
             //Confirm
             addDevices = addDevices.proceedToReview();
             addDevices = addDevices.proceedToPayment();
@@ -526,9 +556,9 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
 
     private DeviceData getDeviceDataCalled(List<DeviceData> listOfDevicesWhichHadProblems, String abacus) {
         DeviceData dd = null;
-        for(DeviceData data: listOfDevicesWhichHadProblems){
+        for (DeviceData data : listOfDevicesWhichHadProblems) {
             String definition = data.device;
-            if(definition.equals(abacus)){
+            if (definition.equals(abacus)) {
                 dd = data;
                 break;
             }
@@ -539,13 +569,13 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
     private List<DeviceData> getValidatedDataOnly(boolean onlyValidatedData, List<DeviceData> listOfDevicesOfSpecificType) {
         List<DeviceData> listOfValidatedData = new ArrayList<>();
 
-        if(onlyValidatedData){
-            for(DeviceData dd: listOfDevicesOfSpecificType){
-                if(dd.validatedData.equals("Y")){
+        if (onlyValidatedData) {
+            for (DeviceData dd : listOfDevicesOfSpecificType) {
+                if (dd.validatedData.equals("Y")) {
                     listOfValidatedData.add(dd);
                 }
             }
-        }else{
+        } else {
             listOfValidatedData = listOfDevicesOfSpecificType;
         }
         return listOfValidatedData;
@@ -554,9 +584,9 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
 
 
     private List<DeviceData> getListOfDevicesOfSpecificType(List<DeviceData> listOfDeviceData, String specificType) {
-        if(specificType.equals("all devices")){
+        if (specificType.equals("all devices")) {
             return listOfDeviceData;
-        }else {
+        } else {
             //Filter specific data
             List<DeviceData> listOfDevicesOfType = new ArrayList<>();
             for (DeviceData dd : listOfDeviceData) {
