@@ -155,12 +155,50 @@ public class SmokeTestsAuthorisedRep extends Common {
         addDevices = createNewManufacturer.createTestOrganisation(ar, false);
         log.info("New Manufacturer Account Requested With Following Data : \n" + ar);
 
-        //Add devices
+        //Add devices AND submit
         DeviceData dd = new DeviceData();
         dd.deviceType = "General Medical Device";
         dd.device = "Blood Weighing";
-        dd.customMade = "true";
+        dd.customMade = "Y";
         addDevices = addDevices.addFollowingDevice(dd);
+        addDevices = addDevices.proceedToReview();
+        addDevices = addDevices.proceedToPayment();
+        addDevices = addDevices.confirmPayment();
+        manufacturerList = addDevices.backToService();
+
+        //Verify task is generated
+        loginPage = loginPage.logoutIfLoggedInOthers();
+        mainNavigationBar = loginPage.loginAs(username, password);
+
+        //Verify new taskSection generated and its the correct one
+        boolean contains = false;
+        boolean isCorrectTask = false;
+        int count2 = 0;
+        String orgName = ar.organisationName;
+        do {
+            mainNavigationBar = new MainNavigationBar(driver);
+            tasksPage = mainNavigationBar.clickTasks();
+
+            //Click on link number X
+            boolean isLinkVisible = tasksPage.isLinkVisible(orgName);
+            if (isLinkVisible) {
+                taskSection = tasksPage.clickOnLinkWithText(orgName);
+                isCorrectTask = taskSection.isCorrectTask(orgName, "New Manufacturer Registration");
+                if (isCorrectTask) {
+                    contains = true;
+                } else {
+                    count2++;
+                }
+            }
+        } while (!contains && count2 <= 5);
+
+        //Accept the task
+        if (contains) {
+            taskSection = taskSection.acceptTask();
+            tasksPage = taskSection.approveTask();
+        }
+
+        log.info("Create Devices For : " + orgName);
 
     }
 

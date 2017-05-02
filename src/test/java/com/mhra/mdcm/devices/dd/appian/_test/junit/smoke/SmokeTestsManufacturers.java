@@ -2,6 +2,7 @@ package com.mhra.mdcm.devices.dd.appian._test.junit.smoke;
 
 import com.mhra.mdcm.devices.dd.appian._test.junit.common.Common;
 import com.mhra.mdcm.devices.dd.appian.domains.junit.User;
+import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.AccountManufacturerRequest;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.LoginPage;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.MainNavigationBar;
 import com.mhra.mdcm.devices.dd.appian.utils.datadriven.ExcelDataSheet;
@@ -27,8 +28,8 @@ import static org.hamcrest.Matchers.nullValue;
 @RunWith(Parameterized.class)
 public class SmokeTestsManufacturers extends Common {
 
+    public static final String MANUFACTURER_SMOKE_TEST = "AuthorisedRepST";
 
-    //public static WebDriver driver;
     public static String baseUrl;
     private String username;
     private String password;
@@ -134,6 +135,15 @@ public class SmokeTestsManufacturers extends Common {
 
     @Test
     public void asAUserIShouldBeAbleToCreateNewManufacturerWithDevices(){
+
+        //Account Data
+        AccountManufacturerRequest ar = new AccountManufacturerRequest();
+        ar.isManufacturer = false;
+        ar.updateName(MANUFACTURER_SMOKE_TEST);
+        ar.updateNameEnding("_AT");
+        ar.setUserDetails(username);
+        ar.country = "Brazil";
+
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
         MainNavigationBar mainNavigationBar = loginPage.loginAsManufacturer(username, password);
