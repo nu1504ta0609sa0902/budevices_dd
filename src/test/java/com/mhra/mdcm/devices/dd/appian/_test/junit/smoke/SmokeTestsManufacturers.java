@@ -3,6 +3,7 @@ package com.mhra.mdcm.devices.dd.appian._test.junit.smoke;
 import com.mhra.mdcm.devices.dd.appian._test.junit.common.Common;
 import com.mhra.mdcm.devices.dd.appian.domains.junit.User;
 import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.AccountManufacturerRequest;
+import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.DeviceData;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.LoginPage;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.MainNavigationBar;
 import com.mhra.mdcm.devices.dd.appian.utils.datadriven.ExcelDataSheet;
@@ -28,7 +29,7 @@ import static org.hamcrest.Matchers.nullValue;
 @RunWith(Parameterized.class)
 public class SmokeTestsManufacturers extends Common {
 
-    public static final String MANUFACTURER_SMOKE_TEST = "AuthorisedRepST";
+    public static final String MANUFACTURER_SMOKE_TEST = "ManufacturerST";
 
     public static String baseUrl;
     private String username;
@@ -134,15 +135,15 @@ public class SmokeTestsManufacturers extends Common {
     }
 
     @Test
-    public void asAUserIShouldBeAbleToCreateNewManufacturerWithDevices(){
+    public void asAUserIShouldBeAbleToCreateNewManufacturerWithDevices() throws Exception {
 
         //Account Data
         AccountManufacturerRequest ar = new AccountManufacturerRequest();
-        ar.isManufacturer = false;
+        ar.isManufacturer = true;
         ar.updateName(MANUFACTURER_SMOKE_TEST);
         ar.updateNameEnding("_AT");
         ar.setUserDetails(username);
-        ar.country = "Brazil";
+        ar.country = "United Kingdom";
 
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
@@ -150,6 +151,55 @@ public class SmokeTestsManufacturers extends Common {
         externalHomePage = mainNavigationBar.clickHome();
 
         //Go to list of manufacturers page and add a new manufacturer
+        manufacturerList = externalHomePage.gotoListOfManufacturerPage();
+        createNewManufacturer = manufacturerList.registerNewManufacturer();
+        addDevices = createNewManufacturer.createTestOrganisation(ar, false);
+        log.info("New Manufacturer Account Requested With Following Data : \n" + ar);
+
+        //Add devices AND submit
+        DeviceData dd = new DeviceData();
+        dd.deviceType = "General Medical Device";
+        dd.device = "Blood Weighing";
+        dd.customMade = "Y";
+        addDevices = addDevices.addFollowingDevice(dd);
+        addDevices = addDevices.proceedToReview();
+        addDevices = addDevices.proceedToPayment();
+        addDevices = addDevices.confirmPayment();
+        manufacturerList = addDevices.backToService();
+
+        //Verify task is generated
+        loginPage = loginPage.logoutIfLoggedInOthers();
+        mainNavigationBar = loginPage.loginAs(JUnitUtils.getUserName(username) + ".Business", password);
+
+        //Verify new taskSection generated and its the correct one
+        boolean contains = false;
+        boolean isCorrectTask = false;
+        int count2 = 0;
+        String orgName = ar.organisationName;
+        do {
+            mainNavigationBar = new MainNavigationBar(driver);
+            tasksPage = mainNavigationBar.clickTasks();
+
+            //Click on link number X
+            boolean isLinkVisible = tasksPage.isLinkVisible(orgName);
+            if (isLinkVisible) {
+                taskSection = tasksPage.clickOnLinkWithText(orgName);
+                isCorrectTask = taskSection.isCorrectTask(orgName, "New Manufacturer Registration");
+                if (isCorrectTask) {
+                    contains = true;
+                } else {
+                    count2++;
+                }
+            }
+        } while (!contains && count2 <= 5);
+
+        //Accept the task
+        if (contains) {
+            taskSection = taskSection.acceptTask();
+            tasksPage = taskSection.approveTask();
+        }
+
+        log.info("Create Devices For : " + orgName);
     }
 
     @Override

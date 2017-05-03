@@ -174,10 +174,11 @@ public class LoginPage extends _Page {
         boolean loggedOut = isAlreadyLoggedOut();
         if(!loggedOut) {
             try {
-                WaitUtils.waitForElementToBeClickable(driver, photoIcon, 10, false);
+                WaitUtils.waitForElementToBeClickable(driver, photoIcon, TIMEOUT_SMALL, false);
                 if (photoIcon.isDisplayed()) {
                     //settings.click();
-                    PageUtils.doubleClick(driver, photoIcon);
+                    PageUtils.singleClick(driver, photoIcon);
+                    WaitUtils.waitForElementToBeClickable(driver, signOutLink, TIMEOUT_SMALL, false);
                     signOutLink.click();
 
                     //If logout and login is too fast, appian system shows 404 in some instance of automation
@@ -185,7 +186,7 @@ public class LoginPage extends _Page {
 
                     String baseUrl = FileUtils.getTestUrl();
                     driver.get(baseUrl);
-                    WaitUtils.waitForElementToBeClickable(driver, remember, 10, false);
+                    WaitUtils.waitForElementToBeClickable(driver, remember, TIMEOUT_SMALL, false);
                 }
             } catch (Exception e) {
                 //Probably not logged in

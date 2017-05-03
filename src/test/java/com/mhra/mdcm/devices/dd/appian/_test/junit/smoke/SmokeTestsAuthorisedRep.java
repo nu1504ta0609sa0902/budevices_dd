@@ -168,7 +168,7 @@ public class SmokeTestsAuthorisedRep extends Common {
 
         //Verify task is generated
         loginPage = loginPage.logoutIfLoggedInOthers();
-        mainNavigationBar = loginPage.loginAs(username, password);
+        mainNavigationBar = loginPage.loginAs(JUnitUtils.getUserName(username) + ".Business", password);
 
         //Verify new taskSection generated and its the correct one
         boolean contains = false;
