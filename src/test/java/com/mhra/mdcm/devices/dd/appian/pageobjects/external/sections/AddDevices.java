@@ -11,6 +11,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
 import java.util.List;
 
@@ -610,7 +611,7 @@ public class AddDevices extends _Page {
                 WaitUtils.waitForElementToBeClickable(driver, tbxGMDNDefinitionOrTerm, TIMEOUT_MEDIUM, false);
                 tbxGMDNDefinitionOrTerm.clear();
                 tbxGMDNDefinitionOrTerm.sendKeys(searchFor);
-                WaitUtils.isPageLoadingComplete(driver, 1);
+                WaitUtils.isPageLoadingComplete(driver, 2);
 
                 //Wait for list of items to appear and add it only if its not a duplicate
                 WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//label[contains(text(),'GMDN Code')]//following::a[string-length(text()) > 0]"), TIMEOUT_SMALL, false);
@@ -627,18 +628,12 @@ public class AddDevices extends _Page {
                 } else {
                     log.info(dd.deviceType + " => " + searchFor);
                 }
+                PageFactory.initElements(driver, this);
             } while (isErrorMessageDisplayed);
 
             //Default is search by gmdn term or definition : This removed 03/02/2017 push
             //previousGMDNSelection(dd);
 
-        } else {
-//            WaitUtils.waitForElementToBeClickable(driver, radioByGMDNCode, TIMEOUT_MEDIUM, false);
-//            radioByGMDNCode.click();
-//            WaitUtils.waitForElementToBeClickable(driver, tbxGMDNCode, TIMEOUT_MEDIUM, false);
-//            tbxGMDNCode.sendKeys(dd.gmdnCode);
-//            lblGMDNDefinitionOrTerm.click();
-            //PageUtils.selectFromAutoSuggests(driver, By.cssSelector("input.gwt-SuggestBox"), dd.gmdnTermOrDefinition);
         }
     }
 

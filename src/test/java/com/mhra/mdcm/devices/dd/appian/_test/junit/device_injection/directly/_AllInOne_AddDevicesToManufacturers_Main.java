@@ -29,7 +29,7 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
 
     //This controls and limits the users (overrides excel)
     public String[] initialsArray = new String[]{
-            "AT",//"AT", "NU", "HB", "YC", "PG", "AN", "LP"
+            "NU",//"AT", "NU", "HB", "YC", "PG", "AN", "LP"
     };
 
     public static final String MANUFACTURER_SMOKE_TEST = "ManufacturerAccountST";
@@ -334,6 +334,13 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
         for (String initials : initialsArray) {
 
             AccountRequest ar = new AccountRequest();
+            ar.isManufacturer = true;
+            ar.updateName(MANUFACTURER_SMOKE_TEST);
+            ar.updateNameEnding("_" + initials);
+            ar.setUserDetails(username);
+            ar.firstName = TestHarnessUtils.getName(initials, true, listOfManufacturerUsers);
+            ar.lastName = TestHarnessUtils.getName(initials, false, listOfManufacturerUsers);
+
             try {
 
                 loginPage = new LoginPage(driver);
@@ -345,14 +352,6 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
                 createTestsData = actionsPage.gotoTestsHarnessPage();
 
                 //Now create the test data using harness page
-                ar.isManufacturer = true;
-                ar.updateName(MANUFACTURER_SMOKE_TEST);
-                ar.updateNameEnding("_" + initials);
-                ar.setUserDetails(username);
-
-                ar.firstName = TestHarnessUtils.getName(initials, true, listOfManufacturerUsers);
-                ar.lastName = TestHarnessUtils.getName(initials, false, listOfManufacturerUsers);
-
                 actionsPage = createTestsData.createNewAccountUsingBusinessTestHarness(ar);
                 boolean isInCorrectPage = actionsPage.isInActionsPage();
                 if (!isInCorrectPage) {
@@ -403,7 +402,7 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
 
             WaitUtils.nativeWaitInSeconds(2);
             System.out.println(ar.organisationName);
-            log.info(ar.organisationName);
+            //log.info(ar.organisationName);
             loginPage.logoutIfLoggedIn();
             WaitUtils.nativeWaitInSeconds(2);
         }

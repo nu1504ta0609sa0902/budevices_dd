@@ -29,7 +29,7 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
 
     private static User businessUser;
     public String[] initialsArray = new String[]{
-            "AT"//"AT", "NU", "HB", "YC", "PG", "AN", "LP"
+            "NU"//"AT", "NU", "HB", "YC", "PG", "AN", "LP"
     };
     public static final String AUTHORISED_REP_ACCOUNT_SMOKE_TEST = "AuthorisedRepAccountST";
     public static final String AUTHORISED_REP_SMOKE_TEST = "AuthorisedRepST";
@@ -397,20 +397,16 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
         for (String initials : initialsArray) {
 
             AccountRequest ar = new AccountRequest();
+            ar.isManufacturer = false;
+            ar.updateName(AUTHORISED_REP_ACCOUNT_SMOKE_TEST);
+            ar.updateNameEnding("_" + initials);
+            ar.setUserDetails(username);
+            manufacturerUser = ExcelDirectDeviceDataUtils.getCorrectLoginDetailsManufacturer(initials, listOfAuthorisedRepUsers);
+            //ar.title = "Miss";
+            ar.firstName = TestHarnessUtils.getName(initials, manufacturerUser, true);
+            ar.lastName = TestHarnessUtils.getName(initials, manufacturerUser, false);
+
             try {
-
-                //Now create the test data using harness page
-                ar.isManufacturer = false;
-                ar.updateName(AUTHORISED_REP_ACCOUNT_SMOKE_TEST);
-                ar.updateNameEnding("_" + initials);
-                ar.setUserDetails(username);
-
-                manufacturerUser = ExcelDirectDeviceDataUtils.getCorrectLoginDetailsManufacturer(initials, listOfAuthorisedRepUsers);
-
-                //ar.title = "Miss";
-                ar.firstName = TestHarnessUtils.getName(initials, manufacturerUser, true);
-                ar.lastName = TestHarnessUtils.getName(initials, manufacturerUser, false);
-
 
                 //Login and try to create it
                 loginPage = new LoginPage(driver);
