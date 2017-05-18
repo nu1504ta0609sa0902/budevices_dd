@@ -25,9 +25,9 @@ public class _CreateTestsData extends _Page {
     WebElement addressLine2;
     @FindBy(xpath = ".//label[contains(text(),'City')]//following::input[1]")
     WebElement townCity;
-    @FindBy(xpath = ".//label[contains(text(),'Postcode')]//following::input[1]")
+    @FindBy(xpath = ".//label[contains(text(),'County')]//following::input[2]")
     WebElement postCode;
-    @FindBy(xpath = ".//label[contains(text(),'Postcode')]//following::input[@type='text'][2]")
+    @FindBy(xpath = ".//*[contains(text(),'Address type')]/following::input[6]")
     WebElement telephone;
     @FindBy(xpath = ".//label[contains(text(),'Fax')]//following::input[1]")
     WebElement fax;
@@ -91,6 +91,10 @@ public class _CreateTestsData extends _Page {
     WebElement clinicalInvestigation;
     @FindBy(xpath = ".//label[contains(text(),'Adverse Incident Tracking System')]")
     WebElement aitsAdverseIncidient;
+
+    //Terms and condition checkbox
+    @FindBy(xpath = ".//input[@type='checkbox']/following::label[1]")
+    WebElement cbxTermsAndConditions;
 
     //Submit and cancel
     @FindBy(xpath = ".//button[contains(text(),'Submit')]")
@@ -199,21 +203,25 @@ public class _CreateTestsData extends _Page {
             }
         }
 
-        //Services of Interests
-        if(ar.deviceRegistration){
-            PageUtils.singleClick(driver, deviceReg);
-        }
-        if(ar.cfsCertificateOfFreeSale){
-            WaitUtils.waitForElementToBeClickable(driver, cfsCertification, TIMEOUT_DEFAULT, false);
-            PageUtils.singleClick(driver, cfsCertification);
-        }
-        if(ar.clinicalInvestigation){
-            WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//span[.='Selected Services']//following::input[3]"), TIMEOUT_DEFAULT, false);
-            PageUtils.singleClick(driver, clinicalInvestigation);
-        }
-        if(ar.aitsAdverseIncidentTrackingSystem){
-            WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//span[.='Selected Services']//following::input[4]"), TIMEOUT_DEFAULT, false);
-            PageUtils.singleClick(driver, aitsAdverseIncidient);
+        try {
+            //Services of Interests
+            if (ar.deviceRegistration) {
+                PageUtils.singleClick(driver, deviceReg);
+            }
+            if (ar.cfsCertificateOfFreeSale) {
+                WaitUtils.waitForElementToBeClickable(driver, cfsCertification, TIMEOUT_DEFAULT, false);
+                PageUtils.singleClick(driver, cfsCertification);
+            }
+            if (ar.clinicalInvestigation) {
+                WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//span[.='Selected Services']//following::input[3]"), TIMEOUT_DEFAULT, false);
+                PageUtils.singleClick(driver, clinicalInvestigation);
+            }
+            if (ar.aitsAdverseIncidentTrackingSystem) {
+                WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//span[.='Selected Services']//following::input[4]"), TIMEOUT_DEFAULT, false);
+                PageUtils.singleClick(driver, aitsAdverseIncidient);
+            }
+        }catch (Exception e){
+            //This may come back again, waiting confirmation 18/05/2017
         }
 
         //Some weired bug where input boxes looses value on focus
@@ -225,8 +233,11 @@ public class _CreateTestsData extends _Page {
             }
         }
 
+        //Terms and condition checkbox introduced 17/05
+        cbxTermsAndConditions.click();
+
         //Submit form : remember to verify
-        submit.click();
+        WaitUtils.waitForElementToBeClickable(driver, submit, TIMEOUT_SMALL);
 
         return new ActionsPage(driver);
     }
