@@ -37,6 +37,8 @@ public class _CreateTestsData extends _Page {
     WebElement addressType;
     @FindBy(xpath = ".//label[contains(text(),'Country')]//following::input[1]")
     WebElement country;
+    @FindBy(xpath = ".//a/u[contains(text(), 'Enter address')]")
+    WebElement linkEnterAddressManually;
 
     //Organisation Type
     @FindBy(xpath = ".//label[contains(text(),'Limited Company')]")
@@ -109,6 +111,9 @@ public class _CreateTestsData extends _Page {
         WaitUtils.waitForPageToLoad(driver, By.xpath(".//label[.='Organisation name']//following::input[1]"), 5, false); ;
         WaitUtils.waitForElementToBeClickable(driver, orgName, 5, false);
         orgName.sendKeys(ar.organisationName);
+
+        //Enter address manually if required
+        enterAddressManually();
 
         //Selecting country has changed to auto suggest
         boolean exception = false;
@@ -199,7 +204,7 @@ public class _CreateTestsData extends _Page {
             PageUtils.singleClick(driver, deviceReg);
         }
         if(ar.cfsCertificateOfFreeSale){
-            WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//span[.='Selected Services']//following::input[2]"), TIMEOUT_DEFAULT, false);
+            WaitUtils.waitForElementToBeClickable(driver, cfsCertification, TIMEOUT_DEFAULT, false);
             PageUtils.singleClick(driver, cfsCertification);
         }
         if(ar.clinicalInvestigation){
@@ -224,6 +229,15 @@ public class _CreateTestsData extends _Page {
         submit.click();
 
         return new ActionsPage(driver);
+    }
+
+    private void enterAddressManually() {
+        try {
+            PageUtils.singleClick(driver, linkEnterAddressManually);
+            WaitUtils.isPageLoadingComplete(driver, TIMEOUT_MEDIUM);
+        }catch (Exception e){
+            //Introduced suddenly on 17/05 sprint 19 changes
+        }
     }
 
 

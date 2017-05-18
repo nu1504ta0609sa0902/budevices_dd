@@ -59,8 +59,9 @@ public class ManufacturerList extends _Page {
     }
 
     public String getARandomManufacturerName() {
-        WaitUtils.waitForElementToBeClickable(driver, By.cssSelector("div>p>a"), TIMEOUT_VERY_HIGH, false);
-        WaitUtils.waitForElementToBeVisible(driver, By.cssSelector("div>p>a"), TIMEOUT_MEDIUM, false);
+        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+        WaitUtils.waitForElementToBeVisible(driver, By.cssSelector("div>p>a"), TIMEOUT_DEFAULT, false);
+        WaitUtils.waitForElementToBeClickable(driver, By.cssSelector("div>p>a"), TIMEOUT_SMALL, false);
         int index = RandomDataUtils.getNumberBetween(0, listOfManufacturerNames.size() - 1);
         WebElement link = listOfManufacturerNames.get(index);
         String name = link.getText();

@@ -29,7 +29,7 @@ public class MainNavigationBar extends _Page {
     WebElement actions;
 
     //Manufacturer or AuthorisedRep View
-    @FindBy(partialLinkText = "HOME")
+    @FindBy(partialLinkText = "MHRA home")
     WebElement linkHOME;
     @FindBy(xpath = ".//a//following::div[.='MY ACCOUNT']")
     WebElement linkMyAccount;

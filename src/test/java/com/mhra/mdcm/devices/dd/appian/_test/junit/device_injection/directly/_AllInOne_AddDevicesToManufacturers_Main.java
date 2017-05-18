@@ -524,7 +524,7 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
                 boolean isLinkVisible = tasksPage.isLinkVisible(orgName);
                 if (isLinkVisible) {
                     taskSection = tasksPage.clickOnLinkWithText(orgName);
-                    isCorrectTask = taskSection.isCorrectTask(orgName);
+                    isCorrectTask = taskSection.isCorrectTask(orgName, "Others");
                     if (isCorrectTask) {
                         contains = true;
                     } else {

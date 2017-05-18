@@ -251,6 +251,7 @@ public class SmokeTestsBusiness extends Common {
 
 
     @Test
+    //@Ignore
     public void businessUsersCanCreateManufacturerAccountRequest() {
 
         //New account data
@@ -317,6 +318,7 @@ public class SmokeTestsBusiness extends Common {
 
 
     @Test
+    //@Ignore
     public void businessUsersCanCreateAuthorisedRepAccountRequest() {
 
         //Actual account data
@@ -457,9 +459,10 @@ public class SmokeTestsBusiness extends Common {
         //Go to accounts and perform a search for Manufacturer
         recordsPage = mainNavigationBar.clickRecords();
         accounts = recordsPage.clickOnAccounts();
-        accounts = accounts.searchForAccount(MANUFACTURER_SMOKE_TEST);
+        accounts = accounts.searchForAccount("ManufacturerAccountST");
 
         String randomAccountName = accounts.getARandomAccount();
+        log.info("Search for : " + randomAccountName);
         accounts = accounts.viewSpecifiedAccount(randomAccountName);
         accounts = this.accounts.gotoEditAccountInformation();
 
@@ -479,9 +482,10 @@ public class SmokeTestsBusiness extends Common {
         //Go to accounts and perform a search for AuthorisedRep
         recordsPage = mainNavigationBar.clickRecords();
         accounts = recordsPage.clickOnAccounts();
-        accounts = accounts.searchForAccount(AUTHORISED_REP_SMOKE_TEST);
+        accounts = accounts.searchForAccount("AuthorisedRepAccountST");
 
         String randomAccountName = accounts.getARandomAccount();
+        log.info("Search for : " + randomAccountName);
         accounts = accounts.viewSpecifiedAccount(randomAccountName);
         accounts = this.accounts.gotoEditAccountInformation();
 
@@ -504,6 +508,7 @@ public class SmokeTestsBusiness extends Common {
         accounts = recordsPage.clickOnAccounts();
 
         String randomAccountName = accounts.getARandomAccount();
+        log.info("Search for : " + randomAccountName);
         accounts = accounts.viewSpecifiedAccount(randomAccountName);
         accounts = this.accounts.gotoEditAccountInformation();
 

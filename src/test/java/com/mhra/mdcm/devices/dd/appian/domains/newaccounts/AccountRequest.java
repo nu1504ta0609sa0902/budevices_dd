@@ -92,7 +92,7 @@ public class AccountRequest {
 
         //Services of interest
         deviceRegistration = true;
-        cfsCertificateOfFreeSale = false;
+        cfsCertificateOfFreeSale = true;
         clinicalInvestigation = false;
         aitsAdverseIncidentTrackingSystem = false;
     }
