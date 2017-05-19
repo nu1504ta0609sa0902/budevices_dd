@@ -29,7 +29,7 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
 
     private static User businessUser;
     public String[] initialsArray = new String[]{
-            "NU"//"AT", "NU", "HB", "YC", "PG", "AN", "LP"
+            "AT", "NU", "HB", "YC", "PG", "AN", "LP"
     };
     public static final String AUTHORISED_REP_ACCOUNT_SMOKE_TEST = "AuthorisedRepAccountST";
     public static final String AUTHORISED_REP_SMOKE_TEST = "AuthorisedRepST";
@@ -68,13 +68,18 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
                  * This will create authorisedReps with users initials e.g _NU, _HB
                  */
                 log.info("First CREATE New Accounts To Add Manufactures/Devices To : ");
-                businessUser = ExcelDirectDeviceDataUtils.getCorrectLoginDetails("_" + u.getInitials(), listOfBusinessUsers);
+                initials = u.getInitials();
+                businessUser = ExcelDirectDeviceDataUtils.getCorrectLoginDetails("_" + initials, listOfBusinessUsers);
                 _AllInOne_AddDevicesToAuthorisedReps_Main tgs = new _AllInOne_AddDevicesToAuthorisedReps_Main(businessUser);
 
                 //We only want to do it if the INITIALS in our initialsArray list
                 boolean isInitialFound = tgs.isInitialsInTheList(businessUser.getInitials());
                 if (isInitialFound) {
-                    tgs.createNewAccountForAuthorisedRepWithBusinessTestHarness(listOfAuthorisedRepUsers);
+
+                    //Get correct authorisedRep user and create a new account
+                    User manufacturerUser = ExcelDirectDeviceDataUtils.getCorrectLoginDetailsManufacturer(initials, listOfAuthorisedRepUsers);
+                    tgs.createNewAccountForAuthorisedRepWithBusinessTestHarness(manufacturerUser);
+
                     /**
                      * All data cleared:Provide indication of devices made
                      * Create by logging into individual Account for the INITIALS
@@ -82,7 +87,7 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
                     log.info("Now create a new organisation and add devices to : ");
                     tgs.createNewAuthorisedRepsWithDevices(listOfAuthorisedRepUsers);
                 } else {
-                    System.out.println("Not creating any data for : " + businessUser);
+                    System.out.println("Not creating any data for : " + businessUser + "\nCheck initialsArray contains the initials : " + businessUser.getInitials());
                 }
             }catch (Exception e){
                 System.out.println("Try and setup data for next user ");
@@ -392,16 +397,15 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
     }
 
 
-    private void createNewAccountForAuthorisedRepWithBusinessTestHarness(List<User> listOfAuthorisedRepUsers) {
+    private void createNewAccountForAuthorisedRepWithBusinessTestHarness(User manufacturerUser) {
 
-        for (String initials : initialsArray) {
+        //for (String initials : initialsArray) {
 
             AccountRequest ar = new AccountRequest();
             ar.isManufacturer = false;
             ar.updateName(AUTHORISED_REP_ACCOUNT_SMOKE_TEST);
-            ar.updateNameEnding("_" + initials);
+            ar.updateNameEnding("_" + manufacturerUser.getInitials());
             ar.setUserDetails(username);
-            manufacturerUser = ExcelDirectDeviceDataUtils.getCorrectLoginDetailsManufacturer(initials, listOfAuthorisedRepUsers);
             //ar.title = "Miss";
             ar.firstName = TestHarnessUtils.getName(initials, manufacturerUser, true);
             ar.lastName = TestHarnessUtils.getName(initials, manufacturerUser, false);
@@ -472,7 +476,7 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
             //log.info(ar.organisationName);
             loginPage.logoutIfLoggedIn();
             WaitUtils.nativeWaitInSeconds(2);
-        }
+        //}
     }
 
     private void createDevicesFor(User u, String manufacturerName, boolean loginAgain) {

@@ -29,7 +29,7 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
 
     //This controls and limits the users (overrides excel)
     public String[] initialsArray = new String[]{
-            "NU",//"AT", "NU", "HB", "YC", "PG", "AN", "LP"
+            "AT", "NU", "HB", "YC", "PG", "AN", "LP"
     };
 
     public static final String MANUFACTURER_SMOKE_TEST = "ManufacturerAccountST";
@@ -66,19 +66,23 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
             try {
                 //Always use one of the Business Accounts to create the test manufacturers
                 //REMEMBER ALL PREVIOUS MANUFACTURERS DATA WILL BE REMOVED
-                businessUser = setCorrectLoginDetails("_" + u.getInitials(), listOfBusinessUsers);
+                String initials = u.getInitials();
+                businessUser = setCorrectLoginDetails("_" + initials, listOfBusinessUsers);
                 _AllInOne_AddDevicesToManufacturers_Main tgs = new _AllInOne_AddDevicesToManufacturers_Main(businessUser);
 
                 //We only want to do it if the INITIALS in our initialsArray list
                 boolean isInitialFound = tgs.isInitialsInTheList(businessUser.getInitials());
                 if (isInitialFound) {
-                    tgs.createManufacturerAccountWithBusinessTestHarness();
+
+                    //Create a new account for the manufacturer user
+                    User manufacturerUser = ExcelDirectDeviceDataUtils.getCorrectLoginDetailsManufacturer(initials, listOfManufacturerUsers);
+                    tgs.createManufacturerAccountWithBusinessTestHarness(manufacturerUser);
 
                     //All data cleared:Provide indication of devices made
                     //Create by logging into individual Account for the INITIALS
                     tgs.createByLoggingIntoAccountWithInitials(listOfManufacturerUsers);
                 } else {
-                    System.out.println("Not creating any data for : " + businessUser);
+                    System.out.println("Not creating any data for : " + businessUser + "\nCheck initialsArray contains the initials : " + businessUser.getInitials());
                 }
 
             } catch (Exception e) {
@@ -329,17 +333,17 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
     }
 
 
-    private void createManufacturerAccountWithBusinessTestHarness() {
+    private void createManufacturerAccountWithBusinessTestHarness(User manufacturerUser) {
 
-        for (String initials : initialsArray) {
-
+        //for (String initials : initialsArray) {
+            initials = manufacturerUser.getInitials();
             AccountRequest ar = new AccountRequest();
             ar.isManufacturer = true;
             ar.updateName(MANUFACTURER_SMOKE_TEST);
             ar.updateNameEnding("_" + initials);
             ar.setUserDetails(username);
-            ar.firstName = TestHarnessUtils.getName(initials, true, listOfManufacturerUsers);
-            ar.lastName = TestHarnessUtils.getName(initials, false, listOfManufacturerUsers);
+            ar.firstName = TestHarnessUtils.getName(initials, manufacturerUser, true);
+            ar.lastName = TestHarnessUtils.getName(initials, manufacturerUser, false);
 
             try {
 
@@ -405,7 +409,7 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
             //log.info(ar.organisationName);
             loginPage.logoutIfLoggedIn();
             WaitUtils.nativeWaitInSeconds(2);
-        }
+        //}
     }
 
     private void createDevicesFor(User u, String manufacturerName) {

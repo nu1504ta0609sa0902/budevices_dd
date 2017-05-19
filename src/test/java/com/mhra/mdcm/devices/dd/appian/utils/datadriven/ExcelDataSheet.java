@@ -83,7 +83,7 @@ public class ExcelDataSheet {
     }
 
 
-    public List<User> getListOfUsers(String fileName, String sheet){
+    public List<User> getListOfUsers(String fileName, String sheet, boolean applyIgnoreFilter){
 
         //Point to the resource file
         String dataFile = getDataFileFullPath(fileName);
@@ -105,7 +105,7 @@ public class ExcelDataSheet {
                     boolean ignore = false;
                     try {
                         String ignoreValue = excelData[2];
-                        if(ignoreValue!=null && ignoreValue.toLowerCase().equals("yes"))
+                        if(ignoreValue!=null && ignoreValue.toLowerCase().equals("yes") && applyIgnoreFilter)
                         ignore = true;
                     }catch (Exception e){}
                     String initials = excelData[3];
