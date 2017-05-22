@@ -272,13 +272,13 @@ public class SmokeTestsBusiness extends Common {
         createTestsData = actionsPage.gotoTestsHarnessPage();
 
         actionsPage = createTestsData.createNewAccountUsingBusinessTestHarness(ar);
-        boolean isInCorrectPage = actionsPage.isInActionsPage();
+        boolean isInCorrectPage = actionsPage.isApplicationSubmittedSuccessfully();
         if(!isInCorrectPage){
             PageUtils.acceptAlert(driver, true);
             actionsPage = createTestsData.createNewAccountUsingBusinessTestHarness(ar);
         }
 
-        boolean createdSuccessfully = actionsPage.isInActionsPage();
+        boolean createdSuccessfully = actionsPage.isApplicationSubmittedSuccessfully();
         if (createdSuccessfully) {
             System.out.println("Created a new account : " + ar.organisationName);
         }
@@ -339,13 +339,13 @@ public class SmokeTestsBusiness extends Common {
         createTestsData = actionsPage.gotoTestsHarnessPage();
 
         actionsPage = createTestsData.createNewAccountUsingBusinessTestHarness(ar);
-        boolean isInCorrectPage = actionsPage.isInActionsPage();
+        boolean isInCorrectPage = actionsPage.isApplicationSubmittedSuccessfully();
         if(!isInCorrectPage){
             PageUtils.acceptAlert(driver, true);
             actionsPage = createTestsData.createNewAccountUsingBusinessTestHarness(ar);
         }
 
-        boolean createdSuccessfully = actionsPage.isInActionsPage();
+        boolean createdSuccessfully = actionsPage.isApplicationSubmittedSuccessfully();
         if (createdSuccessfully) {
             System.out.println("Created a new account : " + ar.organisationName);
         }
@@ -406,13 +406,13 @@ public class SmokeTestsBusiness extends Common {
         createTestsData = actionsPage.gotoTestsHarnessPage();
 
         actionsPage = createTestsData.createNewAccountUsingBusinessTestHarness(ar);
-        boolean isInCorrectPage = actionsPage.isInActionsPage();
+        boolean isInCorrectPage = actionsPage.isApplicationSubmittedSuccessfully();
         if(!isInCorrectPage){
             PageUtils.acceptAlert(driver, true);
             actionsPage = createTestsData.createNewAccountUsingBusinessTestHarness(ar);
         }
 
-        boolean createdSuccessfully = actionsPage.isInActionsPage();
+        boolean createdSuccessfully = actionsPage.isApplicationSubmittedSuccessfully();
         if (createdSuccessfully) {
             System.out.println("Created a new account : " + ar.organisationName);
         }

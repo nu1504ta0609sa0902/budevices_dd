@@ -29,7 +29,7 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
 
     //This controls and limits the users (overrides excel)
     public String[] initialsArray = new String[]{
-            "AT", "NU", "HB", "YC", "PG", "AN", "LP"
+            "AT", //"AT", "NU", "HB", "YC", "PG", "AN", "LP"
     };
 
     public static final String MANUFACTURER_SMOKE_TEST = "ManufacturerAccountST";
@@ -357,12 +357,12 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
 
                 //Now create the test data using harness page
                 actionsPage = createTestsData.createNewAccountUsingBusinessTestHarness(ar);
-                boolean isInCorrectPage = actionsPage.isInActionsPage();
+                boolean isInCorrectPage = actionsPage.isApplicationSubmittedSuccessfully();
                 if (!isInCorrectPage) {
                     actionsPage = createTestsData.createNewAccountUsingBusinessTestHarness(ar);
                 }
 
-                boolean createdSuccessfully = actionsPage.isInActionsPage();
+                boolean createdSuccessfully = actionsPage.isApplicationSubmittedSuccessfully();
                 if (createdSuccessfully) {
                     System.out.println("Created a new account : " + ar.organisationName);
                 }

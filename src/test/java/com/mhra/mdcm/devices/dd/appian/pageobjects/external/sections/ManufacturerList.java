@@ -51,7 +51,7 @@ public class ManufacturerList extends _Page {
             WebElement link = listOfManufacturerNames.get(index);
             link.click();
         }else{
-            WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText(manufacturerName), TIMEOUT_HIGH, false);
+            WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText(manufacturerName), TIMEOUT_30_SECOND, false);
             WebElement man = driver.findElement(By.partialLinkText(manufacturerName));
             man.click();
         }
@@ -61,7 +61,7 @@ public class ManufacturerList extends _Page {
     public String getARandomManufacturerName() {
         WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
         WaitUtils.waitForElementToBeVisible(driver, By.cssSelector("div>p>a"), TIMEOUT_DEFAULT, false);
-        WaitUtils.waitForElementToBeClickable(driver, By.cssSelector("div>p>a"), TIMEOUT_SMALL, false);
+        WaitUtils.waitForElementToBeClickable(driver, By.cssSelector("div>p>a"), TIMEOUT_5_SECOND, false);
         int index = RandomDataUtils.getNumberBetween(0, listOfManufacturerNames.size() - 1);
         WebElement link = listOfManufacturerNames.get(index);
         String name = link.getText();
@@ -70,7 +70,7 @@ public class ManufacturerList extends _Page {
 
     public boolean isManufacturerDisplayedInList(String manufacturerName){
         WaitUtils.nativeWaitInSeconds(2);
-        WaitUtils.waitForElementToBeClickable(driver, By.cssSelector("td>div>a"), TIMEOUT_MEDIUM, false);
+        WaitUtils.waitForElementToBeClickable(driver, By.cssSelector("td>div>a"), TIMEOUT_15_SECOND, false);
         boolean found = false;
         for(WebElement item: listOfManufacturerNames){
             String name = item.getText();
@@ -84,19 +84,19 @@ public class ManufacturerList extends _Page {
 
 
     public ManufacturerList clickNext(){
-        WaitUtils.waitForElementToBeClickable(driver, nextPage, TIMEOUT_MEDIUM, false);
+        WaitUtils.waitForElementToBeClickable(driver, nextPage, TIMEOUT_15_SECOND, false);
         nextPage.click();
         return new ManufacturerList(driver);
     }
 
     public ManufacturerList clickPrev(){
-        WaitUtils.waitForElementToBeClickable(driver, prevPage, TIMEOUT_MEDIUM, false);
+        WaitUtils.waitForElementToBeClickable(driver, prevPage, TIMEOUT_15_SECOND, false);
         prevPage.click();
         return new ManufacturerList(driver);
     }
 
     public ManufacturerList clickLastPage(){
-        WaitUtils.waitForElementToBeClickable(driver, lastPage, TIMEOUT_MEDIUM, false);
+        WaitUtils.waitForElementToBeClickable(driver, lastPage, TIMEOUT_15_SECOND, false);
         lastPage.click();
         return new ManufacturerList(driver);
     }
@@ -109,8 +109,8 @@ public class ManufacturerList extends _Page {
 //    }
 
     public int getNumberOfPages() {
-        WaitUtils.waitForElementToBeVisible(driver, itemCount, TIMEOUT_MEDIUM, false);
-        WaitUtils.waitForElementToBeClickable(driver, itemCount, TIMEOUT_MEDIUM, false);
+        WaitUtils.waitForElementToBeVisible(driver, itemCount, TIMEOUT_15_SECOND, false);
+        WaitUtils.waitForElementToBeClickable(driver, itemCount, TIMEOUT_15_SECOND, false);
         try {
             String text = itemCount.getText();
             String total = text.substring(text.indexOf("of") + 3);
@@ -172,8 +172,8 @@ public class ManufacturerList extends _Page {
         boolean found = false;
         int attempts = 0;
         do {
-            WaitUtils.waitForElementToBeClickable(driver, By.cssSelector(".left>div>a"), TIMEOUT_VERY_HIGH, false);
-            WaitUtils.waitForElementToBeVisible(driver, By.cssSelector(".left>div>a"), TIMEOUT_MEDIUM, false);
+            WaitUtils.waitForElementToBeClickable(driver, By.cssSelector(".left>div>a"), TIMEOUT_60_SECOND, false);
+            WaitUtils.waitForElementToBeVisible(driver, By.cssSelector(".left>div>a"), TIMEOUT_15_SECOND, false);
             WebElement link = listOfManufacturerNames.get(attempts);
             name = link.getText();
             String registered = getRegistrationStatus(name);

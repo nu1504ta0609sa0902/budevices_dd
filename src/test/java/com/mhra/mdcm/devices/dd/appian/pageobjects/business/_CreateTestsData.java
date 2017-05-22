@@ -176,7 +176,7 @@ public class _CreateTestsData extends _Page {
         try {
             PageUtils.singleClick(driver, title);
             WaitUtils.isPageLoadingComplete(driver, 1);
-            WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//div[contains(text(), '"+ ar.title + "')]"), TIMEOUT_SMALL, false);
+            WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//div[contains(text(), '"+ ar.title + "')]"), TIMEOUT_5_SECOND, false);
             WebElement titleToSelect = driver.findElement(By.xpath(".//div[contains(text(), '"+ ar.title + "')]"));
             PageUtils.singleClick(driver, titleToSelect);
         } catch (Exception e) {
@@ -237,7 +237,8 @@ public class _CreateTestsData extends _Page {
         cbxTermsAndConditions.click();
 
         //Submit form : remember to verify
-        WaitUtils.waitForElementToBeClickable(driver, submit, TIMEOUT_SMALL);
+        WaitUtils.waitForElementToBeClickable(driver, submit, TIMEOUT_5_SECOND);
+        submit.click();
 
         return new ActionsPage(driver);
     }
@@ -245,7 +246,7 @@ public class _CreateTestsData extends _Page {
     private void enterAddressManually() {
         try {
             PageUtils.singleClick(driver, linkEnterAddressManually);
-            WaitUtils.isPageLoadingComplete(driver, TIMEOUT_MEDIUM);
+            WaitUtils.isPageLoadingComplete(driver, TIMEOUT_15_SECOND);
         }catch (Exception e){
             //Introduced suddenly on 17/05 sprint 19 changes
         }

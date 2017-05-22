@@ -53,7 +53,7 @@ public class TaskSection extends _Page {
 
     public boolean isCorrectTask(String orgName) {
         WaitUtils.nativeWaitInSeconds(4);
-        WaitUtils.waitForElementToBeVisible(driver, accept, TIMEOUT_MEDIUM, false);
+        WaitUtils.waitForElementToBeVisible(driver, accept, TIMEOUT_15_SECOND, false);
         boolean contains = taskHeading.getText().contains(orgName);
         return contains;
     }
@@ -67,7 +67,7 @@ public class TaskSection extends _Page {
         try {
             //For new account
             WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
-            WaitUtils.waitForElementToBeVisible(driver, header, TIMEOUT_SMALL, false);
+            WaitUtils.waitForElementToBeVisible(driver, header, TIMEOUT_5_SECOND, false);
             boolean contains = header.getText().contains(orgName);
             return contains;
         } catch (Exception e) {
@@ -92,14 +92,14 @@ public class TaskSection extends _Page {
         WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
         //WaitUtils.nativeWaitInSeconds(2);
         try {
-            WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//*[contains(text(),'Device Selection')]//following::button[.='Approve']"), TIMEOUT_SMALL, false);
+            WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//*[contains(text(),'Device Selection')]//following::button[.='Approve']"), TIMEOUT_5_SECOND, false);
             PageUtils.doubleClick(driver, driver.findElement(By.xpath(".//*[contains(text(),'Device Selection')]//following::button[.='Approve']")));
         }catch (Exception e){
             try {
-                WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//button[.='Approve']"), TIMEOUT_SMALL, false);
+                WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//button[.='Approve']"), TIMEOUT_5_SECOND, false);
                 PageUtils.doubleClick(driver, driver.findElement(By.xpath(".//button[.='Approve']")));
             }catch(Exception e2){
-                WaitUtils.waitForElementToBeClickable(driver, approve, TIMEOUT_SMALL, false);
+                WaitUtils.waitForElementToBeClickable(driver, approve, TIMEOUT_5_SECOND, false);
                 PageUtils.doubleClick(driver, approve);
             }
         }
@@ -109,7 +109,7 @@ public class TaskSection extends _Page {
 
     public TasksPage approveTaskNewAccount() {
         WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
-        WaitUtils.waitForElementToBeClickable(driver, approveNewAccount, TIMEOUT_SMALL, false);
+        WaitUtils.waitForElementToBeClickable(driver, approveNewAccount, TIMEOUT_5_SECOND, false);
         PageUtils.doubleClick(driver, approveNewAccount);
         //log.info("Task should be approved now");
         return new TasksPage(driver);
@@ -123,7 +123,7 @@ public class TaskSection extends _Page {
      */
     public TaskSection rejectTask() {
         WaitUtils.nativeWaitInSeconds(2);
-        WaitUtils.waitForElementToBeClickable(driver, reject, TIMEOUT_SMALL, false);
+        WaitUtils.waitForElementToBeClickable(driver, reject, TIMEOUT_5_SECOND, false);
         //approve.click();
         PageUtils.doubleClick(driver, reject);
         return new TaskSection(driver);
@@ -131,9 +131,9 @@ public class TaskSection extends _Page {
 
     public TasksPage enterRejectionReason(String reason, String randomTestComment) {
         if(reason.contains("Other")){
-            WaitUtils.waitForElementToBeClickable(driver, other, TIMEOUT_MEDIUM, false);
+            WaitUtils.waitForElementToBeClickable(driver, other, TIMEOUT_15_SECOND, false);
             other.click();
-            WaitUtils.waitForElementToBeClickable(driver, commentArea, TIMEOUT_MEDIUM, false);
+            WaitUtils.waitForElementToBeClickable(driver, commentArea, TIMEOUT_15_SECOND, false);
             commentArea.sendKeys(randomTestComment);
         }
 
@@ -144,7 +144,7 @@ public class TaskSection extends _Page {
 
     public TaskSection sortBy(String sortBy, int numberOfTimesToClick) {
         WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
-        WaitUtils.waitForElementToBeClickable(driver, thSubmitted, TIMEOUT_SMALL, false);
+        WaitUtils.waitForElementToBeClickable(driver, thSubmitted, TIMEOUT_5_SECOND, false);
         if (sortBy.equals("Submitted")) {
             for (int c = 0; c < numberOfTimesToClick; c++) {
                 thSubmitted.click();

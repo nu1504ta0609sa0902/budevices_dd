@@ -29,7 +29,7 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
 
     private static User businessUser;
     public String[] initialsArray = new String[]{
-            "AT", "NU", "HB", "YC", "PG", "AN", "LP"
+            "AT", //"AT", "NU", "HB", "YC", "PG", "AN", "LP"
     };
     public static final String AUTHORISED_REP_ACCOUNT_SMOKE_TEST = "AuthorisedRepAccountST";
     public static final String AUTHORISED_REP_SMOKE_TEST = "AuthorisedRepST";
@@ -422,14 +422,14 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
                 createTestsData = actionsPage.gotoTestsHarnessPage();
 
                 actionsPage = createTestsData.createNewAccountUsingBusinessTestHarness(ar);
-                boolean isInCorrectPage = actionsPage.isInActionsPage();
+                boolean isInCorrectPage = actionsPage.isApplicationSubmittedSuccessfully();
                 if (!isInCorrectPage) {
                     actionsPage = mainNavigationBar.clickActions();
                     createTestsData = actionsPage.gotoTestsHarnessPage();
                     actionsPage = createTestsData.createNewAccountUsingBusinessTestHarness(ar);
                 }
 
-                boolean createdSuccessfully = actionsPage.isInActionsPage();
+                boolean createdSuccessfully = actionsPage.isApplicationSubmittedSuccessfully();
                 if (createdSuccessfully) {
                     log.info("Created a new account with business : " + ar.organisationName);
                 }

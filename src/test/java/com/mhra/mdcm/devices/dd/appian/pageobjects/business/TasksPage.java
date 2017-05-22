@@ -70,7 +70,7 @@ public class TasksPage extends _Page {
     }
 
     public TaskSection clickOnLinkWithText(String orgName) {
-        WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText(orgName), TIMEOUT_SMALL, false);
+        WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText(orgName), TIMEOUT_5_SECOND, false);
         WebElement taskLink = driver.findElement(By.partialLinkText(orgName));
         taskLink.click();
         //log.info("Task found for : " + orgName);
@@ -81,7 +81,7 @@ public class TasksPage extends _Page {
         WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
         boolean isVisible = true;
         try{
-            WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText(link), TIMEOUT_SMALL, false);
+            WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText(link), TIMEOUT_5_SECOND, false);
         }catch (Exception e){
             isVisible = false;
         }
@@ -98,7 +98,7 @@ public class TasksPage extends _Page {
 
     public boolean isWIPTableDisplayingData() {
         WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
-        WaitUtils.waitForElementToBeClickable(driver, By.cssSelector("div > table > tbody > tr"), TIMEOUT_MEDIUM, false);
+        WaitUtils.waitForElementToBeClickable(driver, By.cssSelector("div > table > tbody > tr"), TIMEOUT_15_SECOND, false);
 
         //Verify its not the No items available message
         if(listOfWIPTableRows.size() == 1){

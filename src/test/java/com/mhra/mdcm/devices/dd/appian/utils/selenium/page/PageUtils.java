@@ -170,7 +170,7 @@ public class PageUtils {
                 country.clear();
                 country.sendKeys(text, Keys.ENTER);
                 //new WebDriverWait(driver, 4).until(ExpectedConditions.elementToBeClickable(By.cssSelector(".item")));
-                WaitUtils.waitForElementToBeClickable(driver,By.cssSelector(".item") , _Page.TIMEOUT_SMALL, false);
+                WaitUtils.waitForElementToBeClickable(driver,By.cssSelector(".item") , _Page.TIMEOUT_5_SECOND, false);
                 country.sendKeys(Keys.ARROW_DOWN, Keys.ENTER);
 
                 completed = true;
@@ -215,7 +215,7 @@ public class PageUtils {
                 country.clear();
                 country.sendKeys(countryName, Keys.ENTER);
                 //new WebDriverWait(driver, 3).until(ExpectedConditions.elementToBeClickable(By.cssSelector("li[role='option']")));
-                WaitUtils.waitForElementToBeClickable(driver, By.cssSelector("li[role='option']"), _Page.TIMEOUT_SMALL, false);
+                WaitUtils.waitForElementToBeClickable(driver, By.cssSelector("li[role='option']"), _Page.TIMEOUT_5_SECOND, false);
                 country.sendKeys(Keys.ARROW_DOWN, Keys.ENTER);
 
                 completed = true;
@@ -244,7 +244,7 @@ public class PageUtils {
                 country.sendKeys(countryName);
                 WaitUtils.nativeWaitInSeconds(1);
                 //new WebDriverWait(driver, 3).until(ExpectedConditions.elementToBeClickable(By.cssSelector("li[role='option']")));
-                WaitUtils.waitForElementToBeClickable(driver,By.cssSelector("li[role='option']") , _Page.TIMEOUT_SMALL, false);
+                WaitUtils.waitForElementToBeClickable(driver,By.cssSelector("li[role='option']") , _Page.TIMEOUT_5_SECOND, false);
 
                 //Get list of options displayed
                 WaitUtils.isPageLoadingComplete(driver, 1);
@@ -280,7 +280,7 @@ public class PageUtils {
                 country.sendKeys(countryName);
                 WaitUtils.nativeWaitInSeconds(1);
                 //new WebDriverWait(driver, 3).until(ExpectedConditions.elementToBeClickable(By.cssSelector("li[role='option']")));
-                WaitUtils.waitForElementToBeClickable(driver,By.cssSelector("li[role='option']") , _Page.TIMEOUT_SMALL, false);
+                WaitUtils.waitForElementToBeClickable(driver,By.cssSelector("li[role='option']") , _Page.TIMEOUT_5_SECOND, false);
 
                 //Get list of options displayed
                 WaitUtils.nativeWaitInSeconds(1);

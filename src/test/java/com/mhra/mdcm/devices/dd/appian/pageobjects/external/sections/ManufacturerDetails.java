@@ -88,15 +88,15 @@ public class ManufacturerDetails extends _Page {
     }
 
     public AddDevices clickAddDeviceBtn() {
-        WaitUtils.waitForElementToBeVisible(driver, addADevice, TIMEOUT_MEDIUM, false);
-        WaitUtils.waitForElementToBeClickable(driver, addADevice, TIMEOUT_MEDIUM, false);
+        WaitUtils.waitForElementToBeVisible(driver, addADevice, TIMEOUT_15_SECOND, false);
+        WaitUtils.waitForElementToBeClickable(driver, addADevice, TIMEOUT_15_SECOND, false);
         addADevice.click();
         return new AddDevices(driver);
     }
 
     public AddDevices clickDeclareDevicesBtn() {
-        WaitUtils.waitForElementToBeVisible(driver, declareDevices, TIMEOUT_MEDIUM, false);
-        WaitUtils.waitForElementToBeClickable(driver, declareDevices, TIMEOUT_MEDIUM, false);
+        WaitUtils.waitForElementToBeVisible(driver, declareDevices, TIMEOUT_15_SECOND, false);
+        WaitUtils.waitForElementToBeClickable(driver, declareDevices, TIMEOUT_15_SECOND, false);
         declareDevices.click();
         return new AddDevices(driver);
     }
@@ -110,7 +110,7 @@ public class ManufacturerDetails extends _Page {
 
     public boolean isDevicesDisplayedCorrect(String deviceList) {
         String[] data = deviceList.split(",");
-        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//a[.='Risk classification']//following::td[2]"), TIMEOUT_MEDIUM, false);
+        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//a[.='Risk classification']//following::td[2]"), TIMEOUT_15_SECOND, false);
 
         //Displayed list of gmdns
         List<String> gmdns = new ArrayList<>();
@@ -140,15 +140,15 @@ public class ManufacturerDetails extends _Page {
     }
 
     public EditManufacturer amendRepresentedParty() {
-        WaitUtils.waitForElementToBeClickable(driver, amendRepresentativeParty, TIMEOUT_MEDIUM, false);
+        WaitUtils.waitForElementToBeClickable(driver, amendRepresentativeParty, TIMEOUT_15_SECOND, false);
         amendRepresentativeParty.click();
         return new EditManufacturer(driver);
     }
 
     public boolean isCorrectPage() {
         try {
-            WaitUtils.waitForElementToBeClickable(driver, addADevice, TIMEOUT_MEDIUM, false);
-            WaitUtils.waitForElementToBeClickable(driver, amendRepresentativeParty, TIMEOUT_MEDIUM, false);
+            WaitUtils.waitForElementToBeClickable(driver, addADevice, TIMEOUT_15_SECOND, false);
+            WaitUtils.waitForElementToBeClickable(driver, amendRepresentativeParty, TIMEOUT_15_SECOND, false);
             return true;
         } catch (Exception e) {
             return false;
@@ -158,7 +158,7 @@ public class ManufacturerDetails extends _Page {
 //    public boolean verifyManufacturerUpdatesDisplayedOnPage(String keyValuePairToUpdate, AccountRequest updatedData) {
 //
 //        WaitUtils.waitForElementToBeVisible(driver, email, TIMEOUT_DEFAULT, false);
-//        WaitUtils.waitForElementToBeVisible(driver, fullName, TIMEOUT_MEDIUM, false);
+//        WaitUtils.waitForElementToBeVisible(driver, fullName, TIMEOUT_15_SECOND, false);
 //
 //        boolean allChangesDisplayed = true;
 //
@@ -216,14 +216,14 @@ public class ManufacturerDetails extends _Page {
 //    }
 
     public EditManufacturer editAccountInformation() {
-        WaitUtils.waitForElementToBeClickable(driver, editAccountInformation, TIMEOUT_MEDIUM, false);
+        WaitUtils.waitForElementToBeClickable(driver, editAccountInformation, TIMEOUT_15_SECOND, false);
         editAccountInformation.click();
         return new EditManufacturer(driver);
     }
 
     public ProductDetails viewProduct(DeviceData deviceData) {
         if(deviceData.device!=null) {
-            WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText(deviceData.device), TIMEOUT_MEDIUM, false);
+            WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText(deviceData.device), TIMEOUT_15_SECOND, false);
             driver.findElement(By.partialLinkText(deviceData.device)).click();
         }
         return new ProductDetails(driver);

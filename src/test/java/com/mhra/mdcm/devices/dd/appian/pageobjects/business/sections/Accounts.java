@@ -93,7 +93,7 @@ public class Accounts extends _Page {
     }
 
     public Accounts searchForAccount(String orgName) {
-        WaitUtils.waitForElementToBeClickable(driver, searchBox, TIMEOUT_HIGH, false);
+        WaitUtils.waitForElementToBeClickable(driver, searchBox, TIMEOUT_30_SECOND, false);
         searchBox.clear();
         searchBox.sendKeys(orgName);
         searchBox.sendKeys(Keys.ENTER);
@@ -102,7 +102,7 @@ public class Accounts extends _Page {
 
     public boolean numberOfMatchesShouldBe(int minCount) {
         try{
-            WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//div[.='Status']//following::a[2]"), TIMEOUT_SMALL, false);
+            WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//div[.='Status']//following::a[2]"), TIMEOUT_5_SECOND, false);
             int actualCount = (listOfAccounts.size()-1)/2;
             return actualCount >= minCount;
         }catch (Exception e){
@@ -116,7 +116,7 @@ public class Accounts extends _Page {
      */
     public String getARandomAccount() {
         WaitUtils.isPageLoadingComplete(driver, 1);
-        WaitUtils.waitForElementToBeClickable(driver, By.linkText("Clear Filters"), TIMEOUT_HIGH, false);
+        WaitUtils.waitForElementToBeClickable(driver, By.linkText("Clear Filters"), TIMEOUT_30_SECOND, false);
         int position = RandomDataUtils.getSimpleRandomNumberBetween(1, listOfAccounts.size() - 1, false);
         WebElement accountLinks = listOfAccounts.get(position);
         String accountName = accountLinks.getText();
@@ -160,7 +160,7 @@ public class Accounts extends _Page {
     }
 
     public boolean verifyUpdatesDisplayedOnPage(String keyValuePairToUpdate) {
-        WaitUtils.waitForElementToBeVisible(driver, jobTitleTxt, TIMEOUT_SMALL, false);
+        WaitUtils.waitForElementToBeVisible(driver, jobTitleTxt, TIMEOUT_5_SECOND, false);
         boolean allChangesDisplayed = true;
 
         //Check for the following
@@ -181,7 +181,7 @@ public class Accounts extends _Page {
     public boolean isOrderedAtoZ() {
         int getFirstX = 20;
         List<String> listOfOrderedOrganisations = new ArrayList<>();
-        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//div[.='Status']//following::a[2]"), TIMEOUT_SMALL, false);
+        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//div[.='Status']//following::a[2]"), TIMEOUT_5_SECOND, false);
 
         //Get list of organisation names
         int position = 0;   //Only even ones are organisation name
@@ -208,7 +208,7 @@ public class Accounts extends _Page {
     public boolean isInEditMode() {
         boolean isInEditPage = true;
         try {
-            WaitUtils.waitForElementToBeVisible(driver, submitBtn, TIMEOUT_MEDIUM, false);
+            WaitUtils.waitForElementToBeVisible(driver, submitBtn, TIMEOUT_15_SECOND, false);
         }catch (Exception e){
             isInEditPage = false;
         }

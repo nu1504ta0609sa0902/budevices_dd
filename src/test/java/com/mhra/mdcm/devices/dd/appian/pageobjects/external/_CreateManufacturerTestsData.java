@@ -82,8 +82,8 @@ public class _CreateManufacturerTestsData extends _Page {
     public AddDevices createTestOrganisation(AccountManufacturerRequest ar, boolean saveDontDeclareDevices) throws Exception {
         //WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
         WaitUtils.nativeWaitInSeconds(3);
-        //WaitUtils.waitForElementToBeClickable(driver, By.cssSelector(".PickerWidget---picker_value"), TIMEOUT_SMALL, false);
-        WaitUtils.waitForElementToBeClickable(driver, orgName, TIMEOUT_SMALL, false);
+        //WaitUtils.waitForElementToBeClickable(driver, By.cssSelector(".PickerWidget---picker_value"), TIMEOUT_5_SECOND, false);
+        WaitUtils.waitForElementToBeClickable(driver, orgName, TIMEOUT_5_SECOND, false);
         orgName.sendKeys(ar.organisationName);
         //PageUtils.selectCountryFromAutoSuggests(driver, ".gwt-SuggestBox", ar.country, false);
         boolean exception = false;
@@ -108,7 +108,7 @@ public class _CreateManufacturerTestsData extends _Page {
         //PageUtils.selectByText(title, ar.title);
         try {
             PageUtils.singleClick(driver, title);
-            WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//div[contains(text(), '"+ ar.title + "')]"), TIMEOUT_SMALL, false);
+            WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//div[contains(text(), '"+ ar.title + "')]"), TIMEOUT_5_SECOND, false);
             WebElement titleToSelect = driver.findElement(By.xpath(".//div[contains(text(), '"+ ar.title + "')]"));
             PageUtils.singleClick(driver, titleToSelect);
         } catch (Exception e) {
@@ -160,7 +160,7 @@ public class _CreateManufacturerTestsData extends _Page {
                 country.clear();
                 country.sendKeys(countryName, Keys.ENTER);
                 //new WebDriverWait(driver, 3).until(ExpectedConditions.elementToBeClickable(By.cssSelector(".item")));
-                WaitUtils.waitForElementToBeClickable(driver, By.cssSelector(".item"), TIMEOUT_SMALL, false);
+                WaitUtils.waitForElementToBeClickable(driver, By.cssSelector(".item"), TIMEOUT_5_SECOND, false);
                 country.sendKeys(Keys.ARROW_DOWN, Keys.ENTER);
 
                 completed = true;
@@ -189,7 +189,7 @@ public class _CreateManufacturerTestsData extends _Page {
     }
 
     public ExternalHomePage submitForApproval() {
-        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//button[.='Submit']"), TIMEOUT_HIGH, false);
+        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//button[.='Submit']"), TIMEOUT_30_SECOND, false);
         driver.findElement(By.xpath(".//button[.='Submit']")).click();
         return new ExternalHomePage(driver);
     }

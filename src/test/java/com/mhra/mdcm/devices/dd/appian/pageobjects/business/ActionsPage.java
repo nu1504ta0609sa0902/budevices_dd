@@ -18,6 +18,9 @@ public class ActionsPage extends _Page {
     @FindBy(partialLinkText = "Create Test Account")
     WebElement linkCreateTestAccount;
 
+    @FindBy(xpath = ".//h3[contains(text(), 'Application complete')]")
+    WebElement txtApplicationComplete;
+
 
     public ActionsPage(WebDriver driver) {
         super(driver);
@@ -32,11 +35,21 @@ public class ActionsPage extends _Page {
         }
     }
 
+    public boolean isApplicationSubmittedSuccessfully() {
+        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+        try {
+            WaitUtils.waitForElementToBeClickable(driver, txtApplicationComplete, TIMEOUT_15_SECOND);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     public _CreateTestsData gotoTestsHarnessPage() {
         WaitUtils.isPageLoadingComplete(driver, 10);
         WaitUtils.nativeWaitInSeconds(2);
-        WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText("Create Test Account"), TIMEOUT_MEDIUM, false);
-        WaitUtils.waitForElementToBeClickable(driver, linkCreateTestAccount, TIMEOUT_MEDIUM, false);
+        WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText("Create Test Account"), TIMEOUT_15_SECOND, false);
+        WaitUtils.waitForElementToBeClickable(driver, linkCreateTestAccount, TIMEOUT_15_SECOND, false);
         //linkCreateTestAccount.click();
         PageUtils.singleClick(driver, linkCreateTestAccount);
         return new _CreateTestsData(driver);

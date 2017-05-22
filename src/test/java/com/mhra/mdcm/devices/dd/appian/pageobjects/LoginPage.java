@@ -120,14 +120,14 @@ public class LoginPage extends _Page {
         dontRemember();
 
         //login
-        WaitUtils.waitForElementToBeClickable(driver, username, TIMEOUT_SMALL, false);
+        WaitUtils.waitForElementToBeClickable(driver, username, TIMEOUT_5_SECOND, false);
         username.sendKeys(usernameTxt);
         password.sendKeys(passwordTxt);
         username.submit();
     }
 
     public void dontRemember() {
-        WaitUtils.waitForElementToBeClickable(driver, rememberLabel, TIMEOUT_SMALL, false);
+        WaitUtils.waitForElementToBeClickable(driver, rememberLabel, TIMEOUT_5_SECOND, false);
         String checked = remember.getAttribute("checked");
         boolean selected = remember.isSelected();
         if ( checked != null || selected) {
@@ -145,7 +145,7 @@ public class LoginPage extends _Page {
         boolean loggedOut = isAlreadyLoggedOut();
         if(!loggedOut) {
             try {
-                WaitUtils.waitForElementToBeClickable(driver, settings, TIMEOUT_SMALL, false);
+                WaitUtils.waitForElementToBeClickable(driver, settings, TIMEOUT_5_SECOND, false);
                 if (settings.isDisplayed()) {
                     //settings.click();
                     PageUtils.doubleClick(driver, settings);
@@ -156,7 +156,7 @@ public class LoginPage extends _Page {
 
                     String baseUrl = FileUtils.getTestUrl();
                     driver.get(baseUrl);
-                    WaitUtils.waitForElementToBeClickable(driver, remember, TIMEOUT_SMALL, false);
+                    WaitUtils.waitForElementToBeClickable(driver, remember, TIMEOUT_5_SECOND, false);
                 }
             } catch (Exception e) {
                 //Probably not logged in
@@ -174,11 +174,11 @@ public class LoginPage extends _Page {
         boolean loggedOut = isAlreadyLoggedOut();
         if(!loggedOut) {
             try {
-                WaitUtils.waitForElementToBeClickable(driver, photoIcon, TIMEOUT_SMALL, false);
+                WaitUtils.waitForElementToBeClickable(driver, photoIcon, TIMEOUT_5_SECOND, false);
                 if (photoIcon.isDisplayed()) {
                     //settings.click();
                     PageUtils.singleClick(driver, photoIcon);
-                    WaitUtils.waitForElementToBeClickable(driver, signOutLink, TIMEOUT_SMALL, false);
+                    WaitUtils.waitForElementToBeClickable(driver, signOutLink, TIMEOUT_5_SECOND, false);
                     signOutLink.click();
 
                     //If logout and login is too fast, appian system shows 404 in some instance of automation
@@ -186,7 +186,7 @@ public class LoginPage extends _Page {
 
                     String baseUrl = FileUtils.getTestUrl();
                     driver.get(baseUrl);
-                    WaitUtils.waitForElementToBeClickable(driver, remember, TIMEOUT_SMALL, false);
+                    WaitUtils.waitForElementToBeClickable(driver, remember, TIMEOUT_5_SECOND, false);
                 }
             } catch (Exception e) {
                 //Probably not logged in
@@ -250,7 +250,7 @@ public class LoginPage extends _Page {
     private boolean amIInLoginPage() {
         boolean isInLoginPage = true;
         try {
-            WaitUtils.waitForElementToBeVisible(driver, loggedInUsername, TIMEOUT_SMALL, false);
+            WaitUtils.waitForElementToBeVisible(driver, loggedInUsername, TIMEOUT_5_SECOND, false);
             isInLoginPage = false;
         } catch (Exception e) {
             isInLoginPage = true;
@@ -261,7 +261,7 @@ public class LoginPage extends _Page {
     private boolean amIInLoginPageManufactuererOrAuthorisedRep() {
         boolean isInLoginPage = true;
         try {
-            WaitUtils.waitForElementToBeVisible(driver, photoIcon, TIMEOUT_SMALL, false);
+            WaitUtils.waitForElementToBeVisible(driver, photoIcon, TIMEOUT_5_SECOND, false);
             isInLoginPage = false;
         } catch (Exception e) {
             isInLoginPage = true;

@@ -103,7 +103,7 @@ public class Organisations extends _Page {
      * @return
      */
     public int getNumberOfMatches() {
-        WaitUtils.waitForPageToLoad(driver, By.xpath("WaitForPageToLoad") , TIMEOUT_SMALL, false);
+        WaitUtils.waitForPageToLoad(driver, By.xpath("WaitForPageToLoad") , TIMEOUT_5_SECOND, false);
         WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText("Manufacturer") , TIMEOUT_DEFAULT, false);
         int size = listOfAllOrganisations.size();
         size = (size-1) / 2;
