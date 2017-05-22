@@ -5,7 +5,7 @@
 
 Run _AllInOne_AddDevicesToManufacturers_Main
     THIS WILL DO:
-    - To create a manufacturer for each of the users ending with their initials
+    - To create a manufacturer account for each of the users ending with their initials
         - Controlled by initialsArray list ABOVE
         - Find initialsArray list and change it to generate for the correct users
 
@@ -13,7 +13,7 @@ Run _AllInOne_AddDevicesToManufacturers_Main
 
 Run _AllInOne_AddDevicesToAuthorisedReps_Main
     THIS WILL DO:
-    - To create a authorisedReps for each of the users ending with their initials
+    - To create an authorisedReps account for each of the users ending with their initials
         - Controlled by initialsArray list ABOVE
         - Find initialsArray list and change it to generate for the correct users
 
