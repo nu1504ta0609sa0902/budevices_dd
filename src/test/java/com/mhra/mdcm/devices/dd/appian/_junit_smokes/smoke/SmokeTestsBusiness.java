@@ -1,6 +1,6 @@
-package com.mhra.mdcm.devices.dd.appian._test.junit.smoke;
+package com.mhra.mdcm.devices.dd.appian._junit_smokes.smoke;
 
-import com.mhra.mdcm.devices.dd.appian._test.junit.common.Common;
+import com.mhra.mdcm.devices.dd.appian._junit_smokes.common.Common;
 import com.mhra.mdcm.devices.dd.appian.domains.junit.User;
 import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.AccountRequest;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.LoginPage;

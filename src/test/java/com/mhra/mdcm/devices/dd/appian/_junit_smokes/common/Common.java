@@ -1,4 +1,4 @@
-package com.mhra.mdcm.devices.dd.appian._test.junit.common;
+package com.mhra.mdcm.devices.dd.appian._junit_smokes.common;
 
 import com.mhra.mdcm.devices.dd.appian.pageobjects.LoginPage;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.MainNavigationBar;

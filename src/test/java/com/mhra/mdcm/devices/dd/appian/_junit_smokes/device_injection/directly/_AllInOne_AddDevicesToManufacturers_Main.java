@@ -1,6 +1,6 @@
-package com.mhra.mdcm.devices.dd.appian._test.junit.device_injection.directly;
+package com.mhra.mdcm.devices.dd.appian._junit_smokes.device_injection.directly;
 
-import com.mhra.mdcm.devices.dd.appian._test.junit.common.Common;
+import com.mhra.mdcm.devices.dd.appian._junit_smokes.common.Common;
 import com.mhra.mdcm.devices.dd.appian.domains.junit.User;
 import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.AccountRequest;
 import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.DeviceData;

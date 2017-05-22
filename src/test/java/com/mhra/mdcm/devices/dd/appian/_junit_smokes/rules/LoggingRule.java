@@ -1,4 +1,4 @@
-package com.mhra.mdcm.devices.dd.appian._test.junit.rules;
+package com.mhra.mdcm.devices.dd.appian._junit_smokes.rules;
 
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;

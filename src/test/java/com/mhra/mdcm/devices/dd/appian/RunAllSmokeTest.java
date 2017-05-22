@@ -1,8 +1,8 @@
 package com.mhra.mdcm.devices.dd.appian;
 
-import com.mhra.mdcm.devices.dd.appian._test.junit.smoke.SmokeTestsAuthorisedRep;
-import com.mhra.mdcm.devices.dd.appian._test.junit.smoke.SmokeTestsBusiness;
-import com.mhra.mdcm.devices.dd.appian._test.junit.smoke.SmokeTestsManufacturers;
+import com.mhra.mdcm.devices.dd.appian._junit_smokes.smoke.SmokeTestsAuthorisedRep;
+import com.mhra.mdcm.devices.dd.appian._junit_smokes.smoke.SmokeTestsBusiness;
+import com.mhra.mdcm.devices.dd.appian._junit_smokes.smoke.SmokeTestsManufacturers;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 

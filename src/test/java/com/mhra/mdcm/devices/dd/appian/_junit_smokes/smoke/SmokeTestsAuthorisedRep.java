@@ -1,6 +1,6 @@
-package com.mhra.mdcm.devices.dd.appian._test.junit.smoke;
+package com.mhra.mdcm.devices.dd.appian._junit_smokes.smoke;
 
-import com.mhra.mdcm.devices.dd.appian._test.junit.common.Common;
+import com.mhra.mdcm.devices.dd.appian._junit_smokes.common.Common;
 import com.mhra.mdcm.devices.dd.appian.domains.junit.User;
 import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.AccountManufacturerRequest;
 import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.DeviceData;
@@ -11,7 +11,7 @@ import com.mhra.mdcm.devices.dd.appian.utils.datadriven.JUnitUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.driver.BrowserConfig;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.FileUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.PageUtils;
-import org.hamcrest.Matchers;
+import static org.hamcrest.Matchers.*;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -20,16 +20,13 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
-import static org.hamcrest.Matchers.not;
-import static org.hamcrest.Matchers.nullValue;
-
 /**
  * Created by TPD_Auto on 01/11/2016.
  */
 @RunWith(Parameterized.class)
-public class SmokeTestsManufacturers extends Common {
+public class SmokeTestsAuthorisedRep extends Common {
 
-    public static final String MANUFACTURER_SMOKE_TEST = "ManufacturerST";
+    public static final String AUTHORISED_REP_SMOKE_TEST = "AuthorisedRepST";
 
     public static String baseUrl;
     private String username;
@@ -39,12 +36,12 @@ public class SmokeTestsManufacturers extends Common {
     public static Collection<User> spreadsheetData() throws IOException {
         ExcelDataSheet excelUtils = new ExcelDataSheet();//
         List<User> listOfUsers = excelUtils.getListOfUsers("configs/data/excel/users.xlsx", "Sheet1", true);
-        listOfUsers = excelUtils.filterUsersBy(listOfUsers, "manufacturer");
-        log.info("Manufacturer Users : " + listOfUsers);
+        listOfUsers = excelUtils.filterUsersBy(listOfUsers, "authorised");
+        log.info("AuthorisedRep Users : " + listOfUsers);
         return listOfUsers;
     }
 
-    public SmokeTestsManufacturers(User user) {
+    public SmokeTestsAuthorisedRep(User user) {
         this.username = user.getUserName();
         this.password = user.getPassword();
     }
@@ -58,7 +55,7 @@ public class SmokeTestsManufacturers extends Common {
             //This is for entering values in a popup
             PageUtils.performBasicAuthentication(driver, baseUrl);
 
-            log.warn("\n\nRUNNING MANUFACTURER SMOKE TESTS");
+            log.warn("\n\nRUNNING AUTHORISED REP SMOKE TESTS");
         }
     }
 
@@ -86,12 +83,12 @@ public class SmokeTestsManufacturers extends Common {
         String expectedErrorMsg = "The username/password entered is invalid";
         loginPage = new LoginPage(driver);
         boolean isCorrect = loginPage.isErrorMessageCorrect(expectedErrorMsg);
-        Assert.assertThat("Error message should contain : " + expectedErrorMsg, isCorrect, Matchers.is(true));
+        Assert.assertThat("Error message should contain : " + expectedErrorMsg, isCorrect, is(true));
     }
 
-
     @Test
-    public void checkCorrectLinksAreDisplayedForManufacturer() {
+    public void checkCorrectLinksAreDisplayedForAuthorisedRep() {
+
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
         MainNavigationBar mainNavigationBar = loginPage.loginAsManufacturer(username, password);
@@ -99,9 +96,9 @@ public class SmokeTestsManufacturers extends Common {
         externalHomePage = mainNavigationBar.clickHome();
         String delimitedLinks = "ENTER >";
         boolean areLinksVisible = externalHomePage.isStartNowLinkDisplayed();
-        Assert.assertThat("Expected to see the following links : " + delimitedLinks, areLinksVisible, Matchers.is(true));
-    }
+        Assert.assertThat("Expected to see the following links : " + delimitedLinks, areLinksVisible, is(true));
 
+    }
 
     @Test
     public void asAUserIShouldBeAbleToLoginAndLogout() {
@@ -112,18 +109,18 @@ public class SmokeTestsManufacturers extends Common {
         String expectedHeading = JUnitUtils.getExpectedHeading(username);
 
         boolean isCorrectPage = mainNavigationBar.isCorrectPage(expectedHeading);
-        Assert.assertThat("Expected page : " + expectedHeading, isCorrectPage, Matchers.is(true));
+        Assert.assertThat("Expected page : " + expectedHeading, isCorrectPage, is(true));
 
         //Logout and verify its in logout page
         loginPage = JUnitUtils.logoutIfLoggedIn(username, loginPage);
 
         boolean isLoginPage = loginPage.isInLoginPage();
-        Assert.assertThat("Expected tobe in login page", isLoginPage, Matchers.is(true));
+        Assert.assertThat("Expected to be in login page", isLoginPage, is(true));
     }
 
 
     @Test
-    public void asAUserIShouldBeAbleToViewAListOfManufacturer() {
+    public void asAUserIShouldBeAbleToViewListOfAuthorisedReps() {
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
         MainNavigationBar mainNavigationBar = loginPage.loginAsManufacturer(username, password);
@@ -131,26 +128,26 @@ public class SmokeTestsManufacturers extends Common {
 
         manufacturerList = externalHomePage.gotoListOfManufacturerPage();
         String name = manufacturerList.getARandomManufacturerName();
-        Assert.assertThat("List of manufacturers may not be visible", name, not(nullValue()));
+        Assert.assertThat("List of manufacturers may not be visible", name, not(nullValue()) );
     }
 
     @Test
-    public void asAUserIShouldBeAbleToCreateNewManufacturerWithDevices() throws Exception {
-
+    public void asAUserIShouldBeAbleToCreateNewAuthorisedRepsWithDevices() throws Exception {
         //Account Data
         AccountManufacturerRequest ar = new AccountManufacturerRequest();
-        ar.isManufacturer = true;
-        ar.updateName(MANUFACTURER_SMOKE_TEST);
+        ar.isManufacturer = false;
+        ar.updateName(AUTHORISED_REP_SMOKE_TEST);
         ar.updateNameEnding("_AT");
         ar.setUserDetails(username);
-        ar.country = "United Kingdom";
+        ar.country = "Brazil";
 
+        //Login
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
         MainNavigationBar mainNavigationBar = loginPage.loginAsManufacturer(username, password);
         externalHomePage = mainNavigationBar.clickHome();
 
-        //Go to list of manufacturers page and add a new manufacturer
+        //Go to list of manufacturers page and add a new authorisedrep
         manufacturerList = externalHomePage.gotoListOfManufacturerPage();
         createNewManufacturer = manufacturerList.registerNewManufacturer();
         addDevices = createNewManufacturer.createTestOrganisation(ar, false);
@@ -200,10 +197,11 @@ public class SmokeTestsManufacturers extends Common {
         }
 
         log.info("Create Devices For : " + orgName);
+
     }
 
     @Override
     public String toString() {
-        return "SmokeTestsManufacturers";
+        return "SmokeTestsAuthorisedRep";
     }
 }
