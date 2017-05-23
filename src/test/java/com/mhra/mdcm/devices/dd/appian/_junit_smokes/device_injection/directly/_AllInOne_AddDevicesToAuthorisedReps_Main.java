@@ -29,7 +29,7 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
 
     private static User businessUser;
     public String[] initialsArray = new String[]{
-            "AT", //"AT", "NU", "HB", "YC", "PG", "AN", "LP"
+            "NU", //"AT", "NU", "HB", "YC", "PG", "AN", "LP"
     };
     public static final String AUTHORISED_REP_ACCOUNT_SMOKE_TEST = "AuthorisedRepAccountST";
     public static final String AUTHORISED_REP_SMOKE_TEST = "AuthorisedRepST";
@@ -403,6 +403,7 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
 
             AccountRequest ar = new AccountRequest();
             ar.isManufacturer = false;
+            ar.country = "United Kingdom";
             ar.updateName(AUTHORISED_REP_ACCOUNT_SMOKE_TEST);
             ar.updateNameEnding("_" + manufacturerUser.getInitials());
             ar.setUserDetails(username);
@@ -646,51 +647,51 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
     }
 
 
-    private void createAuthorisedRepsWithManufacturerTestHarness(User user) throws Exception {
-
-        //Now create the test data using harness page
-        AccountManufacturerRequest ar = new AccountManufacturerRequest();
-        ar.isManufacturer = false;
-        ar.updateName(AUTHORISED_REP_SMOKE_TEST);
-        ar.updateNameEnding("_" + initials);
-        ar.setUserDetails(username);
-        ar.country = "Brazil";
-
-        manufacturerUser = user;
-        ar.firstName = TestHarnessUtils.getName(initials, manufacturerUser, true);
-        ar.lastName = TestHarnessUtils.getName(initials, manufacturerUser, false);
-
-        //Assuming all previous data removed
-        loginPage = new LoginPage(driver);
-        loginPage = loginPage.loadPage(baseUrl);
-        mainNavigationBar = loginPage.loginAsManufacturer(username, password);
-        externalHomePage = mainNavigationBar.clickHome();
-
-        //Click on a random manufacturer
-        manufacturerList = externalHomePage.gotoListOfManufacturerPage();
-
-        //Create new manufacturer data
-        createNewManufacturer = new _CreateManufacturerTestsData(driver);
-        addDevices = createNewManufacturer.createTestOrganisation(ar, false);
-        if (createNewManufacturer.isErrorMessageDisplayed()) {
-            externalHomePage = mainNavigationBar.clickExternalHOME();
-            manufacturerList = externalHomePage.gotoListOfManufacturerPage();
-            createNewManufacturer = manufacturerList.registerNewManufacturer();
-            addDevices = createNewManufacturer.createTestOrganisation(ar, false);
-        }
-
-        log.info("Created a new org to add devices to : " + ar.organisationName);
-
-        //Add devices : Change introduced in 20/03/2017
-        //addDevices.addFollowingDevice(new DeviceData());
-
-        //Provide indication of devices made to the newly created authoirisedRep
-        manufacturerUser = user;
-        //addToListOfManufacturersCreatedWithInitials(initials, listOfAccountsCreatedWithTesterInitials, ar.organisationName);
-        listOfAccountsCreatedWithTesterInitials.add(ar.organisationName);
-        nameSelected = ar.organisationName;
-
-    }
+//    private void createAuthorisedRepsWithManufacturerTestHarness(User user) throws Exception {
+//
+//        //Now create the test data using harness page
+//        AccountManufacturerRequest ar = new AccountManufacturerRequest();
+//        ar.isManufacturer = false;
+//        ar.updateName(AUTHORISED_REP_SMOKE_TEST);
+//        ar.updateNameEnding("_" + initials);
+//        ar.setUserDetails(username);
+//        ar.country = "Brazil";
+//
+//        manufacturerUser = user;
+//        ar.firstName = TestHarnessUtils.getName(initials, manufacturerUser, true);
+//        ar.lastName = TestHarnessUtils.getName(initials, manufacturerUser, false);
+//
+//        //Assuming all previous data removed
+//        loginPage = new LoginPage(driver);
+//        loginPage = loginPage.loadPage(baseUrl);
+//        mainNavigationBar = loginPage.loginAsManufacturer(username, password);
+//        externalHomePage = mainNavigationBar.clickHome();
+//
+//        //Click on a random manufacturer
+//        manufacturerList = externalHomePage.gotoListOfManufacturerPage();
+//
+//        //Create new manufacturer data
+//        createNewManufacturer = new _CreateManufacturerTestsData(driver);
+//        addDevices = createNewManufacturer.createTestOrganisation(ar, false);
+//        if (createNewManufacturer.isErrorMessageDisplayed()) {
+//            externalHomePage = mainNavigationBar.clickExternalHOME();
+//            manufacturerList = externalHomePage.gotoListOfManufacturerPage();
+//            createNewManufacturer = manufacturerList.registerNewManufacturer();
+//            addDevices = createNewManufacturer.createTestOrganisation(ar, false);
+//        }
+//
+//        log.info("Created a new org to add devices to : " + ar.organisationName);
+//
+//        //Add devices : Change introduced in 20/03/2017
+//        //addDevices.addFollowingDevice(new DeviceData());
+//
+//        //Provide indication of devices made to the newly created authoirisedRep
+//        manufacturerUser = user;
+//        //addToListOfManufacturersCreatedWithInitials(initials, listOfAccountsCreatedWithTesterInitials, ar.organisationName);
+//        listOfAccountsCreatedWithTesterInitials.add(ar.organisationName);
+//        nameSelected = ar.organisationName;
+//
+//    }
 
 
     private void createAuthorisedRepsWithManufacturerTestHarness2(User user) throws Exception {
@@ -701,7 +702,7 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
         ar.updateName(AUTHORISED_REP_SMOKE_TEST);
         ar.updateNameEnding("_" + initials);
         ar.setUserDetails(username);
-        ar.country = "Brazil";
+        ar.country = "United Kingdom";
 
         manufacturerUser = user;
         ar.firstName = TestHarnessUtils.getName(initials, manufacturerUser, true);
