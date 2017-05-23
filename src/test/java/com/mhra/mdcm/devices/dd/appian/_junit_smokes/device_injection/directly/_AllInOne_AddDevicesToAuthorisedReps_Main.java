@@ -719,7 +719,7 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
         }
 
         //Add devices : Change introduced in 20/03/2017
-        //addDevices.addFollowingDevice(new DeviceData());
+        //addDevices.addFollowingDevice(new DeviceData()) ;
         //externalHomePage = createNewManufacturer.submitForApproval();
 
         log.info("Created a new org to add devices to : " + ar.organisationName);
