@@ -2,6 +2,7 @@ package com.mhra.mdcm.devices.dd.appian.utils.selenium.page;
 
 import com.mhra.mdcm.devices.dd.appian.pageobjects._Page;
 import com.mhra.mdcm.devices.dd.appian.utils.jenkins.ProxyAuthenticationSikuli;
+import com.mhra.mdcm.devices.dd.appian.utils.jenkins.ProxyAuthenticationSikuliFirefox;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.FileUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.RandomDataUtils;
 import org.openqa.selenium.By;
@@ -336,6 +337,13 @@ public class PageUtils {
             driver.get(baseUrl);
             try {
                 new ProxyAuthenticationSikuli(driver, baseUrl).login();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }else if(iSremote != null && browser!=null && browser.toLowerCase().equals("ff")) {
+            driver.get(baseUrl);
+            try {
+                new ProxyAuthenticationSikuliFirefox(driver, baseUrl).login();
             } catch (Exception e) {
                 e.printStackTrace();
             }
