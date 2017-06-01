@@ -156,27 +156,11 @@ public class ManufacturerOrganisationRequest {
     public String toString() {
         return "AccountManufacturerRequest{" +
                 "\norganisationName='" + organisationName + '\'' +
-//                "\naddress1='" + address1 + '\'' +
-//                "\naddress2='" + address2 + '\'' +
-//                "\ntownCity='" + townCity + '\'' +
-//                "\npostCode='" + postCode + '\'' +
-//                "\ncountry='" + country + '\'' +
-//                "\ntelephone='" + telephone + '\'' +
-//                "\nfax='" + fax + '\'' +
                 "\nwebsite='" + website + '\'' +
-//                "\nvatRegistrationNumber='" + vatRegistrationNumber + '\'' +
-//                "\ncompanyRegistrationNumber='" + companyRegistrationNumber + '\'' +
-//                "\ntitle='" + title + '\'' +
                 "\nfirstName='" + firstName + '\'' +
                 "\nlastName='" + lastName + '\'' +
-//                "\njobTitle='" + jobTitle + '\'' +
-//                "\nphoneNumber='" + phoneNumber + '\'' +
                 "\nemail='" + email + '\'' +
                 "\nisManufacturer=" + isManufacturer +
-//                "\ndeviceRegistration=" + deviceRegistration +
-//                "\ncfsCertificateOfFreeSale=" + cfsCertificateOfFreeSale +
-//                "\nclinicalInvestigation=" + clinicalInvestigation +
-//                "\naitsAdverseIncidentTrackingSystem=" + aitsAdverseIncidentTrackingSystem +
                 '}';
     }
 
