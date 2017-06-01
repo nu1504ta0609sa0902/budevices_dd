@@ -37,6 +37,8 @@ public class AccountRequest {
     public String jobTitle;
     public String phoneNumber;
     public String email;
+    public String initials;
+    public String userName;
 
     //Organisation Role
 //    public String autorisedRep;
@@ -148,6 +150,14 @@ public class AccountRequest {
             }
         }
         return business;
+    }
+
+
+    public String getUsername() {
+        String un = "Manufacturer_" + initials;
+        if(!isManufacturer)
+            un = "AuthorisedRep_" + initials;
+        return un;
     }
 
     public void updateName(String nameBeginsWith) {

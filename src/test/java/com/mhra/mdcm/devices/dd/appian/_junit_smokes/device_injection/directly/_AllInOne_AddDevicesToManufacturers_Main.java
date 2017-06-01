@@ -344,6 +344,7 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
             ar.setUserDetails(username);
             ar.firstName = TestHarnessUtils.getName(initials, manufacturerUser, true);
             ar.lastName = TestHarnessUtils.getName(initials, manufacturerUser, false);
+            ar.initials = initials;
 
             try {
 
