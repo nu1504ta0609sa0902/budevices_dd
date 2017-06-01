@@ -13,7 +13,7 @@ import java.util.List;
  *
  * OVERRIDE THE DEFAULTS USING CUCUMBER SCENARIOS TEST DATA
  */
-public class AccountManufacturerRequest {
+public class ManufacturerOrganisationRequest {
 
     public static final String MANUFACTURER_RT_TEST = "ManufacturerRT01Test";
     public static final String AUTHORISED_REP_RT_TEST = "AuthorisedRepRT01Test";
@@ -44,7 +44,7 @@ public class AccountManufacturerRequest {
     public boolean isManufacturer;
 
 
-    public AccountManufacturerRequest() {
+    public ManufacturerOrganisationRequest() {
         createDefaultRandom();
     }
 
@@ -122,7 +122,7 @@ public class AccountManufacturerRequest {
     }
 
     public static void main(String[] args){
-        AccountManufacturerRequest ar = new AccountManufacturerRequest();
+        ManufacturerOrganisationRequest ar = new ManufacturerOrganisationRequest();
     }
 
 

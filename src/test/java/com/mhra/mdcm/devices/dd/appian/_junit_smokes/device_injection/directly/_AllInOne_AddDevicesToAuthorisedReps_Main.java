@@ -2,7 +2,7 @@ package com.mhra.mdcm.devices.dd.appian._junit_smokes.device_injection.directly;
 
 import com.mhra.mdcm.devices.dd.appian._junit_smokes.common.Common;
 import com.mhra.mdcm.devices.dd.appian.domains.junit.User;
-import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.AccountManufacturerRequest;
+import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.ManufacturerOrganisationRequest;
 import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.AccountRequest;
 import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.DeviceData;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.LoginPage;
@@ -697,7 +697,7 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
     private void createAuthorisedRepsWithManufacturerTestHarness2(User user) throws Exception {
 
         //Now create the test data using harness page
-        AccountManufacturerRequest ar = new AccountManufacturerRequest();
+        ManufacturerOrganisationRequest ar = new ManufacturerOrganisationRequest();
         ar.isManufacturer = false;
         ar.updateName(AUTHORISED_REP_SMOKE_TEST);
         ar.updateNameEnding("_" + initials);

@@ -2,6 +2,7 @@ package com.mhra.mdcm.devices.dd.appian.pageobjects.business;
 
 import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.AccountRequest;
 import com.mhra.mdcm.devices.dd.appian.pageobjects._Page;
+import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.RandomDataUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.PageUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.WaitUtils;
 import org.openqa.selenium.By;
@@ -69,6 +70,8 @@ public class _CreateTestsData extends _Page {
     WebElement phoneNumber;
     @FindBy(xpath = ".//label[.='Email']//following::input[1]")
     WebElement emailAddress;
+    @FindBy(xpath = ".//label[.='User name']//following::input[1]")
+    WebElement userName;
 
     //Organisational Role
     @FindBy(xpath = ".//label[contains(text(),'Authorised Rep')]")
@@ -188,6 +191,7 @@ public class _CreateTestsData extends _Page {
         jobTitle.sendKeys(ar.jobTitle);
         phoneNumber.sendKeys(ar.phoneNumber);
         emailAddress.sendKeys(ar.email);
+        userName.sendKeys(RandomDataUtils.getRandomTestNameAdvanced("NUddin"));
 
         //Organisation Role
         if(ar.organisationRole.toLowerCase().equals("distributor")){

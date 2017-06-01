@@ -2,7 +2,7 @@ package com.mhra.mdcm.devices.dd.appian._junit_smokes.smoke;
 
 import com.mhra.mdcm.devices.dd.appian._junit_smokes.common.Common;
 import com.mhra.mdcm.devices.dd.appian.domains.junit.User;
-import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.AccountManufacturerRequest;
+import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.ManufacturerOrganisationRequest;
 import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.DeviceData;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.LoginPage;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.MainNavigationBar;
@@ -134,7 +134,7 @@ public class SmokeTestsAuthorisedRep extends Common {
     @Test
     public void asAUserIShouldBeAbleToCreateNewAuthorisedRepsWithDevices() throws Exception {
         //Account Data
-        AccountManufacturerRequest ar = new AccountManufacturerRequest();
+        ManufacturerOrganisationRequest ar = new ManufacturerOrganisationRequest();
         ar.isManufacturer = false;
         ar.updateName(AUTHORISED_REP_SMOKE_TEST);
         ar.updateNameEnding("_AT");

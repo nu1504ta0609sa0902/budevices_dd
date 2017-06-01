@@ -29,7 +29,7 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
 
     //This controls and limits the users (overrides excel)
     public String[] initialsArray = new String[]{
-            "AT", //"AT", "NU", "HB", "YC", "PG", "AN", "LP"
+            "NU", //"AT", "NU", "HB", "YC", "PG", "AN", "LP"
     };
 
     public static final String MANUFACTURER_SMOKE_TEST = "ManufacturerAccountST";

@@ -1,6 +1,6 @@
 package com.mhra.mdcm.devices.dd.appian.pageobjects.external;
 
-import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.AccountManufacturerRequest;
+import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.ManufacturerOrganisationRequest;
 import com.mhra.mdcm.devices.dd.appian.pageobjects._Page;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.external.sections.AddDevices;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.PageUtils;
@@ -79,7 +79,7 @@ public class _CreateManufacturerTestsData extends _Page {
      * @param saveDontDeclareDevices
      * @return
      */
-    public AddDevices createTestOrganisation(AccountManufacturerRequest ar, boolean saveDontDeclareDevices) throws Exception {
+    public AddDevices createTestOrganisation(ManufacturerOrganisationRequest ar, boolean saveDontDeclareDevices) throws Exception {
         //WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
         WaitUtils.nativeWaitInSeconds(3);
         //WaitUtils.waitForElementToBeClickable(driver, By.cssSelector(".PickerWidget---picker_value"), TIMEOUT_5_SECOND, false);
