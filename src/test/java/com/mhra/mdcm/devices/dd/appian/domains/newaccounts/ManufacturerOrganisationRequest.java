@@ -2,9 +2,12 @@ package com.mhra.mdcm.devices.dd.appian.domains.newaccounts;
 
 
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.RandomDataUtils;
+import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.TestHarnessUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.mhra.mdcm.devices.dd.appian.utils.selenium.others.TestHarnessUtils.getHardcodedFirstName;
 
 /**
  * Created by TPD_Auto
@@ -136,8 +139,15 @@ public class ManufacturerOrganisationRequest {
         if(data.length == 2){
             lastName = name;
         }else {
-            String business = data[2];
-            lastName = data[1] + "." + name;
+            if(data.length == 1){
+                lastName = name;
+                //ASSUMING excel sheet username is something like Manufacturer_NU or AuthorisedRep_AT etc
+                String initial = loggedInAs.split("_")[1];
+                firstName = getHardcodedFirstName(initial);
+            }else {
+                String business = data[2];
+                lastName = data[1] + "." + name;
+            }
         }
     }
 

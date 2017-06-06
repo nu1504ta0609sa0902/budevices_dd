@@ -20,6 +20,8 @@ public class ActionsPage extends _Page {
 
     @FindBy(xpath = ".//h3[contains(text(), 'Application complete')]")
     WebElement txtApplicationComplete;
+    @FindBy(xpath = ".//h3[contains(text(), 'Application complete')]/following::h4[1]")
+    WebElement txtApplicationReference;
 
 
     public ActionsPage(WebDriver driver) {
@@ -53,5 +55,9 @@ public class ActionsPage extends _Page {
         //linkCreateTestAccount.click();
         PageUtils.singleClick(driver, linkCreateTestAccount);
         return new _CreateTestsData(driver);
+    }
+
+    public String getApplicationReferenceNumber() {
+        return txtApplicationReference.getText();
     }
 }

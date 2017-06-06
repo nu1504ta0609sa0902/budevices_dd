@@ -23,13 +23,13 @@ import java.util.List;
  * Created by TPD_Auto on 01/11/2016.
  */
 @RunWith(Parameterized.class)
-public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
+public class _AllInOne_AddDevicesToNEWManufacturerAccounts_Main extends Common {
 
     private static User businessUser;
 
     //This controls and limits the users (overrides excel)
     public String[] initialsArray = new String[]{
-            "NU", //"AT", "NU", "HB", "YC", "PG", "AN", "LP"
+            "AT", //"AT", "NU", "HB", "YC", "PG", "AN", "LP"
     };
 
     public static final String MANUFACTURER_SMOKE_TEST = "ManufacturerAccountST";
@@ -51,7 +51,7 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
     private User manufacturerUser;
 
 
-    public _AllInOne_AddDevicesToManufacturers_Main(User user) {
+    public _AllInOne_AddDevicesToNEWManufacturerAccounts_Main(User user) {
         this.username = user.getUserName();
         this.password = user.getPassword();
         this.initials = user.getInitials();
@@ -68,7 +68,7 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
                 //REMEMBER ALL PREVIOUS MANUFACTURERS DATA WILL BE REMOVED
                 String initials = u.getInitials();
                 businessUser = setCorrectLoginDetails("_" + initials, listOfBusinessUsers);
-                _AllInOne_AddDevicesToManufacturers_Main tgs = new _AllInOne_AddDevicesToManufacturers_Main(businessUser);
+                _AllInOne_AddDevicesToNEWManufacturerAccounts_Main tgs = new _AllInOne_AddDevicesToNEWManufacturerAccounts_Main(businessUser);
 
                 //We only want to do it if the INITIALS in our initialsArray list
                 boolean isInitialFound = tgs.isInitialsInTheList(businessUser.getInitials());
@@ -370,33 +370,38 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
                 }
 
                 String orgName = ar.organisationName;
+                String accountNameOrReference = actionsPage.getApplicationReferenceNumber();
 
+                //Verify new taskSection generated and its the correct one
                 boolean contains = false;
                 boolean isCorrectTask = false;
-                int count2 = 0;
-                nameSelected = orgName;
+                int count = 0;
                 do {
                     mainNavigationBar = new MainNavigationBar(driver);
                     tasksPage = mainNavigationBar.clickTasks();
+                    taskSection = tasksPage.gotoApplicationWIPPage();
+                    PageUtils.acceptAlert(driver, true);
+
+                    //Search and view the application via reference number
+                    taskSection = taskSection.searchAWIPPageForAccount(accountNameOrReference);
 
                     //Click on link number X
-                    boolean isLinkVisible = tasksPage.isLinkVisible(orgName);
-                    //WaitUtils.nativeWaitInSeconds(3);
-                    if (isLinkVisible) {
-                        taskSection = tasksPage.clickOnLinkWithText(orgName);
-                        isCorrectTask = taskSection.isCorrectTask(orgName);
-                        if (isCorrectTask) {
-                            contains = true;
-                        } else {
-                            count2++;
-                        }
+                    try {
+                        taskSection = taskSection.clickOnApplicationReferenceLink(accountNameOrReference);
+                        contains = true;
+                    } catch (Exception e) {
+                        contains = false;
                     }
-                } while (!contains && count2 <= 5);
+                    count++;
+                } while (!contains && count <= 3);
 
                 //Accept the task
-                if (contains) {
-                    taskSection = taskSection.acceptTask();
-                    tasksPage = taskSection.approveTask();
+                if(contains) {
+                    taskSection = taskSection.assignTaskToMe();
+                    taskSection = taskSection.confirmAssignment(true);
+                    tasksPage = taskSection.approveTaskNewAccount();
+                    taskSection = taskSection.confirmAssignment(true);
+                    WaitUtils.nativeWaitInSeconds(5);
                 }
 
                 //assertThat("Task not found for organisation : " + orgName, contains, is(equalTo(true)));

@@ -150,8 +150,11 @@ public class AccountRequest {
 
 
 
-    public String getUserName() {
+    public String getUserName(boolean aRandomOne) {
         String lastName = generateLastName();
+        if(aRandomOne){
+            lastName = lastName + RandomDataUtils.getTodaysDate(false, "");
+        }
         return lastName + "_" + initials;
     }
 

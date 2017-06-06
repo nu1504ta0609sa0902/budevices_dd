@@ -55,6 +55,17 @@ public class RandomDataUtils {
         return cal.get(Calendar.DAY_OF_MONTH) + separator + (cal.get(Calendar.MONTH)+1) + separator + (cal.get(Calendar.YEAR));
     }
 
+
+    public static String getTodaysDate(boolean full, String separator) {
+        Calendar cal = Calendar.getInstance();
+        String date = cal.get(Calendar.DAY_OF_MONTH) + separator + (cal.get(Calendar.MONTH)+1);
+
+        if(full)
+        date = date + separator + (cal.get(Calendar.YEAR));
+
+        return date;
+    }
+
     public static String generateTestNameStartingWith(String test, int lengthOfString) {
         String aToZChars = "abcdefghijklmnopqrstuvwxyz";
         StringBuilder sb = new StringBuilder();

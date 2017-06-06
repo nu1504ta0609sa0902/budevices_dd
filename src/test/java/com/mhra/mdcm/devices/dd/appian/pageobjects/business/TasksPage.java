@@ -28,6 +28,9 @@ public class TasksPage extends _Page {
     @FindBy(partialLinkText = "New Account Request")
     List<WebElement> listOfNewAccount;
 
+    @FindBy(xpath = ".//span[contains(text(),'Application work in')]")
+    WebElement applicationWorkInProgress;
+
     @FindBy(xpath = ".//span[contains(text(),'Work In Progress')]")
     WebElement workInProgress;
     @FindBy(css = "div > table > tbody > tr")
@@ -107,5 +110,11 @@ public class TasksPage extends _Page {
         }else {
             return listOfWIPTableRows.size() > 0;
         }
+    }
+
+    public TaskSection gotoApplicationWIPPage() {
+        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+        applicationWorkInProgress.click();
+        return new TaskSection(driver);
     }
 }

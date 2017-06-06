@@ -55,6 +55,19 @@ public class TestHarnessUtils {
         return mapOfNames;
     }
 
+
+    public static String getHardcodedFirstName(String initial) {
+        Map<String, String> mapOfNames = new HashMap<>();
+        mapOfNames.put("NU", "Noor");
+        mapOfNames.put("HB", "Hasanein");
+        mapOfNames.put("YC", "Yaaseen");
+        mapOfNames.put("AN", "Andrew");
+        mapOfNames.put("PG", "Priya");
+        mapOfNames.put("LP", "Lambros");
+        mapOfNames.put("AT", "Auto");
+        return mapOfNames.get(initial);
+    }
+
     private static User getUser(String initials, List<User> listOfManufacturerUsers) {
         User user = null;
         for (User u : listOfManufacturerUsers) {
@@ -93,5 +106,16 @@ public class TestHarnessUtils {
         } catch (IOException e1) {
             e1.printStackTrace();
         }
+    }
+
+    public static User getUserWithInitials(String initials, List<User> listOfUsers) {
+        User u = null;
+        for(User user: listOfUsers){
+            if(user.getInitials().equals(initials)){
+                u = user;
+                break;
+            }
+        }
+        return  u;
     }
 }

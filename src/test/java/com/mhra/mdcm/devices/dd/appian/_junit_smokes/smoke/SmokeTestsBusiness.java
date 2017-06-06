@@ -251,6 +251,7 @@ public class SmokeTestsBusiness extends Common {
 
 
     @Test
+    @Ignore
     public void businessUsersCanCreateManufacturerAccountRequest() {
 
         //New account data
@@ -276,14 +277,15 @@ public class SmokeTestsBusiness extends Common {
         if(!isInCorrectPage){
             PageUtils.acceptAlert(driver, true);
             actionsPage = createTestsData.createNewAccountUsingBusinessTestHarness(ar);
+            isInCorrectPage = actionsPage.isApplicationSubmittedSuccessfully();
         }
 
-        boolean createdSuccessfully = actionsPage.isApplicationSubmittedSuccessfully();
-        if (createdSuccessfully) {
+        if (isInCorrectPage) {
             System.out.println("Created a new account : " + ar.organisationName);
         }
 
         String orgName = ar.organisationName;
+        String accountNameOrReference = actionsPage.getApplicationReferenceNumber();
 
         //Verify new taskSection generated and its the correct one
         boolean contains = false;
@@ -292,21 +294,26 @@ public class SmokeTestsBusiness extends Common {
         do {
             mainNavigationBar = new MainNavigationBar(driver);
             tasksPage = mainNavigationBar.clickTasks();
+            taskSection = tasksPage.gotoApplicationWIPPage();
             PageUtils.acceptAlert(driver, true);
+
+            //Search and view the application via reference number
+            taskSection = taskSection.searchAWIPPageForAccount(accountNameOrReference);
 
             //Click on link number X
             try {
-                taskSection = tasksPage.clickOnLinkWithText(orgName);
+                taskSection = taskSection.clickOnApplicationReferenceLink(accountNameOrReference);
                 contains = true;
             } catch (Exception e) {
                 contains = false;
             }
             count++;
-        } while (!contains && count <= 5);
+        } while (!contains && count <= 3);
 
         //Accept the task
         if(contains) {
-            taskSection = taskSection.acceptTask();
+            taskSection = taskSection.assignTaskToMe();
+            taskSection = taskSection.confirmAssignment(true);
             tasksPage = taskSection.approveTaskNewAccount();
             WaitUtils.nativeWaitInSeconds(5);
         }
@@ -318,6 +325,7 @@ public class SmokeTestsBusiness extends Common {
 
 
     @Test
+    @Ignore
     public void businessUsersCanCreateAuthorisedRepAccountRequest() {
 
         //Actual account data
@@ -350,6 +358,7 @@ public class SmokeTestsBusiness extends Common {
         }
 
         String orgName = ar.organisationName;
+        String accountNameOrReference = actionsPage.getApplicationReferenceNumber();
 
         //Verify new taskSection generated and its the correct one
         boolean contains = false;
@@ -358,22 +367,28 @@ public class SmokeTestsBusiness extends Common {
         do {
             mainNavigationBar = new MainNavigationBar(driver);
             tasksPage = mainNavigationBar.clickTasks();
+            taskSection = tasksPage.gotoApplicationWIPPage();
+            PageUtils.acceptAlert(driver, true);
+
+            //Search and view the application via reference number
+            taskSection = taskSection.searchAWIPPageForAccount(accountNameOrReference);
 
             //Click on link number X
             try {
-                taskSection = tasksPage.clickOnLinkWithText(orgName);
+                taskSection = taskSection.clickOnApplicationReferenceLink(accountNameOrReference);
                 contains = true;
             } catch (Exception e) {
                 contains = false;
             }
             count++;
-        } while (!contains && count <= 5);
+        } while (!contains && count <= 3);
 
         //Accept the task
         if(contains) {
-            taskSection = taskSection.acceptTask();
-            tasksPage = taskSection.approveTask();
-            WaitUtils.nativeWaitInSeconds(2);
+            taskSection = taskSection.assignTaskToMe();
+            taskSection = taskSection.confirmAssignment(true);
+            tasksPage = taskSection.approveTaskNewAccount();
+            WaitUtils.nativeWaitInSeconds(5);
         }
 
         assertThat("Task not found for organisation : " + orgName, contains, is(equalTo(true)));
@@ -418,6 +433,7 @@ public class SmokeTestsBusiness extends Common {
         }
 
         String orgName = ar.organisationName;
+        String accountNameOrReference = actionsPage.getApplicationReferenceNumber();
 
         //Verify new taskSection generated and its the correct one
         boolean contains = false;
@@ -426,22 +442,28 @@ public class SmokeTestsBusiness extends Common {
         do {
             mainNavigationBar = new MainNavigationBar(driver);
             tasksPage = mainNavigationBar.clickTasks();
+            taskSection = tasksPage.gotoApplicationWIPPage();
+            PageUtils.acceptAlert(driver, true);
+
+            //Search and view the application via reference number
+            taskSection = taskSection.searchAWIPPageForAccount(accountNameOrReference);
 
             //Click on link number X
             try {
-                taskSection = tasksPage.clickOnLinkWithText(orgName);
+                taskSection = taskSection.clickOnApplicationReferenceLink(accountNameOrReference);
                 contains = true;
             } catch (Exception e) {
                 contains = false;
             }
             count++;
-        } while (!contains && count <= 5);
+        } while (!contains && count <= 3);
 
         //Accept the task
         if(contains) {
-            taskSection = taskSection.acceptTask();
-            tasksPage = taskSection.approveTask();
-            WaitUtils.nativeWaitInSeconds(2);
+            taskSection = taskSection.assignTaskToMe();
+            taskSection = taskSection.confirmAssignment(true);
+            tasksPage = taskSection.approveTaskNewAccount();
+            WaitUtils.nativeWaitInSeconds(5);
         }
 
         assertThat("Task not found for organisation : " + orgName, contains, is(equalTo(true)));

@@ -9,6 +9,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.List;
+
 /**
  * Created by TPD_Auto
  */
@@ -36,6 +38,20 @@ public class TaskSection extends _Page {
     WebElement approve;
     @FindBy(xpath = ".//button[.='Reject Registration']")
     WebElement reject;
+
+    //Application WIP page
+    @FindBy(xpath = ".//*[text()='Urgency']/following::tr/td[1]")
+    List<WebElement> listOfApplicationReferences;
+    @FindBy(xpath = ".//*[contains(text(), 'Search by manufacturer')]/following::input[1]")
+    WebElement tbxSearchByManufacturer;
+    @FindBy(xpath = ".//button[text()='Search']")
+    WebElement btnSearchForManufacuturer;
+    @FindBy(xpath = ".//button[text()='Assign to myself']")
+    WebElement btnAssignToMe;
+    @FindBy(xpath = ".//button[text()='Yes']")
+    WebElement btnConfirmYesAssignToMe;
+    @FindBy(xpath = ".//button[text()='No']")
+    WebElement btnConfirmNoAssignToMe;
 
     //Rejection reason
     @FindBy(xpath = ".//label[.='Other']")
@@ -153,6 +169,40 @@ public class TaskSection extends _Page {
             }
         }
 
+        return new TaskSection(driver);
+    }
+
+    public TaskSection searchAWIPPageForAccount(String accountNameOrReference) {
+        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+        WaitUtils.waitForElementToBeClickable(driver, tbxSearchByManufacturer, TIMEOUT_10_SECOND);
+        tbxSearchByManufacturer.sendKeys(accountNameOrReference);
+        btnSearchForManufacuturer.click();
+        listOfApplicationReferences.size();
+        return new TaskSection(driver);
+    }
+
+    public TaskSection clickOnApplicationReferenceLink(String accountNameOrReference) {
+        WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText(accountNameOrReference), TIMEOUT_5_SECOND, false);
+        WebElement taskLink = driver.findElement(By.partialLinkText(accountNameOrReference));
+        taskLink.click();
+        log.info("Reference found for : " + accountNameOrReference);
+        return new TaskSection(driver);
+    }
+
+
+    public TaskSection assignTaskToMe() {
+        WaitUtils.waitForElementToBeClickable(driver, btnAssignToMe, TIMEOUT_10_SECOND);
+        btnAssignToMe.click();
+        return new TaskSection(driver);
+    }
+
+    public TaskSection confirmAssignment(boolean clickYes) {
+        WaitUtils.waitForElementToBeClickable(driver, btnConfirmYesAssignToMe, TIMEOUT_10_SECOND);
+        if(clickYes){
+            btnConfirmYesAssignToMe.click();
+        }else{
+            btnConfirmNoAssignToMe.click();
+        }
         return new TaskSection(driver);
     }
 }
