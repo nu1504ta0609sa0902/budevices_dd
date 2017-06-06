@@ -114,9 +114,6 @@ public class AccountRequest {
         return title;
     }
 
-    public static void main(String[] args){
-        AccountRequest ar = new AccountRequest();
-    }
 
     public void setUserDetails(String loggedInAs) {
         String[] data = loggedInAs.split("\\.");
