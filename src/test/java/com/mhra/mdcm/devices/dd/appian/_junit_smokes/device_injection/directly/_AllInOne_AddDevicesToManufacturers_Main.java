@@ -341,6 +341,7 @@ public class _AllInOne_AddDevicesToManufacturers_Main extends Common {
             ar.isManufacturer = true;
             ar.updateName(MANUFACTURER_SMOKE_TEST);
             ar.updateNameEnding("_" + initials);
+            ar.initials = manufacturerUser.getInitials();
             ar.setUserDetails(username);
             ar.firstName = TestHarnessUtils.getName(initials, manufacturerUser, true);
             ar.lastName = TestHarnessUtils.getName(initials, manufacturerUser, false);

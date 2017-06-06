@@ -407,7 +407,7 @@ public class _AllInOne_AddDevicesToAuthorisedReps_Main extends Common {
             ar.updateName(AUTHORISED_REP_ACCOUNT_SMOKE_TEST);
             ar.updateNameEnding("_" + manufacturerUser.getInitials());
             ar.setUserDetails(username);
-            //ar.title = "Miss";
+            ar.initials = manufacturerUser.getInitials();
             ar.firstName = TestHarnessUtils.getName(initials, manufacturerUser, true);
             ar.lastName = TestHarnessUtils.getName(initials, manufacturerUser, false);
 

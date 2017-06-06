@@ -37,6 +37,7 @@ public class AccountRequest {
     public String jobTitle;
     public String phoneNumber;
     public String email;
+    public String initials;
 
     //Organisation Role
 //    public String autorisedRep;
@@ -148,6 +149,13 @@ public class AccountRequest {
             }
         }
         return business;
+    }
+
+
+
+    public String getUserName() {
+        String lastName = generateLastName();
+        return lastName + "_" + initials;
     }
 
     public void updateName(String nameBeginsWith) {

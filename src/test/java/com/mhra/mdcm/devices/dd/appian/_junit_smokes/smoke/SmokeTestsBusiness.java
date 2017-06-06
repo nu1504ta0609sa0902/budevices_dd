@@ -251,7 +251,6 @@ public class SmokeTestsBusiness extends Common {
 
 
     @Test
-    //@Ignore
     public void businessUsersCanCreateManufacturerAccountRequest() {
 
         //New account data
@@ -259,6 +258,7 @@ public class SmokeTestsBusiness extends Common {
         ar.isManufacturer = true;
         ar.updateName(MANUFACTURER_SMOKE_TEST);
         ar.updateNameEnding("_" + initials);
+        ar.initials = initials;
         ar.organisationRole = "Manufacturer";
         ar.setUserDetails(username);
 
@@ -318,7 +318,6 @@ public class SmokeTestsBusiness extends Common {
 
 
     @Test
-    //@Ignore
     public void businessUsersCanCreateAuthorisedRepAccountRequest() {
 
         //Actual account data
@@ -326,7 +325,7 @@ public class SmokeTestsBusiness extends Common {
         ar.isManufacturer = false;
         ar.updateName(AUTHORISED_REP_SMOKE_TEST);
         ar.updateNameEnding("_" + initials);
-        //ar.organisationRole = "Authorised Representation";
+        ar.initials = initials;
         ar.setUserDetails(username);
 
         //Now create the test data using harness page
@@ -393,6 +392,7 @@ public class SmokeTestsBusiness extends Common {
         ar.isManufacturer = true;
         ar.updateName(DISTRIBUTOR_SMOKE_TEST);
         ar.updateNameEnding("_" + initials);
+        ar.initials = initials;
         ar.organisationRole = "Distributor";
         ar.setUserDetails(username);
 

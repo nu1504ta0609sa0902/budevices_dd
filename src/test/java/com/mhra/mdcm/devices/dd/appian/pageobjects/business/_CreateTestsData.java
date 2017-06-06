@@ -191,7 +191,7 @@ public class _CreateTestsData extends _Page {
         jobTitle.sendKeys(ar.jobTitle);
         phoneNumber.sendKeys(ar.phoneNumber);
         emailAddress.sendKeys(ar.email);
-        userName.sendKeys(RandomDataUtils.getRandomTestNameAdvanced("NUddin"));
+        userName.sendKeys(ar.getUserName());
 
         //Organisation Role
         if(ar.organisationRole.toLowerCase().equals("distributor")){
