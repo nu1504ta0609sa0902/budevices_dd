@@ -1,6 +1,7 @@
 package com.mhra.mdcm.devices.dd.appian.domains.newaccounts;
 
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.RandomDataUtils;
+import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.TestHarnessUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +39,7 @@ public class AccountRequest {
     public String phoneNumber;
     public String email;
     public String initials;
+    public String userName;
 
     //Organisation Role
 //    public String autorisedRep;
@@ -62,7 +64,7 @@ public class AccountRequest {
 
         //Organisation Details
         address1 = RandomDataUtils.getRandomNumberBetween(1, 200) + " " + RandomDataUtils.generateTestNameStartingWith("Test", 20) + " GrowLand Avenue";
-        if(address1.equals("")){
+        if (address1.equals("")) {
             address1 = "111 This is weired St";
         }
         address2 = "South West";
@@ -84,7 +86,7 @@ public class AccountRequest {
         firstName = RandomDataUtils.generateTestNameStartingWith("Noor", 5); //RandomDataUtils.getRandomTestName("Noor").replace("_", "");
         lastName = RandomDataUtils.generateTestNameStartingWith("Uddin", 5); //RandomDataUtils.getRandomTestName("Uddin").replace("_", "");
         jobTitle = getRandomJobTitle();
-        phoneNumber = "01351" + (int) RandomDataUtils.getRandomDigits(7);;
+        phoneNumber = "01351" + (int) RandomDataUtils.getRandomDigits(7);
         email = "mhra.uat@gmail.com";
 
         //Organisation Role
@@ -122,25 +124,33 @@ public class AccountRequest {
 
         //Because we have Auto.Business and Noor.Uddin.Business
         String name = generateLastName();
-        if(data.length == 2){
+        if (data.length == 2) {
             lastName = name;
-        }else {
-            lastName = data[1] + "." + name;
+        } else {
+            if (data.length == 1) {
+                lastName = name;
+                //ASSUMING excel sheet username is something like Manufacturer_NU or AuthorisedRep_AT etc
+                String initial = loggedInAs.split("_")[1];
+                firstName = TestHarnessUtils.getHardcodedFirstName(initial);
+            } else {
+                String business = data[2];
+                lastName = data[1] + "." + name;
+            }
         }
     }
 
     private String generateLastName() {
         String business = "";
-        if(organisationRole!=null){
-            if(organisationRole.toLowerCase().equals("distributor")){
+        if (organisationRole != null) {
+            if (organisationRole.toLowerCase().equals("distributor")) {
                 business = "Distributor";
-            }else if(organisationRole.toLowerCase().equals("notifiedbody")){
+            } else if (organisationRole.toLowerCase().equals("notifiedbody")) {
                 business = "NotifiedBody";
-            }else{
+            } else {
                 //It can only be a manufacturer or authorisedRep
-                if(isManufacturer){
+                if (isManufacturer) {
                     business = "Manufacturer";
-                }else{
+                } else {
                     business = "AuthorisedRep";
                 }
             }
@@ -149,17 +159,19 @@ public class AccountRequest {
     }
 
 
-
     public String getUserName(boolean aRandomOne) {
         String lastName = generateLastName();
-        if(aRandomOne){
+        if (aRandomOne) {
             lastName = lastName + RandomDataUtils.getTodaysDate(false, "");
         }
-        return lastName + "_" + initials;
+        String userName = lastName + "_" + initials;
+        System.out.println("Create account with UserName : " + userName);
+        this.userName = userName;
+        return userName;
     }
 
     public void updateName(String nameBeginsWith) {
-        if(organisationRole!=null) {
+        if (organisationRole != null) {
             if (organisationRole.toLowerCase().equals("distributor")) {
                 organisationName = organisationName.replace("OrganisationTest", nameBeginsWith);
                 website = website.replace("organisationtest", nameBeginsWith);

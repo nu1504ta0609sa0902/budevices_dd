@@ -1,6 +1,7 @@
-package com.mhra.mdcm.devices.dd.appian._junit_smokes.device_injection.directly;
+package com.mhra.mdcm.devices.dd.appian._junit_smokes.device_injection.directly.allinone;
 
 import com.mhra.mdcm.devices.dd.appian._junit_smokes.common.Common;
+import com.mhra.mdcm.devices.dd.appian._junit_smokes.device_injection.directly.ExcelDirectDeviceDataUtils;
 import com.mhra.mdcm.devices.dd.appian.domains.junit.User;
 import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.ManufacturerOrganisationRequest;
 import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.AccountRequest;
@@ -28,9 +29,7 @@ import java.util.List;
 public class _AllInOne_AddDevicesToNEWAuthorisedRepAccounts_Main extends Common {
 
     private static User businessUser;
-    public String[] initialsArray = new String[]{
-            "AT", //"AT", "NU", "HB", "YC", "PG", "AN", "LP"
-    };
+
     public static final String AUTHORISED_REP_ACCOUNT_SMOKE_TEST = "AuthorisedRepAccountST";
     public static final String AUTHORISED_REP_SMOKE_TEST = "AuthorisedRepST";
 
@@ -53,6 +52,7 @@ public class _AllInOne_AddDevicesToNEWAuthorisedRepAccounts_Main extends Common 
     public _AllInOne_AddDevicesToNEWAuthorisedRepAccounts_Main(User user) {
         this.username = user.getUserName();
         this.password = user.getPassword();
+        this.initials = user.getInitials();
     }
 
     public static void main(String[] args) {
@@ -77,15 +77,15 @@ public class _AllInOne_AddDevicesToNEWAuthorisedRepAccounts_Main extends Common 
                 if (isInitialFound) {
 
                     //Get correct authorisedRep user and create a new account
-                    User manufacturerUser = ExcelDirectDeviceDataUtils.getCorrectLoginDetailsManufacturer(initials, listOfAuthorisedRepUsers);
-                    tgs.createNewAccountForAuthorisedRepWithBusinessTestHarness(manufacturerUser);
+                    User authorisedRepUser = TestHarnessUtils.getUserWithInitials(initials, listOfAuthorisedRepUsers);
+                    tgs.createNewAccountForAuthorisedRepWithBusinessTestHarness(businessUser, authorisedRepUser);
 
                     /**
                      * All data cleared:Provide indication of devices made
                      * Create by logging into individual Account for the INITIALS
                      */
                     log.info("Now create a new organisation and add devices to : ");
-                    tgs.createNewAuthorisedRepsWithDevices(listOfAuthorisedRepUsers);
+                    tgs.createNewAuthorisedRepsWithDevices(authorisedRepUser);
                 } else {
                     System.out.println("Not creating any data for : " + businessUser + "\nCheck initialsArray contains the initials : " + businessUser.getInitials());
                 }
@@ -132,22 +132,21 @@ public class _AllInOne_AddDevicesToNEWAuthorisedRepAccounts_Main extends Common 
      *
      * Add devices to each of the manufacturers successfully created
      *
-     * @param listOfAuthorisedRepUsers
+     * @param manufacturerUser
      */
-    private void createNewAuthorisedRepsWithDevices(List<User> listOfAuthorisedRepUsers) {
+    private void createNewAuthorisedRepsWithDevices(User manufacturerUser) {
 
         /**
          * LIST OF MANUFACTURERS CREATED FOR EACH OF THE INITIALS IN THE ARRAY
          */
         List<String> listOfAccountsCreatedWithBusinessTestHarness = getListOfAccountsCreatedByBusiness();
 
-        for (String manufacturerName : listOfAccountsCreatedWithBusinessTestHarness) {
+        //for (String manufacturerName : listOfAccountsCreatedWithBusinessTestHarness) {
             try {
 
                 //Set manufacturer account login details
-                nameSelected = manufacturerName;
+                nameSelected = manufacturerUser.getUserName();
                 initials = nameSelected.substring(nameSelected.indexOf("_"));
-                manufacturerUser = ExcelDirectDeviceDataUtils.getCorrectLoginDetailsManufacturer(initials, listOfAuthorisedRepUsers);
                 setLoginDetails(manufacturerUser);
 
                 //"Provide Indication Of Devices For : " + manufacturerName
@@ -160,7 +159,7 @@ public class _AllInOne_AddDevicesToNEWAuthorisedRepAccounts_Main extends Common 
                     //
                     registerANewManufacturer();
                     createAuthorisedRepsWithManufacturerTestHarness2(manufacturerUser);
-                    createDevicesFor(manufacturerUser, manufacturerName, false);
+                    createDevicesFor(manufacturerUser, nameSelected, false);
 
                     WaitUtils.nativeWaitInSeconds(2);
                     //loginPage = loginPage.logoutIfLoggedIn();
@@ -180,7 +179,7 @@ public class _AllInOne_AddDevicesToNEWAuthorisedRepAccounts_Main extends Common 
                 WaitUtils.nativeWaitInSeconds(2);
                 loginPage = loginPage.logoutIfLoggedIn();
             }
-        }
+        //}
     }
 
     private void registerANewManufacturer() {
@@ -397,7 +396,7 @@ public class _AllInOne_AddDevicesToNEWAuthorisedRepAccounts_Main extends Common 
     }
 
 
-    private void createNewAccountForAuthorisedRepWithBusinessTestHarness(User manufacturerUser) {
+    private void createNewAccountForAuthorisedRepWithBusinessTestHarness(User businessUser, User authorisedRepUser) {
 
         //for (String initials : initialsArray) {
 
@@ -405,18 +404,19 @@ public class _AllInOne_AddDevicesToNEWAuthorisedRepAccounts_Main extends Common 
             ar.isManufacturer = false;
             ar.country = "United Kingdom";
             ar.updateName(AUTHORISED_REP_ACCOUNT_SMOKE_TEST);
-            ar.updateNameEnding("_" + manufacturerUser.getInitials());
-            ar.setUserDetails(username);
-            ar.initials = manufacturerUser.getInitials();
-            ar.firstName = TestHarnessUtils.getName(initials, manufacturerUser, true);
-            ar.lastName = TestHarnessUtils.getName(initials, manufacturerUser, false);
+            ar.updateNameEnding("_" + businessUser.getInitials());
+            ar.setUserDetails(authorisedRepUser.getUserName());
+            ar.initials = businessUser.getInitials();
+            //ar.firstName = TestHarnessUtils.getName(initials, businessUser, true);
+            //ar.lastName = TestHarnessUtils.getName(initials, businessUser, false);
+            ar.initials = initials;
 
             try {
 
                 //Login and try to create it
                 loginPage = new LoginPage(driver);
                 loginPage = loginPage.loadPage(baseUrl);
-                MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
+                MainNavigationBar mainNavigationBar = loginPage.loginAs(businessUser.getUserName(), businessUser.getPassword());
 
                 //go to accounts page > test harness page
                 actionsPage = mainNavigationBar.clickActions();
@@ -591,8 +591,8 @@ public class _AllInOne_AddDevicesToNEWAuthorisedRepAccounts_Main extends Common 
             WaitUtils.nativeWaitInSeconds(4);
             loginPage = loginPage.logoutIfLoggedInOthers();
             mainNavigationBar = loginPage.loginAs(businessUser.getUserName(), businessUser.getPassword());
-            //approveTheGeneratedTask(nameSelected);
-            //approveTheGeneratedTaskSimple(nameSelected, registered);
+            //approveTheGeneratedTask(newOrganisationCreated);
+            //approveTheGeneratedTaskSimple(newOrganisationCreated, registered);
             String link = "Update";
             if (registered != null && registered.toLowerCase().equals("not registered")) {
                 link = link.replace("Update", "New");
@@ -693,7 +693,7 @@ public class _AllInOne_AddDevicesToNEWAuthorisedRepAccounts_Main extends Common 
 //        manufacturerUser = user;
 //        //addToListOfManufacturersCreatedWithInitials(initials, listOfAccountsCreatedWithTesterInitials, ar.organisationName);
 //        listOfAccountsCreatedWithTesterInitials.add(ar.organisationName);
-//        nameSelected = ar.organisationName;
+//        newOrganisationCreated = ar.organisationName;
 //
 //    }
 

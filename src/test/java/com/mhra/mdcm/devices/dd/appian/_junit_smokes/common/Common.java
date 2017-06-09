@@ -34,6 +34,11 @@ import java.util.Date;
  */
 public class Common {
 
+    //This controls and limits the users (overrides excel)
+    public String[] initialsArray = new String[]{
+            "NU", //"AT", "NU", "HB", "YC", "PG", "AN", "LP"
+    };
+
     public static WebDriver driver;
     static {
         //This helps with creating log files each time we run the tests, remember append=false needs to be set
