@@ -36,7 +36,7 @@ public class Common {
 
     //This controls and limits the users (overrides excel)
     public String[] initialsArray = new String[]{
-            "NU", //"AT", "NU", "HB", "YC", "PG", "AN", "LP"
+            "AT", //"AT", "NU", "HB", "YC", "PG", "AN", "LP"
     };
 
     public static WebDriver driver;

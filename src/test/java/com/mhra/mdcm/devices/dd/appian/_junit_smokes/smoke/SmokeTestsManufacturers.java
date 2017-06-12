@@ -164,6 +164,8 @@ public class SmokeTestsManufacturers extends Common {
         dd.device = "Blood Weighing";
         dd.customMade = "Y";
         addDevices = addDevices.addFollowingDevice(dd);
+
+        //Proceed to payments
         addDevices = addDevices.proceedToReview();
         addDevices = addDevices.proceedToPayment();
         addDevices = addDevices.confirmPayment();

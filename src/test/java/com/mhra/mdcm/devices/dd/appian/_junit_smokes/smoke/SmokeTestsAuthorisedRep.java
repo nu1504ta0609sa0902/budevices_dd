@@ -160,6 +160,8 @@ public class SmokeTestsAuthorisedRep extends Common {
         dd.deviceType = "General Medical Device";
         dd.device = "Blood Weighing";
         dd.customMade = "Y";
+
+        //Proceed to payments
         addDevices = addDevices.addFollowingDevice(dd);
         addDevices = addDevices.proceedToReview();
         addDevices = addDevices.proceedToPayment();

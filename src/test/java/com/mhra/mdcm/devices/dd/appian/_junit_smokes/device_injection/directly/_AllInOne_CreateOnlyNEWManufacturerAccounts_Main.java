@@ -56,7 +56,7 @@ public class _AllInOne_CreateOnlyNEWManufacturerAccounts_Main extends Common {
                 //We only want to do it if the INITIALS in our initialsArray list
                 boolean isInitialFound = tgs.isInitialsInTheList(businessUser.getInitials());
                 if (isInitialFound) {
-
+                    log.info("Creating for user with initials : " + initials);
                     //Create a new account for the manufacturer user
                     User manufacturerUser = TestHarnessUtils.getUserWithInitials(initials, listOfManufacturerUsers);
                     tgs.createManufacturerAccountWithBusinessTestHarness(businessUser, manufacturerUser);
@@ -64,11 +64,11 @@ public class _AllInOne_CreateOnlyNEWManufacturerAccounts_Main extends Common {
                     //FLOW CHANGED, now email is sent and you must change the password to use the account 06/2017
 
                 } else {
-                    System.out.println("Not creating any data for : " + businessUser + "\nCheck initialsArray contains the initials : " + businessUser.getInitials());
+                    log.info("Not creating any data for : " + businessUser + "\nCheck initialsArray contains the initials : " + businessUser.getInitials());
                 }
 
             } catch (Exception e) {
-                System.out.println("Try and setup data for next user ");
+                log.info("Try and setup data for next user ");
             }
         }
 
@@ -142,15 +142,14 @@ public class _AllInOne_CreateOnlyNEWManufacturerAccounts_Main extends Common {
                 boolean isInCorrectPage = actionsPage.isApplicationSubmittedSuccessfully();
                 if (!isInCorrectPage) {
                     actionsPage = createTestsData.createNewAccountUsingBusinessTestHarness(ar);
-                }
-
-                boolean createdSuccessfully = actionsPage.isApplicationSubmittedSuccessfully();
-                if (createdSuccessfully) {
-                    System.out.println("Created a new account : " + ar.organisationName);
+                }else{
+                    log.info("Created a new Manufacturer account : " + ar.organisationName);
+                    log.info("Username : " + ar.userName);
                 }
 
                 String orgName = ar.organisationName;
                 String accountNameOrReference = actionsPage.getApplicationReferenceNumber();
+                log.info("Account reference number : " + accountNameOrReference);
 
                 //Verify new taskSection generated and its the correct one
                 boolean contains = false;

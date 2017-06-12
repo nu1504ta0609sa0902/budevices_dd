@@ -31,7 +31,7 @@ public class DeviceData {
     public String CE;
     public String intended;
     public String notifiedBody;
-    public String productNames;
+    public String productName;
     public String productMakes;
     public String productModels;
     public String manufacturerCodes;
@@ -167,7 +167,7 @@ public class DeviceData {
                 "\nCE='" + CE + '\'' +
                 "\nintended='" + intended + '\'' +
                 "\nnotifiedBody='" + notifiedBody + '\'' +
-                "\nproductNames='" + productNames + '\'' +
+                "\nproductName='" + productName + '\'' +
                 "\nproductMakes='" + productMakes + '\'' +
                 "\nproductModels='" + productModels + '\'' +
                 "\nmanufacturerCodes='" + manufacturerCodes + '\'' +

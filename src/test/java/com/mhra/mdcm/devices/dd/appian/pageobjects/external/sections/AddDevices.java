@@ -132,6 +132,8 @@ public class AddDevices extends _Page {
     WebElement cbxProductName;
     @FindBy(xpath = ".//label[contains(text(),'and model')]")
     WebElement cbxMakeAndModel;
+    @FindBy(xpath = ".//button[.='Save product']")
+    WebElement saveProduct2;
 
     @FindBy(xpath = ".//*[contains(text(),'performance eval')]//following::label[1]")
     WebElement radioSubjectToPerformanceEvalYes;
@@ -217,6 +219,25 @@ public class AddDevices extends _Page {
     @FindBy(partialLinkText = "Back to service")
     WebElement linkBackToService;
 
+    @FindBy(xpath = ".//h3[contains(text(), 'Application complete')]/following::h4[1]")
+    WebElement txtApplicationReference;
+
+    //Payment methods
+    @FindBy(xpath = ".//label[contains(text(),'Worldpay')]")
+    WebElement paymentWorldPay;
+    @FindBy(xpath = ".//label[contains(text(),'BACS')]")
+    WebElement paymentBACS;
+    @FindBy(xpath = ".//button[contains(text(),'Complete application')]")
+    WebElement btnCompleteApplication;
+    @FindBy(xpath = ".//div[@role='listbox']")
+    WebElement ddAddressBox;
+
+    //Product details : New Medical device names
+    @FindBy(xpath = ".//*[contains(text(),'Medical device name')]//following::input[1]")
+    WebElement pdMedicalDeviceName;
+    @FindBy(xpath = ".//*[contains(text(),'Medical Device Name')]//following::input[1]")
+    WebElement pdMedicalDeviceNameAIMD;
+
     public AddDevices(WebDriver driver) {
         super(driver);
     }
@@ -292,8 +313,10 @@ public class AddDevices extends _Page {
             deviceMeasuring(dd);
 
             if (dd.sterile.toLowerCase().equals("y") || dd.measuring.toLowerCase().equals("y")) {
-                if (dd.customMade.toLowerCase().equals("n"))
+                if (dd.customMade.toLowerCase().equals("n")) {
+                    riskClassification(dd);
                     notifiedBody(dd);
+                }
             }
         }
         //saveProduct(dd);
@@ -303,11 +326,16 @@ public class AddDevices extends _Page {
         searchByGMDN(dd);
         riskClassificationIVD(dd);
 
+        int productCount = 0;
         //No product needs to be added when Risk Classification = IVD General
         if (dd.riskClassification != null && !dd.riskClassification.equals("ivd general")) {
             for (ProductDetail x : dd.listOfProductDetails) {
-                dd.productNames = x.name;
-                addProduct(x);
+                dd.productName = x.name;
+                //addProduct(x);
+                if(productCount > 0){
+                    PageUtils.clickIfVisible(driver, addProduct);
+                }
+                addProductNew(dd);
                 notifiedBody(dd);
                 subjectToPerformanceEval(dd);
                 productNewToMarket(dd);
@@ -317,41 +345,76 @@ public class AddDevices extends _Page {
                 saveProduct(dd);
 
                 //Remove this if we find a better solution
+                WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
                 WaitUtils.nativeWaitInSeconds(1);
+
+                productCount++;
             }
         }
+    }
+
+    private void addProductNew(DeviceData dd) {
+        WaitUtils.waitForElementToBeClickable(driver, pdMedicalDeviceName, TIMEOUT_15_SECOND, false);
+        pdMedicalDeviceName.clear();
+        pdMedicalDeviceName.sendKeys(RandomDataUtils.getRandomTestName(dd.productName));
     }
 
     private void addActiveImplantableDevice(DeviceData dd) {
         searchByGMDN(dd);
         customMade(dd);
-        int numberOfProductName = dd.listOfProductDetails.size();
-        if (numberOfProductName <= 1) {
-            if (numberOfProductName == 1) {
-                dd.productNames = dd.listOfProductDetails.get(0).name;
-            }
-            //List of device to add
-            if (dd.customMade.toLowerCase().equals("y")) {
-                productLabelName(dd);
-            }
-        } else {
-            for (ProductDetail x : dd.listOfProductDetails) {
-                productLabelName(x.name);
-            }
-        }
-        //saveProduct(dd);
+//        int numberOfProductName = dd.listOfProductDetails.size();
+//        if (numberOfProductName <= 1) {
+//            if (numberOfProductName == 1) {
+//                dd.productName = dd.listOfProductDetails.get(0).name;
+//            }
+//            //List of device to add
+//            if (dd.customMade.toLowerCase().equals("y")) {
+//                productLabelName(dd);
+//            }
+//        } else {
+//            for (ProductDetail x : dd.listOfProductDetails) {
+//                productLabelName(x.name);
+//            }
+//        }
+
+       if (dd.customMade.toLowerCase().equals("y")) {
+           for (ProductDetail x : dd.listOfProductDetails) {
+               productDetailsAIMD(x.name);
+           }
+       }
     }
+
+
 
     private void addProcedurePackDevice(DeviceData dd) {
         searchByGMDN(dd);
+        addProductNew(dd);
         deviceSterile(dd);
 
-        if (dd.sterile.toLowerCase().equals("y") || dd.measuring.toLowerCase().equals("y")) {
-            notifiedBody(dd);
-        }
-        packIncorporated(dd);
+        //Removed in the deployment 12/06/2017
+//        if (dd.sterile.toLowerCase().equals("y") || dd.measuring.toLowerCase().equals("y")) {
+//            notifiedBody(dd);
+//        }
+
+        isBearingCEMarking(dd);
         devicesCompatible(dd);
-        //saveProduct(dd);
+        PageUtils.uploadDocument(listOfFileUploads.get(0), "DeviceInstructionForUse1.pdf", 1, 3);
+    }
+
+
+    private void productDetailsAIMD(String deviceName) {
+        PageUtils.clickOneOfTheFollowing(driver, addProduct, addProduct2, TIMEOUT_1_SECOND);
+
+        WaitUtils.waitForElementToBeClickable(driver, pdMedicalDeviceNameAIMD, TIMEOUT_5_SECOND);
+        pdMedicalDeviceNameAIMD.sendKeys(RandomDataUtils.getRandomTestName(deviceName));
+
+        PageUtils.uploadDocument(fileUpload, "DeviceLabelDoc2.pdf", 1, 3);
+        PageUtils.uploadDocument(listOfFileUploads.get(0), "DeviceInstructionForUse1.pdf", 1, 3);
+
+        //Save product label details
+        WaitUtils.waitForElementToBeClickable(driver, saveProduct2, TIMEOUT_5_SECOND);
+        saveProduct2.click();
+
     }
 
     private void productLabelName(DeviceData dd) {
@@ -462,7 +525,7 @@ public class AddDevices extends _Page {
         }
     }
 
-    private void packIncorporated(DeviceData dd) {
+    private void isBearingCEMarking(DeviceData dd) {
         //Are the chosen combination of medical devices compatible in view of their original intended use?
         WaitUtils.waitForElementToBeClickable(driver, ppPackIncorporatedCEMarkingYes, TIMEOUT_15_SECOND, false);
         if (dd.CE.toLowerCase().equals("y")) {
@@ -484,6 +547,8 @@ public class AddDevices extends _Page {
         //Select notified body
         if (notifiedBodyOptionsCorrect && dd.notifiedBody != null && dd.notifiedBody.toLowerCase().contains("bsi")) {
             PageUtils.singleClick(driver, nb0086BSI);
+        } if (notifiedBodyOptionsCorrect && dd.notifiedBody != null && dd.notifiedBody.toLowerCase().contains("0088")) {
+            PageUtils.singleClick(driver, nb0088BSI);
         } else if (notifiedBodyOptionsCorrect && dd.notifiedBody != null && dd.notifiedBody.toLowerCase().contains("Other")) {
             PageUtils.clickIfVisible(driver, nbOther);
         } else {
@@ -502,9 +567,9 @@ public class AddDevices extends _Page {
 
     private void changeNotifiedBody() {
         try {
-            WaitUtils.waitForElementToBeClickable(driver, linkChangeNotifiedBody, TIMEOUT_5_SECOND, false);
+            WaitUtils.waitForElementToBeClickable(driver, linkChangeNotifiedBody, TIMEOUT_1_SECOND, false);
             linkChangeNotifiedBody.click();
-            WaitUtils.waitForElementToBeClickable(driver, nb0086BSI, TIMEOUT_5_SECOND, false);
+            WaitUtils.waitForElementToBeClickable(driver, nb0086BSI, TIMEOUT_1_SECOND, false);
             WaitUtils.nativeWaitInSeconds(1);
         } catch (Exception e) {
             //Bug which maintains previous selection of notified body
@@ -778,5 +843,30 @@ public class AddDevices extends _Page {
         WaitUtils.waitForElementToBeClickable(driver, btnSaveProgress, TIMEOUT_15_SECOND, false);
         PageUtils.doubleClick(driver, btnSaveProgress);
         return new AddDevices(driver);
+    }
+
+
+    public AddDevices enterPaymentDetails(String paymentMethod) {
+        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+        WaitUtils.waitForElementToBeClickable(driver, ddAddressBox, TIMEOUT_5_SECOND);
+
+        //Select billing address:
+        PageUtils.selectFromDropDown(driver, ddAddressBox , "Registered Address", false);
+
+        if(paymentMethod.toLowerCase().contains("world")){
+            paymentWorldPay.click();
+        }else if(paymentMethod.toLowerCase().contains("bacs")){
+            paymentBACS.click();
+            PageUtils.uploadDocument(fileUpload, "CompletionOfTransfer1.pdf", 1, 3);
+        }
+
+        //Complete the application
+        btnCompleteApplication.click();
+        return new AddDevices(driver);
+    }
+
+    public String getApplicationReferenceNumber() {
+        WaitUtils.waitForElementToBeClickable(driver, txtApplicationReference, TIMEOUT_10_SECOND);
+        return txtApplicationReference.getText();
     }
 }

@@ -54,7 +54,6 @@ public class _AllInOne_CreateOnlyNEWAuthorisedRepAccounts_Main extends Common {
                  * Always use one of the Business Accounts to create the test manufacturer accounts
                  * This will create authorisedReps with users initials e.g _NU, _HB
                  */
-                log.info("First CREATE New Accounts To Add Manufactures/Devices To : ");
                 String initials = u.getInitials();
                 User businessUser = ExcelDirectDeviceDataUtils.getCorrectLoginDetails("_" + initials, listOfBusinessUsers);
                 _AllInOne_CreateOnlyNEWAuthorisedRepAccounts_Main tgs = new _AllInOne_CreateOnlyNEWAuthorisedRepAccounts_Main(businessUser);
@@ -62,7 +61,7 @@ public class _AllInOne_CreateOnlyNEWAuthorisedRepAccounts_Main extends Common {
                 //We only want to do it if the INITIALS in our initialsArray list
                 boolean isInitialFound = tgs.isInitialsInTheList(businessUser.getInitials());
                 if (isInitialFound) {
-
+                    log.info("Creating for user with initials : " + initials);
                     //Get correct authorisedRep user and create a new account
                     User authorisedRepUser = TestHarnessUtils.getUserWithInitials(initials, listOfAuthorisedRepUsers);
                     tgs.createNewAccountForAuthorisedRepWithBusinessTestHarness(businessUser, authorisedRepUser);
@@ -70,10 +69,10 @@ public class _AllInOne_CreateOnlyNEWAuthorisedRepAccounts_Main extends Common {
                     //FLOW CHANGED, now email is sent and you must change the password to use the account 06/2017
 
                 } else {
-                    System.out.println("Not creating any data for : " + businessUser + "\nCheck initialsArray contains the initials : " + businessUser.getInitials());
+                    log.info("Not creating any data for : " + businessUser + "\nCheck initialsArray contains the initials : " + businessUser.getInitials());
                 }
             }catch (Exception e){
-                System.out.println("Try and setup data for next user ");
+                log.info("Try and setup data for next user ");
             }
         }
 
@@ -137,15 +136,14 @@ public class _AllInOne_CreateOnlyNEWAuthorisedRepAccounts_Main extends Common {
                     actionsPage = mainNavigationBar.clickActions();
                     createTestsData = actionsPage.gotoTestsHarnessPage();
                     actionsPage = createTestsData.createNewAccountUsingBusinessTestHarness(ar);
-                }
-
-                boolean createdSuccessfully = actionsPage.isApplicationSubmittedSuccessfully();
-                if (createdSuccessfully) {
-                    log.info("Created a new account using business test harness : " + ar.organisationName);
+                }else{
+                    log.info("Created a new AuthorisedRep account : " + ar.organisationName);
+                    log.info("Username : " + ar.userName);
                 }
 
                 String orgName = ar.organisationName;
                 String accountNameOrReference = actionsPage.getApplicationReferenceNumber();
+                log.info("Account reference number : " + accountNameOrReference);
 
                 //Verify new taskSection generated and its the correct one
                 boolean contains = false;

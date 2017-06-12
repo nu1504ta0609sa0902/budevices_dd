@@ -33,7 +33,7 @@ public class SmokeTestsBusiness extends Common {
 
     public static final String MANUFACTURER_SMOKE_TEST = RandomDataUtils.getRandomTestNameWithTodaysDate("ManufacturerAccountST","");;
     public static final String AUTHORISED_REP_SMOKE_TEST = RandomDataUtils.getRandomTestNameWithTodaysDate("AuthorisedRepAccountST","");
-    public static final String DISTRIBUTOR_SMOKE_TEST = RandomDataUtils.getRandomTestNameWithTodaysDate("DistributorST","");;
+    public static final String DISTRIBUTOR_SMOKE_TEST = RandomDataUtils.getRandomTestNameWithTodaysDate("DistributorAccountST","");;
 
     public static String baseUrl;
     private String username;
@@ -251,7 +251,6 @@ public class SmokeTestsBusiness extends Common {
 
 
     @Test
-    @Ignore
     public void businessUsersCanCreateManufacturerAccountRequest() {
 
         //New account data
@@ -278,14 +277,13 @@ public class SmokeTestsBusiness extends Common {
             PageUtils.acceptAlert(driver, true);
             actionsPage = createTestsData.createNewAccountUsingBusinessTestHarness(ar);
             isInCorrectPage = actionsPage.isApplicationSubmittedSuccessfully();
-        }
-
-        if (isInCorrectPage) {
+        }else{
             System.out.println("Created a new account : " + ar.organisationName);
         }
 
         String orgName = ar.organisationName;
         String accountNameOrReference = actionsPage.getApplicationReferenceNumber();
+        log.info("New account reference number : " + accountNameOrReference);
 
         //Verify new taskSection generated and its the correct one
         boolean contains = false;
@@ -325,7 +323,6 @@ public class SmokeTestsBusiness extends Common {
 
 
     @Test
-    @Ignore
     public void businessUsersCanCreateAuthorisedRepAccountRequest() {
 
         //Actual account data
@@ -350,15 +347,13 @@ public class SmokeTestsBusiness extends Common {
         if(!isInCorrectPage){
             PageUtils.acceptAlert(driver, true);
             actionsPage = createTestsData.createNewAccountUsingBusinessTestHarness(ar);
-        }
-
-        boolean createdSuccessfully = actionsPage.isApplicationSubmittedSuccessfully();
-        if (createdSuccessfully) {
+        }else{
             System.out.println("Created a new account : " + ar.organisationName);
         }
 
         String orgName = ar.organisationName;
         String accountNameOrReference = actionsPage.getApplicationReferenceNumber();
+        log.info("New account reference number : " + accountNameOrReference);
 
         //Verify new taskSection generated and its the correct one
         boolean contains = false;
@@ -541,6 +536,7 @@ public class SmokeTestsBusiness extends Common {
 
 
     @Test
+    @Ignore
     public void userIsAbleToViewWIPTableAndSortTheData() {
 
         LoginPage loginPage = new LoginPage(driver);

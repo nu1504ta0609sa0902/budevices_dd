@@ -351,4 +351,47 @@ public class PageUtils {
             driver.manage().window().maximize();
         }
     }
+
+
+    public static void selectFromDropDown(WebDriver driver, WebElement element, String text, boolean throwException){
+        boolean completed = true;
+        int count = 0;
+        do {
+            try {
+                count++;    //It will go forever without this
+                PageUtils.singleClick(driver, element);
+                WaitUtils.isPageLoadingComplete(driver, _Page.TIMEOUT_PAGE_LOAD);
+                WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//div[contains(text(), '"+ text + "')]"), _Page.TIMEOUT_3_SECOND);
+                WebElement titleToSelect = driver.findElement(By.xpath(".//div[contains(text(), '"+ text + "')]"));
+                PageUtils.singleClick(driver, titleToSelect);
+                completed = true;
+            } catch (Exception e) {
+                completed = false;
+                WaitUtils.nativeWaitInSeconds(1);
+            }
+        } while (!completed && count < 3);
+
+    }
+
+    public static boolean clickOneOfTheFollowing(WebDriver driver, WebElement btn, WebElement btn2, int timeout) {
+        boolean clicked = clickElement(driver, btn, timeout, true);
+        if(!clicked){
+            clicked = clickElement(driver, btn2,timeout,true);
+        }
+        return clicked;
+    }
+    private static boolean clickElement(WebDriver driver, WebElement btn, int timeout, boolean singleClick) {
+        boolean clicked = true;
+        try {
+            WaitUtils.waitForElementToBeClickable(driver, btn, timeout);
+            if(singleClick) {
+                singleClick(driver, btn);
+            }else{
+                doubleClick(driver, btn);
+            }
+        }catch (Exception e){
+            clicked = false;
+        }
+        return clicked;
+    }
 }
