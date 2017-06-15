@@ -31,15 +31,11 @@ public class _AllInOne_AddDevicesToNEWAuthorisedRepAccounts_Main extends Common 
     public static final String AUTHORISED_REP_ACCOUNT_SMOKE_TEST = "AuthorisedRepAccountST";
     public static final String AUTHORISED_REP_SMOKE_TEST = "AuthorisedRepST";
 
-    public static String registered = "registered";
-    public static String nameSelected = null;
-    public static String initials = null;
-
     public static WebDriver driver;
     public static String baseUrl;
     private String username;
     private String password;
-    private User manufacturerUser;
+    public String initials;
 
 
     public _AllInOne_AddDevicesToNEWAuthorisedRepAccounts_Main(User user) {
@@ -62,7 +58,7 @@ public class _AllInOne_AddDevicesToNEWAuthorisedRepAccounts_Main extends Common 
                  * This will create authorisedReps with users initials e.g _NU, _HB
                  */
                 log.info("First CREATE New Accounts To Add Manufactures/Devices To : ");
-                initials = u.getInitials();
+                String initials = u.getInitials();
                 User businessUser = ExcelDirectDeviceDataUtils.getCorrectLoginDetails("_" + initials, listOfBusinessUsers);
                 _AllInOne_AddDevicesToNEWAuthorisedRepAccounts_Main tgs = new _AllInOne_AddDevicesToNEWAuthorisedRepAccounts_Main(businessUser);
 
@@ -356,48 +352,48 @@ public class _AllInOne_AddDevicesToNEWAuthorisedRepAccounts_Main extends Common 
 //    }
 
 
-    private void loginAndViewManufacturer() {
-
-        //Login to app and add devices to the manufacturer
-        loginPage = new LoginPage(driver);
-        loginPage = loginPage.loadPage(baseUrl);
-        mainNavigationBar = loginPage.loginAsManufacturer(username, password);
-        externalHomePage = mainNavigationBar.clickHome();
-
-        //Click on a random manufacturer
-        boolean isDisabled = true;
-        int count = 0;
-        do {
-            externalHomePage = mainNavigationBar.clickHome();
-            WaitUtils.nativeWaitInSeconds(2);
-            isDisabled = externalHomePage.isGotoListOfManufacturerPageLinkDisabled();
-            count++;
-        } while (isDisabled && count < 10);
-
-        if (isDisabled) {
-            externalHomePage = mainNavigationBar.clickHome();
-            WaitUtils.nativeWaitInSeconds(3);
-        }
-
-        manufacturerList = externalHomePage.gotoListOfManufacturerPage();
-
-        //You will need to naviage to different pages to select the manufactuerer
-        String name = nameSelected;
-        log.info("Manufacturer selected : " + name);
-        registered = manufacturerList.getRegistrationStatus(name);
-        manufacturerDetails = manufacturerList.viewAManufacturer(name);
-
-        //Add devices: This needs to change to add all the devices
-        try {
-            if (registered != null && registered.toLowerCase().equals("registered")) {
-                addDevices = manufacturerDetails.clickAddDeviceBtn();
-            } else {
-                addDevices = manufacturerDetails.clickDeclareDevicesBtn();
-            }
-        } catch (Exception e) {
-            addDevices = manufacturerDetails.clickDeclareDevicesBtn();
-        }
-    }
+//    private void loginAndViewManufacturer() {
+//
+//        //Login to app and add devices to the manufacturer
+//        loginPage = new LoginPage(driver);
+//        loginPage = loginPage.loadPage(baseUrl);
+//        mainNavigationBar = loginPage.loginAsManufacturer(username, password);
+//        externalHomePage = mainNavigationBar.clickHome();
+//
+//        //Click on a random manufacturer
+//        boolean isDisabled = true;
+//        int count = 0;
+//        do {
+//            externalHomePage = mainNavigationBar.clickHome();
+//            WaitUtils.nativeWaitInSeconds(2);
+//            isDisabled = externalHomePage.isGotoListOfManufacturerPageLinkDisabled();
+//            count++;
+//        } while (isDisabled && count < 10);
+//
+//        if (isDisabled) {
+//            externalHomePage = mainNavigationBar.clickHome();
+//            WaitUtils.nativeWaitInSeconds(3);
+//        }
+//
+//        manufacturerList = externalHomePage.gotoListOfManufacturerPage();
+//
+//        //You will need to naviage to different pages to select the manufactuerer
+//        String name = nameSelected;
+//        log.info("Manufacturer selected : " + name);
+//        String registered = manufacturerList.getRegistrationStatus(name);
+//        manufacturerDetails = manufacturerList.viewAManufacturer(name);
+//
+//        //Add devices: This needs to change to add all the devices
+//        try {
+//            if (registered != null && registered.toLowerCase().equals("registered")) {
+//                addDevices = manufacturerDetails.clickAddDeviceBtn();
+//            } else {
+//                addDevices = manufacturerDetails.clickDeclareDevicesBtn();
+//            }
+//        } catch (Exception e) {
+//            addDevices = manufacturerDetails.clickDeclareDevicesBtn();
+//        }
+//    }
 
 
     private AccountRequest createNewAccountForAuthorisedRepWithBusinessTestHarness(User businessUser, User authorisedRepUser) {
@@ -489,7 +485,7 @@ public class _AllInOne_AddDevicesToNEWAuthorisedRepAccounts_Main extends Common 
     }
 
     private void createDevicesFor(User u, boolean loginAgain, User businessUser, AccountRequest ar) {
-        log.info("Try And Add Devices For : " + nameSelected);
+        log.info("Try And Add Devices For : " + ar.organisationName);
 
         List<DeviceData> listOfDeviceData = ExcelDirectDeviceDataUtils.getListOfDeviceData();
 
@@ -600,13 +596,6 @@ public class _AllInOne_AddDevicesToNEWAuthorisedRepAccounts_Main extends Common 
             WaitUtils.nativeWaitInSeconds(4);
             loginPage = loginPage.logoutIfLoggedInOthers();
             mainNavigationBar = loginPage.loginAs(businessUser.getUserName(), businessUser.getPassword());
-            //approveTheGeneratedTask(newOrganisationCreated);
-            //approveTheGeneratedTaskSimple(newOrganisationCreated, registered);
-            String link = "Update";
-            if (registered != null && registered.toLowerCase().equals("not registered")) {
-                link = link.replace("Update", "New");
-            }
-
 
             //Verify new taskSection generated and its the correct one
             boolean contains = false;
@@ -633,16 +622,18 @@ public class _AllInOne_AddDevicesToNEWAuthorisedRepAccounts_Main extends Common 
 
             //Accept the task
             if (contains) {
+                taskSection = taskSection.assignTaskToMe();
+                taskSection = taskSection.confirmAssignment(true);
                 taskSection = taskSection.approveAWIPManufacturerTask();
                 taskSection = taskSection.approveAWIPAllDevices();
                 taskSection = taskSection.completeTheApplication();
                 WaitUtils.nativeWaitInSeconds(5);
             }
 
-            log.info("Create Devices For : " + nameSelected);
+            log.info("Create Devices For : " + ar.organisationName);
 
             //Update status
-            registered = "registered";
+            //registered = "registered";
 
             //Logback in now
             WaitUtils.nativeWaitInSeconds(3);
@@ -660,7 +651,7 @@ public class _AllInOne_AddDevicesToNEWAuthorisedRepAccounts_Main extends Common 
 
         //You will need to naviage to different pages to select the manufactuerer
         String name = manufacturerList.getARandomManufacturerName();
-        registered = manufacturerList.getRegistrationStatus(name);
+        String registered = manufacturerList.getRegistrationStatus(name);
         log.info("Manufacturer selected : " + name + ", is " + registered);
         manufacturerDetails = manufacturerList.viewAManufacturer(name);
 
@@ -700,7 +691,6 @@ public class _AllInOne_AddDevicesToNEWAuthorisedRepAccounts_Main extends Common 
         ar.setUserDetails(username);
         ar.country = "United States";
 
-        manufacturerUser = user;
         //ar.firstName = TestHarnessUtils.getName(initials, manufacturerUser, true);
         //ar.lastName = TestHarnessUtils.getName(initials, manufacturerUser, false);
 
@@ -719,12 +709,6 @@ public class _AllInOne_AddDevicesToNEWAuthorisedRepAccounts_Main extends Common 
         //externalHomePage = createNewManufacturer.submitForApproval();
 
         log.info("Created a new org to add devices to : " + ar.organisationName);
-
-        //Provide indication of devices made to the newly created authoirisedRep
-        manufacturerUser = user;
-        //addToListOfManufacturersCreatedWithInitials(initials, listOfAccountsCreatedWithTesterInitials, ar.organisationName);
-        //listOfAccountsCreatedWithTesterInitials.add(ar.organisationName);
-        nameSelected = ar.organisationName;
 
     }
 

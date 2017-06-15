@@ -685,7 +685,7 @@ public class AddDevices extends _Page {
                 element.click();
 
                 //If its a duplicate Try again
-                isErrorMessageDisplayed = false;    //isErrorMessageDisplayed();
+                isErrorMessageDisplayed = isErrorMessageDisplayed("Duplicate");
                 if (isErrorMessageDisplayed) {
                     //Try again
                     pos++;
@@ -702,20 +702,26 @@ public class AddDevices extends _Page {
         }
     }
 
-//    private void previousGMDNSelection(DeviceData dd) {
-//        WaitUtils.waitForElementToBeClickable(driver, radioGMDNDefinitionOrTerm, TIMEOUT_15_SECOND, false);
-//        radioGMDNDefinitionOrTerm.click();
-//        WaitUtils.nativeWaitInSeconds(1);
-//        PageUtils.doubleClick(driver, radioByGMDNCode);
-//        WaitUtils.nativeWaitInSeconds(1);
-//        PageUtils.doubleClick(driver, radioGMDNDefinitionOrTerm);
-//        WaitUtils.waitForElementToBeClickable(driver, tbxGMDNDefinitionOrTermSuggest, TIMEOUT_15_SECOND, false);
-//        tbxGMDNDefinitionOrTermSuggest.clear();
-//        boolean completed = PageUtils.selectFromAutoSuggests(driver, By.cssSelector("input.gwt-SuggestBox"), dd.device);
-//        if(!completed){
-//            log.error("No items found for GMDN term : " + dd.device);
-//        }
-//    }
+    public boolean isErrorMessageDisplayed(String message) {
+        try {
+            WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+            WaitUtils.waitForElementToBeVisible(driver, By.cssSelector(".FieldLayout---field_error"), 3);
+            WaitUtils.waitForElementToBeClickable(driver, By.cssSelector(".FieldLayout---field_error"), 3);
+            boolean isDisplayed = false;
+            for (WebElement msg : errorMessages) {
+                String txt = msg.getText();
+                System.out.println("Error message : " + txt);
+                isDisplayed = txt.toLowerCase().contains(message.toLowerCase());
+                if (isDisplayed) {
+                    break;
+                }
+            }
+            return isDisplayed;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
 
     public boolean isOptionToAddAnotherDeviceVisible() {
         //WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
