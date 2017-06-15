@@ -52,6 +52,12 @@ public class TaskSection extends _Page {
     WebElement btnConfirmYesAssignToMe;
     @FindBy(xpath = ".//button[text()='No']")
     WebElement btnConfirmNoAssignToMe;
+    @FindBy(xpath = ".//button[contains(text(), 'Approve manufacturer')]")
+    WebElement btnApproveManufacturer;
+    @FindBy(xpath = ".//button[contains(text(), 'Approve all devices')]")
+    WebElement btnApproveAllDevices;
+    @FindBy(xpath = ".//button[contains(text(), 'Complete the application')]")
+    WebElement btnCompleteTheApplication;
 
     //Rejection reason
     @FindBy(xpath = ".//label[.='Other']")
@@ -203,6 +209,31 @@ public class TaskSection extends _Page {
         }else{
             btnConfirmNoAssignToMe.click();
         }
+        return new TaskSection(driver);
+    }
+
+
+    public TaskSection approveAWIPManufacturerTask() {
+        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+        WaitUtils.waitForElementToBeClickable(driver, btnApproveManufacturer, TIMEOUT_10_SECOND);
+        PageUtils.doubleClick(driver, btnApproveManufacturer);
+        log.info("Approved the manufacturer");
+        return new TaskSection(driver);
+    }
+
+    public TaskSection approveAWIPAllDevices() {
+        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+        WaitUtils.waitForElementToBeClickable(driver, btnApproveAllDevices, TIMEOUT_10_SECOND);
+        PageUtils.doubleClick(driver, btnApproveAllDevices);
+        log.info("Approved all the devices");
+        return new TaskSection(driver);
+    }
+
+    public TaskSection completeTheApplication() {
+        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+        WaitUtils.waitForElementToBeClickable(driver, btnCompleteTheApplication, TIMEOUT_10_SECOND);
+        PageUtils.doubleClick(driver, btnCompleteTheApplication);
+        log.info("Application completed");
         return new TaskSection(driver);
     }
 }

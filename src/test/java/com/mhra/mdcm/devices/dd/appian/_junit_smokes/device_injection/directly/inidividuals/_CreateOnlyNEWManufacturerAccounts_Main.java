@@ -1,9 +1,9 @@
-package com.mhra.mdcm.devices.dd.appian._junit_smokes.device_injection.directly;
+package com.mhra.mdcm.devices.dd.appian._junit_smokes.device_injection.directly.inidividuals;
 
 import com.mhra.mdcm.devices.dd.appian._junit_smokes.common.Common;
+import com.mhra.mdcm.devices.dd.appian._junit_smokes.device_injection.directly.ExcelDirectDeviceDataUtils;
 import com.mhra.mdcm.devices.dd.appian.domains.junit.User;
 import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.AccountRequest;
-import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.DeviceData;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.LoginPage;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.MainNavigationBar;
 import com.mhra.mdcm.devices.dd.appian.utils.driver.BrowserConfig;
@@ -15,7 +15,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -23,7 +22,7 @@ import java.util.List;
  * Created by TPD_Auto on 01/11/2016.
  */
 @RunWith(Parameterized.class)
-public class _AllInOne_CreateOnlyNEWManufacturerAccounts_Main extends Common {
+public class _CreateOnlyNEWManufacturerAccounts_Main extends Common {
 
     public static final String MANUFACTURER_SMOKE_TEST = "ManufacturerAccountST";
 
@@ -34,7 +33,7 @@ public class _AllInOne_CreateOnlyNEWManufacturerAccounts_Main extends Common {
     private String initials;
 
 
-    public _AllInOne_CreateOnlyNEWManufacturerAccounts_Main(User businessUser) {
+    public _CreateOnlyNEWManufacturerAccounts_Main(User businessUser) {
         this.username = businessUser.getUserName();
         this.password = businessUser.getPassword();
         this.initials = businessUser.getInitials();
@@ -51,7 +50,7 @@ public class _AllInOne_CreateOnlyNEWManufacturerAccounts_Main extends Common {
                 //REMEMBER ALL PREVIOUS MANUFACTURERS DATA WILL BE REMOVED
                 String initials = u.getInitials();
                 User businessUser = setCorrectLoginDetails("_" + initials, listOfBusinessUsers);
-                _AllInOne_CreateOnlyNEWManufacturerAccounts_Main tgs = new _AllInOne_CreateOnlyNEWManufacturerAccounts_Main(businessUser);
+                _CreateOnlyNEWManufacturerAccounts_Main tgs = new _CreateOnlyNEWManufacturerAccounts_Main(businessUser);
 
                 //We only want to do it if the INITIALS in our initialsArray list
                 boolean isInitialFound = tgs.isInitialsInTheList(businessUser.getInitials());

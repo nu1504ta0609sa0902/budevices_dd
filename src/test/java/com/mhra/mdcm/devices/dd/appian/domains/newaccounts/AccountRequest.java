@@ -39,7 +39,11 @@ public class AccountRequest {
     public String phoneNumber;
     public String email;
     public String initials;
+
+    //New username and password for the newly created user, Assumes email received with temporary password
     public String userName;
+    public String tempPassword;
+    public String newPassword;
 
     //Organisation Role
 //    public String autorisedRep;

@@ -1,8 +1,8 @@
-package com.mhra.mdcm.devices.dd.appian._junit_smokes.device_injection.directly;
+package com.mhra.mdcm.devices.dd.appian._junit_smokes.device_injection.directly.inidividuals;
 
 import com.mhra.mdcm.devices.dd.appian._junit_smokes.common.Common;
+import com.mhra.mdcm.devices.dd.appian._junit_smokes.device_injection.directly.ExcelDirectDeviceDataUtils;
 import com.mhra.mdcm.devices.dd.appian.domains.junit.User;
-import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.AccountRequest;
 import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.DeviceData;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.LoginPage;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.MainNavigationBar;
@@ -25,7 +25,7 @@ import java.util.List;
  * Created by TPD_Auto on 01/11/2016.
  */
 @RunWith(Parameterized.class)
-public class _AllInOne_AddDevicesToEXISTINGManufacturers_Main extends Common {
+public class _AddDevicesToEXISTINGManufacturers_Main extends Common {
 
     public static final String MANUFACTURER_SMOKE_TEST = "ManufacturerST";
 
@@ -37,7 +37,7 @@ public class _AllInOne_AddDevicesToEXISTINGManufacturers_Main extends Common {
     private User manufacturerUser;
 
 
-    public _AllInOne_AddDevicesToEXISTINGManufacturers_Main(User user) {
+    public _AddDevicesToEXISTINGManufacturers_Main(User user) {
         this.username = user.getUserName();
         this.password = user.getPassword();
         this.initials = user.getInitials();
@@ -56,7 +56,7 @@ public class _AllInOne_AddDevicesToEXISTINGManufacturers_Main extends Common {
                 //log.info("First CREATE New Accounts To Add Manufactures/Devices To : ");
                 String initials = u.getInitials();
                 User businessUser = setCorrectLoginDetails("_" + initials, listOfBusinessUsers);
-                _AllInOne_AddDevicesToEXISTINGManufacturers_Main tgs = new _AllInOne_AddDevicesToEXISTINGManufacturers_Main(businessUser);
+                _AddDevicesToEXISTINGManufacturers_Main tgs = new _AddDevicesToEXISTINGManufacturers_Main(businessUser);
 
                 //We only want to do it if the INITIALS in our initialsArray list
                 boolean isInitialFound = tgs.isInitialsInTheList(businessUser.getInitials());
@@ -329,7 +329,10 @@ public class _AllInOne_AddDevicesToEXISTINGManufacturers_Main extends Common {
             //Confirm
             addDevices = addDevices.proceedToReview();
             addDevices = addDevices.proceedToPayment();
-            addDevices = addDevices.confirmPayment();
+            addDevices = addDevices.enterPaymentDetails("BACS");   //OR BACS
+            String reference = addDevices.getApplicationReferenceNumber();
+            log.info("New Applicaiton reference number : " + reference);
+            //addDevices = addDevices.confirmPayment();
             manufacturerList = addDevices.backToService();
 
             //@todo Now login as business user and approve the task
@@ -341,32 +344,37 @@ public class _AllInOne_AddDevicesToEXISTINGManufacturers_Main extends Common {
             if (registered != null && registered.toLowerCase().equals("not registered")) {
                 link = link.replace("Update", "New");
             }
+
             //Verify new taskSection generated and its the correct one
             boolean contains = false;
             boolean isCorrectTask = false;
-            int count2 = 0;
-            String orgName = manufacturerUser.getUserName();
+            int not = 0;
             do {
                 mainNavigationBar = new MainNavigationBar(driver);
                 tasksPage = mainNavigationBar.clickTasks();
+                taskSection = tasksPage.gotoApplicationWIPPage();
+                PageUtils.acceptAlert(driver, true);
+
+                //Search and view the application via reference number
+                taskSection = taskSection.searchAWIPPageForAccount(reference);
 
                 //Click on link number X
-                boolean isLinkVisible = tasksPage.isLinkVisible(orgName);
-                if (isLinkVisible) {
-                    taskSection = tasksPage.clickOnLinkWithText(orgName);
-                    isCorrectTask = taskSection.isCorrectTask(orgName, "Others");
-                    if (isCorrectTask) {
-                        contains = true;
-                    } else {
-                        count2++;
-                    }
+                try {
+                    taskSection = taskSection.clickOnApplicationReferenceLink(reference);
+                    contains = true;
+                } catch (Exception e) {
+                    contains = false;
                 }
-            } while (!contains && count2 <= 5);
+                not++;
+            } while (!contains && not <= 3);
 
             //Accept the task
-            if (contains) {
-                taskSection = taskSection.acceptTask();
-                tasksPage = taskSection.approveTask();
+            if(contains) {
+                taskSection = taskSection.assignTaskToMe();
+                taskSection = taskSection.confirmAssignment(true);
+                tasksPage = taskSection.approveTaskNewAccount();
+                taskSection = taskSection.confirmAssignment(true);
+                WaitUtils.nativeWaitInSeconds(5);
             }
 
             //Logback in now

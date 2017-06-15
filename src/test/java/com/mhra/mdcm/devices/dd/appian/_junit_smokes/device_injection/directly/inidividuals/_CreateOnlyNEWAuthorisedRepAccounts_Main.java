@@ -1,13 +1,11 @@
-package com.mhra.mdcm.devices.dd.appian._junit_smokes.device_injection.directly;
+package com.mhra.mdcm.devices.dd.appian._junit_smokes.device_injection.directly.inidividuals;
 
 import com.mhra.mdcm.devices.dd.appian._junit_smokes.common.Common;
+import com.mhra.mdcm.devices.dd.appian._junit_smokes.device_injection.directly.ExcelDirectDeviceDataUtils;
 import com.mhra.mdcm.devices.dd.appian.domains.junit.User;
 import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.AccountRequest;
-import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.DeviceData;
-import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.ManufacturerOrganisationRequest;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.LoginPage;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.MainNavigationBar;
-import com.mhra.mdcm.devices.dd.appian.pageobjects.external._CreateManufacturerTestsData;
 import com.mhra.mdcm.devices.dd.appian.utils.driver.BrowserConfig;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.FileUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.TestHarnessUtils;
@@ -17,7 +15,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -25,7 +22,7 @@ import java.util.List;
  * Created by TPD_Auto on 01/11/2016.
  */
 @RunWith(Parameterized.class)
-public class _AllInOne_CreateOnlyNEWAuthorisedRepAccounts_Main extends Common {
+public class _CreateOnlyNEWAuthorisedRepAccounts_Main extends Common {
 
     public static final String AUTHORISED_REP_ACCOUNT_SMOKE_TEST = "AuthorisedRepAccountST";
 
@@ -36,7 +33,7 @@ public class _AllInOne_CreateOnlyNEWAuthorisedRepAccounts_Main extends Common {
     private String initials;
 
 
-    public _AllInOne_CreateOnlyNEWAuthorisedRepAccounts_Main(User businessUser) {
+    public _CreateOnlyNEWAuthorisedRepAccounts_Main(User businessUser) {
         this.username = businessUser.getUserName();
         this.password = businessUser.getPassword();
         this.initials = businessUser.getInitials();
@@ -56,7 +53,7 @@ public class _AllInOne_CreateOnlyNEWAuthorisedRepAccounts_Main extends Common {
                  */
                 String initials = u.getInitials();
                 User businessUser = ExcelDirectDeviceDataUtils.getCorrectLoginDetails("_" + initials, listOfBusinessUsers);
-                _AllInOne_CreateOnlyNEWAuthorisedRepAccounts_Main tgs = new _AllInOne_CreateOnlyNEWAuthorisedRepAccounts_Main(businessUser);
+                _CreateOnlyNEWAuthorisedRepAccounts_Main tgs = new _CreateOnlyNEWAuthorisedRepAccounts_Main(businessUser);
 
                 //We only want to do it if the INITIALS in our initialsArray list
                 boolean isInitialFound = tgs.isInitialsInTheList(businessUser.getInitials());

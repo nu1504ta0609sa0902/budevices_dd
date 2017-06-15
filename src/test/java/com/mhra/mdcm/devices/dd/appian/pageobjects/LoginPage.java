@@ -14,6 +14,7 @@ import org.openqa.selenium.support.FindBy;
 
 public class LoginPage extends _Page {
 
+    //Login page
     @FindBy(id = "un")
     WebElement username;
     @FindBy(id = "pw")
@@ -22,19 +23,30 @@ public class LoginPage extends _Page {
     WebElement remember;
     @FindBy(css = ".choice_pair>label")
     WebElement rememberLabel;
+
+    //Settings icons and options
     @FindBy(css = ".gwt-Anchor.pull-down-toggle")
     WebElement settings;
     @FindBy(css = ".settings-pull-down .gwt-Anchor.pull-down-toggle")
     WebElement loggedInUsername;
-
-    @FindBy(xpath = ".//label[@for='remember']//following::input[1]")
-    WebElement loginBtn;
-
     @FindBy(xpath = ".//span[contains(@style, 'personalization')]")
     WebElement photoIcon;
     @FindBy(xpath = "//*[contains(text(),'Sign Out')]")
     WebElement signOutLink;
 
+    //Change password form
+    @FindBy(name = "oldPw")
+    WebElement passwordTemporary;
+    @FindBy(name = "newPw")
+    WebElement passwordNew;
+    @FindBy(name = "confirmNewPw")
+    WebElement passwordNewConfirm;
+
+    //Login or submit button
+    @FindBy(xpath = ".//label[@for='remember']//following::input[1]")
+    WebElement btnLogin;
+    @FindBy(xpath = ".//input[@type='submit']")
+    WebElement btnSubmit;
 
     //Error message
     @FindBy(xpath = ".//img[@id='logo']//following::div[@class='message']")
@@ -71,19 +83,6 @@ public class LoginPage extends _Page {
             logoutIfLoggedInOthers();
             WaitUtils.nativeWaitInSeconds(1);
             login(usernameTxt, passwordTxt);
-
-            //This should check if we are in login page and we are logged in as a manufacturer and authorisedRep
-//            boolean inLoginPage = amIInLoginPageManufactuererOrAuthorisedRep();
-//            boolean isAlreadyLoggedInAaUser = isAlreadyLoggedInAsSpecifiedUserInManufactuererOrAuthorisedRep(usernameTxt);
-//
-//            //Logout if not in login page and is not already logged in as someone else
-//            if (!inLoginPage && !isAlreadyLoggedInAaUser)
-//                logoutIfLoggedInOthers();
-//
-//            //I was logged in as someone else now login correctly
-//            if (!isAlreadyLoggedInAaUser) {
-//                login(usernameTxt, passwordTxt);
-//            }
         }
 
         return new MainNavigationBar(driver);
@@ -98,19 +97,6 @@ public class LoginPage extends _Page {
             logoutIfLoggedIn();
             WaitUtils.nativeWaitInSeconds(1);
             login(usernameTxt, passwordTxt);
-
-//            boolean inLoginPage = amIInLoginPage();
-//            boolean isAlreadyLoggedInAaUser = isAlreadyLoggedInAsSpecifiedUser(usernameTxt);
-//
-//            //Logout if not in login page and is not already logged in as someone else
-//            if (!inLoginPage && !isAlreadyLoggedInAaUser)
-//                logoutIfLoggedIn();
-//
-//            //I was logged in as someone else now login correctly
-//            if (!isAlreadyLoggedInAaUser) {
-//                //logoutIfLoggedIn();
-//                login(usernameTxt, passwordTxt);
-//            }
         }
 
         return new MainNavigationBar(driver);
@@ -267,5 +253,15 @@ public class LoginPage extends _Page {
             isInLoginPage = true;
         }
         return isInLoginPage;
+    }
+
+
+    public MainNavigationBar changePasswordTo(String tempPassword, String updatePasswordTo) {
+        WaitUtils.waitForElementToBeClickable(driver, btnSubmit, TIMEOUT_10_SECOND);
+        passwordTemporary.sendKeys(tempPassword);
+        passwordNew.sendKeys(updatePasswordTo);
+        passwordNewConfirm.sendKeys(updatePasswordTo);
+        btnSubmit.click();
+        return new MainNavigationBar(driver);
     }
 }

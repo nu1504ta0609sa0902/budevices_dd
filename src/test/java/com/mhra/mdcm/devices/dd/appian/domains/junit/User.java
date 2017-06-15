@@ -35,10 +35,15 @@ public class User {
         return initials;
     }
 
+    public void updateUsernamePassword(String userName, String newPassword) {
+        this.userName = userName;
+        this.password = newPassword;
+    }
 
 
     @Override
     public String toString() {
         return "Test for : " + userName + "/" + password;
     }
+
 }

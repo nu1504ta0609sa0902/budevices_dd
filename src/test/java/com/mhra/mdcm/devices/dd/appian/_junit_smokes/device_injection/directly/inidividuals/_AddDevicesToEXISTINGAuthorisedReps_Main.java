@@ -1,6 +1,7 @@
-package com.mhra.mdcm.devices.dd.appian._junit_smokes.device_injection.directly;
+package com.mhra.mdcm.devices.dd.appian._junit_smokes.device_injection.directly.inidividuals;
 
 import com.mhra.mdcm.devices.dd.appian._junit_smokes.common.Common;
+import com.mhra.mdcm.devices.dd.appian._junit_smokes.device_injection.directly.ExcelDirectDeviceDataUtils;
 import com.mhra.mdcm.devices.dd.appian.domains.junit.User;
 import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.DeviceData;
 import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.ManufacturerOrganisationRequest;
@@ -26,7 +27,7 @@ import java.util.List;
  * Created by TPD_Auto on 01/11/2016.
  */
 @RunWith(Parameterized.class)
-public class _AllInOne_AddDevicesToEXISTINGAuthorisedReps_Main extends Common {
+public class _AddDevicesToEXISTINGAuthorisedReps_Main extends Common {
 
     private ManufacturerOrganisationRequest ar = new ManufacturerOrganisationRequest();
     public static final String AUTHORISED_REP_SMOKE_TEST = "AuthorisedRepST";
@@ -39,7 +40,7 @@ public class _AllInOne_AddDevicesToEXISTINGAuthorisedReps_Main extends Common {
     private User manufacturerUser;
 
 
-    public _AllInOne_AddDevicesToEXISTINGAuthorisedReps_Main(User user) {
+    public _AddDevicesToEXISTINGAuthorisedReps_Main(User user) {
         this.username = user.getUserName();
         this.password = user.getPassword();
     }
@@ -60,7 +61,7 @@ public class _AllInOne_AddDevicesToEXISTINGAuthorisedReps_Main extends Common {
                 //log.info("First CREATE New Accounts To Add Manufactures/Devices To : ");
                 String initials = u.getInitials();
                 User businessUser = ExcelDirectDeviceDataUtils.getCorrectLoginDetails("_" + initials, listOfBusinessUsers);
-                _AllInOne_AddDevicesToEXISTINGAuthorisedReps_Main tgs = new _AllInOne_AddDevicesToEXISTINGAuthorisedReps_Main(businessUser);
+                _AddDevicesToEXISTINGAuthorisedReps_Main tgs = new _AddDevicesToEXISTINGAuthorisedReps_Main(businessUser);
 
                 //We only want to do it if the INITIALS in our initialsArray list
                 boolean isInitialFound = tgs.isInitialsInTheList(businessUser.getInitials());
@@ -359,7 +360,7 @@ public class _AllInOne_AddDevicesToEXISTINGAuthorisedReps_Main extends Common {
             //Confirm payment and submit registration
             addDevices = addDevices.proceedToReview();
             addDevices = addDevices.proceedToPayment();
-            addDevices = addDevices.enterPaymentDetails("Worldpay");   //OR BACS
+            addDevices = addDevices.enterPaymentDetails("BACS");   //OR BACS
             String reference = addDevices.getApplicationReferenceNumber();
             log.info("New Applicaiton reference number : " + reference);
             //addDevices = addDevices.confirmPayment();
@@ -376,32 +377,38 @@ public class _AllInOne_AddDevicesToEXISTINGAuthorisedReps_Main extends Common {
                 link = link.replace("Update", "New");
             }
 
+            String orgName = ar.organisationName;
+
             //Verify new taskSection generated and its the correct one
             boolean contains = false;
             boolean isCorrectTask = false;
-            int count2 = 0;
-            String orgName = ar.organisationName;
+            int not = 0;
             do {
                 mainNavigationBar = new MainNavigationBar(driver);
                 tasksPage = mainNavigationBar.clickTasks();
+                taskSection = tasksPage.gotoApplicationWIPPage();
+                PageUtils.acceptAlert(driver, true);
+
+                //Search and view the application via reference number
+                taskSection = taskSection.searchAWIPPageForAccount(reference);
 
                 //Click on link number X
-                boolean isLinkVisible = tasksPage.isLinkVisible(orgName);
-                if (isLinkVisible) {
-                    taskSection = tasksPage.clickOnLinkWithText(orgName);
-                    isCorrectTask = taskSection.isCorrectTask(orgName, "New Manufacturer Registration");
-                    if (isCorrectTask) {
-                        contains = true;
-                    } else {
-                        count2++;
-                    }
+                try {
+                    taskSection = taskSection.clickOnApplicationReferenceLink(reference);
+                    contains = true;
+                } catch (Exception e) {
+                    contains = false;
                 }
-            } while (!contains && count2 <= 5);
+                not++;
+            } while (!contains && not <= 3);
 
             //Accept the task
-            if (contains) {
-                taskSection = taskSection.acceptTask();
-                tasksPage = taskSection.approveTask();
+            if(contains) {
+                taskSection = taskSection.assignTaskToMe();
+                taskSection = taskSection.confirmAssignment(true);
+                tasksPage = taskSection.approveTaskNewAccount();
+                taskSection = taskSection.confirmAssignment(true);
+                WaitUtils.nativeWaitInSeconds(5);
             }
 
             log.info("Create Devices For : " + orgName);
