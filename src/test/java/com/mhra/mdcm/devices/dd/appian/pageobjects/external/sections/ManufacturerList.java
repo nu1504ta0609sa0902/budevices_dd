@@ -16,15 +16,21 @@ import java.util.List;
  */
 public class ManufacturerList extends _Page {
 
+    //Register manufacturer button
     @FindBy(xpath = ".//button[contains(text(), 'Register new manufacturer')]")
-    WebElement linkRegisterNewManufacturer;
+    WebElement btnRegisterNewManufacturer;
 
+    //List of table rows
     @FindBy(xpath = ".//h2[contains(text(),'Manufacturer')]//following::tbody[1]/tr/td[1]")
     List<WebElement> listOfManufacturerNames;
-    @FindBy(xpath = ".//*[contains(text(), 'registration status')]//following::tr[@__gwt_subrow='0']")
+    @FindBy(xpath = ".//*[contains(text(), 'Registration status')]//following::tr[@__gwt_subrow='0']")
     List<WebElement> listOfTableRows;
-    @FindBy(xpath = ".//*[contains(text(), 'registration status')]")
+    @FindBy(xpath = ".//*[contains(text(), 'Registration status')]")
     WebElement manufacturerRegistrationStatus;
+
+    //Individual elements
+    @FindBy(xpath = ".//h2[contains(text(),'Manufacturer')]//following::tbody[1]/tr/td[1]")
+    WebElement aManufacturerName;
 
 
     @FindBy(css = ".GridWidget---count")
@@ -60,8 +66,8 @@ public class ManufacturerList extends _Page {
 
     public String getARandomManufacturerName() {
         WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
-        WaitUtils.waitForElementToBeVisible(driver, By.cssSelector("div>p>a"), TIMEOUT_DEFAULT, false);
-        WaitUtils.waitForElementToBeClickable(driver, By.cssSelector("div>p>a"), TIMEOUT_5_SECOND, false);
+        WaitUtils.waitForElementToBeVisible(driver, aManufacturerName, TIMEOUT_DEFAULT, false);
+        WaitUtils.waitForElementToBeClickable(driver, aManufacturerName, TIMEOUT_5_SECOND, false);
         int index = RandomDataUtils.getNumberBetween(0, listOfManufacturerNames.size() - 1);
         WebElement link = listOfManufacturerNames.get(index);
         String name = link.getText();
@@ -103,8 +109,8 @@ public class ManufacturerList extends _Page {
 
 
 //    public CreateManufacturerTestsData registerNewManufacturer() {
-//        WaitUtils.waitForElementToBeClickable(driver, linkRegisterNewManufacturer, TIMEOUT_DEFAULT, false);
-//        linkRegisterNewManufacturer.click();
+//        WaitUtils.waitForElementToBeClickable(driver, btnRegisterNewManufacturer, TIMEOUT_DEFAULT, false);
+//        btnRegisterNewManufacturer.click();
 //        return new CreateManufacturerTestsData(driver);
 //    }
 
@@ -188,8 +194,9 @@ public class ManufacturerList extends _Page {
 
 
     public _CreateManufacturerTestsData registerNewManufacturer() {
-        WaitUtils.waitForElementToBeClickable(driver, linkRegisterNewManufacturer, TIMEOUT_DEFAULT, false);
-        linkRegisterNewManufacturer.click();
+        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+        WaitUtils.waitForElementToBeClickable(driver, btnRegisterNewManufacturer, TIMEOUT_DEFAULT, false);
+        btnRegisterNewManufacturer.click();
         return new _CreateManufacturerTestsData(driver);
     }
 }

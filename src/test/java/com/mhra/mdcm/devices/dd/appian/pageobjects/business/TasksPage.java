@@ -99,7 +99,7 @@ public class TasksPage extends _Page {
         return new TaskSection(driver);
     }
 
-    public boolean isWIPTableDisplayingData() {
+    public boolean isApplicationWIPTableDisplayingData() {
         WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
         WaitUtils.waitForElementToBeClickable(driver, By.cssSelector("div > table > tbody > tr"), TIMEOUT_15_SECOND, false);
 

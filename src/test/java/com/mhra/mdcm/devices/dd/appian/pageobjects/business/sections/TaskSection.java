@@ -22,8 +22,11 @@ public class TaskSection extends _Page {
     @FindBy(xpath = ".//a[contains(text(),'Organisation Details')]//following::p[1]")
     WebElement taskHeading2;
 
+    //AWIP table headings
     @FindBy(xpath = ".//div[contains(text(),'Submitted')]")
     WebElement thSubmitted;
+    @FindBy(xpath = ".//div[contains(text(),'Date')]")
+    WebElement thDate;
 
     //Accept taskSection
     @FindBy(xpath = ".//button[contains(text(), 'Accept')]")
@@ -165,11 +168,17 @@ public class TaskSection extends _Page {
     }
 
     public TaskSection sortBy(String sortBy, int numberOfTimesToClick) {
-        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
-        WaitUtils.waitForElementToBeClickable(driver, thSubmitted, TIMEOUT_5_SECOND, false);
+        //WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+        WaitUtils.waitForElementToBeClickable(driver, thDate, TIMEOUT_10_SECOND, false);
         if (sortBy.equals("Submitted")) {
             for (int c = 0; c < numberOfTimesToClick; c++) {
                 thSubmitted.click();
+                WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+                WaitUtils.nativeWaitInSeconds(2);
+            }
+        }else if (sortBy.equals("Date")) {
+            for (int c = 0; c < numberOfTimesToClick; c++) {
+                thDate.click();
                 WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
                 WaitUtils.nativeWaitInSeconds(2);
             }

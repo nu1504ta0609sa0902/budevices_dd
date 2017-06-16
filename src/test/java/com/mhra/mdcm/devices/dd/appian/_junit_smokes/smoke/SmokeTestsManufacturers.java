@@ -6,6 +6,7 @@ import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.ManufacturerOrganisat
 import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.DeviceData;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.LoginPage;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.MainNavigationBar;
+import com.mhra.mdcm.devices.dd.appian.pageobjects.external.ExternalHomePage;
 import com.mhra.mdcm.devices.dd.appian.utils.datadriven.ExcelDataSheet;
 import com.mhra.mdcm.devices.dd.appian.utils.datadriven.JUnitUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.driver.BrowserConfig;
@@ -145,14 +146,15 @@ public class SmokeTestsManufacturers extends Common {
         ar.updateName(MANUFACTURER_SMOKE_TEST);
         ar.updateNameEnding("_" + initials);
         ar.setUserDetails(username);
-        ar.country = "United Kingdom";
+        ar.country = "United States";
 
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
         MainNavigationBar mainNavigationBar = loginPage.loginAsManufacturer(username, password);
-        externalHomePage = mainNavigationBar.clickHome();
+        //externalHomePage = mainNavigationBar.clickHome();
 
         //Go to list of manufacturers page and add a new manufacturer
+        externalHomePage = new ExternalHomePage(driver);
         manufacturerList = externalHomePage.gotoListOfManufacturerPage();
         createNewManufacturer = manufacturerList.registerNewManufacturer();
         addDevices = createNewManufacturer.createTestOrganisation(ar, false);
@@ -168,7 +170,10 @@ public class SmokeTestsManufacturers extends Common {
         //Proceed to payments
         addDevices = addDevices.proceedToReview();
         addDevices = addDevices.proceedToPayment();
-        addDevices = addDevices.confirmPayment();
+        addDevices = addDevices.enterPaymentDetails("BACS");   //OR BACS
+        String reference = addDevices.getApplicationReferenceNumber();
+        log.info("New Applicaiton reference number : " + reference);
+        //addDevices = addDevices.confirmPayment();
         manufacturerList = addDevices.backToService();
 
         //Verify task is generated
@@ -177,33 +182,37 @@ public class SmokeTestsManufacturers extends Common {
 
         //Verify new taskSection generated and its the correct one
         boolean contains = false;
-        boolean isCorrectTask = false;
-        int count2 = 0;
-        String orgName = ar.organisationName;
+        int not = 0;
         do {
             mainNavigationBar = new MainNavigationBar(driver);
             tasksPage = mainNavigationBar.clickTasks();
+            taskSection = tasksPage.gotoApplicationWIPPage();
+            PageUtils.acceptAlert(driver, true);
+
+            //Search and view the application via reference number
+            taskSection = taskSection.searchAWIPPageForAccount(reference);
 
             //Click on link number X
-            boolean isLinkVisible = tasksPage.isLinkVisible(orgName);
-            if (isLinkVisible) {
-                taskSection = tasksPage.clickOnLinkWithText(orgName);
-                isCorrectTask = taskSection.isCorrectTask(orgName, "New Manufacturer Registration");
-                if (isCorrectTask) {
-                    contains = true;
-                } else {
-                    count2++;
-                }
+            try {
+                taskSection = taskSection.clickOnApplicationReferenceLink(reference);
+                contains = true;
+            } catch (Exception e) {
+                contains = false;
             }
-        } while (!contains && count2 <= 5);
+            not++;
+        } while (!contains && not <= 3);
 
         //Accept the task
         if (contains) {
-            taskSection = taskSection.acceptTask();
-            tasksPage = taskSection.approveTask();
+            taskSection = taskSection.assignTaskToMe();
+            taskSection = taskSection.confirmAssignment(true);
+            taskSection = taskSection.approveAWIPManufacturerTask();
+            taskSection = taskSection.approveAWIPAllDevices();
+            taskSection = taskSection.completeTheApplication();
+            log.info("Application completed for reference : " + reference);
         }
 
-        log.info("Create Devices For : " + orgName);
+        log.info("Create Devices For : " + ar.organisationName);
     }
 
     @Override

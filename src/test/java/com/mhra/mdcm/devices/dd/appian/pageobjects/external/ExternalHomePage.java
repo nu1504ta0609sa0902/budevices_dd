@@ -62,6 +62,7 @@ public class ExternalHomePage extends _Page {
     }
 
     public ManufacturerList gotoListOfManufacturerPage() {
+        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
         WaitUtils.waitForElementToBeClickable(driver, linkManufacturerRegistration, TIMEOUT_60_SECOND, false);
         linkManufacturerRegistration.click();
         return new ManufacturerList(driver);

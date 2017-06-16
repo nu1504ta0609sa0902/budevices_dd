@@ -278,7 +278,7 @@ public class SmokeTestsBusiness extends Common {
             actionsPage = createTestsData.createNewAccountUsingBusinessTestHarness(ar);
             isInCorrectPage = actionsPage.isApplicationSubmittedSuccessfully();
         }else{
-            System.out.println("Created a new account : " + ar.organisationName);
+            log.info("Created a new account : " + ar.organisationName);
         }
 
         String orgName = ar.organisationName;
@@ -348,7 +348,7 @@ public class SmokeTestsBusiness extends Common {
             PageUtils.acceptAlert(driver, true);
             actionsPage = createTestsData.createNewAccountUsingBusinessTestHarness(ar);
         }else{
-            System.out.println("Created a new account : " + ar.organisationName);
+            log.info("Created a new account : " + ar.organisationName);
         }
 
         String orgName = ar.organisationName;
@@ -394,7 +394,6 @@ public class SmokeTestsBusiness extends Common {
 
 
     @Test
-    @Ignore
     public void businessUsersCanCreateDistributorAccountRequest() {
 
         //Actual data
@@ -424,11 +423,12 @@ public class SmokeTestsBusiness extends Common {
 
         boolean createdSuccessfully = actionsPage.isApplicationSubmittedSuccessfully();
         if (createdSuccessfully) {
-            System.out.println("Created a new account : " + ar.organisationName);
+            log.info("Created a new account : " + ar.organisationName);
         }
 
         String orgName = ar.organisationName;
         String accountNameOrReference = actionsPage.getApplicationReferenceNumber();
+        log.info("Account reference generated : " + accountNameOrReference);
 
         //Verify new taskSection generated and its the correct one
         boolean contains = false;
@@ -463,6 +463,7 @@ public class SmokeTestsBusiness extends Common {
 
         assertThat("Task not found for organisation : " + orgName, contains, is(equalTo(true)));
 
+        //Add email checking here
     }
 
 
@@ -511,33 +512,8 @@ public class SmokeTestsBusiness extends Common {
         assertThat("Expected to be in edit view : " + randomAccountName, isInEditMode, is(equalTo(true)));
     }
 
-
     @Test
-    @Ignore
-    public void asABusinessUserIAmAbleToViewRandomAccount() {
-
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage = loginPage.loadPage(baseUrl);
-        MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
-
-        //Go to accounts and perform a search for AuthorisedRep
-        recordsPage = mainNavigationBar.clickRecords();
-        accounts = recordsPage.clickOnAccounts();
-
-        String randomAccountName = accounts.getARandomAccount();
-        log.info("Search for : " + randomAccountName);
-        accounts = accounts.viewSpecifiedAccount(randomAccountName);
-        accounts = this.accounts.gotoEditAccountInformation();
-
-        //Verify page is open to be edited
-        boolean isInEditMode = accounts.isInEditMode();
-        assertThat("Expected to be in edit view : " + randomAccountName, isInEditMode, is(equalTo(true)));
-    }
-
-
-    @Test
-    @Ignore
-    public void userIsAbleToViewWIPTableAndSortTheData() {
+    public void userIsAbleToViewApplicationWIPTableAndSortTheData() {
 
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
@@ -545,17 +521,17 @@ public class SmokeTestsBusiness extends Common {
         tasksPage = mainNavigationBar.clickTasks();
 
         //Verify data is correctly displayed
-        taskSection = tasksPage.gotoWIPTasksPage();
-        boolean wipRowsDisplayed = tasksPage.isWIPTableDisplayingData();
+        taskSection = tasksPage.gotoApplicationWIPPage();
+        boolean wipRowsDisplayed = tasksPage.isApplicationWIPTableDisplayingData();
         assertThat("Expected to see at least 1 item by default " , wipRowsDisplayed, is(equalTo(true)));
 
         //Sort and verify data is displayed
-        taskSection = taskSection.sortBy("Submitted", 1);
-        wipRowsDisplayed = tasksPage.isWIPTableDisplayingData();
+        taskSection = taskSection.sortBy("Date", 1);
+        wipRowsDisplayed = tasksPage.isApplicationWIPTableDisplayingData();
         assertThat("Expected to see at least 1 item by default " , wipRowsDisplayed, is(equalTo(true)));
 
-        taskSection = taskSection.sortBy("Submitted", 1);
-        wipRowsDisplayed = tasksPage.isWIPTableDisplayingData();
+        taskSection = taskSection.sortBy("Date", 1);
+        wipRowsDisplayed = tasksPage.isApplicationWIPTableDisplayingData();
         assertThat("Expected to see at least 1 item by default " , wipRowsDisplayed, is(equalTo(true)));
     }
 
