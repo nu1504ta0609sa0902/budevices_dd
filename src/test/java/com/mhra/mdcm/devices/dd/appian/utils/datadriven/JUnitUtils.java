@@ -1,9 +1,12 @@
 package com.mhra.mdcm.devices.dd.appian.utils.datadriven;
 
+import com.mhra.mdcm.devices.dd.appian.domains.junit.User;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.LoginPage;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by TPD_Auto on 01/11/2016.
@@ -57,6 +60,20 @@ public class JUnitUtils {
         return listOfItems;
     }
 
+
+    public static String getFirstPartOfUsername(String name) {
+        String initial = name.split("_")[1];
+        Map<String, String> mapOfNames = new HashMap<>();
+        mapOfNames.put("NU", "Noor Uddin");
+        mapOfNames.put("HB", "Hasanein.Bal-Alawi");
+        mapOfNames.put("YC", "Yaaseen.Choudhury");
+        mapOfNames.put("AN", "Andrew.Nisbet");
+        mapOfNames.put("PG", "Priya.Giri");
+        mapOfNames.put("LP", "Lambros.Poullais");
+        mapOfNames.put("AT", "Auto");
+        return mapOfNames.get(initial);
+    }
+
     /**
      * Our username are as such Noor.Uddin.Manufacturer
      *
@@ -75,5 +92,17 @@ public class JUnitUtils {
             name = data[0];
         }
         return name;
+    }
+
+    public static User getBusinessUser(List<User> listOfUsers, String username) {
+        String initial = username.split("_")[1];
+        User user = null;
+        for (User u : listOfUsers) {
+            if (u.getInitials().contains(initial)) {
+                user = u;
+                break;
+            }
+        }
+        return user;
     }
 }

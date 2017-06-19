@@ -72,9 +72,6 @@ public class ExcelDataSheet {
 
             }
 
-            //System.out.println(sb.toString().replaceAll(",", "\t"));
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -144,7 +141,6 @@ public class ExcelDataSheet {
                     message = areAllTheLinesValidInExcelDataSheet(dataFile, sheet, headers, line, lineCount);
                     if(message!=null){
                         errors = true;
-                        //System.out.println("Error Line : " + (lineCount+1) + ": " + line);
                     }
 
                     int columnCount = 0;
@@ -153,8 +149,6 @@ public class ExcelDataSheet {
                     if(data.length > 5) {
                         String key = data[0];
                         if(key!=null && !key.toLowerCase().equals("validateddata")) {
-                            //System.out.println("Line : " + (lineCount+1) + ": " + line);
-                            //System.out.println(line);
                             String[] dataUpdated = createUpdatedData(data, headers, columnCount);
                             listOfDeviceTestData.add(new DeviceData((lineCount+1), dataUpdated));
                         }
@@ -163,8 +157,6 @@ public class ExcelDataSheet {
                 }else{
                     String [] headings = line.split(",");
                     for(String hd: headings){
-                        //else if(field.equals("toxicologicaldataavailable")){
-                        //System.out.println("else if(field.equals(\""+ hd.toLowerCase() + "\")){\n}");
                         if(!hd.trim().equals(""))
                             headers.add(hd);
                     }

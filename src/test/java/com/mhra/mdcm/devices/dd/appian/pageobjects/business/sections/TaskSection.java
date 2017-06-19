@@ -61,6 +61,8 @@ public class TaskSection extends _Page {
     WebElement btnApproveAllDevices;
     @FindBy(xpath = ".//button[contains(text(), 'Complete the application')]")
     WebElement btnCompleteTheApplication;
+    @FindBy(xpath = ".//button[contains(text(), 'Approve account')]")
+    WebElement btnApproveNewAccount;
 
     //Rejection reason
     @FindBy(xpath = ".//label[.='Other']")
@@ -200,7 +202,7 @@ public class TaskSection extends _Page {
         WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText(accountNameOrReference), TIMEOUT_5_SECOND, false);
         WebElement taskLink = driver.findElement(By.partialLinkText(accountNameOrReference));
         taskLink.click();
-        log.info("Reference found for : " + accountNameOrReference);
+        System.out.println("Reference found for : " + accountNameOrReference);
         return new TaskSection(driver);
     }
 
@@ -221,12 +223,19 @@ public class TaskSection extends _Page {
         return new TaskSection(driver);
     }
 
+    public TaskSection approveAWIPTaskNewAccount() {
+        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+        WaitUtils.waitForElementToBeClickable(driver, btnApproveNewAccount, TIMEOUT_3_SECOND);
+        PageUtils.doubleClick(driver, btnApproveNewAccount);
+        System.out.println("Task should be approved now");
+        return new TaskSection(driver);
+    }
 
     public TaskSection approveAWIPManufacturerTask() {
         WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
         WaitUtils.waitForElementToBeClickable(driver, btnApproveManufacturer, TIMEOUT_10_SECOND);
         PageUtils.doubleClick(driver, btnApproveManufacturer);
-        log.info("Approved the manufacturer");
+        System.out.println("Approved the manufacturer");
         return new TaskSection(driver);
     }
 
@@ -234,7 +243,7 @@ public class TaskSection extends _Page {
         WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
         WaitUtils.waitForElementToBeClickable(driver, btnApproveAllDevices, TIMEOUT_10_SECOND);
         PageUtils.doubleClick(driver, btnApproveAllDevices);
-        log.info("Approved all the devices");
+        System.out.println("Approved all the devices");
         return new TaskSection(driver);
     }
 
@@ -242,7 +251,7 @@ public class TaskSection extends _Page {
         WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
         WaitUtils.waitForElementToBeClickable(driver, btnCompleteTheApplication, TIMEOUT_10_SECOND);
         PageUtils.doubleClick(driver, btnCompleteTheApplication);
-        log.info("Application completed");
+        System.out.println("Application completed");
         return new TaskSection(driver);
     }
 }

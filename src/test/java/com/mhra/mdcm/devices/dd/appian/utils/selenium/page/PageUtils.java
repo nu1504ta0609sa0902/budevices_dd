@@ -24,8 +24,6 @@ public class PageUtils {
     public static void selectByText(WebElement selectElement, String visibleText) {
         Select select = new Select(selectElement);
         select.selectByVisibleText(visibleText);
-
-        //System.out.println("Selected Option : " + visibleText);
     }
 
     public static void selectByIndex(WebElement selectElement, String index) {

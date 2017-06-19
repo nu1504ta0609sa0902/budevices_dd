@@ -31,6 +31,7 @@ import static org.hamcrest.Matchers.nullValue;
 public class SmokeTestsManufacturers extends Common {
 
     public static final String MANUFACTURER_SMOKE_TEST = "ManufacturerST";
+    private static List<User> listOfBusinessUsers;
 
     public static String baseUrl;
     private String username;
@@ -41,6 +42,7 @@ public class SmokeTestsManufacturers extends Common {
     public static Collection<User> spreadsheetData() throws IOException {
         ExcelDataSheet excelUtils = new ExcelDataSheet();//
         List<User> listOfUsers = excelUtils.getListOfUsers("configs/data/excel/users.xlsx", "Sheet1", true);
+        listOfBusinessUsers = excelUtils.filterUsersBy(listOfUsers, "business");
         listOfUsers = excelUtils.filterUsersBy(listOfUsers, "manufacturer");
         log.info("Manufacturer Users : " + listOfUsers);
         return listOfUsers;
@@ -178,7 +180,8 @@ public class SmokeTestsManufacturers extends Common {
 
         //Verify task is generated
         loginPage = loginPage.logoutIfLoggedInOthers();
-        mainNavigationBar = loginPage.loginAs(JUnitUtils.getUserName(username) + ".Business", password);
+        User businessUser = JUnitUtils.getBusinessUser(listOfBusinessUsers, username);
+        mainNavigationBar = loginPage.loginAs(businessUser.getUserName(), businessUser.getPassword());
 
         //Verify new taskSection generated and its the correct one
         boolean contains = false;

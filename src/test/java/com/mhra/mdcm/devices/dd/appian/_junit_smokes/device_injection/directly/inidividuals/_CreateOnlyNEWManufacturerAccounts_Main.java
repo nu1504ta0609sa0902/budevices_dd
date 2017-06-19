@@ -187,7 +187,7 @@ public class _CreateOnlyNEWManufacturerAccounts_Main extends Common {
             }
 
             WaitUtils.nativeWaitInSeconds(2);
-            System.out.println(ar.organisationName);
+            System.out.println("Organisation name : " + ar.organisationName);
             loginPage.logoutIfLoggedIn();
             WaitUtils.nativeWaitInSeconds(2);
 

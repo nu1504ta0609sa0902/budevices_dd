@@ -283,7 +283,7 @@ public class SmokeTestsBusiness extends Common {
 
         String orgName = ar.organisationName;
         String accountNameOrReference = actionsPage.getApplicationReferenceNumber();
-        log.info("New account reference number : " + accountNameOrReference);
+        System.out.println("New account reference number : " + accountNameOrReference);
 
         //Verify new taskSection generated and its the correct one
         boolean contains = false;
@@ -312,7 +312,8 @@ public class SmokeTestsBusiness extends Common {
         if(contains) {
             taskSection = taskSection.assignTaskToMe();
             taskSection = taskSection.confirmAssignment(true);
-            tasksPage = taskSection.approveTaskNewAccount();
+            taskSection = taskSection.approveAWIPTaskNewAccount();
+            taskSection = taskSection.confirmAssignment(true);
             WaitUtils.nativeWaitInSeconds(5);
         }
 
@@ -353,7 +354,7 @@ public class SmokeTestsBusiness extends Common {
 
         String orgName = ar.organisationName;
         String accountNameOrReference = actionsPage.getApplicationReferenceNumber();
-        log.info("New account reference number : " + accountNameOrReference);
+        System.out.println("New account reference number : " + accountNameOrReference);
 
         //Verify new taskSection generated and its the correct one
         boolean contains = false;
@@ -382,7 +383,8 @@ public class SmokeTestsBusiness extends Common {
         if(contains) {
             taskSection = taskSection.assignTaskToMe();
             taskSection = taskSection.confirmAssignment(true);
-            tasksPage = taskSection.approveTaskNewAccount();
+            taskSection = taskSection.approveAWIPTaskNewAccount();
+            taskSection = taskSection.confirmAssignment(true);
             WaitUtils.nativeWaitInSeconds(5);
         }
 
@@ -428,7 +430,7 @@ public class SmokeTestsBusiness extends Common {
 
         String orgName = ar.organisationName;
         String accountNameOrReference = actionsPage.getApplicationReferenceNumber();
-        log.info("Account reference generated : " + accountNameOrReference);
+        System.out.println("Account reference generated : " + accountNameOrReference);
 
         //Verify new taskSection generated and its the correct one
         boolean contains = false;
@@ -468,7 +470,7 @@ public class SmokeTestsBusiness extends Common {
 
 
     @Test
-    public void asABusinessUserIAmAbleToSearchAndViewManufacturerAccounts() {
+    public void asABusinessUserIAmAbleToSearchViewAndEditManufacturerAccounts() {
 
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
@@ -480,7 +482,7 @@ public class SmokeTestsBusiness extends Common {
         accounts = accounts.searchForAccount("ManufacturerAccountST");
 
         String randomAccountName = accounts.getARandomAccount();
-        log.info("Search for : " + randomAccountName);
+        System.out.println("Search for : " + randomAccountName);
         accounts = accounts.viewSpecifiedAccount(randomAccountName);
         accounts = this.accounts.gotoEditAccountInformation();
 
@@ -491,7 +493,7 @@ public class SmokeTestsBusiness extends Common {
 
 
     @Test
-    public void asABusinessUserIAmAbleToSearchAndViewAuthorisedRepAccounts() {
+    public void asABusinessUserIAmAbleToSearchViewAndEditAuthorisedRepAccounts() {
 
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
@@ -503,7 +505,7 @@ public class SmokeTestsBusiness extends Common {
         accounts = accounts.searchForAccount("AuthorisedRepAccountST");
 
         String randomAccountName = accounts.getARandomAccount();
-        log.info("Search for : " + randomAccountName);
+        System.out.println("Search for : " + randomAccountName);
         accounts = accounts.viewSpecifiedAccount(randomAccountName);
         accounts = this.accounts.gotoEditAccountInformation();
 

@@ -29,6 +29,7 @@ public class SmokeTestsAuthorisedRep extends Common {
 
     public static final String AUTHORISED_REP_SMOKE_TEST = "AuthorisedRepST";
 
+    private static List<User> listOfBusinessUsers;
     public static String baseUrl;
     private String username;
     private String password;
@@ -38,6 +39,7 @@ public class SmokeTestsAuthorisedRep extends Common {
     public static Collection<User> spreadsheetData() throws IOException {
         ExcelDataSheet excelUtils = new ExcelDataSheet();//
         List<User> listOfUsers = excelUtils.getListOfUsers("configs/data/excel/users.xlsx", "Sheet1", true);
+        listOfBusinessUsers = excelUtils.filterUsersBy(listOfUsers, "business");
         listOfUsers = excelUtils.filterUsersBy(listOfUsers, "authorised");
         log.info("AuthorisedRep Users : " + listOfUsers);
         return listOfUsers;
@@ -174,6 +176,11 @@ public class SmokeTestsAuthorisedRep extends Common {
         log.info("New Applicaiton reference number : " + reference);
         //addDevices = addDevices.confirmPayment();
         manufacturerList = addDevices.backToService();
+
+        //Verify task is generated
+        loginPage = loginPage.logoutIfLoggedInOthers();
+        User businessUser = JUnitUtils.getBusinessUser(listOfBusinessUsers, username);
+        mainNavigationBar = loginPage.loginAs(businessUser.getUserName(), businessUser.getPassword());
 
         //Verify new taskSection generated and its the correct one
         boolean contains = false;

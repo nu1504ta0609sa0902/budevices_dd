@@ -51,7 +51,6 @@ public class DeviceData {
             if(fieldName!=null)
                 populateCorrectField(fieldName, fieldValue);
         }
-        //System.out.println("DONE");
     }
 
     public DeviceData(int lineNumber, String[] dataUpdated) {
