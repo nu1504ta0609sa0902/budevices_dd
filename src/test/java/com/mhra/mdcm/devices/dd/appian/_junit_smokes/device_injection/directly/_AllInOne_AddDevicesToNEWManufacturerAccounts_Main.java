@@ -156,9 +156,9 @@ public class _AllInOne_AddDevicesToNEWManufacturerAccounts_Main extends Common {
             //log.info("Provide Indication Of Devices For : " + manufacturerName);
             provideIndicationOfDevicesMade(manufacturerUser);
 
-            log.info("Try And Add Devices For : " + manufacturerUser);
+            System.out.println("Try And Add Devices For : " + manufacturerUser);
             createDevicesFor(manufacturerUser, nameSelected, businessUser, listOfDeviceData);
-            log.info("Create Devices For : " + nameSelected);
+            System.out.println("Create Devices For : " + nameSelected);
 
         } catch (Exception e) {
             e.printStackTrace();

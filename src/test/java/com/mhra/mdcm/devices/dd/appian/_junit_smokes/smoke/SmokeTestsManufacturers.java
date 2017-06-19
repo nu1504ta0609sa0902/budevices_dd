@@ -160,7 +160,7 @@ public class SmokeTestsManufacturers extends Common {
         manufacturerList = externalHomePage.gotoListOfManufacturerPage();
         createNewManufacturer = manufacturerList.registerNewManufacturer();
         addDevices = createNewManufacturer.createTestOrganisation(ar, false);
-        log.info("New Manufacturer Account Requested With Following Data : \n" + ar);
+        System.out.println("New Manufacturer Account Requested With Following Data : \n" + ar);
 
         //Add devices AND submit
         DeviceData dd = new DeviceData();
@@ -212,10 +212,10 @@ public class SmokeTestsManufacturers extends Common {
             taskSection = taskSection.approveAWIPManufacturerTask();
             taskSection = taskSection.approveAWIPAllDevices();
             taskSection = taskSection.completeTheApplication();
-            log.info("Application completed for reference : " + reference);
+            System.out.println("Application completed for reference : " + reference);
         }
 
-        log.info("Create Devices For : " + ar.organisationName);
+        System.out.println("Create Devices For : " + ar.organisationName);
     }
 
     @Override

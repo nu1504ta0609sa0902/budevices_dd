@@ -130,7 +130,7 @@ public class TaskSection extends _Page {
                 PageUtils.doubleClick(driver, approve);
             }
         }
-        //log.info("Task should be approved now");
+
         return new TasksPage(driver);
     }
 

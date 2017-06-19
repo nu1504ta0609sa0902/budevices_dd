@@ -537,17 +537,12 @@ public class _AllInOne_AddDevicesToNEWAccounts_Main extends Common {
                 taskSection = taskSection.completeTheApplication();
             }
 
-            log.info("Create Devices For : " + ar.organisationName);
-
-            //Update status
-            //registered = "registered";
-
+            System.out.println("Create Devices For : " + ar.organisationName);
             //Logback in now
             WaitUtils.nativeWaitInSeconds(3);
             loginPage.logoutIfLoggedIn();
-            //loginAndViewManufacturer();
 
-            log.info("\nCREATED NEW AUTHORISED-REP WITH DEVICES : COMPLETED NOW");
+            System.out.println("\nCREATED NEW AUTHORISED-REP WITH DEVICES : COMPLETED NOW");
         }
     }
 

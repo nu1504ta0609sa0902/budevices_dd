@@ -411,7 +411,7 @@ public class _AddDevicesToEXISTINGAuthorisedReps_Main extends Common {
                 WaitUtils.nativeWaitInSeconds(5);
             }
 
-            log.info("Create Devices For : " + orgName);
+            System.out.println("Create Devices For : " + orgName);
 
             //Update status
             registered = "registered";
@@ -421,7 +421,7 @@ public class _AddDevicesToEXISTINGAuthorisedReps_Main extends Common {
             loginPage.logoutIfLoggedIn();
             //loginAndViewManufacturer();
 
-            log.info("\nCREATED NEW AUTHORISED-REP WITH DEVICES : COMPLETED NOW");
+            System.out.println("\nCREATED NEW AUTHORISED-REP WITH DEVICES : COMPLETED NOW");
         }
     }
 

@@ -120,7 +120,7 @@ public class Accounts extends _Page {
         int position = RandomDataUtils.getSimpleRandomNumberBetween(1, listOfAccounts.size() - 1, false);
         WebElement accountLinks = listOfAccounts.get(position);
         String accountName = accountLinks.getText();
-        log.info(accountName);
+        log.info("Account name : " + accountName);
         return accountName;
     }
 

@@ -157,7 +157,7 @@ public class SmokeTestsAuthorisedRep extends Common {
         manufacturerList = externalHomePage.gotoListOfManufacturerPage();
         createNewManufacturer = manufacturerList.registerNewManufacturer();
         addDevices = createNewManufacturer.createTestOrganisation(ar, false);
-        log.info("New Manufacturer Account Requested With Following Data : \n" + ar);
+        System.out.println("New Manufacturer Account Requested With Following Data : \n" + ar);
 
         //Add devices AND submit
         DeviceData dd = new DeviceData();
@@ -167,13 +167,13 @@ public class SmokeTestsAuthorisedRep extends Common {
 
         //Add devices and Proceed to payments
         addDevices = addDevices.addFollowingDevice(dd);
-        log.info("Create Devices For : " + ar.organisationName);
+        System.out.println("Create Devices For : " + ar.organisationName);
 
         addDevices = addDevices.proceedToReview();
         addDevices = addDevices.proceedToPayment();
         addDevices = addDevices.enterPaymentDetails("BACS");   //OR BACS
         String reference = addDevices.getApplicationReferenceNumber();
-        log.info("New Applicaiton reference number : " + reference);
+        System.out.println("New Applicaiton reference number : " + reference);
         //addDevices = addDevices.confirmPayment();
         manufacturerList = addDevices.backToService();
 

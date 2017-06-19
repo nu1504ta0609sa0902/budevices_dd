@@ -207,7 +207,7 @@ public class GmailEmail {
 
                 if (i > numberOfMessgesToCheck || bodyText != null) {
                     //Most likely no emails received yet
-                    log.info(bodyText);
+                    log.info("Email body : " + bodyText);
                     break;
                 }
             }
