@@ -174,7 +174,7 @@ public class SmokeTestsManufacturers extends Common {
         addDevices = addDevices.proceedToPayment();
         addDevices = addDevices.enterPaymentDetails("BACS");   //OR BACS
         String reference = addDevices.getApplicationReferenceNumber();
-        log.info("New Applicaiton reference number : " + reference);
+        System.out.println("New Applicaiton reference number : " + reference);
         //addDevices = addDevices.confirmPayment();
         manufacturerList = addDevices.backToService();
 

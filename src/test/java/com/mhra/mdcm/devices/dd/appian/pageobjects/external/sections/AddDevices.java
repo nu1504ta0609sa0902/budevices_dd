@@ -691,7 +691,7 @@ public class AddDevices extends _Page {
                     pos++;
                     searchFor = arrayOfDeviceBecauseTheyKeepBloodyChanging[pos];
                 } else {
-                    log.info(dd.deviceType + " => " + searchFor);
+                    System.out.println(dd.deviceType + " => " + searchFor);
                 }
                 PageFactory.initElements(driver, this);
             } while (isErrorMessageDisplayed);
@@ -751,7 +751,7 @@ public class AddDevices extends _Page {
         cbxConfirmInformation.click();
         WaitUtils.waitForElementToBeClickable(driver, btnProceedToPayment, TIMEOUT_15_SECOND, false);
         btnProceedToPayment.click();
-        log.info("Proceed to payment");
+        System.out.println("Proceed to payment");
         return new AddDevices(driver);
     }
 
@@ -759,7 +759,7 @@ public class AddDevices extends _Page {
         WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
         WaitUtils.waitForElementToBeClickable(driver, bthSubmitConfirm, TIMEOUT_15_SECOND, false);
         bthSubmitConfirm.click();
-        log.info("Submit for registration");
+        System.out.println("Submit for registration");
         return new AddDevices(driver);
     }
 
@@ -841,7 +841,7 @@ public class AddDevices extends _Page {
         WaitUtils.nativeWaitInSeconds(2);
         WaitUtils.waitForElementToBeClickable(driver, btnProceedToReview, TIMEOUT_15_SECOND, false);
         btnProceedToReview.click();
-        log.info("Proceed to review before payment");
+        System.out.println("Proceed to review before payment");
         return new AddDevices(driver);
     }
 

@@ -211,7 +211,7 @@ public class SmokeTestsAuthorisedRep extends Common {
             taskSection = taskSection.approveAWIPManufacturerTask();
             taskSection = taskSection.approveAWIPAllDevices();
             taskSection = taskSection.completeTheApplication();
-            log.info("Application completed for reference : " + reference);
+            System.out.println("Application completed for reference : " + reference);
         }
 
 
