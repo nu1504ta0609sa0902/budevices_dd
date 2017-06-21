@@ -43,7 +43,7 @@ public class TaskSection extends _Page {
     WebElement reject;
 
     //Application WIP page
-    @FindBy(xpath = ".//*[text()='Urgency']/following::tr/td[1]")
+    @FindBy(xpath = ".//*[text()='Priority']/following::tr/td[1]")
     List<WebElement> listOfApplicationReferences;
     @FindBy(xpath = ".//*[contains(text(), 'Search by manufacturer')]/following::input[1]")
     WebElement tbxSearchByManufacturer;
