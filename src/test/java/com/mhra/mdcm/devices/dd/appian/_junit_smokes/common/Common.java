@@ -40,6 +40,8 @@ public class Common {
     };
 
     public static WebDriver driver;
+    public static String loggedInUser;
+
     static {
         //This helps with creating log files each time we run the tests, remember append=false needs to be set
         Calendar ins = Calendar.getInstance();
@@ -84,6 +86,14 @@ public class Common {
                     e1.printStackTrace();
                 }
             }
+
+            //This is added because of SSO: 26/06/2017
+//            if(driver!=null){
+//                log.info("MUST SIGNOUT OTHERWISE YOU WILL NOT BE ABLE TO LOGBACK IN WITH SAME USER");
+//                loginPage = new LoginPage(driver);
+//                loginPage.logout(driver, loggedInUser);
+//                loginPage.isInLoginPage();
+//            }
         }
     };
 
@@ -112,7 +122,6 @@ public class Common {
 
         @Override
         protected void succeeded(Description description) {
-            //log.warn("Passed : " + description);
             logTime("Passed,", description);
         }
 
@@ -126,6 +135,14 @@ public class Common {
             //Log pass/fail message for the test
             log.warn(message + " in " + min + " min, " + sec + " seconds for test : " + description);
             totalTime = totalTime + diffTime;
+
+            //This is added because of SSO: 26/06/2017
+            if(driver!=null){
+                log.info("MUST SIGNOUT OTHERWISE YOU WILL NOT BE ABLE TO LOGBACK IN WITH SAME USER");
+                loginPage = new LoginPage(driver);
+                loginPage.logout(driver, loggedInUser);
+                loginPage.isInLoginPage();
+            }
         }
     };
 

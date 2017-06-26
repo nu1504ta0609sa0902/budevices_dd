@@ -28,7 +28,7 @@ public class TasksPage extends _Page {
     @FindBy(partialLinkText = "New Account Request")
     List<WebElement> listOfNewAccount;
 
-    @FindBy(xpath = ".//span[contains(text(),'Application work in')]")
+    @FindBy(xpath = ".//span[contains(text(),'Work in progress')]")
     WebElement applicationWorkInProgress;
 
     @FindBy(xpath = ".//span[contains(text(),'Work In Progress')]")

@@ -149,6 +149,22 @@ public class PageUtils {
         }
     }
 
+
+    public static void acceptAlert(WebDriver driver, boolean accept, int timeToWait) {
+        try {
+            WaitUtils.waitForAlert(driver, timeToWait, false);
+            boolean present = WaitUtils.isAlertPresent(driver);
+            if (present) {
+                if (accept) {
+                    driver.switchTo().alert().accept();
+                } else {
+                    driver.switchTo().alert().dismiss();
+                }
+            }
+        } catch (Exception e) {
+        }
+    }
+
     public static boolean isCorrectPage(WebDriver driver, String ecid) {
         return driver.getTitle().contains(ecid);
     }
@@ -391,5 +407,16 @@ public class PageUtils {
             clicked = false;
         }
         return clicked;
+    }
+
+    public static boolean isElementClickable(WebDriver driver, WebElement element, int timeoutSecond) {
+        boolean clickable = true;
+        try {
+            WaitUtils.waitForElementToBeClickable(driver, element, timeoutSecond);
+        } catch (Exception e) {
+            //Its not clickable
+            clickable = false;
+        }
+        return clickable;
     }
 }

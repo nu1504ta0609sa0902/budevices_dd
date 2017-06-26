@@ -72,6 +72,10 @@ public class TaskSection extends _Page {
     @FindBy(xpath = ".//button[.='Submit']")
     WebElement submitBtn;
 
+    //Search and clear
+    @FindBy(xpath = ".//button[text()='Clear']")
+    WebElement btnClearSearchField;
+
 
 
     public TaskSection(WebDriver driver) {
@@ -196,6 +200,11 @@ public class TaskSection extends _Page {
         btnSearchForManufacuturer.click();
         listOfApplicationReferences.size();
         return new TaskSection(driver);
+    }
+
+    public boolean isSearchingCompleted() {
+        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+        return PageUtils.isElementClickable(driver, btnClearSearchField, TIMEOUT_10_SECOND);
     }
 
     public TaskSection clickOnApplicationReferenceLink(String accountNameOrReference) {

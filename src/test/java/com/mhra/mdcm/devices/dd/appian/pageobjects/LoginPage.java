@@ -103,10 +103,10 @@ public class LoginPage extends _Page {
     }
 
     private void login(String usernameTxt, String passwordTxt) {
-        dontRemember();
+        //dontRemember();
 
         //login
-        WaitUtils.waitForElementToBeClickable(driver, username, TIMEOUT_5_SECOND, false);
+        WaitUtils.waitForElementToBeClickable(driver, username, TIMEOUT_15_SECOND, false);
         username.sendKeys(usernameTxt);
         password.sendKeys(passwordTxt);
         username.submit();
@@ -263,5 +263,20 @@ public class LoginPage extends _Page {
         passwordNewConfirm.sendKeys(updatePasswordTo);
         btnSubmit.click();
         return new MainNavigationBar(driver);
+    }
+
+
+    public void logout(WebDriver driver, String currentLoggedInUser) {
+        //Note page displayed to Business user is different from Manufacturer and AuthorisedRep
+        if(currentLoggedInUser!=null){
+            if(currentLoggedInUser.toLowerCase().contains("business")){
+                logoutIfLoggedIn();
+            }else if(currentLoggedInUser.toLowerCase().contains("manufacturer")){
+                logoutIfLoggedInOthers();
+            }else if(currentLoggedInUser.toLowerCase().contains("authorised")){
+                logoutIfLoggedInOthers();
+            }
+        }
+        PageUtils.acceptAlert(driver, true, 1);
     }
 }

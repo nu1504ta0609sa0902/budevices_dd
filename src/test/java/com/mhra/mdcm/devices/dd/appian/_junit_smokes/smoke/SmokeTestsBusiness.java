@@ -54,6 +54,7 @@ public class SmokeTestsBusiness extends Common {
         this.username = user.getUserName();
         this.password = user.getPassword();
         this.initials = user.getInitials();
+        loggedInUser = this.username;
     }
 
     @BeforeClass
@@ -297,6 +298,7 @@ public class SmokeTestsBusiness extends Common {
 
             //Search and view the application via reference number
             taskSection = taskSection.searchAWIPPageForAccount(accountNameOrReference);
+            taskSection.isSearchingCompleted();
 
             //Click on link number X
             try {
@@ -368,6 +370,7 @@ public class SmokeTestsBusiness extends Common {
 
             //Search and view the application via reference number
             taskSection = taskSection.searchAWIPPageForAccount(accountNameOrReference);
+            taskSection.isSearchingCompleted();
 
             //Click on link number X
             try {
@@ -444,6 +447,7 @@ public class SmokeTestsBusiness extends Common {
 
             //Search and view the application via reference number
             taskSection = taskSection.searchAWIPPageForAccount(accountNameOrReference);
+            taskSection.isSearchingCompleted();
 
             //Click on link number X
             try {

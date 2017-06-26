@@ -194,6 +194,7 @@ public class SmokeTestsManufacturers extends Common {
 
             //Search and view the application via reference number
             taskSection = taskSection.searchAWIPPageForAccount(reference);
+            taskSection.isSearchingCompleted();
 
             //Click on link number X
             try {
