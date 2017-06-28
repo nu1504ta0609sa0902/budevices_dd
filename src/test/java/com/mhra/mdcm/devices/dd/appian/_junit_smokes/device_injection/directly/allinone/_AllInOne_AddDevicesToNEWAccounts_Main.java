@@ -29,8 +29,6 @@ import java.util.List;
 @RunWith(Parameterized.class)
 public class _AllInOne_AddDevicesToNEWAccounts_Main extends Common {
 
-    private static boolean isManufacturer = false;  //What type of accounts to create false=AuthorisedReps
-
     private static final String AUTHORISED_REP_ACCOUNT_SMOKE_TEST = "AuthorisedRepAccountST";
     private static final String AUTHORISED_REP_SMOKE_TEST = "AuthorisedRepST";
     private static final String MANUFACTURER_ACCOUNT_SMOKE_TEST = "ManufacturerAccountST";
@@ -71,6 +69,7 @@ public class _AllInOne_AddDevicesToNEWAccounts_Main extends Common {
                 //We only want to do it if the INITIALS in our initialsArray list
                 boolean isInitialFound = tgs.isInitialsInTheList(businessUser.getInitials());
                 if (isInitialFound) {
+                    System.out.println("\nCREATE data for : " + businessUser);
 
                     //Get correct authorisedRep or Manufacturer user and create a new account
                     User user = TestHarnessUtils.getUserWithInitials(initials, listOfUsersFromExcelSheet);
@@ -129,6 +128,7 @@ public class _AllInOne_AddDevicesToNEWAccounts_Main extends Common {
         if (messageBody != null) {
             tempPassword = messageBody.substring(messageBody.indexOf("d:") + 3, messageBody.indexOf("To log") - 1);
             ar.tempPassword = tempPassword;
+            log.info("Temporary password : " + tempPassword);
         }
         return tempPassword;
     }
@@ -357,6 +357,7 @@ public class _AllInOne_AddDevicesToNEWAccounts_Main extends Common {
 
                 //Search and view the application via reference number
                 taskSection = taskSection.searchAWIPPageForAccount(accountNameOrReference);
+                taskSection.isSearchingCompleted();
 
                 //Click on link number X
                 try {
@@ -517,6 +518,7 @@ public class _AllInOne_AddDevicesToNEWAccounts_Main extends Common {
 
                 //Search and view the application via reference number
                 taskSection = taskSection.searchAWIPPageForAccount(reference);
+                taskSection.isSearchingCompleted();
 
                 //Click on link number X
                 try {

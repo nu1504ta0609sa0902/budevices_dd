@@ -34,6 +34,8 @@ import java.util.Date;
  */
 public class Common {
 
+
+    public static boolean isManufacturer = false;  //What type of accounts to create false=AuthorisedReps
     //This controls and limits the users (overrides excel)
     public String[] initialsArray = new String[]{
             "AT", //"AT", "NU", "HB", "YC", "PG", "AN", "LP"
@@ -87,13 +89,6 @@ public class Common {
                 }
             }
 
-            //This is added because of SSO: 26/06/2017
-//            if(driver!=null){
-//                log.info("MUST SIGNOUT OTHERWISE YOU WILL NOT BE ABLE TO LOGBACK IN WITH SAME USER");
-//                loginPage = new LoginPage(driver);
-//                loginPage.logout(driver, loggedInUser);
-//                loginPage.isInLoginPage();
-//            }
         }
     };
 
@@ -138,7 +133,7 @@ public class Common {
 
             //This is added because of SSO: 26/06/2017
             if(driver!=null){
-                log.info("MUST SIGNOUT OTHERWISE YOU WILL NOT BE ABLE TO LOGBACK IN WITH SAME USER");
+                System.out.println("MUST SIGNOUT OTHERWISE YOU WILL NOT BE ABLE TO LOGBACK IN WITH SAME USER");
                 loginPage = new LoginPage(driver);
                 loginPage.logout(driver, loggedInUser);
                 loginPage.isInLoginPage();

@@ -46,6 +46,8 @@ public class LoginPage extends _Page {
     @FindBy(xpath = ".//label[@for='remember']//following::input[1]")
     WebElement btnLogin;
     @FindBy(xpath = ".//input[@type='submit']")
+    WebElement btnSignin;
+    @FindBy(xpath = ".//input[@type='submit']")
     WebElement btnSubmit;
 
     //Error message
@@ -185,7 +187,7 @@ public class LoginPage extends _Page {
         //WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
         boolean loggedOut = true;
         try{
-            WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText("Forgot your password"), 5, false);
+            WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText("Forgot your password"), 2, false);
         }catch (Exception e){
             loggedOut = false;
         }
@@ -200,8 +202,6 @@ public class LoginPage extends _Page {
 
     public boolean isInLoginPage() {
         boolean isLoginPage = isAlreadyLoggedOut();
-        //WaitUtils.waitForElementToBeClickable(driver, loginBtn, 10, false);
-        //boolean isLoginPage = loginBtn.isDisplayed() && loginBtn.isEnabled();
         return isLoginPage;
     }
 
