@@ -356,7 +356,12 @@ public class AddDevices extends _Page {
     private void addProductNew(DeviceData dd) {
         WaitUtils.waitForElementToBeClickable(driver, pdMedicalDeviceName, TIMEOUT_15_SECOND, false);
         pdMedicalDeviceName.clear();
-        pdMedicalDeviceName.sendKeys(RandomDataUtils.getRandomTestName(dd.productName));
+        String pn = dd.productName;
+        if(pn == null){
+            pn = "Product";
+            dd.productName = pn;
+        }
+        pdMedicalDeviceName.sendKeys(RandomDataUtils.getRandomTestName(pn));
     }
 
     private void addActiveImplantableDevice(DeviceData dd) {
@@ -398,7 +403,7 @@ public class AddDevices extends _Page {
 
         isBearingCEMarking(dd);
         devicesCompatible(dd);
-        PageUtils.uploadDocument(listOfFileUploads.get(0), "DeviceInstructionForUse1.pdf", 1, 3);
+        PageUtils.uploadDocument(listOfFileUploads.get(0), "SPP_Content_List_Template.xls", 1, 3);
     }
 
 

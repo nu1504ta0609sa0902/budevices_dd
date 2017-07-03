@@ -72,7 +72,7 @@ public class _AddDevicesToEXISTINGAuthorisedReps_Main extends Common {
                      * All data cleared:Provide indication of devices made
                      * Create by logging into individual Account for the INITIALS
                      */
-                    log.info("Now create a new organisation and add devices to : ");
+                    log.info("Now create a new organisation and add devices: ");
                     User user = TestHarnessUtils.getUserWithInitials(initials, listOfAuthorisedRepUsers);
                     tgs.createNewAuthorisedRepsWithDevices(user, businessUser, listOfDeviceData);
                 } else {

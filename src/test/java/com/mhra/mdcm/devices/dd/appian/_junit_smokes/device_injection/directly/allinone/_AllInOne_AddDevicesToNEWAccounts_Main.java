@@ -69,7 +69,7 @@ public class _AllInOne_AddDevicesToNEWAccounts_Main extends Common {
                 //We only want to do it if the INITIALS in our initialsArray list
                 boolean isInitialFound = tgs.isInitialsInTheList(businessUser.getInitials());
                 if (isInitialFound) {
-                    System.out.println("\nCREATE data for : " + businessUser);
+                    System.out.println("\nCREATE data with business user : " + businessUser);
 
                     //Get correct authorisedRep or Manufacturer user and create a new account
                     User user = TestHarnessUtils.getUserWithInitials(initials, listOfUsersFromExcelSheet);
@@ -82,7 +82,7 @@ public class _AllInOne_AddDevicesToNEWAccounts_Main extends Common {
                     /**
                      * Register new organisation with devices
                      */
-                    log.info("Now create a new organisation and add devices to : ");
+                    log.info("Now create a new organisation and add devices : ");
                     tgs.registerNewOrganisationsAndAddDevices(user, businessUser, ar);
                 } else {
                     System.out.println("Not creating any data for : " + businessUser + "\nCheck initialsArray contains the initials : " + businessUser.getInitials());

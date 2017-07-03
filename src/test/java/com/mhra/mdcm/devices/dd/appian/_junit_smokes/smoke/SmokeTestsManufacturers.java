@@ -12,6 +12,7 @@ import com.mhra.mdcm.devices.dd.appian.utils.datadriven.JUnitUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.driver.BrowserConfig;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.FileUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.PageUtils;
+import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.WaitUtils;
 import org.hamcrest.Matchers;
 import org.junit.*;
 import org.junit.runner.RunWith;
@@ -213,6 +214,7 @@ public class SmokeTestsManufacturers extends Common {
             taskSection = taskSection.approveAWIPManufacturerTask();
             taskSection = taskSection.approveAWIPAllDevices();
             taskSection = taskSection.completeTheApplication();
+            WaitUtils.nativeWaitInSeconds(5);
             System.out.println("Application completed for reference : " + reference);
         }
 

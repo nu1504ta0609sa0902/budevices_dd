@@ -78,7 +78,7 @@ public class _AllInOne_AddDevicesToNEWAuthorisedRepAccounts_Main extends Common 
                      * All data cleared:Provide indication of devices made
                      * Create by logging into individual Account for the INITIALS
                      */
-                    log.info("Now create a new organisation and add devices to : ");
+                    log.info("Now create a new organisation and add devices : ");
                     tgs.createNewAuthorisedRepsWithDevices(authorisedRepUser, businessUser, ar);
                 } else {
                     System.out.println("Not creating any data for : " + businessUser + "\nCheck initialsArray contains the initials : " + businessUser.getInitials());

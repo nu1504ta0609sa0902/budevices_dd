@@ -81,9 +81,9 @@ public class _CreateManufacturerTestsData extends _Page {
      */
     public AddDevices createTestOrganisation(ManufacturerOrganisationRequest ar, boolean saveDontDeclareDevices) throws Exception {
         //WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
-        WaitUtils.nativeWaitInSeconds(3);
+        //WaitUtils.nativeWaitInSeconds(3);
         //WaitUtils.waitForElementToBeClickable(driver, By.cssSelector(".PickerWidget---picker_value"), TIMEOUT_5_SECOND, false);
-        WaitUtils.waitForElementToBeClickable(driver, orgName, TIMEOUT_5_SECOND, false);
+        WaitUtils.waitForElementToBeClickable(driver, orgName, TIMEOUT_15_SECOND, false);
         orgName.sendKeys(ar.organisationName);
         //PageUtils.selectCountryFromAutoSuggests(driver, ".gwt-SuggestBox", ar.country, false);
         boolean exception = false;
