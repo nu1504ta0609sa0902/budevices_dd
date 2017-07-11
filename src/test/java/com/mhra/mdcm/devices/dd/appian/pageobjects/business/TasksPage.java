@@ -42,7 +42,7 @@ public class TasksPage extends _Page {
     }
 
     public TaskSection clickOnTaskNumber(int count) {
-        WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText("New Account Request"), TIMEOUT_DEFAULT, false);
+        WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText("New Account Request"), TIMEOUT_10_SECOND, false);
         WebElement taskLink = listOfNewAccount.get(count);
         taskLink.click();
         return new TaskSection(driver);
@@ -50,7 +50,7 @@ public class TasksPage extends _Page {
 
     public TaskSection clickOnTaskNumber(int count, String link) {
         WaitUtils.nativeWaitInSeconds(1);
-        WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText("Work In Progress"), TIMEOUT_DEFAULT, false);
+        WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText("Work In Progress"), TIMEOUT_10_SECOND, false);
         //WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText(link), TIMEOUT_5_SECOND, false);
         try {
             if (link.contains("New Account")) {
@@ -81,7 +81,7 @@ public class TasksPage extends _Page {
     }
 
     public boolean isLinkVisible(String link){
-        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+        //WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
         boolean isVisible = true;
         try{
             WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText(link), TIMEOUT_5_SECOND, false);
@@ -92,15 +92,15 @@ public class TasksPage extends _Page {
     }
 
     public TaskSection gotoWIPTasksPage() {
-        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
-        WaitUtils.waitForElementToBeVisible(driver, workInProgress, TIMEOUT_DEFAULT, false);
-        WaitUtils.waitForElementToBeClickable(driver, workInProgress, TIMEOUT_DEFAULT, false);
+        //WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+        WaitUtils.waitForElementToBeVisible(driver, workInProgress, TIMEOUT_10_SECOND, false);
+        WaitUtils.waitForElementToBeClickable(driver, workInProgress, TIMEOUT_10_SECOND, false);
         workInProgress.click();
         return new TaskSection(driver);
     }
 
     public boolean isApplicationWIPTableDisplayingData() {
-        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+        //WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
         WaitUtils.waitForElementToBeClickable(driver, By.cssSelector("div > table > tbody > tr"), TIMEOUT_15_SECOND, false);
 
         //Verify its not the No items available message
@@ -113,7 +113,7 @@ public class TasksPage extends _Page {
     }
 
     public TaskSection gotoApplicationWIPPage() {
-        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+        WaitUtils.waitForElementToBeVisible(driver, applicationWorkInProgress, TIMEOUT_10_SECOND, false);
         applicationWorkInProgress.click();
         return new TaskSection(driver);
     }

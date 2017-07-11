@@ -58,11 +58,11 @@ public class ProductDetails extends _Page {
                 //Check and verify data is correct
                 String termOrDefinition = deviceData.device;
                 if(termOrDefinition!=null && !termOrDefinition.equals("")){
-                    WaitUtils.waitForElementToBeClickable(driver, gmdnTermDefinition, TIMEOUT_DEFAULT, false);
+                    WaitUtils.waitForElementToBeClickable(driver, gmdnTermDefinition, TIMEOUT_10_SECOND, false);
                     allValid = AssertUtils.areChangesDisplayed(gmdnTermDefinition, termOrDefinition);
                 }else{
                     //Gmdn code
-                    //WaitUtils.waitForElementToBeClickable(driver, gmdnCode, TIMEOUT_DEFAULT, false);
+                    //WaitUtils.waitForElementToBeClickable(driver, gmdnCode, TIMEOUT_10_SECOND, false);
                     //allValid =  AssertUtils.areChangesDisplayed(gmdnCode, deviceData.gmdnCode);
                 }
             }else if(field.equals("risk classification")){

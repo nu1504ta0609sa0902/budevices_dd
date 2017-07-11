@@ -95,6 +95,18 @@ public class RandomDataUtils {
         return dateTime;
     }
 
+    public  static String getTimeHourMin() {
+        Calendar instance = Calendar.getInstance();
+        String date = instance.get(Calendar.HOUR_OF_DAY) + "_" + instance.get(Calendar.MINUTE);
+        return date;
+    }
+
+    public  static int getTimeHour() {
+        Calendar instance = Calendar.getInstance();
+        int date = instance.get(Calendar.HOUR_OF_DAY);
+        return date;
+    }
+
     public static String getRandomNumberBetween(int min, int max) {
         Random random = new Random( System.currentTimeMillis() );
         int val = random.nextInt(max - min + 1) + min;

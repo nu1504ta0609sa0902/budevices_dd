@@ -33,37 +33,37 @@ public class RecordsPage extends _Page {
     }
 
     public Accounts clickOnAccounts() {
-        WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText("Accounts"), TIMEOUT_DEFAULT, false);
-        WaitUtils.waitForElementToBeClickable(driver, linkAccounts, TIMEOUT_DEFAULT, false);
+        WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText("Accounts"), TIMEOUT_10_SECOND, false);
+        WaitUtils.waitForElementToBeClickable(driver, linkAccounts, TIMEOUT_10_SECOND, false);
         //linkAccounts.click();
         PageUtils.singleClick(driver, linkAccounts);
         return new Accounts(driver);
     }
 
     public GMDNDevices clickOnGMDNDevices() {
-        WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText("GMDN Devices"), TIMEOUT_DEFAULT, false);
-        WaitUtils.waitForElementToBeClickable(driver, linkGMDNDevices, TIMEOUT_DEFAULT, false);
+        WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText("GMDN Devices"), TIMEOUT_10_SECOND, false);
+        WaitUtils.waitForElementToBeClickable(driver, linkGMDNDevices, TIMEOUT_10_SECOND, false);
         linkGMDNDevices.click();
         return new GMDNDevices(driver);
     }
 
     public RegisteredDevices clickOnRegisteredDevices() {
-        WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText("Registered Devices"), TIMEOUT_DEFAULT, false);
-        WaitUtils.waitForElementToBeClickable(driver, linkRegisteredDevices, TIMEOUT_DEFAULT, false);
+        WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText("Registered Devices"), TIMEOUT_10_SECOND, false);
+        WaitUtils.waitForElementToBeClickable(driver, linkRegisteredDevices, TIMEOUT_10_SECOND, false);
         linkRegisteredDevices.click();
         return new RegisteredDevices(driver);
     }
 
     public RegisteredProducts clickOnRegisteredProducts() {
-        WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText("Registered Products"), TIMEOUT_DEFAULT, false);
-        WaitUtils.waitForElementToBeClickable(driver, linkRegisteredProducts, TIMEOUT_DEFAULT, false);
+        WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText("Registered Products"), TIMEOUT_10_SECOND, false);
+        WaitUtils.waitForElementToBeClickable(driver, linkRegisteredProducts, TIMEOUT_10_SECOND, false);
         linkRegisteredProducts.click();
         return new RegisteredProducts(driver);
     }
 
     public Organisations clickOnOrganisations() {
-        WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText("Organisations"), TIMEOUT_DEFAULT, false);
-        WaitUtils.waitForElementToBeClickable(driver, linkOrganisations, TIMEOUT_DEFAULT, false);
+        WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText("Organisations"), TIMEOUT_10_SECOND, false);
+        WaitUtils.waitForElementToBeClickable(driver, linkOrganisations, TIMEOUT_10_SECOND, false);
         linkOrganisations.click();
         return new Organisations(driver);
     }

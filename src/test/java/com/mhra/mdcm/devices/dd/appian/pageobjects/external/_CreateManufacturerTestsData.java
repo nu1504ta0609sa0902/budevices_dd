@@ -94,7 +94,7 @@ public class _CreateManufacturerTestsData extends _Page {
         }
 
         //Organisation details
-        WaitUtils.waitForElementToBeClickable(driver, addressLine1, TIMEOUT_DEFAULT, false);
+        WaitUtils.waitForElementToBeClickable(driver, addressLine1, TIMEOUT_10_SECOND, false);
         addressLine1.clear();
         addressLine1.sendKeys(ar.address1);
         addressLine2.sendKeys(ar.address2);

@@ -51,7 +51,7 @@ public class Accounts extends _Page {
 
 
     public boolean isHeadingCorrect(String expectedHeadings) {
-        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//h1[.='" + expectedHeadings + "']") , TIMEOUT_DEFAULT, false);
+        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//h1[.='" + expectedHeadings + "']") , TIMEOUT_10_SECOND, false);
         WebElement heading = driver.findElement(By.xpath(".//h1[.='" + expectedHeadings + "']"));
         boolean contains = heading.getText().contains(expectedHeadings);
         return contains;
@@ -60,7 +60,7 @@ public class Accounts extends _Page {
 
     public boolean isItemsDisplayed(String expectedHeadings) {
         boolean itemsDisplayed = false;
-        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//h1[.='" + expectedHeadings + "']") , TIMEOUT_DEFAULT, false);
+        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//h1[.='" + expectedHeadings + "']") , TIMEOUT_10_SECOND, false);
 
         if(expectedHeadings.contains("Accounts")){
             itemsDisplayed = listOfAccounts.size() > 0;
@@ -70,7 +70,7 @@ public class Accounts extends _Page {
     }
 
     public List<String> isTableColumnCorrect(String[] columns) {
-        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//table//th") , TIMEOUT_DEFAULT, false);
+        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//table//th") , TIMEOUT_10_SECOND, false);
         List<String> listOfColumns = new ArrayList<>();
         for(WebElement el: listOfTableColumns){
             String text = el.getText();
@@ -115,7 +115,7 @@ public class Accounts extends _Page {
      * @return
      */
     public String getARandomAccount() {
-        WaitUtils.isPageLoadingComplete(driver, 1);
+        //WaitUtils.isPageLoadingComplete(driver, 1);
         WaitUtils.waitForElementToBeClickable(driver, By.linkText("Clear Filters"), TIMEOUT_30_SECOND, false);
         int position = RandomDataUtils.getSimpleRandomNumberBetween(1, listOfAccounts.size() - 1, false);
         WebElement accountLinks = listOfAccounts.get(position);
@@ -125,7 +125,7 @@ public class Accounts extends _Page {
     }
 
     public Accounts viewSpecifiedAccount(String randomAccountName) {
-        WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText(randomAccountName), TIMEOUT_DEFAULT, false);
+        WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText(randomAccountName), TIMEOUT_10_SECOND, false);
         WebElement accountLinks = driver.findElement(By.partialLinkText(randomAccountName));
         //accountLinks.click();
         PageUtils.doubleClick(driver, accountLinks);
@@ -133,7 +133,7 @@ public class Accounts extends _Page {
     }
 
     public Accounts gotoEditAccountInformation() {
-        WaitUtils.waitForElementToBeClickable(driver, editAccountInfoLink, TIMEOUT_DEFAULT, false);
+        WaitUtils.waitForElementToBeClickable(driver, editAccountInfoLink, TIMEOUT_10_SECOND, false);
         editAccountInfoLink.click();
         return new Accounts(driver);
     }
@@ -146,7 +146,7 @@ public class Accounts extends _Page {
             String key = split[0];
             String value = split[1];
             if(key.equals("job.title")){
-                WaitUtils.waitForElementToBeClickable(driver, jobTitle, TIMEOUT_DEFAULT, false);
+                WaitUtils.waitForElementToBeClickable(driver, jobTitle, TIMEOUT_10_SECOND, false);
                 jobTitle.clear();
                 jobTitle.sendKeys(RandomDataUtils.generateTestNameStartingWith(value, 5));
             }

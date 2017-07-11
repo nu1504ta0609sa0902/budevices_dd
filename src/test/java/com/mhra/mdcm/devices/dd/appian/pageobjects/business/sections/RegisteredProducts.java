@@ -22,7 +22,7 @@ public class RegisteredProducts extends _Page {
     }
 
     public boolean isHeadingCorrect(String expectedHeadings) {
-        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//h1[.='" + expectedHeadings + "']") , TIMEOUT_DEFAULT, false);
+        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//h1[.='" + expectedHeadings + "']") , TIMEOUT_10_SECOND, false);
         WebElement heading = driver.findElement(By.xpath(".//h1[.='" + expectedHeadings + "']"));
         boolean contains = heading.getText().contains(expectedHeadings);
         return contains;
@@ -30,7 +30,7 @@ public class RegisteredProducts extends _Page {
 
     public boolean isItemsDisplayed(String expectedHeadings) {
         boolean itemsDisplayed = false;
-        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//h1[.='" + expectedHeadings + "']") , TIMEOUT_DEFAULT, false);
+        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//h1[.='" + expectedHeadings + "']") , TIMEOUT_10_SECOND, false);
         itemsDisplayed = listOfRegisteredProducts.size() > 0;
         return itemsDisplayed;
     }

@@ -65,8 +65,8 @@ public class ManufacturerList extends _Page {
     }
 
     public String getARandomManufacturerName() {
-        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
-        WaitUtils.waitForElementToBeVisible(driver, aManufacturerName, TIMEOUT_DEFAULT, false);
+        //WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+        WaitUtils.waitForElementToBeVisible(driver, aManufacturerName, TIMEOUT_10_SECOND, false);
         WaitUtils.waitForElementToBeClickable(driver, aManufacturerName, TIMEOUT_5_SECOND, false);
         int index = RandomDataUtils.getNumberBetween(0, listOfManufacturerNames.size() - 1);
         WebElement link = listOfManufacturerNames.get(index);
@@ -109,7 +109,7 @@ public class ManufacturerList extends _Page {
 
 
 //    public CreateManufacturerTestsData registerNewManufacturer() {
-//        WaitUtils.waitForElementToBeClickable(driver, btnRegisterNewManufacturer, TIMEOUT_DEFAULT, false);
+//        WaitUtils.waitForElementToBeClickable(driver, btnRegisterNewManufacturer, TIMEOUT_10_SECOND, false);
 //        btnRegisterNewManufacturer.click();
 //        return new CreateManufacturerTestsData(driver);
 //    }
@@ -150,11 +150,11 @@ public class ManufacturerList extends _Page {
 
 
     public ManufacturerList sortBy(String sortBy, int numberOfTimesToClick) {
-        WaitUtils.waitForElementToBeClickable(driver, manufacturerRegistrationStatus, TIMEOUT_DEFAULT, false);
+        WaitUtils.waitForElementToBeClickable(driver, manufacturerRegistrationStatus, TIMEOUT_10_SECOND, false);
         if(sortBy.equals("Registration Status")){
             for(int c = 0; c < numberOfTimesToClick; c++) {
                 manufacturerRegistrationStatus.click();
-                WaitUtils.waitForElementToBeClickable(driver, manufacturerRegistrationStatus, TIMEOUT_DEFAULT, false);
+                WaitUtils.waitForElementToBeClickable(driver, manufacturerRegistrationStatus, TIMEOUT_10_SECOND, false);
             }
         }
 
@@ -194,8 +194,8 @@ public class ManufacturerList extends _Page {
 
 
     public _CreateManufacturerTestsData registerNewManufacturer() {
-        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
-        WaitUtils.waitForElementToBeClickable(driver, btnRegisterNewManufacturer, TIMEOUT_DEFAULT, false);
+        //WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+        WaitUtils.waitForElementToBeClickable(driver, btnRegisterNewManufacturer, TIMEOUT_10_SECOND, false);
         btnRegisterNewManufacturer.click();
         return new _CreateManufacturerTestsData(driver);
     }

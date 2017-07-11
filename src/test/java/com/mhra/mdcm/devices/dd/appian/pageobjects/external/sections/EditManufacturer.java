@@ -139,7 +139,7 @@ public class EditManufacturer extends _Page {
 //
 //
 //    public MyAccountPage saveChanges(boolean saveChanges) {
-//        WaitUtils.waitForElementToBeClickable(driver, saveNo, TIMEOUT_DEFAULT, false);
+//        WaitUtils.waitForElementToBeClickable(driver, saveNo, TIMEOUT_10_SECOND, false);
 //        if(saveChanges){
 //            saveYes.get(1).click();
 //        }else{
@@ -163,7 +163,7 @@ public class EditManufacturer extends _Page {
 //
 //
 //    public ManufacturerDetails confirmChanges(boolean confirm) {
-//        WaitUtils.waitForElementToBeClickable(driver, confirmYes, TIMEOUT_DEFAULT, false);
+//        WaitUtils.waitForElementToBeClickable(driver, confirmYes, TIMEOUT_10_SECOND, false);
 //        if(confirm){
 //            confirmYes.click();
 //        }else{

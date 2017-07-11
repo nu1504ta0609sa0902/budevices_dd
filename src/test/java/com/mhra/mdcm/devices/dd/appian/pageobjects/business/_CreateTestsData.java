@@ -132,7 +132,7 @@ public class _CreateTestsData extends _Page {
         }
 
         //Organisation details
-        WaitUtils.waitForElementToBeClickable(driver, addressLine1, TIMEOUT_DEFAULT, false);
+        WaitUtils.waitForElementToBeClickable(driver, addressLine1, TIMEOUT_10_SECOND, false);
         addressLine1.clear();
         addressLine1.sendKeys(ar.address1);
         addressLine2.sendKeys(ar.address2);
@@ -213,15 +213,15 @@ public class _CreateTestsData extends _Page {
                 PageUtils.singleClick(driver, deviceReg);
             }
             if (ar.cfsCertificateOfFreeSale) {
-                WaitUtils.waitForElementToBeClickable(driver, cfsCertification, TIMEOUT_DEFAULT, false);
+                WaitUtils.waitForElementToBeClickable(driver, cfsCertification, TIMEOUT_10_SECOND, false);
                 PageUtils.singleClick(driver, cfsCertification);
             }
             if (ar.clinicalInvestigation) {
-                WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//span[.='Selected Services']//following::input[3]"), TIMEOUT_DEFAULT, false);
+                WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//span[.='Selected Services']//following::input[3]"), TIMEOUT_10_SECOND, false);
                 PageUtils.singleClick(driver, clinicalInvestigation);
             }
             if (ar.aitsAdverseIncidentTrackingSystem) {
-                WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//span[.='Selected Services']//following::input[4]"), TIMEOUT_DEFAULT, false);
+                WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//span[.='Selected Services']//following::input[4]"), TIMEOUT_10_SECOND, false);
                 PageUtils.singleClick(driver, aitsAdverseIncidient);
             }
         }catch (Exception e){

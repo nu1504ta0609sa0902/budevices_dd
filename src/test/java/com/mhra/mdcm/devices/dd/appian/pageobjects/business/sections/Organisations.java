@@ -33,7 +33,7 @@ public class Organisations extends _Page {
     }
 
     public boolean isHeadingCorrect(String expectedHeadings) {
-        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//h1[.='" + expectedHeadings + "']") , TIMEOUT_DEFAULT, false);
+        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//h1[.='" + expectedHeadings + "']") , TIMEOUT_10_SECOND, false);
         WebElement heading = driver.findElement(By.xpath(".//h1[.='" + expectedHeadings + "']"));
         boolean contains = heading.getText().contains(expectedHeadings);
         return contains;
@@ -41,13 +41,13 @@ public class Organisations extends _Page {
 
     public boolean isItemsDisplayed(String expectedHeadings) {
         boolean itemsDisplayed = false;
-        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//h1[.='" + expectedHeadings + "']") , TIMEOUT_DEFAULT, false);
+        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//h1[.='" + expectedHeadings + "']") , TIMEOUT_10_SECOND, false);
         itemsDisplayed = listOfAllOrganisations.size() > 0;
         return itemsDisplayed;
     }
 
     public List<String> isTableColumnCorrect(String[] columns) {
-        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//table//th") , TIMEOUT_DEFAULT, false);
+        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//table//th") , TIMEOUT_10_SECOND, false);
         List<String> listOfColumns = new ArrayList<>();
         for(WebElement el: listOfTableColumns){
             String text = el.getText();
@@ -74,7 +74,7 @@ public class Organisations extends _Page {
 
         //Search for an existing name
         if(exists){
-            WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText("Manufacturer") , TIMEOUT_DEFAULT, false);
+            WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText("Manufacturer") , TIMEOUT_10_SECOND, false);
             boolean found = false;
             do {
                 int randomNumberBetween = RandomDataUtils.getSimpleRandomNumberBetween(0, listOfAllOrganisations.size(), false);
@@ -91,7 +91,7 @@ public class Organisations extends _Page {
     }
 
     public Organisations searchForOrganisation(String organisationName) {
-        WaitUtils.waitForElementToBeClickable(driver, searchBox, TIMEOUT_DEFAULT, false);
+        WaitUtils.waitForElementToBeClickable(driver, searchBox, TIMEOUT_10_SECOND, false);
         searchBox.clear();
         searchBox.sendKeys(organisationName);
         searchBox.sendKeys(Keys.ENTER);
@@ -104,7 +104,7 @@ public class Organisations extends _Page {
      */
     public int getNumberOfMatches() {
         WaitUtils.waitForPageToLoad(driver, By.xpath("WaitForPageToLoad") , TIMEOUT_5_SECOND, false);
-        WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText("Manufacturer") , TIMEOUT_DEFAULT, false);
+        WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText("Manufacturer") , TIMEOUT_10_SECOND, false);
         int size = listOfAllOrganisations.size();
         size = (size-1) / 2;
         return size;

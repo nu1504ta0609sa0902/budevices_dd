@@ -166,7 +166,8 @@ public class AccountRequest {
     public String getUserName(boolean aRandomOne) {
         String lastName = generateLastName();
         if (aRandomOne) {
-            lastName = lastName + RandomDataUtils.getTodaysDate(false, "");
+            //lastName = lastName + RandomDataUtils.getTodaysDate(false, "");
+            lastName = lastName + RandomDataUtils.getTodaysDate(false, "") + "_" + RandomDataUtils.getTimeHour();
         }
         String userName = lastName + "_" + initials;
         System.out.println("Create account with UserName : " + userName);

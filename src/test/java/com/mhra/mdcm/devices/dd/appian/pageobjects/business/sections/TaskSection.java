@@ -97,7 +97,7 @@ public class TaskSection extends _Page {
 
         try {
             //For new account
-            WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+            //WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
             WaitUtils.waitForElementToBeVisible(driver, header, TIMEOUT_5_SECOND, false);
             boolean contains = header.getText().contains(orgName);
             return contains;
@@ -139,7 +139,7 @@ public class TaskSection extends _Page {
     }
 
     public TasksPage approveTaskNewAccount() {
-        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+        //WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
         WaitUtils.waitForElementToBeClickable(driver, approveNewAccount, TIMEOUT_5_SECOND, false);
         PageUtils.doubleClick(driver, approveNewAccount);
         //log.info("Task should be approved now");
@@ -194,7 +194,7 @@ public class TaskSection extends _Page {
     }
 
     public TaskSection searchAWIPPageForAccount(String accountNameOrReference) {
-        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+        //WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
         WaitUtils.waitForElementToBeClickable(driver, tbxSearchByManufacturer, TIMEOUT_10_SECOND);
         tbxSearchByManufacturer.sendKeys(accountNameOrReference);
         btnSearchForManufacuturer.click();
@@ -223,17 +223,19 @@ public class TaskSection extends _Page {
     }
 
     public TaskSection confirmAssignment(boolean clickYes) {
-        WaitUtils.waitForElementToBeClickable(driver, btnConfirmYesAssignToMe, TIMEOUT_10_SECOND);
-        if(clickYes){
-            btnConfirmYesAssignToMe.click();
-        }else{
-            btnConfirmNoAssignToMe.click();
+        if(PageUtils.isElementClickable(driver, btnConfirmYesAssignToMe, TIMEOUT_3_SECOND)) {
+            //WaitUtils.waitForElementToBeClickable(driver, btnConfirmYesAssignToMe, TIMEOUT_10_SECOND);
+            if (clickYes) {
+                btnConfirmYesAssignToMe.click();
+            } else {
+                btnConfirmNoAssignToMe.click();
+            }
         }
         return new TaskSection(driver);
     }
 
     public TaskSection approveAWIPTaskNewAccount() {
-        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+        //WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
         WaitUtils.waitForElementToBeClickable(driver, btnApproveNewAccount, TIMEOUT_3_SECOND);
         PageUtils.doubleClick(driver, btnApproveNewAccount);
         System.out.println("Task should be approved now");
@@ -241,7 +243,7 @@ public class TaskSection extends _Page {
     }
 
     public TaskSection approveAWIPManufacturerTask() {
-        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+        //WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
         WaitUtils.waitForElementToBeClickable(driver, btnApproveManufacturer, TIMEOUT_10_SECOND);
         PageUtils.doubleClick(driver, btnApproveManufacturer);
         System.out.println("Approved the manufacturer");
@@ -249,7 +251,7 @@ public class TaskSection extends _Page {
     }
 
     public TaskSection approveAWIPAllDevices() {
-        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+        //WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
         WaitUtils.waitForElementToBeClickable(driver, btnApproveAllDevices, TIMEOUT_10_SECOND);
         PageUtils.doubleClick(driver, btnApproveAllDevices);
         System.out.println("Approved all the devices");
@@ -257,7 +259,7 @@ public class TaskSection extends _Page {
     }
 
     public TaskSection completeTheApplication() {
-        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+        //WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
         WaitUtils.waitForElementToBeClickable(driver, btnCompleteTheApplication, TIMEOUT_10_SECOND);
         PageUtils.doubleClick(driver, btnCompleteTheApplication);
         System.out.println("Application completed");

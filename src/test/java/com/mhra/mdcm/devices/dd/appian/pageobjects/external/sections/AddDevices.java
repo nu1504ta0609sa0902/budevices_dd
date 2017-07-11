@@ -580,7 +580,7 @@ public class AddDevices extends _Page {
     }
 
     private boolean isNotifiedBodyListDisplayingCorrectDetails() {
-        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+        //WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
         WaitUtils.waitForElementToBeClickable(driver, nb0086BSI, TIMEOUT_1_SECOND, false);
         boolean numberOfNB = listOfNotifiedBodies.size() >= 6;
         String txt = PageUtils.getText(listOfNotifiedBodies.get(5));
@@ -727,7 +727,7 @@ public class AddDevices extends _Page {
 
     public boolean isErrorMessageDisplayed(String message) {
         try {
-            WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+            //WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
             WaitUtils.waitForElementToBeVisible(driver, By.cssSelector(".FieldLayout---field_error"), 3);
             WaitUtils.waitForElementToBeClickable(driver, By.cssSelector(".FieldLayout---field_error"), 3);
             boolean isDisplayed = false;
@@ -769,7 +769,7 @@ public class AddDevices extends _Page {
     }
 
     public AddDevices proceedToPayment() {
-        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+        //WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
         WaitUtils.waitForElementToBeClickable(driver, cbxConfirmInformation, TIMEOUT_5_SECOND, false);
         cbxConfirmInformation.click();
         WaitUtils.waitForElementToBeClickable(driver, btnProceedToPayment, TIMEOUT_15_SECOND, false);
@@ -779,7 +779,7 @@ public class AddDevices extends _Page {
     }
 
     public AddDevices confirmPayment() {
-        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+        //WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
         WaitUtils.waitForElementToBeClickable(driver, bthSubmitConfirm, TIMEOUT_15_SECOND, false);
         bthSubmitConfirm.click();
         System.out.println("Submit for registration");
@@ -787,7 +787,7 @@ public class AddDevices extends _Page {
     }
 
     public ExternalHomePage finish() {
-        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+        //WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
         WaitUtils.nativeWaitInSeconds(1);
         WaitUtils.waitForElementToBeClickable(driver, btnFinish, TIMEOUT_15_SECOND, false);
         btnFinish.click();
@@ -795,7 +795,7 @@ public class AddDevices extends _Page {
     }
 
     public ManufacturerList backToService() {
-        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+        //WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
         WaitUtils.waitForElementToBeClickable(driver, linkBackToService, TIMEOUT_15_SECOND, false);
         linkBackToService.click();
         return new ManufacturerList(driver);
@@ -860,7 +860,7 @@ public class AddDevices extends _Page {
     }
 
     public AddDevices proceedToReview() {
-        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+        //WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
         WaitUtils.nativeWaitInSeconds(2);
         WaitUtils.waitForElementToBeClickable(driver, btnProceedToReview, TIMEOUT_15_SECOND, false);
         btnProceedToReview.click();
@@ -876,7 +876,7 @@ public class AddDevices extends _Page {
 
 
     public AddDevices enterPaymentDetails(String paymentMethod) {
-        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+        //WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
         WaitUtils.waitForElementToBeClickable(driver, ddAddressBox, TIMEOUT_5_SECOND);
 
         //Select billing address:

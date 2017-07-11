@@ -30,7 +30,7 @@ public class ActionsPage extends _Page {
 
     public boolean isInActionsPage() {
         try {
-            WaitUtils.waitForElementToBeClickable(driver, linkCreateTestAccount, TIMEOUT_DEFAULT, false);
+            WaitUtils.waitForElementToBeClickable(driver, linkCreateTestAccount, TIMEOUT_10_SECOND, false);
             return true;
         } catch (Exception e) {
             return false;
@@ -38,7 +38,7 @@ public class ActionsPage extends _Page {
     }
 
     public boolean isApplicationSubmittedSuccessfully() {
-        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+        //WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
         try {
             WaitUtils.waitForElementToBeClickable(driver, txtApplicationComplete, TIMEOUT_15_SECOND);
             return true;
@@ -48,7 +48,7 @@ public class ActionsPage extends _Page {
     }
 
     public _CreateTestsData gotoTestsHarnessPage() {
-        WaitUtils.isPageLoadingComplete(driver, 10);
+        //WaitUtils.isPageLoadingComplete(driver, 10);
         WaitUtils.nativeWaitInSeconds(2);
         WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText("Create Test Account"), TIMEOUT_15_SECOND, false);
         WaitUtils.waitForElementToBeClickable(driver, linkCreateTestAccount, TIMEOUT_15_SECOND, false);

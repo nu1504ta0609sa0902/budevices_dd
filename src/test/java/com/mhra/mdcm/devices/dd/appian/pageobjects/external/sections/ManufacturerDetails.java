@@ -71,7 +71,7 @@ public class ManufacturerDetails extends _Page {
     }
 
     public boolean isOrganisationNameCorrect(String name) {
-        WaitUtils.waitForElementToBeClickable(driver, orgName, TIMEOUT_DEFAULT, false);
+        WaitUtils.waitForElementToBeClickable(driver, orgName, TIMEOUT_10_SECOND, false);
         boolean contains = orgName.getText().contains(name);
         return contains;
     }
@@ -157,7 +157,7 @@ public class ManufacturerDetails extends _Page {
 //
 //    public boolean verifyManufacturerUpdatesDisplayedOnPage(String keyValuePairToUpdate, AccountRequest updatedData) {
 //
-//        WaitUtils.waitForElementToBeVisible(driver, email, TIMEOUT_DEFAULT, false);
+//        WaitUtils.waitForElementToBeVisible(driver, email, TIMEOUT_10_SECOND, false);
 //        WaitUtils.waitForElementToBeVisible(driver, fullName, TIMEOUT_15_SECOND, false);
 //
 //        boolean allChangesDisplayed = true;
