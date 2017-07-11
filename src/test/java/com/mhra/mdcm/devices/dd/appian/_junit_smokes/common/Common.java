@@ -38,7 +38,7 @@ public class Common {
     public static boolean isManufacturer = false;  //What type of accounts to create false=AuthorisedReps
     //This controls and limits the users (overrides excel)
     public String[] initialsArray = new String[]{
-            "NU", //"AT", "NU", "HB", "YC", "PG", "AN", "LP"
+            "AT", //"AT", "NU", "HB", "YC", "PG", "AN", "LP"
     };
 
     public static WebDriver driver;

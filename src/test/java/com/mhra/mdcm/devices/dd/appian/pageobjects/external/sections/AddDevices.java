@@ -68,6 +68,12 @@ public class AddDevices extends _Page {
     @FindBy(xpath = ".//span[contains(text(),'device measuring')]//following::label[2]")
     WebElement radioDeviceMeasuringNo;
 
+    //New EU medical device rules
+    @FindBy(xpath = ".//span[contains(text(),'new medical device regulation')]//following::label[1]")
+    WebElement radioEURuleYes;
+    @FindBy(xpath = ".//span[contains(text(),'new medical device regulation')]//following::label[2]")
+    WebElement radioEURuleNo;
+
     //Custom Made = No, Then enter risk classification
     @FindBy(xpath = ".//span[contains(text(),'risk class')]//following::label[1]")
     WebElement radioRiskClass1;
@@ -235,6 +241,8 @@ public class AddDevices extends _Page {
     //Product details : New Medical device names
     @FindBy(xpath = ".//*[contains(text(),'Medical device name')]//following::input[1]")
     WebElement pdMedicalDeviceName;
+    @FindBy(xpath = ".//*[contains(text(),'Medical device name')]//following::input[2]")
+    WebElement pdMedicalDeviceModel;
     @FindBy(xpath = ".//*[contains(text(),'Medical Device Name')]//following::input[1]")
     WebElement pdMedicalDeviceNameAIMD;
 
@@ -307,6 +315,7 @@ public class AddDevices extends _Page {
     private void addGeneralMedicalDevice(DeviceData dd) {
         searchByGMDN(dd);
         customMade(dd);
+        compliesWithEUDeviceRequirements(true);
 
         if (dd.customMade.toLowerCase().equals("n")) {
             deviceSterile(dd);
@@ -319,11 +328,22 @@ public class AddDevices extends _Page {
                 }
             }
         }
-        //saveProduct(dd);
+
+    }
+
+    private void compliesWithEUDeviceRequirements(boolean compliesWitEU) {
+
+        WaitUtils.waitForElementToBeClickable(driver, radioEURuleYes, TIMEOUT_15_SECOND, false);
+        if (compliesWitEU) {
+            PageUtils.doubleClick(driver, radioEURuleYes);
+        } else {
+            PageUtils.doubleClick(driver, radioEURuleNo);
+        }
     }
 
     private void addVitroDiagnosticDevice(DeviceData dd) {
         searchByGMDN(dd);
+        compliesWithEUDeviceRequirements(true);
         riskClassificationIVD(dd);
 
         int productCount = 0;
@@ -336,6 +356,7 @@ public class AddDevices extends _Page {
                     PageUtils.clickIfVisible(driver, addProduct);
                 }
                 addProductNew(dd);
+                addProductModel(dd);
                 notifiedBody(dd);
                 subjectToPerformanceEval(dd);
                 productNewToMarket(dd);
@@ -353,6 +374,18 @@ public class AddDevices extends _Page {
         }
     }
 
+
+    private void addProductModel(DeviceData dd) {
+        WaitUtils.waitForElementToBeClickable(driver, pdMedicalDeviceModel, TIMEOUT_15_SECOND, false);
+        pdMedicalDeviceModel.clear();
+        String pn = dd.productName;
+        if(pn == null){
+            pn = "Model";
+            dd.productName = pn;
+        }
+        pdMedicalDeviceModel.sendKeys(RandomDataUtils.getRandomTestName(pn));
+    }
+
     private void addProductNew(DeviceData dd) {
         WaitUtils.waitForElementToBeClickable(driver, pdMedicalDeviceName, TIMEOUT_15_SECOND, false);
         pdMedicalDeviceName.clear();
@@ -367,20 +400,7 @@ public class AddDevices extends _Page {
     private void addActiveImplantableDevice(DeviceData dd) {
         searchByGMDN(dd);
         customMade(dd);
-//        int numberOfProductName = dd.listOfProductDetails.size();
-//        if (numberOfProductName <= 1) {
-//            if (numberOfProductName == 1) {
-//                dd.productName = dd.listOfProductDetails.get(0).name;
-//            }
-//            //List of device to add
-//            if (dd.customMade.toLowerCase().equals("y")) {
-//                productLabelName(dd);
-//            }
-//        } else {
-//            for (ProductDetail x : dd.listOfProductDetails) {
-//                productLabelName(x.name);
-//            }
-//        }
+        compliesWithEUDeviceRequirements(true);
 
        if (dd.customMade.toLowerCase().equals("y")) {
            for (ProductDetail x : dd.listOfProductDetails) {
@@ -393,13 +413,11 @@ public class AddDevices extends _Page {
 
     private void addProcedurePackDevice(DeviceData dd) {
         searchByGMDN(dd);
-        addProductNew(dd);
-        deviceSterile(dd);
+        compliesWithEUDeviceRequirements(true);
 
-        //Removed in the deployment 12/06/2017
-//        if (dd.sterile.toLowerCase().equals("y") || dd.measuring.toLowerCase().equals("y")) {
-//            notifiedBody(dd);
-//        }
+        addProductNew(dd);
+        addProductModel(dd);
+        deviceSterile(dd);
 
         isBearingCEMarking(dd);
         devicesCompatible(dd);

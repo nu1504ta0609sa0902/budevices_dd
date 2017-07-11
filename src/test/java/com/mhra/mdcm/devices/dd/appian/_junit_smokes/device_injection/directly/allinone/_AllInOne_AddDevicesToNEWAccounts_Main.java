@@ -385,8 +385,6 @@ public class _AllInOne_AddDevicesToNEWAccounts_Main extends Common {
 
         log.info("Approved The Following Accounts : " + listOfAccountsCreatedWithTesterInitials + "\n");
 
-        WaitUtils.nativeWaitInSeconds(2);
-        //log.info(ar.organisationName);
         loginPage.logoutIfLoggedIn();
         WaitUtils.nativeWaitInSeconds(2);
 
