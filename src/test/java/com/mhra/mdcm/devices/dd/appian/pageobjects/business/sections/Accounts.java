@@ -51,6 +51,7 @@ public class Accounts extends _Page {
 
 
     public boolean isHeadingCorrect(String expectedHeadings) {
+        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
         WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//h1[.='" + expectedHeadings + "']") , TIMEOUT_10_SECOND, false);
         WebElement heading = driver.findElement(By.xpath(".//h1[.='" + expectedHeadings + "']"));
         boolean contains = heading.getText().contains(expectedHeadings);
@@ -59,37 +60,10 @@ public class Accounts extends _Page {
 
 
     public boolean isItemsDisplayed(String expectedHeadings) {
-        boolean itemsDisplayed = false;
-        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//h1[.='" + expectedHeadings + "']") , TIMEOUT_10_SECOND, false);
-
-        if(expectedHeadings.contains("Accounts")){
-            itemsDisplayed = listOfAccounts.size() > 0;
-        }
-
+        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//div[.='Status']//following::a") , TIMEOUT_10_SECOND, false);
+        boolean itemsDisplayed = listOfAccounts.size() > 0;
         return itemsDisplayed;
-    }
-
-    public List<String> isTableColumnCorrect(String[] columns) {
-        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//table//th") , TIMEOUT_10_SECOND, false);
-        List<String> listOfColumns = new ArrayList<>();
-        for(WebElement el: listOfTableColumns){
-            String text = el.getText();
-            if(text!=null){
-                listOfColumns.add(text);
-            }
-        }
-
-        //Verify columns matches expectation
-        List<String> columnsNotFound = new ArrayList<>();
-        for(String c: columns){
-            c = c.trim();
-            if(!listOfColumns.contains(c)){
-                System.out.println("Column Not Found : " + c);
-                columnsNotFound.add(c);
-            }
-        }
-
-        return columnsNotFound;
     }
 
     public Accounts searchForAccount(String orgName) {
@@ -98,16 +72,6 @@ public class Accounts extends _Page {
         searchBox.sendKeys(orgName);
         searchBox.sendKeys(Keys.ENTER);
         return new Accounts(driver);
-    }
-
-    public boolean numberOfMatchesShouldBe(int minCount) {
-        try{
-            WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//div[.='Status']//following::a[2]"), TIMEOUT_5_SECOND, false);
-            int actualCount = (listOfAccounts.size()-1)/2;
-            return actualCount >= minCount;
-        }catch (Exception e){
-            return minCount == 0;
-        }
     }
 
     /**
@@ -136,73 +100,6 @@ public class Accounts extends _Page {
         WaitUtils.waitForElementToBeClickable(driver, editAccountInfoLink, TIMEOUT_10_SECOND, false);
         editAccountInfoLink.click();
         return new Accounts(driver);
-    }
-
-    public Accounts editAccountInformation(String keyValuePairToUpdate) {
-        String[] dataPairs = keyValuePairToUpdate.split(",");
-
-        for(String pairs: dataPairs){
-            String[] split = pairs.split("=");
-            String key = split[0];
-            String value = split[1];
-            if(key.equals("job.title")){
-                WaitUtils.waitForElementToBeClickable(driver, jobTitle, TIMEOUT_10_SECOND, false);
-                jobTitle.clear();
-                jobTitle.sendKeys(RandomDataUtils.generateTestNameStartingWith(value, 5));
-            }
-        }
-
-        //Submit data, but you must select address types
-        addressType.click();
-        submitBtn.click();
-
-        return new Accounts(driver);
-    }
-
-    public boolean verifyUpdatesDisplayedOnPage(String keyValuePairToUpdate) {
-        WaitUtils.waitForElementToBeVisible(driver, jobTitleTxt, TIMEOUT_5_SECOND, false);
-        boolean allChangesDisplayed = true;
-
-        //Check for the following
-        String[] dataPairs = keyValuePairToUpdate.split(",");
-
-        for(String pairs: dataPairs){
-            String[] split = pairs.split("=");
-            String key = split[0];
-            String value = split[1];
-            if(key.equals("job.title")){
-                allChangesDisplayed = AssertUtils.areChangesDisplayed(jobTitleTxt,  value);
-            }
-        }
-
-        return allChangesDisplayed;
-    }
-
-    public boolean isOrderedAtoZ() {
-        int getFirstX = 20;
-        List<String> listOfOrderedOrganisations = new ArrayList<>();
-        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//div[.='Status']//following::a[2]"), TIMEOUT_5_SECOND, false);
-
-        //Get list of organisation names
-        int position = 0;   //Only even ones are organisation name
-        int elementCount = 0;
-        for(WebElement el: listOfAccounts){
-
-            //At the moment only the even ones are organisation names
-            if(position % 2 == 0){
-                String orgName = el.getText();
-                listOfOrderedOrganisations.add(orgName);
-            }
-
-            if(elementCount == getFirstX){
-                break;
-            }
-
-            elementCount++;
-            position++;
-        }
-
-        return false;
     }
 
     public boolean isInEditMode() {

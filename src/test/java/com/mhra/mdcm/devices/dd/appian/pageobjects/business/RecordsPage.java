@@ -17,6 +17,10 @@ public class RecordsPage extends _Page {
 
     @FindBy(linkText = "Accounts")
     WebElement linkAccounts;
+    @FindBy(linkText = "Applications")
+    WebElement linkApplications;
+    @FindBy(linkText = "CFS Organisations")
+    WebElement linkCFSOrganisations;
     @FindBy(linkText = "GMDN Devices")
     WebElement linkGMDNDevices;
     @FindBy(linkText = "Organisations")
@@ -68,4 +72,17 @@ public class RecordsPage extends _Page {
         return new Organisations(driver);
     }
 
+    public Applications clickOnApplications() {
+        WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText("Applications"), TIMEOUT_10_SECOND, false);
+        WaitUtils.waitForElementToBeClickable(driver, linkApplications, TIMEOUT_10_SECOND, false);
+        linkApplications.click();
+        return new Applications(driver);
+    }
+
+    public CFSOrganisations clickOnCFSOrganisations() {
+        WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText("CFS Organisations"), TIMEOUT_10_SECOND, false);
+        WaitUtils.waitForElementToBeClickable(driver, linkCFSOrganisations, TIMEOUT_10_SECOND, false);
+        linkCFSOrganisations.click();
+        return new CFSOrganisations(driver);
+    }
 }

@@ -168,6 +168,44 @@ public class SmokeTestsBusiness extends Common {
 
     }
 
+    @Test
+    public void asABusinessUserIShouldBeAbleToViewApplicationsPage() {
+
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage = loginPage.loadPage(baseUrl);
+        MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
+
+        String expectedHeadings = "Applications";
+        recordsPage = mainNavigationBar.clickRecords();
+        applications = recordsPage.clickOnApplications();
+
+        boolean isHeadingVisibleAndCorrect = applications.isHeadingCorrect(expectedHeadings);
+        boolean isItemsDisplayedAndCorrect = applications.isItemsDisplayed(expectedHeadings);
+        //Verify results
+        Assert.assertThat("Heading should be : " + expectedHeadings, isHeadingVisibleAndCorrect, is(true));
+        Assert.assertThat("Expected to see at least 1 item", isItemsDisplayedAndCorrect, is(true));
+
+    }
+
+    @Test
+    public void asABusinessUserIShouldBeAbleToViewCFSOrganisationsPage() {
+
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage = loginPage.loadPage(baseUrl);
+        MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
+
+        String expectedHeadings = "CFS Organisations";
+        recordsPage = mainNavigationBar.clickRecords();
+        cfsOrganisations = recordsPage.clickOnCFSOrganisations();
+
+        boolean isHeadingVisibleAndCorrect = cfsOrganisations.isHeadingCorrect(expectedHeadings);
+        boolean isItemsDisplayedAndCorrect = cfsOrganisations.isItemsDisplayed(expectedHeadings);
+        //Verify results
+        Assert.assertThat("Heading should be : " + expectedHeadings, isHeadingVisibleAndCorrect, is(true));
+        Assert.assertThat("Expected to see at least 1 item", isItemsDisplayedAndCorrect, is(true));
+
+    }
+
 
     @Test
     public void asABusinessUserIShouldBeAbleToViewGMDNDevicesPage() {
@@ -474,6 +512,7 @@ public class SmokeTestsBusiness extends Common {
 
 
     @Test
+    @Ignore
     public void asABusinessUserIAmAbleToSearchViewAndEditManufacturerAccounts() {
 
         LoginPage loginPage = new LoginPage(driver);
@@ -497,6 +536,7 @@ public class SmokeTestsBusiness extends Common {
 
 
     @Test
+    @Ignore
     public void asABusinessUserIAmAbleToSearchViewAndEditAuthorisedRepAccounts() {
 
         LoginPage loginPage = new LoginPage(driver);

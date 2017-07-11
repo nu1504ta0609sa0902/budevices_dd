@@ -104,14 +104,14 @@ public class Common {
 
         @Override
         protected void failed(Throwable e, Description description) {
-            //log.warn("Failed : " + description);
-            logTime("Failed,", description);
-            log.warn("Error : " + e.getMessage());
-
             String name = description.getMethodName();
             name = name.substring(0, name.indexOf("[") );
             TestHarnessUtils.takeScreenShot(driver, name, false);
             TestHarnessUtils.takeScreenShot(driver, name, true);
+
+            //log.warn("Failed : " + description);
+            logTime("Failed,", description);
+            log.warn("Error : " + e.getMessage());
         }
 
 
@@ -150,6 +150,8 @@ public class Common {
     public ActionsPage actionsPage;
 
     public Accounts accounts;
+    public Applications applications;
+    public CFSOrganisations cfsOrganisations;
     public RegisteredDevices registeredDevices;
     public Organisations organisations;
     public ExternalHomePage externalHomePage;
