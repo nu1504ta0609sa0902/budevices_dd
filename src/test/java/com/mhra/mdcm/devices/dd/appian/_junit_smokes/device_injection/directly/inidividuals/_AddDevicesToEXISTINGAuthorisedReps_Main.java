@@ -310,7 +310,7 @@ public class _AddDevicesToEXISTINGAuthorisedReps_Main extends Common {
                             count++;
                         }
 
-                        if(count > 5){
+                        if(count > 30){
                             break;
                         }
 
@@ -406,8 +406,9 @@ public class _AddDevicesToEXISTINGAuthorisedReps_Main extends Common {
             if(contains) {
                 taskSection = taskSection.assignTaskToMe();
                 taskSection = taskSection.confirmAssignment(true);
-                tasksPage = taskSection.approveTaskNewAccount();
-                taskSection = taskSection.confirmAssignment(true);
+                taskSection = taskSection.approveAWIPManufacturerTask();
+                taskSection = taskSection.approveAWIPAllDevices();
+                taskSection = taskSection.completeTheApplication();
                 WaitUtils.nativeWaitInSeconds(5);
             }
 

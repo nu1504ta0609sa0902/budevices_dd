@@ -696,6 +696,10 @@ public class AddDevices extends _Page {
             String searchFor = arrayOfDeviceBecauseTheyKeepBloodyChanging[pos];
             boolean isErrorMessageDisplayed = false;
             do {
+
+                if(pos == 0){
+                    searchFor = dd.device;
+                }
                 WaitUtils.waitForElementToBeClickable(driver, tbxGMDNDefinitionOrTerm, TIMEOUT_15_SECOND, false);
                 tbxGMDNDefinitionOrTerm.clear();
                 tbxGMDNDefinitionOrTerm.sendKeys(searchFor);

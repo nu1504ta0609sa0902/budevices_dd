@@ -61,7 +61,7 @@ public class _AllInOne_AddDevicesToNEWAccounts_Main extends Common {
                  * Always use one of the Business Accounts to create the test manufacturers
                  * This will create authorisedReps with users initials e.g _NU, _HB
                  */
-                log.info("First CREATE New Accounts To Add Manufactures/Devices To : ");
+                log.info("\n\nFirst CREATE New Accounts To Add Manufactures/Devices To : ");
                 String initials = u.getInitials();
                 User businessUser = ExcelDirectDeviceDataUtils.getCorrectLoginDetails("_" + initials, listOfBusinessUsers);
                 _AllInOne_AddDevicesToNEWAccounts_Main tgs = new _AllInOne_AddDevicesToNEWAccounts_Main(businessUser);
@@ -179,7 +179,7 @@ public class _AllInOne_AddDevicesToNEWAccounts_Main extends Common {
             manufacturerList = externalHomePage.gotoListOfManufacturerPage();
             indicateDevices(false);
 
-            //
+            //Register a new manufacturer and add devices to it
             registerANewManufacturer();
             createAuthorisedRepsWithManufacturerTestHarness2(manufacturerUser);
             createDevicesFor(manufacturerUser, false, businessUser, ar);

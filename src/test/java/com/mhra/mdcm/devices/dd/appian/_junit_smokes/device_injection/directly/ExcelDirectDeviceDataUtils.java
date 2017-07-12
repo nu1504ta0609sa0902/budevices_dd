@@ -33,7 +33,7 @@ public class ExcelDirectDeviceDataUtils extends Common {
     public static List<DeviceData> getListOfDeviceData() {
         if (listOfDeviceData == null) {
             //We only want to execute this once
-            listOfDeviceData = excelUtils.getListOfDeviceData("configs/data/excel/DevicesData.xlsx", "TestDataWellFormed_Simple");
+            listOfDeviceData = excelUtils.getListOfDeviceData("configs/data/excel/DevicesData.xlsx", "TestDataWellFormed_Simple_full");
         }
         return listOfDeviceData;
     }

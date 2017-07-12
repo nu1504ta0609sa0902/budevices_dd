@@ -139,10 +139,8 @@ public class TaskSection extends _Page {
     }
 
     public TasksPage approveTaskNewAccount() {
-        //WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
-        WaitUtils.waitForElementToBeClickable(driver, approveNewAccount, TIMEOUT_5_SECOND, false);
-        PageUtils.doubleClick(driver, approveNewAccount);
-        //log.info("Task should be approved now");
+        WaitUtils.waitForElementToBeClickable(driver, approveNewAccount, TIMEOUT_10_SECOND, false);
+        PageUtils.singleClick(driver, approveNewAccount);
         return new TasksPage(driver);
     }
 

@@ -43,7 +43,7 @@ public class _CreateManufacturerTestsData extends _Page {
     //Contact Person Details
     @FindBy(xpath = ".//span[contains(text(),'Title')]//following::div[@role='listbox']")
     WebElement title;
-    @FindBy(xpath = ".//label[.='First name']//following::input[1]")
+    @FindBy(xpath = ".//*[.='First name']//following::input[1]")
     WebElement firstName;
     @FindBy(xpath = ".//label[.='Last name']//following::input[1]")
     WebElement lastName;

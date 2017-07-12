@@ -257,6 +257,7 @@ public class LoginPage extends _Page {
 
 
     public MainNavigationBar changePasswordTo(String tempPassword, String updatePasswordTo) {
+        log.info("Now change password from : " + tempPassword);
         WaitUtils.waitForElementToBeClickable(driver, btnSubmit, TIMEOUT_10_SECOND);
         passwordTemporary.sendKeys(tempPassword);
         passwordNew.sendKeys(updatePasswordTo);

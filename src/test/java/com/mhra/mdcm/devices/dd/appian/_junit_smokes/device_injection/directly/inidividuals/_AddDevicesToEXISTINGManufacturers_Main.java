@@ -284,9 +284,9 @@ public class _AddDevicesToEXISTINGManufacturers_Main extends Common {
                             count++;
                         }
 
-                        if(count > 5){
-                            break;
-                        }
+//                        if(count > 5){
+//                            break;
+//                        }
 
                         //Try adding another device
                         if (isVisible && count < listOfDevicesOfSpecificType.size())
@@ -372,8 +372,9 @@ public class _AddDevicesToEXISTINGManufacturers_Main extends Common {
             if(contains) {
                 taskSection = taskSection.assignTaskToMe();
                 taskSection = taskSection.confirmAssignment(true);
-                tasksPage = taskSection.approveTaskNewAccount();
-                taskSection = taskSection.confirmAssignment(true);
+                taskSection = taskSection.approveAWIPManufacturerTask();
+                taskSection = taskSection.approveAWIPAllDevices();
+                taskSection = taskSection.completeTheApplication();
                 WaitUtils.nativeWaitInSeconds(5);
             }
 
