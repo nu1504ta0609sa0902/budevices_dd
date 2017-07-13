@@ -501,7 +501,8 @@ public class SmokeTestsBusiness extends Common {
         if(contains) {
             taskSection = taskSection.assignTaskToMe();
             taskSection = taskSection.confirmAssignment(true);
-            tasksPage = taskSection.approveTaskNewAccount();
+            taskSection = taskSection.approveAWIPTaskNewAccount();
+            taskSection = taskSection.confirmAssignment(true);
             WaitUtils.nativeWaitInSeconds(5);
         }
 
