@@ -25,9 +25,9 @@ public class AddDevices extends _Page {
 
     @FindBy(css = ".RadioButtonGroup---choice_pair>label")
     List<WebElement> listOfDeviceTypes;
-    //    @FindBy(xpath = ".//*[.='Term']//following::td[contains(@class, 'GFWJSJ4DCEB')]")
-//    List<WebElement> listOfTermsOrCodeMatches;
-    @FindBy(xpath = ".//label[contains(text(),'GMDN Code')]//following::a[string-length(text()) > 0]")
+    @FindBy(xpath = ".//label[contains(text(),'GMDN Code')]//following::tr/td")
+    WebElement firstGMDNMatchReturnedBySearch;
+    @FindBy(xpath = ".//label[contains(text(),'GMDN Code')]//following::tr/td")
     List<WebElement> listOfGmdnMatchesReturnedBySearch;
     @FindBy(css = ".ParagraphText---richtext_paragraph .StrongText---richtext_strong")
     WebElement labelValidGMDNCodeMessage;
@@ -484,12 +484,8 @@ public class AddDevices extends _Page {
         } else {
             PageUtils.doubleClick(driver, radioConformsToCTSNo);
             WaitUtils.waitForElementToBeClickable(driver, txtDemonstratedCompliance, TIMEOUT_15_SECOND, false);
-//            txtDemonstratedCompliance.clear();
-//            txtDemonstratedCompliance.sendKeys("Demonstrated Compliance");
-//            txtTestingMethod.clear();
-//            txtTestingMethod.sendKeys("Manually Tested");
             PageUtils.clearAndTypeText(txtDemonstratedCompliance, "Demonstrated Compliance", true);
-            PageUtils.clearAndTypeText(txtTestingMethod, "Manually Tested", true);
+            PageUtils.clearAndTypeText(txtTestingMethod, "Automatically Created From Excel Sheet Test Data", true);
         }
     }
 
@@ -581,7 +577,7 @@ public class AddDevices extends _Page {
 
     private boolean isNotifiedBodyListDisplayingCorrectDetails() {
         //WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
-        WaitUtils.waitForElementToBeClickable(driver, nb0086BSI, TIMEOUT_1_SECOND, false);
+        WaitUtils.waitForElementToBeClickable(driver, nb0086BSI, TIMEOUT_5_SECOND, false);
         boolean numberOfNB = listOfNotifiedBodies.size() >= 6;
         String txt = PageUtils.getText(listOfNotifiedBodies.get(5));
         boolean otherDisplayed = txt.contains("Other");
@@ -606,20 +602,12 @@ public class AddDevices extends _Page {
         String lcRiskClassification = dd.riskClassification.toLowerCase();
 
         if (lcRiskClassification.contains("ivd general")) {
-            //WaitUtils.waitForElementToBePartOfDOM(driver, By.xpath(".//label[contains(text(),'IVD General')]"), TIMEOUT_15_SECOND, false);
-            //PageUtils.clickIfVisible(driver, ivdIVDGeneral);
             ivdIVDGeneral.click();
         } else if (lcRiskClassification.contains("list a")) {
-            //WaitUtils.waitForElementToBePartOfDOM(driver, By.xpath(".//label[contains(text(),'List A')]"), TIMEOUT_15_SECOND, false);
-            //PageUtils.clickIfVisible(driver, ivdListA);
             ivdListA.click();
         } else if (lcRiskClassification.contains("list b")) {
-            //WaitUtils.waitForElementToBePartOfDOM(driver, By.xpath(".//label[contains(text(),'List B')]"), TIMEOUT_15_SECOND, false);
-            //PageUtils.clickIfVisible(driver, ivdListB);
             ivdListB.click();
         } else if (lcRiskClassification.contains("self-test")) {
-            //WaitUtils.waitForElementToBePartOfDOM(driver, By.xpath(".//label[contains(text(),'Self-Test')]"), TIMEOUT_15_SECOND, false);
-            //PageUtils.clickIfVisible(driver, ivdSelfTest);
             ivdSelfTest.click();
         }
     }
@@ -703,12 +691,16 @@ public class AddDevices extends _Page {
                 WaitUtils.waitForElementToBeClickable(driver, tbxGMDNDefinitionOrTerm, TIMEOUT_15_SECOND, false);
                 tbxGMDNDefinitionOrTerm.clear();
                 tbxGMDNDefinitionOrTerm.sendKeys(searchFor);
-                WaitUtils.isPageLoadingComplete(driver, 2);
+                WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
 
                 //Wait for list of items to appear and add it only if its not a duplicate
-                WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//label[contains(text(),'GMDN Code')]//following::a[string-length(text()) > 0]"), TIMEOUT_5_SECOND, false);
+                WaitUtils.waitForElementToBeClickable(driver, firstGMDNMatchReturnedBySearch, TIMEOUT_5_SECOND, false);
                 int randomPosition = RandomDataUtils.getARandomNumberBetween(0, listOfGmdnMatchesReturnedBySearch.size() - 1);
                 WebElement element = listOfGmdnMatchesReturnedBySearch.get(randomPosition);
+
+                //Wait for it to be clickable
+                WaitUtils.waitForElementToBeClickable(driver, element, TIMEOUT_5_SECOND, false);
+                element = element.findElement(By.tagName("a"));
                 element.click();
 
                 //If its a duplicate Try again

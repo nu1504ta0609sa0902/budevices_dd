@@ -192,7 +192,6 @@ public class TaskSection extends _Page {
     }
 
     public TaskSection searchAWIPPageForAccount(String accountNameOrReference) {
-        //WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
         WaitUtils.waitForElementToBeClickable(driver, tbxSearchByManufacturer, TIMEOUT_10_SECOND);
         tbxSearchByManufacturer.sendKeys(accountNameOrReference);
         btnSearchForManufacuturer.click();
@@ -233,7 +232,6 @@ public class TaskSection extends _Page {
     }
 
     public TaskSection approveAWIPTaskNewAccount() {
-        //WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
         WaitUtils.waitForElementToBeClickable(driver, btnApproveNewAccount, TIMEOUT_3_SECOND);
         PageUtils.doubleClick(driver, btnApproveNewAccount);
         System.out.println("Task should be approved now");
@@ -241,7 +239,6 @@ public class TaskSection extends _Page {
     }
 
     public TaskSection approveAWIPManufacturerTask() {
-        //WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
         WaitUtils.waitForElementToBeClickable(driver, btnApproveManufacturer, TIMEOUT_10_SECOND);
         PageUtils.doubleClick(driver, btnApproveManufacturer);
         System.out.println("Approved the manufacturer");
@@ -249,7 +246,6 @@ public class TaskSection extends _Page {
     }
 
     public TaskSection approveAWIPAllDevices() {
-        //WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
         WaitUtils.waitForElementToBeClickable(driver, btnApproveAllDevices, TIMEOUT_10_SECOND);
         PageUtils.doubleClick(driver, btnApproveAllDevices);
         System.out.println("Approved all the devices");
@@ -257,7 +253,6 @@ public class TaskSection extends _Page {
     }
 
     public TaskSection completeTheApplication() {
-        //WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
         WaitUtils.waitForElementToBeClickable(driver, btnCompleteTheApplication, TIMEOUT_10_SECOND);
         PageUtils.doubleClick(driver, btnCompleteTheApplication);
         System.out.println("Application completed");
