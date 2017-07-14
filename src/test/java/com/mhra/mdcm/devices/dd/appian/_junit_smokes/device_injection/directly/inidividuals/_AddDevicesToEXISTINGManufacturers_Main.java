@@ -332,7 +332,6 @@ public class _AddDevicesToEXISTINGManufacturers_Main extends Common {
             addDevices = addDevices.enterPaymentDetails("BACS");   //OR BACS
             String reference = addDevices.getApplicationReferenceNumber();
             System.out.println("New Applicaiton reference number : " + reference);
-            //addDevices = addDevices.confirmPayment();
             manufacturerList = addDevices.backToService();
 
             //@todo Now login as business user and approve the task

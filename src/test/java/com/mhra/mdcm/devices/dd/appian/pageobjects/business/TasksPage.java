@@ -113,7 +113,7 @@ public class TasksPage extends _Page {
     }
 
     public TaskSection gotoApplicationWIPPage() {
-        WaitUtils.waitForElementToBeVisible(driver, applicationWorkInProgress, TIMEOUT_10_SECOND, false);
+        WaitUtils.waitForElementToBeVisible(driver, applicationWorkInProgress, TIMEOUT_30_SECOND, false);
         applicationWorkInProgress.click();
         return new TaskSection(driver);
     }

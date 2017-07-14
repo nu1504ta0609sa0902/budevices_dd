@@ -399,8 +399,8 @@ public class AddDevices extends _Page {
 
     private void addActiveImplantableDevice(DeviceData dd) {
         searchByGMDN(dd);
-        customMade(dd);
         compliesWithEUDeviceRequirements(true);
+        customMade(dd);
 
        if (dd.customMade.toLowerCase().equals("y")) {
            for (ProductDetail x : dd.listOfProductDetails) {
