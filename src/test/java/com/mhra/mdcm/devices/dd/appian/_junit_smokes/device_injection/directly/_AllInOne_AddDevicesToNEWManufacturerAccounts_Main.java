@@ -484,7 +484,7 @@ public class _AllInOne_AddDevicesToNEWManufacturerAccounts_Main extends Common {
             //Confirm
             addDevices = addDevices.proceedToReview();
             addDevices = addDevices.proceedToPayment();
-            addDevices = addDevices.enterPaymentDetails("BACS");   //OR BACS
+            addDevices = addDevices.enterPaymentDetails("WorldPay");   //WORLDPAY OR BACS
             String reference = addDevices.getApplicationReferenceNumber();
             System.out.println("New Applicaiton reference number : " + reference);
             manufacturerList = addDevices.backToService();
