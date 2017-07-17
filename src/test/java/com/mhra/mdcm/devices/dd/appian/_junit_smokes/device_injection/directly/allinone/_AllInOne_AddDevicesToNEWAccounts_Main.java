@@ -443,9 +443,9 @@ public class _AllInOne_AddDevicesToNEWAccounts_Main extends Common {
                         }
 
                         //REMOVE REMOVE REMOVE
-                        //if(count > 5){
-                        //    break;
-                        //}
+                        if(count > maxNumberOfDevicesToAdd){
+                            break;
+                        }
 
                         //Try adding another device
                         if (isVisible && count < listOfDevicesOfSpecificType.size())

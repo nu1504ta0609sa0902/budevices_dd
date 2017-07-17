@@ -284,9 +284,10 @@ public class _AddDevicesToEXISTINGManufacturers_Main extends Common {
                             count++;
                         }
 
-//                        if(count > 5){
-//                            break;
-//                        }
+                        //We don't always want to add all the devices from spreadsheet
+                        if(count > maxNumberOfDevicesToAdd){
+                            break;
+                        }
 
                         //Try adding another device
                         if (isVisible && count < listOfDevicesOfSpecificType.size())

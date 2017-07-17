@@ -34,8 +34,8 @@ import java.util.Date;
  */
 public class Common {
 
-
-    public static boolean isManufacturer = false;  //What type of accounts to create false=AuthorisedReps
+    public static int maxNumberOfDevicesToAdd = 5;
+    public static boolean isManufacturer = true;  //What type of accounts to create false=AuthorisedReps
     //This controls and limits the users (overrides excel)
     public String[] initialsArray = new String[]{
             "AT", //"AT", "NU", "HB", "YC", "PG", "AN", "LP"

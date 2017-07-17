@@ -310,7 +310,8 @@ public class _AddDevicesToEXISTINGAuthorisedReps_Main extends Common {
                             count++;
                         }
 
-                        if(count > 100){
+                        //We don't always want to add all the devices from spreadsheet
+                        if(count > maxNumberOfDevicesToAdd){
                             break;
                         }
 
