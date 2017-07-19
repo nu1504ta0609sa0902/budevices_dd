@@ -15,7 +15,7 @@ import java.util.List;
 
 public class RegisteredDevices extends _Page {
 
-    @FindBy(xpath = ".//div[.='Registration Status Id']//following::a")
+    @FindBy(xpath = ".//div[.='Term']//following::a")
     List<WebElement> listOfDevices;
 
 
@@ -35,7 +35,7 @@ public class RegisteredDevices extends _Page {
 
     public boolean isItemsDisplayed(String expectedHeadings) {
         WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
-        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//div[.='Registration Status Id']//following::a") , 10, false);
+        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//div[.='Term']//following::a") , 10, false);
         boolean itemsDisplayed = listOfDevices.size() > 0;
         return itemsDisplayed;
     }

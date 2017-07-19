@@ -188,15 +188,15 @@ public class SmokeTestsBusiness extends Common {
     }
 
     @Test
-    public void asABusinessUserIShouldBeAbleToViewCFSOrganisationsPage() {
+    public void asABusinessUserIShouldBeAbleToViewCFSServicesPage() {
 
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
         MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
 
-        String expectedHeadings = "CFS Organisations";
+        String expectedHeadings = "CFS Services";
         recordsPage = mainNavigationBar.clickRecords();
-        cfsOrganisations = recordsPage.clickOnCFSOrganisations();
+        cfsOrganisations = recordsPage.clickOnCFSServices();
 
         boolean isHeadingVisibleAndCorrect = cfsOrganisations.isHeadingCorrect(expectedHeadings);
         boolean isItemsDisplayedAndCorrect = cfsOrganisations.isItemsDisplayed(expectedHeadings);

@@ -416,7 +416,7 @@ public class _AllInOne_AddDevicesToNEWAccounts_Main extends Common {
 
             //Lets try to add multiple devices, it will take a long time
             for (DeviceData dd : listOfDevicesOfSpecificType) {
-
+                dd.numberOfProducts = numberOfProducts;
                 if (dd.validatedData.toLowerCase().equals("y")) {
                     try {
                         //Only for DEBUGGING

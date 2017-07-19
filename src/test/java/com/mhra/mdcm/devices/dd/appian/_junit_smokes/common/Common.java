@@ -35,6 +35,7 @@ import java.util.Date;
 public class Common {
 
     public static int maxNumberOfDevicesToAdd = 15;
+    public static int numberOfProducts = 1;
     public static boolean isManufacturer = true;  //What type of accounts to create false=AuthorisedReps
     //This controls and limits the users (overrides excel)
     public String[] initialsArray = new String[]{
@@ -151,7 +152,7 @@ public class Common {
 
     public Accounts accounts;
     public Applications applications;
-    public CFSOrganisations cfsOrganisations;
+    public CFSServices cfsOrganisations;
     public RegisteredDevices registeredDevices;
     public Organisations organisations;
     public ExternalHomePage externalHomePage;

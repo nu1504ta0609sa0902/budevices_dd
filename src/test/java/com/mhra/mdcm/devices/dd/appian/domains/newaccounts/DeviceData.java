@@ -15,6 +15,7 @@ public class DeviceData {
     public static final String MANUFACTURER_RT_TEST = "ManufacturerRT01Test";
     public static final String AUTHORISED_REP_RT_TEST = "AuthorisedRepRT01Test";
     public int excelFileLineNumber;
+    public int numberOfProducts;
 
     //Device data
     public String validatedData;

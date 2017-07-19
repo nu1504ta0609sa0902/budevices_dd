@@ -13,9 +13,9 @@ import java.util.List;
  * Created by TPD_Auto 
  */
 
-public class CFSOrganisations extends _Page {
+public class CFSServices extends _Page {
 
-    @FindBy(xpath = ".//div[contains(text(),'CFS Organisations ')]//following::a")
+    @FindBy(xpath = ".//div[contains(text(),'Status')]//following::a")
     List<WebElement> listOfCFSOrganisations;
     @FindBy(xpath = ".//table//th")
     List<WebElement> listOfTableColumns;
@@ -25,7 +25,7 @@ public class CFSOrganisations extends _Page {
     WebElement searchBox;
 
 
-    public CFSOrganisations(WebDriver driver) {
+    public CFSServices(WebDriver driver) {
         super(driver);
     }
 
@@ -39,7 +39,7 @@ public class CFSOrganisations extends _Page {
 
     public boolean isItemsDisplayed(String expectedHeadings) {
         WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
-        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//div[contains(text(),'CFS Organisations ')]//following::a") , TIMEOUT_5_SECOND, false);
+        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//div[contains(text(),'Status')]//following::a") , TIMEOUT_5_SECOND, false);
         boolean itemsDisplayed = listOfCFSOrganisations.size() > 0;
         return itemsDisplayed;
     }
