@@ -15,8 +15,11 @@ import java.util.List;
 
 public class RegisteredDevices extends _Page {
 
-    @FindBy(xpath = ".//div[.='Term']//following::a")
+    @FindBy(xpath = ".//div[contains(text(),'Term')]//following::a")
     List<WebElement> listOfDevices;
+
+    @FindBy(xpath = ".//div[contains(text(),'Term')]//following::a")
+    WebElement aDevices;
 
 
     public RegisteredDevices(WebDriver driver) {
@@ -25,8 +28,7 @@ public class RegisteredDevices extends _Page {
 
 
     public boolean isHeadingCorrect(String expectedHeadings) {
-        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
-        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//h1[.='" + expectedHeadings + "']") , 10, false);
+        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//h1[.='" + expectedHeadings + "']") , TIMEOUT_15_SECOND, false);
         WebElement heading = driver.findElement(By.xpath(".//h1[.='" + expectedHeadings + "']"));
         boolean contains = heading.getText().contains(expectedHeadings);
         return contains;
@@ -34,8 +36,7 @@ public class RegisteredDevices extends _Page {
 
 
     public boolean isItemsDisplayed(String expectedHeadings) {
-        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
-        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//div[.='Term']//following::a") , 10, false);
+        WaitUtils.waitForElementToBeClickable(driver, aDevices , TIMEOUT_15_SECOND, false);
         boolean itemsDisplayed = listOfDevices.size() > 0;
         return itemsDisplayed;
     }

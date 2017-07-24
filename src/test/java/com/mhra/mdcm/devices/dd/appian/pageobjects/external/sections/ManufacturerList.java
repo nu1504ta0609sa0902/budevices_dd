@@ -19,6 +19,8 @@ public class ManufacturerList extends _Page {
     //Register manufacturer button
     @FindBy(xpath = ".//button[contains(text(), 'Register new manufacturer')]")
     WebElement btnRegisterNewManufacturer;
+    @FindBy(xpath = ".//button[contains(text(), 'Add new manufacturer')]")
+    WebElement btnAddNewManufacturer;
 
     //List of table rows
     @FindBy(xpath = ".//h2[contains(text(),'Manufacturer')]//following::tbody[1]/tr/td[1]")
@@ -194,9 +196,8 @@ public class ManufacturerList extends _Page {
 
 
     public _CreateManufacturerTestsData registerNewManufacturer() {
-        //WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
-        WaitUtils.waitForElementToBeClickable(driver, btnRegisterNewManufacturer, TIMEOUT_10_SECOND, false);
-        btnRegisterNewManufacturer.click();
+        WaitUtils.waitForElementToBeClickable(driver, btnAddNewManufacturer, TIMEOUT_15_SECOND, false);
+        btnAddNewManufacturer.click();
         return new _CreateManufacturerTestsData(driver);
     }
 }
