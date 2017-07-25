@@ -34,12 +34,12 @@ import java.util.Date;
  */
 public class Common {
 
-    public static int maxNumberOfDevicesToAdd = 15;
+    public static int maxNumberOfDevicesToAdd = 5;
     public static int numberOfProducts = 1;
     public static boolean isManufacturer = true;  //What type of accounts to create false=AuthorisedReps
     //This controls and limits the users (overrides excel)
     public String[] initialsArray = new String[]{
-            "NU", //"AT", "NU", "HB", "YC", "PG", "AN", "LP"
+            "PG", //"AT", "NU", "HB", "YC", "PG", "AN", "LP"
     };
 
     public static WebDriver driver;
