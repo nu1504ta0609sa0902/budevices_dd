@@ -21,9 +21,6 @@ public class ExternalHomePage extends _Page {
     @FindBy(css = ".Button---btn.Button---default_direction.Button---primary")
     WebElement linkManufacturerRegistration;
 
-    @FindBy(xpath = ".//button[contains(text(),'Register new manufacturer')]")
-    WebElement registerANewManufacturer;
-
     @FindBy(xpath = ".//*[contains(text(),'ype of device')]//following::label[1]")
     WebElement generalMedicalDevice;
 
@@ -158,9 +155,4 @@ public class ExternalHomePage extends _Page {
         return new ExternalHomePage(driver);
     }
 
-    public ExternalHomePage registerANewManufacturer() {
-        WaitUtils.waitForElementToBeClickable(driver, registerANewManufacturer, TIMEOUT_5_SECOND, false);
-        registerANewManufacturer.click();
-        return new ExternalHomePage(driver);
-    }
 }

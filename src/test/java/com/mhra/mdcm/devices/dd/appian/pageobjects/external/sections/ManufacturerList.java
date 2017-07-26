@@ -200,4 +200,5 @@ public class ManufacturerList extends _Page {
         btnAddNewManufacturer.click();
         return new _CreateManufacturerTestsData(driver);
     }
+
 }

@@ -187,7 +187,7 @@ public class _AllInOne_AddDevicesToNEWAuthorisedRepAccounts_Main extends Common 
     }
 
     private void registerANewManufacturer() {
-        externalHomePage = externalHomePage.registerANewManufacturer();
+        createNewManufacturer = manufacturerList.registerNewManufacturer();
     }
 
     private void logBackInAsManufacturer(User manufacturerUser) {
