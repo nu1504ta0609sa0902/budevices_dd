@@ -60,11 +60,11 @@ public class _CreateTestsData extends _Page {
     //Contact Person Details
     @FindBy(xpath = ".//span[contains(text(),'Title')]//following::div[@role='listbox']")
     WebElement title;
-    @FindBy(xpath = ".//label[.='First name']//following::input[1]")
+    @FindBy(xpath = ".//label[contains(text(),'First ')]//following::input[1]")
     WebElement firstName;
-    @FindBy(xpath = ".//label[.='Last name']//following::input[1]")
+    @FindBy(xpath = ".//label[contains(text(),'Last ')]//following::input[1]")
     WebElement lastName;
-    @FindBy(xpath = ".//label[contains(text(),'Job title')]//following::input[1]")
+    @FindBy(xpath = ".//label[contains(text(),'Job ')]//following::input[1]")
     WebElement jobTitle;
     @FindBy(xpath = ".//h2[contains(text(),'Person Details')]//following::input[4]")
     WebElement phoneNumber;

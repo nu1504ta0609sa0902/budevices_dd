@@ -87,6 +87,7 @@ public class SmokeTestsManufacturers extends Common {
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
         password = "IsIncorrectPassword";
+        loginPage = loginPage.accetpTandC();
         loginPage.loginAsManufacturer(username, password);
 
         String expectedErrorMsg = "The username/password entered is invalid";
