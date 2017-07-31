@@ -100,6 +100,7 @@ public class SmokeTestsManufacturers extends Common {
     public void checkCorrectLinksAreDisplayedForManufacturer() {
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
+        loginPage = loginPage.accetpTandC();
         MainNavigationBar mainNavigationBar = loginPage.loginAsManufacturer(username, password);
 
         externalHomePage = mainNavigationBar.clickHome();
@@ -114,6 +115,7 @@ public class SmokeTestsManufacturers extends Common {
 
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
+        loginPage = loginPage.accetpTandC();
         MainNavigationBar mainNavigationBar = loginPage.loginAsManufacturer(username, password);
         String expectedHeading = JUnitUtils.getExpectedHeading(username);
 
@@ -132,6 +134,7 @@ public class SmokeTestsManufacturers extends Common {
     public void asAUserIShouldBeAbleToViewAListOfManufacturer() {
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
+        loginPage = loginPage.accetpTandC();
         MainNavigationBar mainNavigationBar = loginPage.loginAsManufacturer(username, password);
         externalHomePage = mainNavigationBar.clickHome();
 
@@ -153,6 +156,7 @@ public class SmokeTestsManufacturers extends Common {
 
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
+        loginPage = loginPage.accetpTandC();
         MainNavigationBar mainNavigationBar = loginPage.loginAsManufacturer(username, password);
         //externalHomePage = mainNavigationBar.clickHome();
 
@@ -181,6 +185,7 @@ public class SmokeTestsManufacturers extends Common {
         //Verify task is generated
         loginPage = loginPage.logoutIfLoggedInOthers();
         User businessUser = JUnitUtils.getBusinessUser(listOfBusinessUsers, username);
+        loginPage = loginPage.accetpTandC();
         mainNavigationBar = loginPage.loginAs(businessUser.getUserName(), businessUser.getPassword());
 
         //Verify new taskSection generated and its the correct one

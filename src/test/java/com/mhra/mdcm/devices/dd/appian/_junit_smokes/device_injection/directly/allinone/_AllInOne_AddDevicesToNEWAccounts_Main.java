@@ -99,6 +99,7 @@ public class _AllInOne_AddDevicesToNEWAccounts_Main extends Common {
     private void changePasswordAndLogin(String updatePasswordTo, AccountRequest ar) {
         loginPage = loginPage.logoutIfLoggedInOthers();
         loginPage = loginPage.loadPage(baseUrl);
+        loginPage = loginPage.accetpTandC();
         mainNavigationBar = loginPage.loginAs(ar.userName, ar.tempPassword);
         mainNavigationBar = loginPage.changePasswordTo(ar.tempPassword, updatePasswordTo);
         ar.newPassword = updatePasswordTo;
@@ -204,6 +205,7 @@ public class _AllInOne_AddDevicesToNEWAccounts_Main extends Common {
         WaitUtils.nativeWaitInSeconds(3);
         loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
+        loginPage = loginPage.accetpTandC();
         mainNavigationBar = loginPage.loginAsManufacturer(username, password);
         externalHomePage = mainNavigationBar.clickHome();
 
@@ -288,6 +290,7 @@ public class _AllInOne_AddDevicesToNEWAccounts_Main extends Common {
         //Login to app and add devices to the manufacturer
         loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
+        loginPage = loginPage.accetpTandC();
         mainNavigationBar = loginPage.loginAsManufacturer(username, password);
         externalHomePage = mainNavigationBar.clickHome();
 
@@ -326,6 +329,7 @@ public class _AllInOne_AddDevicesToNEWAccounts_Main extends Common {
             //Login and try to create it
             loginPage = new LoginPage(driver);
             loginPage = loginPage.loadPage(baseUrl);
+            loginPage = loginPage.accetpTandC();
             MainNavigationBar mainNavigationBar = loginPage.loginAs(businessUser.getUserName(), businessUser.getPassword());
 
             //go to accounts page > test harness page
@@ -505,6 +509,7 @@ public class _AllInOne_AddDevicesToNEWAccounts_Main extends Common {
             //@todo Now login as business user and approve the task
             WaitUtils.nativeWaitInSeconds(4);
             loginPage = loginPage.logoutIfLoggedInOthers();
+            loginPage = loginPage.accetpTandC();
             mainNavigationBar = loginPage.loginAs(businessUser.getUserName(), businessUser.getPassword());
 
             //Verify new taskSection generated and its the correct one

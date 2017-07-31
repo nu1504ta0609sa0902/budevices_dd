@@ -172,6 +172,8 @@ public class AddDevices extends _Page {
     WebElement btnAddAnotherDevice;
 
     //File upload buttons
+    @FindBy(css = ".MultipleFileUploadWidget---ui-inaccessible")
+    WebElement multiFileUpload;
     @FindBy(css = ".FileUploadWidget---ui-inaccessible")
     WebElement fileUpload;
     @FindBy(css = ".FileUploadWidget---ui-inaccessible")
@@ -883,7 +885,7 @@ public class AddDevices extends _Page {
         }else if(paymentMethod.toLowerCase().contains("bacs")){
             paymentBACS.click();
             WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
-            PageUtils.uploadDocument(fileUpload, "CompletionOfTransfer1.pdf", 1, 3);
+            PageUtils.uploadDocument(multiFileUpload, "CompletionOfTransfer1.pdf", 1, 3);
         }
 
         //Complete the application

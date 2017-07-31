@@ -174,6 +174,7 @@ public class _AddDevicesToEXISTINGAuthorisedReps_Main extends Common {
         WaitUtils.nativeWaitInSeconds(3);
         loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
+        loginPage = loginPage.accetpTandC();
         mainNavigationBar = loginPage.loginAsManufacturer(manufacturerUser.getUserName(), manufacturerUser.getPassword());
         externalHomePage = mainNavigationBar.clickHome();
 
@@ -222,6 +223,7 @@ public class _AddDevicesToEXISTINGAuthorisedReps_Main extends Common {
         //Login to app and add devices to the manufacturer
         loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
+        loginPage = loginPage.accetpTandC();
         mainNavigationBar = loginPage.loginAsManufacturer(authorisedRepUser.getUserName(), authorisedRepUser.getPassword());
         externalHomePage = mainNavigationBar.clickHome();
 
@@ -369,6 +371,7 @@ public class _AddDevicesToEXISTINGAuthorisedReps_Main extends Common {
             //@todo Now login as business user and approve the task
             WaitUtils.nativeWaitInSeconds(4);
             loginPage = loginPage.logoutIfLoggedInOthers();
+            loginPage = loginPage.accetpTandC();
             mainNavigationBar = loginPage.loginAs(businessUser.getUserName(), businessUser.getPassword());
 
             //Find task and approve it

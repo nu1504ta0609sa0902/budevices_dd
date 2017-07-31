@@ -86,6 +86,7 @@ public class SmokeTestsDistributors extends Common {
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
         password = "IsIncorrectPassword";
+        loginPage = loginPage.accetpTandC();
         loginPage.loginAsManufacturer(username, password);
 
         String expectedErrorMsg = "The username/password entered is invalid";
@@ -99,6 +100,7 @@ public class SmokeTestsDistributors extends Common {
     public void checkCorrectLinksAreDisplayedForManufacturer() {
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
+        loginPage = loginPage.accetpTandC();
         MainNavigationBar mainNavigationBar = loginPage.loginAsManufacturer(username, password);
 
         externalHomePage = mainNavigationBar.clickHome();
@@ -113,6 +115,7 @@ public class SmokeTestsDistributors extends Common {
 
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
+        loginPage = loginPage.accetpTandC();
         MainNavigationBar mainNavigationBar = loginPage.loginAsManufacturer(username, password);
         String expectedHeading = JUnitUtils.getExpectedHeading(username);
 
@@ -131,6 +134,7 @@ public class SmokeTestsDistributors extends Common {
     public void asAUserIShouldBeAbleToViewAListOfManufacturer() {
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
+        loginPage = loginPage.accetpTandC();
         MainNavigationBar mainNavigationBar = loginPage.loginAsManufacturer(username, password);
         externalHomePage = mainNavigationBar.clickHome();
 
@@ -153,6 +157,7 @@ public class SmokeTestsDistributors extends Common {
 
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
+        loginPage = loginPage.accetpTandC();
         MainNavigationBar mainNavigationBar = loginPage.loginAsManufacturer(username, password);
         //externalHomePage = mainNavigationBar.clickHome();
 
@@ -181,6 +186,7 @@ public class SmokeTestsDistributors extends Common {
         //Verify task is generated
         loginPage = loginPage.logoutIfLoggedInOthers();
         User businessUser = JUnitUtils.getBusinessUser(listOfBusinessUsers, username);
+        loginPage = loginPage.accetpTandC();
         mainNavigationBar = loginPage.loginAs(businessUser.getUserName(), businessUser.getPassword());
 
         //Verify new taskSection generated and its the correct one

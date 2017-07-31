@@ -121,6 +121,7 @@ public class _CreateOnlyNEWAuthorisedRepAccounts_Main extends Common {
                 //Login and try to create it
                 loginPage = new LoginPage(driver);
                 loginPage = loginPage.loadPage(baseUrl);
+                loginPage = loginPage.accetpTandC();
                 MainNavigationBar mainNavigationBar = loginPage.loginAs(businessUser.getUserName(), businessUser.getPassword());
 
                 //go to accounts page > test harness page

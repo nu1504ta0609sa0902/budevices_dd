@@ -42,6 +42,10 @@ public class LoginPage extends _Page {
     @FindBy(name = "confirmNewPw")
     WebElement passwordNewConfirm;
 
+    //Terms and conditions
+    @FindBy(css = "input[type='button']")
+    WebElement acceptTermsAndConditions;
+
     //Login or submit button
     @FindBy(xpath = ".//label[@for='remember']//following::input[1]")
     WebElement btnLogin;
@@ -279,5 +283,12 @@ public class LoginPage extends _Page {
             }
         }
         PageUtils.acceptAlert(driver, true, 1);
+    }
+
+    public LoginPage accetpTandC() {
+        if(PageUtils.isElementClickable(driver, acceptTermsAndConditions, TIMEOUT_5_SECOND)) {
+            acceptTermsAndConditions.click();
+        }
+        return new LoginPage(driver);
     }
 }

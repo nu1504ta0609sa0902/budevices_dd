@@ -90,6 +90,7 @@ public class SmokeTestsBusiness extends Common {
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
         password = "IsIncorrectPassword";
+        loginPage = loginPage.accetpTandC();
         loginPage.loginAs(username, password);
 
         String expectedErrorMsg = "The username/password entered is invalid";
@@ -104,6 +105,7 @@ public class SmokeTestsBusiness extends Common {
 
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
+        loginPage = loginPage.accetpTandC();
         MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
         String expectedHeading = JUnitUtils.getExpectedHeading(username);
 
@@ -123,6 +125,7 @@ public class SmokeTestsBusiness extends Common {
 
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
+        loginPage = loginPage.accetpTandC();
         MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
 
         List<String> listOfSections = JUnitUtils.getListOfTabSections();
@@ -154,6 +157,7 @@ public class SmokeTestsBusiness extends Common {
 
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
+        loginPage = loginPage.accetpTandC();
         MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
 
         String expectedHeadings = "Accounts";
@@ -173,6 +177,7 @@ public class SmokeTestsBusiness extends Common {
 
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
+        loginPage = loginPage.accetpTandC();
         MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
 
         String expectedHeadings = "Applications";
@@ -192,6 +197,7 @@ public class SmokeTestsBusiness extends Common {
 
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
+        loginPage = loginPage.accetpTandC();
         MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
 
         String expectedHeadings = "CFS Services";
@@ -212,6 +218,7 @@ public class SmokeTestsBusiness extends Common {
 
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
+        loginPage = loginPage.accetpTandC();
         MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
 
         String expectedHeadings = "GMDN Devices";
@@ -232,6 +239,7 @@ public class SmokeTestsBusiness extends Common {
 
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
+        loginPage = loginPage.accetpTandC();
         MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
 
         String expectedHeadings = "Registered Products";
@@ -252,6 +260,7 @@ public class SmokeTestsBusiness extends Common {
 
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
+        loginPage = loginPage.accetpTandC();
         MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
 
         String expectedHeadings = "Organisations";
@@ -272,6 +281,7 @@ public class SmokeTestsBusiness extends Common {
 
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
+        loginPage = loginPage.accetpTandC();
         MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
 
         String expectedHeadings = "Registered Devices";
@@ -304,6 +314,7 @@ public class SmokeTestsBusiness extends Common {
         //Now create the test data using harness page
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
+        loginPage = loginPage.accetpTandC();
         MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
 
         //go to accounts page > test harness page
@@ -377,6 +388,7 @@ public class SmokeTestsBusiness extends Common {
         //Now create the test data using harness page
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
+        loginPage = loginPage.accetpTandC();
         MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
 
         //go to accounts page > test harness page
@@ -451,6 +463,7 @@ public class SmokeTestsBusiness extends Common {
         //Now create the test data using harness page
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
+        loginPage = loginPage.accetpTandC();
         MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
 
         //go to accounts page > test harness page
@@ -518,6 +531,7 @@ public class SmokeTestsBusiness extends Common {
 
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
+        loginPage = loginPage.accetpTandC();
         MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
 
         //Go to accounts and perform a search for Manufacturer
@@ -542,6 +556,7 @@ public class SmokeTestsBusiness extends Common {
 
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
+        loginPage = loginPage.accetpTandC();
         MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
 
         //Go to accounts and perform a search for AuthorisedRep
@@ -564,6 +579,7 @@ public class SmokeTestsBusiness extends Common {
 
         LoginPage loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
+        loginPage = loginPage.accetpTandC();
         MainNavigationBar mainNavigationBar = loginPage.loginAs(username, password);
         tasksPage = mainNavigationBar.clickTasks();
 

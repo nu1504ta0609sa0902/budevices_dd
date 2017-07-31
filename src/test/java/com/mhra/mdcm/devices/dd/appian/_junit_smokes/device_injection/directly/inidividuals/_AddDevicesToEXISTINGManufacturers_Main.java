@@ -166,6 +166,7 @@ public class _AddDevicesToEXISTINGManufacturers_Main extends Common {
         //Login to app and add devices to the manufacturer
         loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
+        loginPage = loginPage.accetpTandC();
         mainNavigationBar = loginPage.loginAsManufacturer(selected.getUserName(), selected.getPassword());
         externalHomePage = mainNavigationBar.clickHome();
 
@@ -199,6 +200,7 @@ public class _AddDevicesToEXISTINGManufacturers_Main extends Common {
         //Login to app and add devices to the manufacturer
         loginPage = new LoginPage(driver);
         loginPage = loginPage.loadPage(baseUrl);
+        loginPage = loginPage.accetpTandC();
         mainNavigationBar = loginPage.loginAsManufacturer(manufacturerUser.getUserName(), manufacturerUser.getPassword());
         externalHomePage = mainNavigationBar.clickHome();
 
@@ -338,6 +340,7 @@ public class _AddDevicesToEXISTINGManufacturers_Main extends Common {
             //@todo Now login as business user and approve the task
             WaitUtils.nativeWaitInSeconds(5);
             loginPage = loginPage.logoutIfLoggedInOthers();
+            loginPage = loginPage.accetpTandC();
             mainNavigationBar = loginPage.loginAs(businessUser.getUserName(), businessUser.getPassword());
 
             String link = "Update";

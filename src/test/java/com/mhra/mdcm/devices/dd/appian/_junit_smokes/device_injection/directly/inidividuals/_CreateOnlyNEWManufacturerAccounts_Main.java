@@ -130,6 +130,7 @@ public class _CreateOnlyNEWManufacturerAccounts_Main extends Common {
 
                 loginPage = new LoginPage(driver);
                 loginPage = loginPage.loadPage(baseUrl);
+                loginPage = loginPage.accetpTandC();
                 MainNavigationBar mainNavigationBar = loginPage.loginAs(businessUser.getUserName(), businessUser.getPassword());
 
                 //go to accounts page > test harness page
