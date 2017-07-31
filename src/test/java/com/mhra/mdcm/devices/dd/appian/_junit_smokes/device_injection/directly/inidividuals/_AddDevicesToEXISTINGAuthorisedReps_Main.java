@@ -363,7 +363,9 @@ public class _AddDevicesToEXISTINGAuthorisedReps_Main extends Common {
             //Confirm payment and submit registration
             addDevices = addDevices.proceedToReview();
             addDevices = addDevices.proceedToPayment();
-            addDevices = addDevices.enterPaymentDetails("BACS");   //WORLDPAY OR BACS
+
+            String paymentMethod = "BACS";
+            addDevices = addDevices.enterPaymentDetails(paymentMethod);   //WORLDPAY OR BACS
             String reference = addDevices.getApplicationReferenceNumber();
             System.out.println("New Applicaiton reference number : " + reference);
             manufacturerList = addDevices.backToService();
@@ -409,6 +411,12 @@ public class _AddDevicesToEXISTINGAuthorisedReps_Main extends Common {
             if(contains) {
                 taskSection = taskSection.assignTaskToMe();
                 taskSection = taskSection.confirmAssignment(true);
+
+                if(paymentMethod.toLowerCase().contains("bacs")){
+                    //Confirm payment : and select date of payment
+                    taskSection = taskSection.confirmPayment();
+                    taskSection = taskSection.enterDateAndTimeOfPayment();
+                }
                 taskSection = taskSection.approveAWIPManufacturerTask();
                 taskSection = taskSection.approveAWIPAllDevices();
                 taskSection = taskSection.completeTheApplication();

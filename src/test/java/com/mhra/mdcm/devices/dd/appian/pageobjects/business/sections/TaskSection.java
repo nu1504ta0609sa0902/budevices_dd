@@ -2,9 +2,11 @@ package com.mhra.mdcm.devices.dd.appian.pageobjects.business.sections;
 
 import com.mhra.mdcm.devices.dd.appian.pageobjects._Page;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.business.TasksPage;
+import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.RandomDataUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.PageUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.WaitUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -64,6 +66,14 @@ public class TaskSection extends _Page {
     @FindBy(xpath = ".//button[contains(text(), 'Approve account')]")
     WebElement btnApproveNewAccount;
 
+    //BACS confirm payment
+    @FindBy(xpath = ".//button[contains(text(), 'Confirm Payment')]")
+    WebElement btnConfirmPayment;
+    @FindBy(xpath = ".//*[contains(text(), 'Payment received')]/following::input[1]")
+    WebElement tbxPaymentDate;
+    @FindBy(xpath = ".//*[contains(text(), 'Payment received')]/following::input[2]")
+    WebElement tbxPaymentHour;
+
     //Rejection reason
     @FindBy(xpath = ".//label[.='Other']")
     WebElement other;
@@ -71,6 +81,8 @@ public class TaskSection extends _Page {
     WebElement commentArea;
     @FindBy(xpath = ".//button[.='Submit']")
     WebElement submitBtn;
+    @FindBy(xpath = ".//button[contains(text(), 'Save')]")
+    WebElement btnSave;
 
     //Search and clear
     @FindBy(xpath = ".//button[text()='Clear']")
@@ -255,6 +267,25 @@ public class TaskSection extends _Page {
         WaitUtils.waitForElementToBeClickable(driver, btnCompleteTheApplication, TIMEOUT_10_SECOND);
         PageUtils.doubleClick(driver, btnCompleteTheApplication);
         System.out.println("Application completed");
+        return new TaskSection(driver);
+    }
+
+
+    public TaskSection confirmPayment() {
+        WaitUtils.waitForElementToBeClickable(driver, btnConfirmPayment, TIMEOUT_DEFAULT);
+        PageUtils.doubleClick(driver, btnConfirmPayment);
+        log.info("Confirm Payment");
+        return new TaskSection(driver);
+    }
+
+    public TaskSection enterDateAndTimeOfPayment() {
+        WaitUtils.waitForElementToBeClickable(driver, tbxPaymentDate, TIMEOUT_DEFAULT);
+        tbxPaymentDate.sendKeys(RandomDataUtils.getDateInFutureDays(0), Keys.TAB);
+        tbxPaymentHour.sendKeys("00:01", Keys.TAB);
+
+        WaitUtils.waitForElementToBeClickable(driver, btnSave, TIMEOUT_15_SECOND);
+        btnSave.click();
+
         return new TaskSection(driver);
     }
 }
