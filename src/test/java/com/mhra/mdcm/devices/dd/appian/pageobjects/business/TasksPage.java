@@ -31,8 +31,6 @@ public class TasksPage extends _Page {
     @FindBy(xpath = ".//span[contains(text(),'Work in progress')]")
     WebElement applicationWorkInProgress;
 
-    @FindBy(xpath = ".//span[contains(text(),'Work In Progress')]")
-    WebElement workInProgress;
     @FindBy(css = "div > table > tbody > tr")
     List<WebElement> listOfWIPTableRows;
 
@@ -89,14 +87,6 @@ public class TasksPage extends _Page {
             isVisible = false;
         }
         return isVisible;
-    }
-
-    public TaskSection gotoWIPTasksPage() {
-        //WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
-        WaitUtils.waitForElementToBeVisible(driver, workInProgress, TIMEOUT_10_SECOND, false);
-        WaitUtils.waitForElementToBeClickable(driver, workInProgress, TIMEOUT_10_SECOND, false);
-        workInProgress.click();
-        return new TaskSection(driver);
     }
 
     public boolean isApplicationWIPTableDisplayingData() {

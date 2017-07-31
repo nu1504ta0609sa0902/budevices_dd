@@ -171,7 +171,7 @@ public class SmokeTestsDistributors extends Common {
         //Add devices AND submit
         DeviceData dd = new DeviceData();
         dd.deviceType = "General Medical Device";
-        dd.device = "Blood Weighing";
+        dd.device = "Blood weighing";
         dd.customMade = "Y";
         addDevices = addDevices.addFollowingDevice(dd);
 

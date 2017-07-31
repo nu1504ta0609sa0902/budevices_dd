@@ -169,7 +169,7 @@ public class SmokeTestsAuthorisedRep extends Common {
         //Add devices AND submit
         DeviceData dd = new DeviceData();
         dd.deviceType = "General Medical Device";
-        dd.device = "Blood Weighing";
+        dd.device = "Blood weighing";
         dd.customMade = "Y";
 
         //Add devices and Proceed to payments

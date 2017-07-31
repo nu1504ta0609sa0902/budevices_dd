@@ -2,6 +2,7 @@ package com.mhra.mdcm.devices.dd.appian._junit_smokes.common;
 
 import com.mhra.mdcm.devices.dd.appian.pageobjects.LoginPage;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.MainNavigationBar;
+import com.mhra.mdcm.devices.dd.appian.pageobjects._Page;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.business.*;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.business.sections.*;
 import com.mhra.mdcm.devices.dd.appian.pageobjects.external.ExternalHomePage;
@@ -11,6 +12,7 @@ import com.mhra.mdcm.devices.dd.appian.pageobjects.external.sections.Manufacture
 import com.mhra.mdcm.devices.dd.appian.pageobjects.external.sections.ManufacturerList;
 import com.mhra.mdcm.devices.dd.appian.utils.datadriven.ExcelDataSheet;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.TestHarnessUtils;
+import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.PageUtils;
 import org.apache.commons.io.FileUtils;
 import org.junit.ClassRule;
 import org.junit.Rule;
@@ -137,6 +139,7 @@ public class Common {
                 System.out.println("MUST SIGNOUT OTHERWISE YOU WILL NOT BE ABLE TO LOGBACK IN WITH SAME USER");
                 loginPage = new LoginPage(driver);
                 loginPage.logout(driver, loggedInUser);
+                PageUtils.acceptAlert(driver, true, _Page.TIMEOUT_3_SECOND);
                 loginPage.isInLoginPage();
             }
         }
