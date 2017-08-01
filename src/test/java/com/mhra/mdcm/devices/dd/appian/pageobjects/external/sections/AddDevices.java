@@ -309,7 +309,7 @@ public class AddDevices extends _Page {
 
         //Business doing testing so don't do any write only tests
         WaitUtils.waitForElementToBeClickable(driver, btnSaveProgress, TIMEOUT_15_SECOND, false);
-        PageUtils.doubleClick(driver, btnSaveProgress);
+        PageUtils.singleClick(driver, btnSaveProgress);
 
         return new AddDevices(driver);
     }
