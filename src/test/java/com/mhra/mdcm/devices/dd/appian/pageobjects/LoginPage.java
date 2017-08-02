@@ -207,6 +207,7 @@ public class LoginPage extends _Page {
     }
 
     public boolean isInLoginPage() {
+        accetpTandC();
         boolean isLoginPage = isAlreadyLoggedOut();
         return isLoginPage;
     }
