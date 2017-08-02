@@ -23,6 +23,8 @@ public class LoginPage extends _Page {
     WebElement remember;
     @FindBy(css = ".choice_pair>label")
     WebElement rememberLabel;
+    @FindBy(id = "forgotPasswordLink")
+    WebElement forgotYourPasswordLink;
 
     //Settings icons and options
     @FindBy(css = ".gwt-Anchor.pull-down-toggle")
@@ -191,7 +193,7 @@ public class LoginPage extends _Page {
         //WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
         boolean loggedOut = true;
         try{
-            WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText("Forgot your password"), 2, false);
+            WaitUtils.waitForElementToBeClickable(driver, forgotYourPasswordLink, TIMEOUT_3_SECOND, false);
         }catch (Exception e){
             loggedOut = false;
         }

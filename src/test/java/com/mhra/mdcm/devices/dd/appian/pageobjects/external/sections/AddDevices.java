@@ -235,7 +235,7 @@ public class AddDevices extends _Page {
     WebElement paymentWorldPay;
     @FindBy(xpath = ".//*[contains(text(),'payment method')]/following::img[2]")
     WebElement paymentBACS;
-    @FindBy(xpath = ".//button[contains(text(),'Complete application')]")
+    @FindBy(xpath = ".//button[contains(text(),'Submit Application')]")
     WebElement btnCompleteApplication;
     @FindBy(xpath = ".//div[@role='listbox']")
     WebElement ddAddressBox;
