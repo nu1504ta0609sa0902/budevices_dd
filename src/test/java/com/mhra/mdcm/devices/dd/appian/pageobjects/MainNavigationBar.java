@@ -29,10 +29,12 @@ public class MainNavigationBar extends _Page {
     WebElement actions;
 
     //Manufacturer or AuthorisedRep View
-    @FindBy(partialLinkText = "MHRA home")
-    WebElement linkHOME;
-    @FindBy(xpath = ".//a//following::div[.='MY ACCOUNT']")
-    WebElement linkMyAccount;
+    @FindBy(xpath = ".//div[contains(text(),'MHRA Services')]")
+    WebElement tabHome;
+    @FindBy(xpath = ".//div[contains(text(),'Applications')]")
+    WebElement tabApplications;
+    @FindBy(xpath = ".//*[contains(text(),'Manufacturers')]")
+    WebElement tabManufacturers;
 
     @FindBy(css = ".appian-menu-item.appian-menu-item-selected")
     WebElement currentSelection;
@@ -112,10 +114,10 @@ public class MainNavigationBar extends _Page {
 
     public ExternalHomePage clickHome() {
         try {
-            WaitUtils.waitForElementToBeClickable(driver, linkHOME, TIMEOUT_10_SECOND, false);
-            PageUtils.doubleClick(driver, linkHOME);
+            WaitUtils.waitForElementToBeClickable(driver, tabHome, TIMEOUT_10_SECOND, false);
+            PageUtils.doubleClick(driver, tabHome);
         }catch (Exception e){
-            By xp = By.partialLinkText("home");
+            By xp = By.partialLinkText("MHRA ");
             WaitUtils.waitForElementToBeClickable(driver, xp, TIMEOUT_10_SECOND, false);
             PageUtils.doubleClick(driver, driver.findElement(xp));
         }
@@ -124,10 +126,10 @@ public class MainNavigationBar extends _Page {
 
     public ExternalHomePage clickExternalHOME() {
         try {
-            WaitUtils.waitForElementToBeClickable(driver, linkHOME, TIMEOUT_10_SECOND, false);
-            PageUtils.doubleClick(driver, linkHOME);
+            WaitUtils.waitForElementToBeClickable(driver, tabHome, TIMEOUT_10_SECOND, false);
+            PageUtils.doubleClick(driver, tabHome);
         }catch (Exception e){
-            By xp = By.partialLinkText("home");
+            By xp = By.partialLinkText("MHRA ");
             WaitUtils.waitForElementToBeClickable(driver, xp, TIMEOUT_10_SECOND, false);
             PageUtils.doubleClick(driver, driver.findElement(xp));
         }

@@ -103,7 +103,7 @@ public class SmokeTestsAuthorisedRep extends Common {
         MainNavigationBar mainNavigationBar = loginPage.loginAsManufacturer(username, password);
 
         externalHomePage = mainNavigationBar.clickHome();
-        String delimitedLinks = "ENTER >";
+        String delimitedLinks = "ENTER";
         boolean areLinksVisible = externalHomePage.isStartNowLinkDisplayed();
         Assert.assertThat("Expected to see the following links : " + delimitedLinks, areLinksVisible, is(true));
 
