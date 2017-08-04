@@ -10,8 +10,11 @@ import com.mhra.mdcm.devices.dd.appian.pageobjects.external.ExternalHomePage;
 import com.mhra.mdcm.devices.dd.appian.utils.datadriven.ExcelDataSheet;
 import com.mhra.mdcm.devices.dd.appian.utils.datadriven.JUnitUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.driver.BrowserConfig;
+import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.EmailUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.FileUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.PageUtils;
+
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.WaitUtils;
@@ -231,6 +234,10 @@ public class SmokeTestsAuthorisedRep extends Common {
             System.out.println("Application completed for reference : " + reference);
         }
 
+        //Add email checking here
+        String subject = "Request for manufacturer registration";
+        boolean isEmailReceived = EmailUtils.verifyEmailReceived(reference,subject);
+        assertThat("Email with subject heading : " + subject + ", And body containing : " + reference, isEmailReceived, is(equalTo(true)));
 
     }
 

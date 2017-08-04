@@ -22,145 +22,122 @@ public class GmailEmail {
 //        String seb = eb.substring(eb.indexOf("d:")+3, eb.indexOf("To log")-1);
 
         String name = "ManufacturerRT01Test_2_5_";
-        String body = GmailEmail.readMessageForSpecifiedOrganisations(15, 10, "Manufacturer Registration Request for ", name);
+        String body = GmailEmail.getMessageReceivedWithHeadingAndIdentifier(15, 10, "Manufacturer Registration Request for ", name);
         log.warn(body);
     }
 
 
+//    /**
+//     * Read message received in the last few minutes for the specified organisation
+//     *
+//     * @param min
+//     * @param numberOfMessgesToCheck
+//     * @param subjectHeading
+//     * @param organisationIdentifier
+//     * @return
+//     */
+//    public static String readMessageForSpecifiedOrganisations(double min, int numberOfMessgesToCheck, String subjectHeading, String organisationIdentifier) {
+//
+//        //subjectHeading = subjectHeading + " " + organisationIdentifier;
+//        log.info("Waiting for email with heading : " + subjectHeading);
+//        String bodyText = null;
+//        Properties props = getEmailServerConfiguration();
+//
+//        try {
+//            Store store = null;
+//            Folder inbox = null;
+//            Message[] messages = getMessagesFromEmailServer(props, store, inbox);
+//
+//            for (int i = 0; i < messages.length; i++) {
+//                Message message = messages[i];
+//                Date sentDate = message.getSentDate();
+//                String subject = message.getSubject();
+//                //log.warn(subject);
+//                Address[] froms = message.getFrom();
+//
+//                for (Address from : froms) {
+//                    String emailAddress = froms == null ? null : ((InternetAddress) from).getAddress();
+//                    if (emailAddress != null && (emailAddress.contains("appian") || emailAddress.contains("incessant") || emailAddress.contains("mhra.gov.uk"))) {
+//
+//                        boolean isMessageReceivedToday = isMessageReceivedToday(subject, subjectHeading, sentDate);
+//                        //isMessageReceivedToday = true;
+//                        if ((isMessageReceivedToday && subject.contains(subjectHeading))) {
+//
+//                            //If recent
+//                            boolean isRecent = receivedInLast(min, sentDate);
+//                            //isRecent = true;
+//                            if (isRecent && subject.toLowerCase().contains("manufacturer registration")) {
+//                                log.warn("---------------------------------");
+//                                log.warn("Recent email received : " + subject);
+//                                log.warn("---------------------------------");
+//                                String body = getTextFromMessage(message);
+//                                //log.warn("Body Text : " + body);
+//
+//                                if (body.contains(organisationIdentifier)) {
+//                                    log.info("Message RECEIVED");
+//                                    bodyText = body;
+//                                    break;
+//                                }
+//                            } else if (isRecent && subject.toLowerCase().contains("new account request")) {
+//                                log.warn("---------------------------------");
+//                                log.warn("Recent email received : " + subject);
+//                                log.warn("---------------------------------");
+//                                String body = getTextFromMessage(message);
+//                                //log.warn("Body Text : " + body);
+//
+//                                if (body.contains(organisationIdentifier)) {
+//                                    log.info("Message RECEIVED");
+//                                    bodyText = body;
+//                                    break;
+//                                }
+//                            } else if (isRecent && subject.toLowerCase().contains("request approved for")) {
+//                                log.warn("---------------------------------");
+//                                log.warn("Recent email received : " + subject);
+//                                log.warn("---------------------------------");
+//                                String body = getTextFromMessage(message);
+//                                //log.warn("Body Text : " + body);
+//
+//                                if (body.contains(organisationIdentifier)) {
+//                                    log.info("Message RECEIVED");
+//                                    bodyText = body;
+//                                    break;
+//                                }
+//                            }
+//                        } else {
+//                            //log.warn("Message is old or not relevant" );
+//                        }
+//                    }
+//                }
+//
+//                if (i > numberOfMessgesToCheck || bodyText != null) {
+//                    //Most likely no emails received yet
+//                    log.info(bodyText);
+//                    break;
+//                }
+//            }
+//
+//            if(inbox!=null)
+//            inbox.close(true);
+//            if(store!=null)
+//            store.close();
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        return bodyText;
+//
+//    }
+
     /**
-     * Read message received in the last few minutes for the specified organisation
      *
-     * @param min
+     * @param ignoreAllMessagesOlderThanXMin
      * @param numberOfMessgesToCheck
      * @param subjectHeading
      * @param organisationIdentifier
      * @return
      */
-    public static String readMessageForSpecifiedOrganisations(double min, int numberOfMessgesToCheck, String subjectHeading, String organisationIdentifier) {
-
-        //subjectHeading = subjectHeading + " " + organisationIdentifier;
-        log.info("Waiting for email with heading : " + subjectHeading);
-        String bodyText = null;
-        Properties props = getEmailServerConfiguration();
-
-        try {
-            Store store = null;
-            Folder inbox = null;
-            Message[] messages = getMessagesFromEmailServer(props, store, inbox);
-
-            for (int i = 0; i < messages.length; i++) {
-                Message message = messages[i];
-                Date sentDate = message.getSentDate();
-                String subject = message.getSubject();
-                //log.warn(subject);
-                Address[] froms = message.getFrom();
-
-                for (Address from : froms) {
-                    String emailAddress = froms == null ? null : ((InternetAddress) from).getAddress();
-                    if (emailAddress != null && (emailAddress.contains("appian") || emailAddress.contains("incessant") || emailAddress.contains("mhra.gov.uk"))) {
-
-                        boolean isMessageReceivedToday = isMessageReceivedToday(subject, subjectHeading, sentDate);
-                        //isMessageReceivedToday = true;
-                        if ((isMessageReceivedToday && subject.contains(subjectHeading))) {
-
-                            //If recent
-                            boolean isRecent = receivedInLast(min, sentDate);
-                            //isRecent = true;
-                            if (isRecent && subject.toLowerCase().contains("manufacturer registration")) {
-                                log.warn("---------------------------------");
-                                log.warn("Recent email received : " + subject);
-                                log.warn("---------------------------------");
-                                String body = getTextFromMessage(message);
-                                //log.warn("Body Text : " + body);
-
-                                if (body.contains(organisationIdentifier)) {
-                                    log.info("Message RECEIVED");
-                                    bodyText = body;
-                                    break;
-                                }
-                            } else if (isRecent && subject.toLowerCase().contains("new account request")) {
-                                log.warn("---------------------------------");
-                                log.warn("Recent email received : " + subject);
-                                log.warn("---------------------------------");
-                                String body = getTextFromMessage(message);
-                                //log.warn("Body Text : " + body);
-
-                                if (body.contains(organisationIdentifier)) {
-                                    log.info("Message RECEIVED");
-                                    bodyText = body;
-                                    break;
-                                }
-                            } else if (isRecent && subject.toLowerCase().contains("request approved for")) {
-                                log.warn("---------------------------------");
-                                log.warn("Recent email received : " + subject);
-                                log.warn("---------------------------------");
-                                String body = getTextFromMessage(message);
-                                //log.warn("Body Text : " + body);
-
-                                if (body.contains(organisationIdentifier)) {
-                                    log.info("Message RECEIVED");
-                                    bodyText = body;
-                                    break;
-                                }
-                            }
-                        } else {
-                            //log.warn("Message is old or not relevant" );
-                        }
-                    }
-                }
-
-                if (i > numberOfMessgesToCheck || bodyText != null) {
-                    //Most likely no emails received yet
-                    log.info(bodyText);
-                    break;
-                }
-            }
-
-            if(inbox!=null)
-            inbox.close(true);
-            if(store!=null)
-            store.close();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return bodyText;
-
-    }
-
-    private static Message[] getMessagesFromEmailServer(Properties props, Store store, Folder inbox) {
-        try {
-            final String username = "mhra.uat@gmail.com";
-            final String password = "MHRA1234";
-
-            Session session = Session.getInstance(props,
-                    new Authenticator() {
-                        protected PasswordAuthentication getPasswordAuthentication() {
-                            return new PasswordAuthentication(username, password);
-                        }
-                    });
-
-            store = session.getStore("imaps");
-            store.connect("smtp.gmail.com", username, password);
-
-            inbox = store.getFolder("inbox");
-            inbox.open(Folder.READ_ONLY);
-
-            int messageCount = inbox.getMessageCount();
-            Message[] messages = inbox.getMessages();
-            List<Message> lom = Arrays.asList(messages);
-            Collections.sort(lom, new SortByMessageNumber());
-            messages = lom.toArray(new Message[lom.size()]);
-            //log.warn("Number of messages : " + messages.length);
-            return messages;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public static String getMessageReceivedWithHeadingAndIdentifier(double min, int numberOfMessgesToCheck, String subjectHeading, String organisationIdentifier) {
+    public static String getMessageReceivedWithHeadingAndIdentifier(double ignoreAllMessagesOlderThanXMin, int numberOfMessgesToCheck, String subjectHeading, String organisationIdentifier) {
 
         log.info("Waiting for email with heading : " + subjectHeading);
         String bodyText = null;
@@ -186,8 +163,8 @@ public class GmailEmail {
                         boolean isMessageReceivedToday = isMessageReceivedToday(subject, subjectHeading, sentDate);
                         if (isMessageReceivedToday && ((subject.contains(subjectHeading) && subject.contains(organisationIdentifier)) || subject.contains("account creation"))) {
 
-                            //If message is received in the last X min
-                            boolean isRecent = receivedInLast(min, sentDate);
+                            //If message is received in the last X ignoreAllMessagesOlderThanXMin
+                            boolean isRecent = receivedInLast(ignoreAllMessagesOlderThanXMin, sentDate);
                             if (isRecent) {
                                 log.warn("---------------------------------");
                                 log.warn("Recent email received : " + subject);
@@ -223,6 +200,38 @@ public class GmailEmail {
 
         return bodyText;
 
+    }
+
+
+    private static Message[] getMessagesFromEmailServer(Properties props, Store store, Folder inbox) {
+        try {
+            final String username = "mhra.uat@gmail.com";
+            final String password = "MHRA1234";
+
+            Session session = Session.getInstance(props,
+                    new Authenticator() {
+                        protected PasswordAuthentication getPasswordAuthentication() {
+                            return new PasswordAuthentication(username, password);
+                        }
+                    });
+
+            store = session.getStore("imaps");
+            store.connect("smtp.gmail.com", username, password);
+
+            inbox = store.getFolder("inbox");
+            inbox.open(Folder.READ_ONLY);
+
+            int messageCount = inbox.getMessageCount();
+            Message[] messages = inbox.getMessages();
+            List<Message> lom = Arrays.asList(messages);
+            Collections.sort(lom, new SortByMessageNumber());
+            messages = lom.toArray(new Message[lom.size()]);
+            //log.warn("Number of messages : " + messages.length);
+            return messages;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     private static Properties getEmailServerConfiguration() {

@@ -8,6 +8,7 @@ import com.mhra.mdcm.devices.dd.appian.pageobjects.MainNavigationBar;
 import com.mhra.mdcm.devices.dd.appian.utils.datadriven.ExcelDataSheet;
 import com.mhra.mdcm.devices.dd.appian.utils.datadriven.JUnitUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.driver.BrowserConfig;
+import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.EmailUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.FileUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.RandomDataUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.PageUtils;
@@ -371,6 +372,9 @@ public class SmokeTestsBusiness extends Common {
         assertThat("Task not found for organisation : " + orgName, contains, is(equalTo(true)));
 
         //Add email checking here
+        String subject = "Account request approved for";
+        boolean isEmailReceived = EmailUtils.verifyEmailReceived(accountNameOrReference,subject);
+        assertThat("Email with subject heading : " + subject + ", And body containing : " + accountNameOrReference, isEmailReceived, is(equalTo(true)));
     }
 
 
@@ -444,6 +448,9 @@ public class SmokeTestsBusiness extends Common {
         assertThat("Task not found for organisation : " + orgName, contains, is(equalTo(true)));
 
         //Add email checking here
+        String subject = "Account request approved for";
+        boolean isEmailReceived = EmailUtils.verifyEmailReceived(accountNameOrReference,subject);
+        assertThat("Email with subject heading : " + subject + ", And body containing : " + accountNameOrReference, isEmailReceived, is(equalTo(true)));
 
     }
 
@@ -522,6 +529,9 @@ public class SmokeTestsBusiness extends Common {
         assertThat("Task not found for organisation : " + orgName, contains, is(equalTo(true)));
 
         //Add email checking here
+        String subject = "Account request approved for";
+        boolean isEmailReceived = EmailUtils.verifyEmailReceived(accountNameOrReference,subject);
+        assertThat("Email with subject heading : " + subject + ", And body containing : " + accountNameOrReference, isEmailReceived, is(equalTo(true)));
     }
 
 
