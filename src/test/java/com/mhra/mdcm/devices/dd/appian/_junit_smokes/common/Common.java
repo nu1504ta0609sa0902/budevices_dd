@@ -28,26 +28,46 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.*;
 
 /**
  * Created by TPD_Auto on 07/11/2016.
  */
 public class Common {
-
+    //This controls and limits the users (overrides excel)
+    //Controls Manufacturer, No of devices and products
+    public static List<String> initialsArray = new ArrayList<>();
+    public static boolean isManufacturer = false;  //What type of accounts to create false=AuthorisedReps
     public static int maxNumberOfDevicesToAdd = 5;
     public static int numberOfProducts = 1;
-    public static boolean isManufacturer = false;  //What type of accounts to create false=AuthorisedReps
-    //This controls and limits the users (overrides excel)
-    public String[] initialsArray = new String[]{
-            "NU", //"AT", "NU", "HB", "YC", "PG", "AN", "LP"
-    };
 
-    public static WebDriver driver;
-    public static String loggedInUser;
-
+    //Initialise configuration
     static {
+        Properties props = com.mhra.mdcm.devices.dd.appian.utils.selenium.others.FileUtils.getEnvironmentConfigProperties();
+        String userInitial = props.getProperty("user.initials");
+        String accountType = props.getProperty("organisation.type.is.manufacturer");
+        String noOfDevices = props.getProperty("organisation.add.X.number.of.devices");
+        String noOfProducts = props.getProperty("organisation.add.Y.number.of.products");
+
+        //Create accounts and organisation and attach the initials to the end
+        if (userInitial != null && !userInitial.trim().equals("")) {
+            initialsArray.add(userInitial);
+        } else {
+            initialsArray.add("NU");
+        }
+
+        //Is it a manufacturer or authorised rep
+        if (accountType != null && !accountType.trim().equals(""))
+            isManufacturer = Boolean.parseBoolean(accountType);
+
+        //Number of devices to add to organisation
+        if (noOfDevices != null && !noOfDevices.trim().equals(""))
+            maxNumberOfDevicesToAdd = Integer.parseInt(noOfDevices);
+
+        //Number of products to add to each devices
+        if (noOfProducts != null && !noOfProducts.trim().equals(""))
+            numberOfProducts = Integer.parseInt(noOfProducts);
+
         //This helps with creating log files each time we run the tests, remember append=false needs to be set
         Calendar ins = Calendar.getInstance();
         int hour = ins.get(Calendar.HOUR_OF_DAY);
@@ -56,8 +76,11 @@ public class Common {
         System.setProperty("current.date", dateFormat.format(new Date()) + "_" + hour + "_" + min);
     }
 
-    public static
-    ExcelDataSheet excelUtils = new ExcelDataSheet();
+
+    public static WebDriver driver;
+    public static String loggedInUser;
+
+    public static ExcelDataSheet excelUtils = new ExcelDataSheet();
     public static final Logger log = LoggerFactory.getLogger(Common.class);
     public static long totalTime = 0;
 
@@ -78,8 +101,8 @@ public class Common {
         }
 
         @Override
-        public void failed(Throwable e, Description test){
-            if(driver!=null) {
+        public void failed(Throwable e, Description test) {
+            if (driver != null) {
                 File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
                 String currentDir = com.mhra.mdcm.devices.dd.appian.utils.selenium.others.FileUtils.getFileFullPath("tmp", "screenshots");
 
@@ -108,7 +131,7 @@ public class Common {
         @Override
         protected void failed(Throwable e, Description description) {
             String name = description.getMethodName();
-            name = name.substring(0, name.indexOf("[") );
+            name = name.substring(0, name.indexOf("["));
             TestHarnessUtils.takeScreenShot(driver, name, false);
             TestHarnessUtils.takeScreenShot(driver, name, true);
 
@@ -135,7 +158,7 @@ public class Common {
             totalTime = totalTime + diffTime;
 
             //This is added because of SSO: 26/06/2017
-            if(driver!=null){
+            if (driver != null) {
                 System.out.println("MUST SIGNOUT IF SESSIONS ARE ENABLED, OTHERWISE YOU WILL NOT BE ABLE TO LOGBACK IN WITH SAME USER");
                 loginPage = new LoginPage(driver);
                 loginPage.logout(driver, loggedInUser);

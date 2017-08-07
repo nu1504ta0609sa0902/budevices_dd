@@ -48,24 +48,28 @@ public class FileUtils {
     }
 
 
-
-    public static String getTestUrl() {
+    public static Properties getEnvironmentConfigProperties() {
         String testUrl = "https://mhratest.appiancloud.com";
         String profile = System.getProperty("spring.profiles.active");
-        if(profile==null || profile.trim().equals("")){
+        if (profile == null || profile.trim().equals("")) {
             profile = "mhratest";
         }
 
         Properties props = FileUtils.loadPropertiesFile("envs" + File.separator + profile + ".properties");
-        String baseUrl = props.getProperty("base.url");
+        return props;
+    }
 
+
+    public static String getTestUrl() {
+        String testUrl = "https://mhratest.appiancloud.com";
+        Properties props = getEnvironmentConfigProperties();
+        String baseUrl = props.getProperty("base.url");
         if (baseUrl != null) {
             testUrl = baseUrl;
         }
 
         //Giving me 401 error message : Appian said to use https://mhratest.appiancloud.com/suite/portal/loginPage.none
         testUrl = testUrl + "/suite/portal/login.jsp";
-        //testUrl = testUrl + "/suite/portal/loginPage.none";
         System.out.println("URL : " + testUrl);
         
         return testUrl;
