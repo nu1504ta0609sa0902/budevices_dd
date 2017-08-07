@@ -1,4 +1,4 @@
-package com.mhra.mdcm.devices.dd.appian._junit_smokes.device_injection.directly.inidividuals;
+package com.mhra.mdcm.devices.dd.appian._junit_smokes.device_injection.directly.ignore.inidividuals;
 
 import com.mhra.mdcm.devices.dd.appian._junit_smokes.common.Common;
 import com.mhra.mdcm.devices.dd.appian._junit_smokes.device_injection.directly.ExcelDirectDeviceDataUtils;
@@ -22,9 +22,9 @@ import java.util.List;
  * Created by TPD_Auto on 01/11/2016.
  */
 @RunWith(Parameterized.class)
-public class _CreateOnlyNEWManufacturerAccounts_Main extends Common {
+public class _CreateOnlyNEWAuthorisedRepAccounts_Main extends Common {
 
-    public static final String MANUFACTURER_SMOKE_TEST = "ManufacturerAccountST";
+    public static final String AUTHORISED_REP_ACCOUNT_SMOKE_TEST = "AuthorisedRepAccountST";
 
     public static WebDriver driver;
     public static String baseUrl;
@@ -33,45 +33,60 @@ public class _CreateOnlyNEWManufacturerAccounts_Main extends Common {
     private String initials;
 
 
-    public _CreateOnlyNEWManufacturerAccounts_Main(User businessUser) {
+    public _CreateOnlyNEWAuthorisedRepAccounts_Main(User businessUser) {
         this.username = businessUser.getUserName();
         this.password = businessUser.getPassword();
         this.initials = businessUser.getInitials();
     }
 
     public static void main(String[] args) {
-        List<User> listOfManufacturerUsers = ExcelDirectDeviceDataUtils.getListOfUsersFromExcel("manufacturer");
+
+        List<User> listOfAuthorisedRepUsers = ExcelDirectDeviceDataUtils.getListOfUsersFromExcel("authorised");
         List<User> listOfBusinessUsers = ExcelDirectDeviceDataUtils.getListOfBusinessUsersFromExcel("business");
         setUpDriver();
 
-        for (User u : listOfBusinessUsers) {
+        for(User u: listOfBusinessUsers) {
             try {
-                //Always use one of the Business Accounts to create the test manufacturers
-                //REMEMBER ALL PREVIOUS MANUFACTURERS DATA WILL BE REMOVED
+                /**
+                 * Always use one of the Business Accounts to create the test manufacturer accounts
+                 * This will create authorisedReps with users initials e.g _NU, _HB
+                 */
                 String initials = u.getInitials();
-                User businessUser = setCorrectLoginDetails("_" + initials, listOfBusinessUsers);
-                _CreateOnlyNEWManufacturerAccounts_Main tgs = new _CreateOnlyNEWManufacturerAccounts_Main(businessUser);
+                User businessUser = ExcelDirectDeviceDataUtils.getCorrectLoginDetails("_" + initials, listOfBusinessUsers);
+                _CreateOnlyNEWAuthorisedRepAccounts_Main tgs = new _CreateOnlyNEWAuthorisedRepAccounts_Main(businessUser);
 
                 //We only want to do it if the INITIALS in our initialsArray list
                 boolean isInitialFound = tgs.isInitialsInTheList(businessUser.getInitials());
                 if (isInitialFound) {
                     log.info("Creating for user with initials : " + initials);
-                    //Create a new account for the manufacturer user
-                    User manufacturerUser = TestHarnessUtils.getUserWithInitials(initials, listOfManufacturerUsers);
-                    tgs.createManufacturerAccountWithBusinessTestHarness(businessUser, manufacturerUser);
+                    //Get correct authorisedRep user and create a new account
+                    User authorisedRepUser = TestHarnessUtils.getUserWithInitials(initials, listOfAuthorisedRepUsers);
+                    tgs.createNewAccountForAuthorisedRepWithBusinessTestHarness(businessUser, authorisedRepUser);
 
                     //FLOW CHANGED, now email is sent and you must change the password to use the account 06/2017
 
                 } else {
                     log.info("Not creating any data for : " + businessUser + "\nCheck initialsArray contains the initials : " + businessUser.getInitials());
                 }
-
-            } catch (Exception e) {
+            }catch (Exception e){
                 log.info("Try and setup data for next user ");
             }
         }
 
         //closeDriver();
+    }
+
+    public static void setUpDriver() {
+        System.setProperty("current.browser", "gc");
+        if (driver == null) {
+            driver = new BrowserConfig().getDriver();
+            driver.manage().window().maximize();
+            baseUrl = FileUtils.getTestUrl();
+            PageUtils.performBasicAuthentication(driver, baseUrl);
+            log.warn("URL : " + baseUrl);
+            log.warn("\n\nTHIS IS NOT JUNIT, THIS IS NOT JUNIT");
+            log.warn("\n\nINSERT DEVICES AS AUTHORISEDREP USER VIA MAIN METHOD");
+        }
     }
 
     private static void closeDriver() {
@@ -82,8 +97,8 @@ public class _CreateOnlyNEWManufacturerAccounts_Main extends Common {
 
     private boolean isInitialsInTheList(String initials) {
         boolean found = false;
-        for (String in : initialsArray) {
-            if (in.equals(initials)) {
+        for(String in: initialsArray){
+            if(in.equals(initials)){
                 found = true;
                 break;
             }
@@ -91,43 +106,19 @@ public class _CreateOnlyNEWManufacturerAccounts_Main extends Common {
         return found;
     }
 
-    public static void setUpDriver() {
-        System.setProperty("current.browser", "gc");
-        if (driver == null) {
-            driver = new BrowserConfig().getDriver();
-            driver.manage().window().maximize();
-            baseUrl = FileUtils.getTestUrl();
-            PageUtils.performBasicAuthentication(driver, baseUrl);
-            log.warn("\n\nTHIS IS NOT JUNIT, THIS IS NOT JUNIT");
-            log.warn("\n\nINSERT DEVICES AS MANUFACTURER USER VIA MAIN METHOD");
-        }
-    }
-
-    private static User setCorrectLoginDetails(String nameSelected, List<User> listOfUsers) {
-        User selectCorrectUser = null;
-        for (User u : listOfUsers) {
-            String initials = "_" + u.getInitials();
-            if (nameSelected.contains(initials)) {
-                selectCorrectUser = u;
-                break;
-            }
-        }
-
-        return selectCorrectUser;
-    }
-
-    private void createManufacturerAccountWithBusinessTestHarness(User businessUser, User manufacturerUser) {
+    private void createNewAccountForAuthorisedRepWithBusinessTestHarness(User businessUser, User authorisedRepUser) {
 
             AccountRequest ar = new AccountRequest();
-            ar.isManufacturer = true;
-            ar.updateName(MANUFACTURER_SMOKE_TEST);
+            ar.isManufacturer = false;
+            ar.country = "United Kingdom";
+            ar.updateName(AUTHORISED_REP_ACCOUNT_SMOKE_TEST);
             ar.updateNameEnding("_" + businessUser.getInitials());
-            ar.initials = businessUser.getInitials();
-            ar.setUserDetails(manufacturerUser.getUserName());
+            ar.setUserDetails(authorisedRepUser.getUserName());
             ar.initials = businessUser.getInitials();
 
             try {
 
+                //Login and try to create it
                 loginPage = new LoginPage(driver);
                 loginPage = loginPage.loadPage(baseUrl);
                 loginPage = loginPage.accetpTandC();
@@ -137,13 +128,14 @@ public class _CreateOnlyNEWManufacturerAccounts_Main extends Common {
                 actionsPage = mainNavigationBar.clickActions();
                 createTestsData = actionsPage.gotoTestsHarnessPage();
 
-                //Now create the test data using harness page
                 actionsPage = createTestsData.createNewAccountUsingBusinessTestHarness(ar);
                 boolean isInCorrectPage = actionsPage.isApplicationSubmittedSuccessfully();
                 if (!isInCorrectPage) {
+                    actionsPage = mainNavigationBar.clickActions();
+                    createTestsData = actionsPage.gotoTestsHarnessPage();
                     actionsPage = createTestsData.createNewAccountUsingBusinessTestHarness(ar);
                 }else{
-                    log.info("Created a new Manufacturer account : " + ar.organisationName);
+                    log.info("Created a new AuthorisedRep account : " + ar.organisationName);
                     log.info("Username : " + ar.userName);
                 }
 
@@ -180,23 +172,24 @@ public class _CreateOnlyNEWManufacturerAccounts_Main extends Common {
                     taskSection = taskSection.confirmAssignment(true);
                     tasksPage = taskSection.approveTaskNewAccount();
                     taskSection = taskSection.confirmAssignment(true);
+                    WaitUtils.nativeWaitInSeconds(5);
                 }
 
-                log.info("Created The Following Manufacturer Account : " + orgName + "\n");
+                log.info("Created The Following AuthorisedRep Account : " + orgName + "\n");
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
+
             WaitUtils.nativeWaitInSeconds(2);
-            System.out.println("Organisation name : " + ar.organisationName);
+            //log.info(ar.organisationName);
             loginPage.logoutIfLoggedIn();
             WaitUtils.nativeWaitInSeconds(2);
-
     }
 
 
     @Override
     public String toString() {
-        return "CREATE DEVICES FOR Manufacturers";
+        return "CREATE DEVICES FOR AuthorisedReps";
     }
 }
