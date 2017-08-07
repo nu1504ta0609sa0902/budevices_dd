@@ -27,108 +27,6 @@ public class GmailEmail {
     }
 
 
-//    /**
-//     * Read message received in the last few minutes for the specified organisation
-//     *
-//     * @param min
-//     * @param numberOfMessgesToCheck
-//     * @param subjectHeading
-//     * @param organisationIdentifier
-//     * @return
-//     */
-//    public static String readMessageForSpecifiedOrganisations(double min, int numberOfMessgesToCheck, String subjectHeading, String organisationIdentifier) {
-//
-//        //subjectHeading = subjectHeading + " " + organisationIdentifier;
-//        log.info("Waiting for email with heading : " + subjectHeading);
-//        String bodyText = null;
-//        Properties props = getEmailServerConfiguration();
-//
-//        try {
-//            Store store = null;
-//            Folder inbox = null;
-//            Message[] messages = getMessagesFromEmailServer(props, store, inbox);
-//
-//            for (int i = 0; i < messages.length; i++) {
-//                Message message = messages[i];
-//                Date sentDate = message.getSentDate();
-//                String subject = message.getSubject();
-//                //log.warn(subject);
-//                Address[] froms = message.getFrom();
-//
-//                for (Address from : froms) {
-//                    String emailAddress = froms == null ? null : ((InternetAddress) from).getAddress();
-//                    if (emailAddress != null && (emailAddress.contains("appian") || emailAddress.contains("incessant") || emailAddress.contains("mhra.gov.uk"))) {
-//
-//                        boolean isMessageReceivedToday = isMessageReceivedToday(subject, subjectHeading, sentDate);
-//                        //isMessageReceivedToday = true;
-//                        if ((isMessageReceivedToday && subject.contains(subjectHeading))) {
-//
-//                            //If recent
-//                            boolean isRecent = receivedInLast(min, sentDate);
-//                            //isRecent = true;
-//                            if (isRecent && subject.toLowerCase().contains("manufacturer registration")) {
-//                                log.warn("---------------------------------");
-//                                log.warn("Recent email received : " + subject);
-//                                log.warn("---------------------------------");
-//                                String body = getTextFromMessage(message);
-//                                //log.warn("Body Text : " + body);
-//
-//                                if (body.contains(organisationIdentifier)) {
-//                                    log.info("Message RECEIVED");
-//                                    bodyText = body;
-//                                    break;
-//                                }
-//                            } else if (isRecent && subject.toLowerCase().contains("new account request")) {
-//                                log.warn("---------------------------------");
-//                                log.warn("Recent email received : " + subject);
-//                                log.warn("---------------------------------");
-//                                String body = getTextFromMessage(message);
-//                                //log.warn("Body Text : " + body);
-//
-//                                if (body.contains(organisationIdentifier)) {
-//                                    log.info("Message RECEIVED");
-//                                    bodyText = body;
-//                                    break;
-//                                }
-//                            } else if (isRecent && subject.toLowerCase().contains("request approved for")) {
-//                                log.warn("---------------------------------");
-//                                log.warn("Recent email received : " + subject);
-//                                log.warn("---------------------------------");
-//                                String body = getTextFromMessage(message);
-//                                //log.warn("Body Text : " + body);
-//
-//                                if (body.contains(organisationIdentifier)) {
-//                                    log.info("Message RECEIVED");
-//                                    bodyText = body;
-//                                    break;
-//                                }
-//                            }
-//                        } else {
-//                            //log.warn("Message is old or not relevant" );
-//                        }
-//                    }
-//                }
-//
-//                if (i > numberOfMessgesToCheck || bodyText != null) {
-//                    //Most likely no emails received yet
-//                    log.info(bodyText);
-//                    break;
-//                }
-//            }
-//
-//            if(inbox!=null)
-//            inbox.close(true);
-//            if(store!=null)
-//            store.close();
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//        return bodyText;
-//
-//    }
-
     /**
      *
      * @param ignoreAllMessagesOlderThanXMin
@@ -161,7 +59,7 @@ public class GmailEmail {
 
                         //If received today and subject contains the correct text
                         boolean isMessageReceivedToday = isMessageReceivedToday(subject, subjectHeading, sentDate);
-                        if (isMessageReceivedToday && ((subject.contains(subjectHeading) && subject.contains(organisationIdentifier)) || subject.contains("account creation"))) {
+                        if (isMessageReceivedToday && ((subject.contains(subjectHeading) || subject.contains(organisationIdentifier)))) {
 
                             //If message is received in the last X ignoreAllMessagesOlderThanXMin
                             boolean isRecent = receivedInLast(ignoreAllMessagesOlderThanXMin, sentDate);
