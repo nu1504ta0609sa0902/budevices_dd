@@ -15,36 +15,23 @@ import java.util.concurrent.TimeUnit;
  */
 public class WaitUtils {
 
-    //mhratest is very slow, set this to 0 once slow issue is fixed
-    static int timeForTesting = 60;
-
     public static void waitForElementToBeClickable(WebDriver driver, WebElement element, int maxTimeToWait) {
-        maxTimeToWait = resetMaxTime(maxTimeToWait);
         new WebDriverWait(driver, maxTimeToWait).until(ExpectedConditions.elementToBeClickable(element));
     }
 
     public static void waitForElementToBeClickable(WebDriver driver, By by, int maxTimeToWait) {
-        maxTimeToWait = resetMaxTime(maxTimeToWait);
         new WebDriverWait(driver, maxTimeToWait).until(ExpectedConditions.elementToBeClickable(by));
     }
 
     public static void waitForElementToBeVisible(WebDriver driver, WebElement element, int maxTimeToWait) {
-        maxTimeToWait = resetMaxTime(maxTimeToWait);
         new WebDriverWait(driver, maxTimeToWait).until(ExpectedConditions.visibilityOf(element));
     }
 
     public static void waitForElementToBeVisible(WebDriver driver, By by, int maxTimeToWait) {
-        maxTimeToWait = resetMaxTime(maxTimeToWait);
         WebElement element = driver.findElement(by);
         new WebDriverWait(driver, maxTimeToWait).until(ExpectedConditions.visibilityOf(element));
     }
 
-    private static int resetMaxTime(int maxTimeToWait) {
-        if (timeForTesting > 0) {
-            maxTimeToWait = timeForTesting;
-        }
-        return maxTimeToWait;
-    }
 
     /**
      * DON'T USE FOR WAITING FOR PAGES, UNLESS ITS TO DO WITH SOME NATIVE COMPONENTS WHICH SELENIUM CAN'T HANDLE
@@ -70,8 +57,6 @@ public class WaitUtils {
      * @param overrideTimeSpecified
      */
     public static void waitForElementToBeClickable(WebDriver driver, By by, int maxTimeToWait, boolean overrideTimeSpecified) {
-        if (overrideTimeSpecified)
-            maxTimeToWait = resetMaxTime(maxTimeToWait);
         new WebDriverWait(driver, maxTimeToWait).until(ExpectedConditions.elementToBeClickable(by));
     }
 
@@ -83,29 +68,21 @@ public class WaitUtils {
      * @param overrideTimeSpecified
      */
     public static void waitForElementToBeClickable(WebDriver driver, WebElement element, int maxTimeToWait, boolean overrideTimeSpecified) {
-        if (overrideTimeSpecified)
-            maxTimeToWait = resetMaxTime(maxTimeToWait);
         new WebDriverWait(driver, maxTimeToWait).until(ExpectedConditions.elementToBeClickable(element));
     }
 
 
     public static void waitForElementToBeVisible(WebDriver driver, WebElement element, int maxTimeToWait, boolean overrideTimeSpecified) {
-        if (overrideTimeSpecified)
-            maxTimeToWait = resetMaxTime(maxTimeToWait);
         new WebDriverWait(driver, maxTimeToWait).until(ExpectedConditions.visibilityOf(element));
     }
 
 
     public static void waitForElementToBeVisible(WebDriver driver, By by, int maxTimeToWait, boolean overrideTimeSpecified) {
-        if (overrideTimeSpecified)
-            maxTimeToWait = resetMaxTime(maxTimeToWait);
         WebElement element = driver.findElement(by);
         new WebDriverWait(driver, maxTimeToWait).until(ExpectedConditions.visibilityOf(element));
     }
 
     public static void waitForAlert(WebDriver driver, int maxTimeToWait, boolean overrideTimeSpecified) {
-        if (overrideTimeSpecified)
-            maxTimeToWait = resetMaxTime(maxTimeToWait);
         new WebDriverWait(driver, maxTimeToWait).until(ExpectedConditions.alertIsPresent());
     }
 
@@ -121,54 +98,6 @@ public class WaitUtils {
             return false;
         }
     }
-
-
-    public static void isElementPartOfDom(WebDriver driver, By by, int maxTimeToWait, boolean overrideTimeSpecified) {
-        if (overrideTimeSpecified)
-            maxTimeToWait = resetMaxTime(maxTimeToWait);
-        new WebDriverWait(driver, maxTimeToWait).until(ExpectedConditions.presenceOfElementLocated(by));
-    }
-
-
-//    public static void isElementPartOfDomAdvanced(WebDriver driver, final WebElement element, int maxTimeToWait, boolean overrideTimeSpecified) {
-//        if (overrideTimeSpecified)
-//            maxTimeToWait = resetMaxTime(maxTimeToWait);
-//
-//        new WebDriverWait(driver, maxTimeToWait)
-//                .ignoring(StaleElementReferenceException.class)
-//                .until(new Predicate<WebDriver>() {
-//                    @Override
-//                    public boolean apply(WebDriver driver) {
-//                        boolean displayed = element.isDisplayed();
-//                        return displayed;
-//                    }
-//                });
-//    }
-
-
-    /**
-     * PREVENT StaleElementReference issue
-     *
-     * @param driver
-     * @param by
-     * @param maxTimeToWait
-     * @param overrideTimeSpecified
-     */
-//    public static void waitForElementToBePartOfDOM(WebDriver driver, final By by, int maxTimeToWait, boolean overrideTimeSpecified) {
-//        if (overrideTimeSpecified)
-//            maxTimeToWait = resetMaxTime(maxTimeToWait);
-//
-//        new WebDriverWait(driver, maxTimeToWait)
-//                .ignoring(StaleElementReferenceException.class)
-//                .until(new Predicate<WebDriver>() {
-//                    @Override
-//                    public boolean apply(WebDriver driver) {
-//                        WebElement element = driver.findElement(by);
-//                        boolean clickAble = element.isDisplayed() && element.isEnabled();
-//                        return clickAble;
-//                    }
-//                });
-//    }
 
     public static void waitForPageToLoad(WebDriver driver, By by, int maxTimeToWait, boolean overrideTimeSpecified) {
         try {
@@ -204,26 +133,6 @@ public class WaitUtils {
         }
     }
 
-//    public static boolean isPageLoadingComplete(WebDriver driver, int timeout){
-//        boolean isWorkingDisplayed = true;
-//        try {
-//            int count = 0;
-//            do {
-//                driver.manage().timeouts().implicitlyWait(timeout, TimeUnit.SECONDS);
-//                List<WebElement> elements = driver.findElements(By.xpath(".//div[@class='appian-indicator-message' and @style='display: none;']"));
-//                if (elements.size() == 1) {
-//                    isWorkingDisplayed = false;
-//                }
-//                driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
-//                count++;
-//            }while(isWorkingDisplayed && count < 5);
-//
-//        }catch (Exception e){
-//            driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
-//            isWorkingDisplayed = false;
-//        }
-//        return isWorkingDisplayed;
-//    }
 
     public static boolean isPageLoadingComplete(WebDriver driver, int timeout){
         boolean isLoadedFully = false;
