@@ -198,7 +198,7 @@ public class AddDevices extends _Page {
     //Submit and save buttons
     @FindBy(xpath = ".//button[.='Add device']")
     WebElement btnAddDevice;
-    @FindBy(xpath = ".//button[.='Save']")
+    @FindBy(xpath = ".//button[contains(text(),'Save Device')]")
     WebElement btnSaveProgress;
     @FindBy(xpath = ".//button[.='Save product']")
     WebElement btnSaveProduct;

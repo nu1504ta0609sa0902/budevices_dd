@@ -194,6 +194,7 @@ public class SmokeTestsBusiness extends Common {
     }
 
     @Test
+    @Ignore
     public void asABusinessUserIShouldBeAbleToViewCFSServicesPage() {
 
         LoginPage loginPage = new LoginPage(driver);
