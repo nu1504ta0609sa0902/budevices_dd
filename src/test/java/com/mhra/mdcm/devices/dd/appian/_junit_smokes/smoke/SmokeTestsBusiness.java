@@ -536,6 +536,9 @@ public class SmokeTestsBusiness extends Common {
     }
 
 
+    /**
+     * Account Page: Could be removed, so any tests related to accounts page may need to be removed
+     */
     @Test
     @Ignore
     public void asABusinessUserIAmAbleToSearchViewAndEditManufacturerAccounts() {
@@ -561,6 +564,9 @@ public class SmokeTestsBusiness extends Common {
     }
 
 
+    /**
+     * Account Page: Could be removed, so any tests related to accounts page may need to be removed
+     */
     @Test
     @Ignore
     public void asABusinessUserIAmAbleToSearchViewAndEditAuthorisedRepAccounts() {
