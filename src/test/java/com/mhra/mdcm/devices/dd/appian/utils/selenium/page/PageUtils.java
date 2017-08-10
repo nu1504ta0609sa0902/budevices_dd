@@ -157,39 +157,7 @@ public class PageUtils {
         }
     }
 
-    public static boolean isCorrectPage(WebDriver driver, String ecid) {
-        return driver.getTitle().contains(ecid);
-    }
 
-
-    public static boolean selectFromAutoSuggests(WebDriver driver, By elementPath, String text) {
-        boolean completed = true;
-        int count = 0;
-        do {
-            try {
-
-                count++;    //It will go forever without this
-                WebElement country = driver.findElements(elementPath).get(0);
-                new Actions(driver).moveToElement(country).perform();
-
-                //Enter the country I am interested in
-                country.sendKeys("\n");
-                country.clear();
-                country.sendKeys(text, Keys.ENTER);
-                //new WebDriverWait(driver, 4).until(ExpectedConditions.elementToBeClickable(By.cssSelector(".item")));
-                WaitUtils.waitForElementToBeClickable(driver,By.cssSelector(".item") , _Page.TIMEOUT_5_SECOND, false);
-                country.sendKeys(Keys.ARROW_DOWN, Keys.ENTER);
-
-                completed = true;
-            } catch (Exception e) {
-                completed = false;
-                WaitUtils.nativeWaitInSeconds(1);
-                //PageFactory.initElements(driver, this);
-            }
-        } while (!completed && count < 1);
-
-        return completed;
-    }
 
 
     public static void uploadDocument(WebElement element, String fileName, int timeWaitForItToBeClickable, int timeWaitForDocumentUploadToFinish) {
@@ -206,38 +174,6 @@ public class PageUtils {
         }
         element.sendKeys(text);
     }
-
-    public static void selectCountryFromAutoSuggests(WebDriver driver, String elementPath, String countryName, boolean throwException) throws Exception {
-        boolean completed = true;
-        int count = 0;
-        do {
-            try {
-
-                count++;    //It will go forever without this
-                WebElement country = driver.findElements(By.cssSelector(elementPath)).get(0);
-                new Actions(driver).moveToElement(country).perform();
-
-                //Enter the country I am interested in
-                country.sendKeys("\n");
-                country.clear();
-                country.sendKeys(countryName, Keys.ENTER);
-                //new WebDriverWait(driver, 3).until(ExpectedConditions.elementToBeClickable(By.cssSelector("li[role='option']")));
-                WaitUtils.waitForElementToBeClickable(driver, By.cssSelector("li[role='option']"), _Page.TIMEOUT_5_SECOND, false);
-                country.sendKeys(Keys.ARROW_DOWN, Keys.ENTER);
-
-                completed = true;
-            } catch (Exception e) {
-                completed = false;
-                WaitUtils.nativeWaitInSeconds(1);
-                //PageFactory.initElements(driver, this);
-            }
-        } while (!completed && count < 1);
-
-        if (!completed && throwException) {
-            throw new Exception("Country name not selected");
-        }
-    }
-
 
 
     public static void selectFromAutoSuggestedListItems(WebDriver driver, String elementPath, String countryName, boolean throwException) throws Exception {

@@ -85,7 +85,7 @@ public class _CreateManufacturerTestsData extends _Page {
         //WaitUtils.waitForElementToBeClickable(driver, By.cssSelector(".PickerWidget---picker_value"), TIMEOUT_5_SECOND, false);
         WaitUtils.waitForElementToBeClickable(driver, orgName, TIMEOUT_15_SECOND, false);
         orgName.sendKeys(ar.organisationName);
-        //PageUtils.selectCountryFromAutoSuggests(driver, ".gwt-SuggestBox", ar.country, false);
+
         boolean exception = false;
         try {
             PageUtils.selectFromAutoSuggestedListItemsManufacturers(driver, ".PickerWidget---picker_value", ar.country, true);

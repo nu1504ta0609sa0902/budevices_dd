@@ -162,7 +162,7 @@ public class Common {
                 System.out.println("MUST SIGNOUT IF SESSIONS ARE ENABLED, OTHERWISE YOU WILL NOT BE ABLE TO LOGBACK IN WITH SAME USER");
                 loginPage = new LoginPage(driver);
                 loginPage.logout(driver, loggedInUser);
-                PageUtils.acceptAlert(driver, true, _Page.TIMEOUT_3_SECOND);
+                PageUtils.acceptAlert(driver, true, 3);
                 boolean isDisplayed = loginPage.isTermsAndConditionDisplayed(_Page.TIMEOUT_3_SECOND);
                 if(!isDisplayed)
                 loginPage.isInLoginPage();
