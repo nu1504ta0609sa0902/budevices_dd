@@ -163,6 +163,8 @@ public class Common {
                 loginPage = new LoginPage(driver);
                 loginPage.logout(driver, loggedInUser);
                 PageUtils.acceptAlert(driver, true, _Page.TIMEOUT_3_SECOND);
+                boolean isDisplayed = loginPage.isTermsAndConditionDisplayed(_Page.TIMEOUT_3_SECOND);
+                if(!isDisplayed)
                 loginPage.isInLoginPage();
             }
         }

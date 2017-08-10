@@ -294,4 +294,13 @@ public class LoginPage extends _Page {
         }
         return new LoginPage(driver);
     }
+
+    public boolean isTermsAndConditionDisplayed(int timeout) {
+        try {
+            WaitUtils.waitForElementToBeClickable(driver, acceptTermsAndConditions, timeout);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
 }
