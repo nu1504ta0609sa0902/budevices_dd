@@ -2,6 +2,8 @@
 
 Running on a remove machine which has proxy setup will need the following parameters:
 -Dis.remote=true
+-Dcurrent.browser=gc
+-Dspring.profiles.active=mhratest
 
 <hr/>
 #Note there is 2 ways we can run these tests:<br/>
@@ -65,3 +67,5 @@ mvn site : is very slow so use the commands below<br/>
 mvn surefire-report:report-only <br/>mvn site -DgenerateReports=false = faster solution<br/>
 
 
+Jenkins:
+Run from command prompt
