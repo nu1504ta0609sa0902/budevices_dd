@@ -1,12 +1,16 @@
 "# budevices_dd"
 
+#-----------------------------------------------------------------------------
 Running on a remove machine which has proxy setup will need the following parameters:
+#-----------------------------------------------------------------------------
 -Dis.remote=true
 -Dcurrent.browser=gc
 -Dspring.profiles.active=mhratest
 
 <hr/>
+#-----------------------------------------------------------------------------
 #Note there is 2 ways we can run these tests:<br/>
+#-----------------------------------------------------------------------------
 1. Via the IDE: <br/>
     - JUnit : reports are no good<br/>
     - Maven : reports are slightly better<br/>
@@ -16,7 +20,9 @@ Running on a remove machine which has proxy setup will need the following parame
 2. Simply run one of the following commands below:<br/>
 
 <hr/>
+#-----------------------------------------------------------------------------
 -- Example running the tests from command prompt
+#-----------------------------------------------------------------------------
 
 #A. Open command prompt and navigate to project directory
 
@@ -53,7 +59,9 @@ mvn surefire-report:report
 mvn clean test surefire-report:report
  <br/>
 
+#-----------------------------------------------------------------------------
 Create Better Reports With These Commands: <br/>
+#-----------------------------------------------------------------------------
 Run tests and generate .xml reports<br/>
 mvn test
 Convert .xml reports into .html report, but without the CSS or images<br/>
@@ -61,11 +69,15 @@ mvn surefire-report:report-only
 Put the CSS and images where they need to be without the rest of the time-consuming stuff<br/>
 mvn site -DgenerateReports=false
 
+#-----------------------------------------------------------------------------
 #Summary:
+#-----------------------------------------------------------------------------
 mvn clean test -Dtest=RunAllSmokeTest -Dcurrent.browser=ie -Dspring.profiles.active=mhratest<br/>
 mvn site : is very slow so use the commands below<br/>
 mvn surefire-report:report-only <br/>mvn site -DgenerateReports=false = faster solution<br/>
 
 
+#-----------------------------------------------------------------------------
 Jenkins:
+#-----------------------------------------------------------------------------
 Run from command prompt
