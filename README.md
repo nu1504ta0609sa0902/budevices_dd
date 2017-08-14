@@ -1,5 +1,8 @@
 "# budevices_dd"
 
+Running on a remove machine which has proxy setup will need the following parameters:
+-Dis.remote=true
+
 <hr/>
 #Note there is 2 ways we can run these tests:<br/>
 1. Via the IDE: <br/>
