@@ -8,7 +8,6 @@ import com.mhra.mdcm.devices.dd.appian.pageobjects.MainNavigationBar;
 import com.mhra.mdcm.devices.dd.appian.utils.datadriven.ExcelDataSheet;
 import com.mhra.mdcm.devices.dd.appian.utils.datadriven.JUnitUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.driver.BrowserConfig;
-import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.EmailUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.FileUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.RandomDataUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.PageUtils;
@@ -44,8 +43,8 @@ public class SmokeTestsBusiness extends Common {
     @Parameterized.Parameters(name = "{0}")
     public static Collection<User> spreadsheetData() throws IOException {
         ExcelDataSheet excelUtils = new ExcelDataSheet();//
-        List<User> listOfUsers = excelUtils.getListOfUsers("configs/data/excel/users.xlsx", "Sheet1", true);
-        listOfUsers = excelUtils.filterUsersBy(listOfUsers, "business");
+        List<User> listOfUsers = excelUtils.getListOfUsers("configs/data/excel/users.xlsx", "Sheet1", false);
+        listOfUsers = excelUtils.filterUsersBy(listOfUsers, "business", initialsArray.get(0));
         log.info("Business Users : " + listOfUsers);
         return listOfUsers;
     }

@@ -223,11 +223,24 @@ public class ExcelDataSheet {
         return data;
     }
 
-    public List<User> filterUsersBy(List<User> listOfUsers, String filterText) {
+    public List<User> filterUsersBy(List<User> listOfUsers, String usernameFilter) {
         List<User> filteredUser = new ArrayList<>();
         for(User u: listOfUsers){
             String userName = u.getUserName();
-            if(userName.toLowerCase().contains(filterText)){
+            if(userName.toLowerCase().contains(usernameFilter)){
+                filteredUser.add(u);
+            }
+        }
+
+        return filteredUser;
+    }
+
+    public List<User> filterUsersBy(List<User> listOfUsers, String usernameFilter, String userInitial) {
+        List<User> filteredUser = new ArrayList<>();
+        for(User u: listOfUsers){
+            String userName = u.getUserName();
+            String initials = u.getInitials();
+            if(userName.toLowerCase().contains(usernameFilter) && initials.contains(userInitial)){
                 filteredUser.add(u);
             }
         }

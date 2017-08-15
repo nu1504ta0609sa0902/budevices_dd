@@ -42,9 +42,9 @@ public class SmokeTestsDistributors extends Common {
     @Parameterized.Parameters(name = "{0}")
     public static Collection<User> spreadsheetData() throws IOException {
         ExcelDataSheet excelUtils = new ExcelDataSheet();//
-        List<User> listOfUsers = excelUtils.getListOfUsers("configs/data/excel/users.xlsx", "Sheet1", true);
-        listOfBusinessUsers = excelUtils.filterUsersBy(listOfUsers, "business");
-        listOfUsers = excelUtils.filterUsersBy(listOfUsers, "distributor");
+        List<User> listOfUsers = excelUtils.getListOfUsers("configs/data/excel/users.xlsx", "Sheet1", false);
+        listOfBusinessUsers = excelUtils.filterUsersBy(listOfUsers, "business", initialsArray.get(0));
+        listOfUsers = excelUtils.filterUsersBy(listOfUsers, "distributor", initialsArray.get(0));
         log.info("Manufacturer Users : " + listOfUsers);
         return listOfUsers;
     }
