@@ -14,11 +14,11 @@ public class _Page {
      * Different timeouts for different actions: Use appropriately
      * Any pages which takes more than 10 seconds should be looked at
      **/
-    public static final boolean USE_DEFAULT_TIME_FOR_ALL = true;
+    public static final boolean USE_DEFAULT_TIME_FOR_ALL = false;
     public static int TIMEOUT_DEFAULT = 30;
 
     //This will wait for 1*60 seconds "Waiting..." message to dissappear, unless you set to 0
-    public static final int TIMEOUT_PAGE_LOAD = 0;
+    public static final int TIMEOUT_PAGE_LOAD = 1;
 
     public static int TIMEOUT_1_SECOND = 1;
     public static int TIMEOUT_3_SECOND = 3;
