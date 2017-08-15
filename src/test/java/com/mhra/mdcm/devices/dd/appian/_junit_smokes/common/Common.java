@@ -51,7 +51,7 @@ public class Common {
 
         //Create accounts and organisation and attach the initials to the end
         if (userInitial != null && !userInitial.trim().equals("")) {
-            initialsArray.add(userInitial);
+            initialsArray.add(userInitial.trim());
         } else {
             initialsArray.add("NU");
         }
