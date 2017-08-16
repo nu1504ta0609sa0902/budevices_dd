@@ -49,7 +49,7 @@ public class _AllInOne_AddDevicesToNEWAccounts_Main extends Common {
     public static void main(String[] args) {
 
         List<User> listOfUsersFromExcelSheet = ExcelDirectDeviceDataUtils.getListOfUsersFromExcel("manufacturer");
-        if(isManufacturer)
+        if(!isManufacturer)
             listOfUsersFromExcelSheet = ExcelDirectDeviceDataUtils.getListOfUsersFromExcel("authorised");
         List<User> listOfBusinessUsers = ExcelDirectDeviceDataUtils.getListOfBusinessUsersFromExcel("business");
         setUpDriver();
