@@ -55,6 +55,7 @@ public class FileUtils {
             profile = "mhratest";
         }
 
+        System.out.println("TEST RUNNING IN : " + profile );
         Properties props = FileUtils.loadPropertiesFile("envs" + File.separator + profile + ".properties");
         return props;
     }
