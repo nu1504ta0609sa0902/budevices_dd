@@ -40,7 +40,7 @@ public class SmokeTestsAuthorisedRep extends Common {
     @Parameterized.Parameters(name = "{0}")
     public static Collection<User> spreadsheetData() throws IOException {
         ExcelDataSheet excelUtils = new ExcelDataSheet();//
-        List<User> listOfUsers = excelUtils.getListOfUsers("configs/data/excel/users.xlsx", "Sheet1", false);
+        List<User> listOfUsers = excelUtils.getListOfUsers("configs/data/excel/users.xlsx", profile, false);
         listOfBusinessUsers = excelUtils.filterUsersBy(listOfUsers, "business", initialsArray.get(0));
         listOfUsers = excelUtils.filterUsersBy(listOfUsers, "authorised", initialsArray.get(0));
         log.info("AuthorisedRep Users : " + listOfUsers);

@@ -82,6 +82,8 @@ public class ExcelDataSheet {
 
     public List<User> getListOfUsers(String fileName, String sheet, boolean applyIgnoreFilter){
 
+        sheet = whichEnvData(sheet);
+
         //Point to the resource file
         String dataFile = getDataFileFullPath(fileName);
 
@@ -115,6 +117,15 @@ public class ExcelDataSheet {
         }
 
         return listOfTestUsers;
+    }
+
+    private String whichEnvData(String sheet) {
+        if(sheet == null || sheet.equals("") || sheet.equals("mhratest")){
+            sheet = "TestEnv";
+        }else if(sheet.equals("mhrapreprod")){
+            sheet = "PreProdEnv";
+        }
+        return sheet;
     }
 
 

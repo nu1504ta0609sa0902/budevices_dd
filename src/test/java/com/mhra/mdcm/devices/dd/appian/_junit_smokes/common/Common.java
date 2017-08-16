@@ -34,6 +34,9 @@ import java.util.*;
  * Created by TPD_Auto on 07/11/2016.
  */
 public class Common {
+
+    public static String profile = System.getProperty("spring.profiles.active");
+
     //This controls and limits the users (overrides excel)
     //Controls Manufacturer, No of devices and products
     public static List<String> initialsArray = new ArrayList<>();

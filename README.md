@@ -1,11 +1,19 @@
 "# budevices_dd"
 
+
+
 #-----------------------------------------------------------------------------
 Running on a remove machine which has proxy setup will need the following parameters:
 #-----------------------------------------------------------------------------
 -Dis.remote=true
 -Dcurrent.browser=gc
 -Dspring.profiles.active=mhratest
+-Dspring.profiles.active=mhrapreprod
+
+E.g.
+
+Local: -Dcurrent.browser=gc -Dspring.profiles.active=mhratest
+Remote: -Dis.remote=true -Dcurrent.browser=gc -Dspring.profiles.active=mhratest
 
 <hr/>
 #-----------------------------------------------------------------------------
