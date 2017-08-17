@@ -28,15 +28,6 @@ public class ActionsPage extends _Page {
         super(driver);
     }
 
-    public boolean isInActionsPage() {
-        try {
-            WaitUtils.waitForElementToBeClickable(driver, linkCreateTestAccount, TIMEOUT_10_SECOND, false);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
     public boolean isApplicationSubmittedSuccessfully() {
         try {
             WaitUtils.waitForElementToBeClickable(driver, txtApplicationComplete, TIMEOUT_15_SECOND);
