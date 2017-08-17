@@ -48,11 +48,10 @@ public class ActionsPage extends _Page {
     }
 
     public _CreateTestsData gotoTestsHarnessPage() {
-        //WaitUtils.isPageLoadingComplete(driver, 10);
-        WaitUtils.nativeWaitInSeconds(2);
+        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+        //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(2);
         WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText("Create Test Account"), TIMEOUT_15_SECOND, false);
         WaitUtils.waitForElementToBeClickable(driver, linkCreateTestAccount, TIMEOUT_15_SECOND, false);
-        //linkCreateTestAccount.click();
         PageUtils.singleClick(driver, linkCreateTestAccount);
         return new _CreateTestsData(driver);
     }

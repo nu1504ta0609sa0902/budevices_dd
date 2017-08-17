@@ -158,14 +158,19 @@ public class PageUtils {
     }
 
 
-
-
+    /**
+     * Native wait is required here, because the file dialog is a native element
+     * @param element
+     * @param fileName
+     * @param timeWaitForItToBeClickable
+     * @param timeWaitForDocumentUploadToFinish
+     */
     public static void uploadDocument(WebElement element, String fileName, int timeWaitForItToBeClickable, int timeWaitForDocumentUploadToFinish) {
         String fullPath = FileUtils.getFileFullPath("tmp" + File.separator + "data" + File.separator + "reps", fileName);
-        WaitUtils.nativeWaitInSeconds(timeWaitForItToBeClickable);
+        WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(timeWaitForItToBeClickable);
         element.sendKeys(fullPath);
         //We will have to wait for uploading to finish
-        WaitUtils.nativeWaitInSeconds(timeWaitForDocumentUploadToFinish);
+        WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(timeWaitForDocumentUploadToFinish);
     }
 
     public static void clearAndTypeText(WebElement element, String text, boolean clearField) {
@@ -185,7 +190,7 @@ public class PageUtils {
                 count++;    //It will go forever without this
                 WebElement country = driver.findElements(By.cssSelector(elementPath)).get(0);
                 country.sendKeys(countryName);
-                WaitUtils.nativeWaitInSeconds(1);
+                WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(1);
                 //new WebDriverWait(driver, 3).until(ExpectedConditions.elementToBeClickable(By.cssSelector("li[role='option']")));
                 WaitUtils.waitForElementToBeClickable(driver,By.cssSelector("li[role='option']") , _Page.TIMEOUT_5_SECOND, false);
 
@@ -202,7 +207,7 @@ public class PageUtils {
                 }
             } catch (Exception e) {
                 completed = false;
-                WaitUtils.nativeWaitInSeconds(1);
+                //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(1);
             }
         } while (!completed && count < 3);
 
@@ -221,12 +226,12 @@ public class PageUtils {
                 count++;    //It will go forever without this
                 WebElement country = driver.findElements(By.cssSelector(elementPath)).get(0);
                 country.sendKeys(countryName);
-                WaitUtils.nativeWaitInSeconds(1);
+                WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(1);
                 //new WebDriverWait(driver, 3).until(ExpectedConditions.elementToBeClickable(By.cssSelector("li[role='option']")));
                 WaitUtils.waitForElementToBeClickable(driver,By.cssSelector("li[role='option']") , _Page.TIMEOUT_5_SECOND, false);
 
                 //Get list of options displayed
-                WaitUtils.nativeWaitInSeconds(1);
+                WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(1);
                 List<WebElement> countryOptions = driver.findElements(By.cssSelector("li[role='option']"));
                 WebElement item = countryOptions.get(0);
                 String text = item.getText();
@@ -238,7 +243,7 @@ public class PageUtils {
                 }
             } catch (Exception e) {
                 completed = false;
-                WaitUtils.nativeWaitInSeconds(1);
+                //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(1);
             }
         } while (!completed && count < 3);
 
@@ -309,7 +314,7 @@ public class PageUtils {
                 completed = true;
             } catch (Exception e) {
                 completed = false;
-                WaitUtils.nativeWaitInSeconds(1);
+                //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(1);
             }
         } while (!completed && count < 3);
 

@@ -73,13 +73,13 @@ public class ExternalHomePage extends _Page {
 
         //Find element
         WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//*[contains(text(),'ype of device')]//following::label"), TIMEOUT_15_SECOND, false);
-        //WaitUtils.nativeWaitInSeconds(1);
+        //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(1);
         List<WebElement> elements = driver.findElements(By.xpath(".//*[contains(text(),'ype of device')]//following::label"));
         WebElement e = elements.get(index);
         WaitUtils.waitForElementToBeClickable(driver, e, TIMEOUT_15_SECOND, false);
 
         PageUtils.singleClick(driver, e);
-        //WaitUtils.nativeWaitInSeconds(2);
+        //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(2);
 
         return new ExternalHomePage(driver);
     }
@@ -105,7 +105,7 @@ public class ExternalHomePage extends _Page {
             //AIMD
             if (isCustomMade) {
                 WaitUtils.waitForElementToBeClickable(driver, aimdCustomMadeYes, TIMEOUT_15_SECOND, false);
-                WaitUtils.nativeWaitInSeconds(1);
+                //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(1);
                 driver.findElement(aimdCustomMadeYes).click();
             } else {
                 WaitUtils.waitForElementToBeClickable(driver, aimdCustomMadeNo, TIMEOUT_15_SECOND, false);

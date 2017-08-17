@@ -2,7 +2,6 @@ package com.mhra.mdcm.devices.dd.appian.pageobjects.business;
 
 import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.AccountRequest;
 import com.mhra.mdcm.devices.dd.appian.pageobjects._Page;
-import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.RandomDataUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.PageUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.WaitUtils;
 import org.openqa.selenium.By;
@@ -150,9 +149,9 @@ public class _CreateTestsData extends _Page {
             PageUtils.doubleClick(driver, limitedCompany);
             PageFactory.initElements(driver, this);
             WaitUtils.waitForElementToBeVisible(driver, companyRegistrationNumber, 5, false);
-            WaitUtils.nativeWaitInSeconds(1);
+            //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(1);
             WaitUtils.waitForElementToBeClickable(driver, companyRegistrationNumber, 5, false);
-            WaitUtils.nativeWaitInSeconds(1);
+            //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(1);
             vatRegistrationNumber.sendKeys(ar.vatRegistrationNumber);
             companyRegistrationNumber.sendKeys(ar.companyRegistrationNumber);
 
@@ -160,9 +159,9 @@ public class _CreateTestsData extends _Page {
             PageUtils.doubleClick(driver, businessPartnership);
             PageFactory.initElements(driver, this);
             WaitUtils.waitForElementToBeVisible(driver, vatRegistrationNumber, 5, false);
-            WaitUtils.nativeWaitInSeconds(1);
+            //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(1);
             WaitUtils.waitForElementToBeClickable(driver, vatRegistrationNumber, 5, false);
-            WaitUtils.nativeWaitInSeconds(1);
+            //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(1);
             vatRegistrationNumber.sendKeys(ar.vatRegistrationNumber);
 
         }else if(ar.organisationType.equals("Unincorporated Association")){

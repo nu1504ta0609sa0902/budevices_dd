@@ -2,8 +2,6 @@ package com.mhra.mdcm.devices.dd.appian.utils.selenium.others;
 
 import com.mhra.mdcm.devices.dd.appian.utils.email.GmailEmail;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.WaitUtils;
-import org.hamcrest.Matchers;
-import org.junit.Assert;
 
 /**
  * Created by TPD_Auto on 04/08/2017.
@@ -22,7 +20,7 @@ public class EmailUtils {
                 break;
             } else {
                 //Wait for 10 seconds and try again, Thread.sleep required because this is checking email
-                WaitUtils.nativeWaitInSeconds(10);
+                WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(10);
             }
             attempt++;
         } while (!foundMessage && attempt < 15);

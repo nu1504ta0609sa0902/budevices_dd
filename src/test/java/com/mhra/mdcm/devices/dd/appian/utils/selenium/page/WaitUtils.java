@@ -125,7 +125,19 @@ public class WaitUtils {
         return loadingCompleted;
     }
 
-    public static void nativeWaitInSeconds(int tis) {
+
+    /**
+     * DON'T USE FOR WAITING FOR PAGES, UNLESS ITS TO DO WITH SOME NATIVE COMPONENTS WHICH SELENIUM CAN'T HANDLE
+     * <p>
+     * Should be used for non selenium related tasks
+     * <p>
+     * Example when we upload a document
+     *
+     * THIS SHOULD BE LAST OPTION : IF WE CAN'T DO IT WITH EXPLICIT WAITS THAN USE IT
+     *
+     * @param tis
+     */
+    public static void nativeWaitDontUseMeOverSeleniumWaits(int tis) {
         try {
             Thread.sleep(1000 * tis);
         } catch (InterruptedException e) {

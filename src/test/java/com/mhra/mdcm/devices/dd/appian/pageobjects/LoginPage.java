@@ -66,7 +66,7 @@ public class LoginPage extends _Page {
     }
 
     public LoginPage loadPage(String url) {
-        WaitUtils.nativeWaitInSeconds(2);
+        WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(2);
         driver.get(url);
         return new LoginPage(driver);
     }
@@ -89,7 +89,7 @@ public class LoginPage extends _Page {
         }else{
 
             logoutIfLoggedInOthers();
-            WaitUtils.nativeWaitInSeconds(1);
+            //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(1);
             login(usernameTxt, passwordTxt);
         }
 
@@ -103,7 +103,7 @@ public class LoginPage extends _Page {
         }else {
 
             logoutIfLoggedIn();
-            WaitUtils.nativeWaitInSeconds(1);
+            //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(1);
             login(usernameTxt, passwordTxt);
         }
 
@@ -146,7 +146,7 @@ public class LoginPage extends _Page {
                     driver.findElement(By.linkText("Sign Out")).click();
 
                     //If logout and login is too fast, appian system shows 404 in some instance of automation
-                    WaitUtils.nativeWaitInSeconds(2);
+                    WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(2);
 
                     String baseUrl = FileUtils.getTestUrl();
                     driver.get(baseUrl);
@@ -176,7 +176,7 @@ public class LoginPage extends _Page {
                     signOutLink.click();
 
                     //If logout and login is too fast, appian system shows 404 in some instance of automation
-                    WaitUtils.nativeWaitInSeconds(2);
+                    WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(2);
 
                     String baseUrl = FileUtils.getTestUrl();
                     driver.get(baseUrl);

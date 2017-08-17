@@ -11,7 +11,6 @@ import com.mhra.mdcm.devices.dd.appian.utils.driver.BrowserConfig;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.FileUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.RandomDataUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.PageUtils;
-import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.WaitUtils;
 import org.hamcrest.Matchers;
 import org.junit.*;
 import org.junit.runner.RunWith;
@@ -366,7 +365,7 @@ public class SmokeTestsBusiness extends Common {
             taskSection = taskSection.confirmAssignment(true);
             taskSection = taskSection.approveAWIPTaskNewAccount();
             taskSection = taskSection.confirmAssignment(true);
-            WaitUtils.nativeWaitInSeconds(5);
+            //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(5);
         }
 
         assertThat("Task not found for organisation : " + orgName, contains, is(equalTo(true)));
@@ -442,7 +441,7 @@ public class SmokeTestsBusiness extends Common {
             taskSection = taskSection.confirmAssignment(true);
             taskSection = taskSection.approveAWIPTaskNewAccount();
             taskSection = taskSection.confirmAssignment(true);
-            WaitUtils.nativeWaitInSeconds(5);
+            //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(5);
         }
 
         assertThat("Task not found for organisation : " + orgName, contains, is(equalTo(true)));
@@ -523,7 +522,7 @@ public class SmokeTestsBusiness extends Common {
             taskSection = taskSection.confirmAssignment(true);
             taskSection = taskSection.approveAWIPTaskNewAccount();
             taskSection = taskSection.confirmAssignment(true);
-            WaitUtils.nativeWaitInSeconds(5);
+            //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(5);
         }
 
         assertThat("Task not found for organisation : " + orgName, contains, is(equalTo(true)));

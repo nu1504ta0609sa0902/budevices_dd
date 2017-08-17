@@ -94,61 +94,61 @@ public class TaskSection extends _Page {
         super(driver);
     }
 
-    public boolean isCorrectTask(String orgName) {
-        WaitUtils.nativeWaitInSeconds(4);
-        WaitUtils.waitForElementToBeVisible(driver, accept, TIMEOUT_15_SECOND, false);
-        boolean contains = taskHeading.getText().contains(orgName);
-        return contains;
-    }
-    public boolean isCorrectTask(String orgName, String taskType) {
-
-        WebElement header = taskHeading2;
-        if(taskType!=null && taskType.contains("New Account Request")){
-            header = taskHeading;
-        }
-
-        try {
-            //For new account
-            //WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
-            WaitUtils.waitForElementToBeVisible(driver, header, TIMEOUT_5_SECOND, false);
-            boolean contains = header.getText().contains(orgName);
-            return contains;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    public TaskSection acceptTask() {
-        try {
-            WaitUtils.waitForElementToBeVisible(driver, accept, 5, false);
-            WaitUtils.waitForElementToBeClickable(driver, accept, 5, false);
-            if (accept.isDisplayed()) {
-                PageUtils.doubleClick(driver, accept);
-            }
-        } catch (Exception e) {
-            log.info("Task Already Accepted ");
-        }
-        return new TaskSection(driver);
-    }
-
-    public TasksPage approveTask() {
-        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
-        //WaitUtils.nativeWaitInSeconds(2);
-        try {
-            WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//*[contains(text(),'Device Selection')]//following::button[.='Approve']"), TIMEOUT_5_SECOND, false);
-            PageUtils.doubleClick(driver, driver.findElement(By.xpath(".//*[contains(text(),'Device Selection')]//following::button[.='Approve']")));
-        }catch (Exception e){
-            try {
-                WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//button[.='Approve']"), TIMEOUT_5_SECOND, false);
-                PageUtils.doubleClick(driver, driver.findElement(By.xpath(".//button[.='Approve']")));
-            }catch(Exception e2){
-                WaitUtils.waitForElementToBeClickable(driver, approve, TIMEOUT_5_SECOND, false);
-                PageUtils.doubleClick(driver, approve);
-            }
-        }
-
-        return new TasksPage(driver);
-    }
+//    public boolean isCorrectTask(String orgName) {
+//        WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(4);
+//        WaitUtils.waitForElementToBeVisible(driver, accept, TIMEOUT_15_SECOND, false);
+//        boolean contains = taskHeading.getText().contains(orgName);
+//        return contains;
+//    }
+//    public boolean isCorrectTask(String orgName, String taskType) {
+//
+//        WebElement header = taskHeading2;
+//        if(taskType!=null && taskType.contains("New Account Request")){
+//            header = taskHeading;
+//        }
+//
+//        try {
+//            //For new account
+//            //WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+//            WaitUtils.waitForElementToBeVisible(driver, header, TIMEOUT_5_SECOND, false);
+//            boolean contains = header.getText().contains(orgName);
+//            return contains;
+//        } catch (Exception e) {
+//            return false;
+//        }
+//    }
+//
+//    public TaskSection acceptTask() {
+//        try {
+//            WaitUtils.waitForElementToBeVisible(driver, accept, 5, false);
+//            WaitUtils.waitForElementToBeClickable(driver, accept, 5, false);
+//            if (accept.isDisplayed()) {
+//                PageUtils.doubleClick(driver, accept);
+//            }
+//        } catch (Exception e) {
+//            log.info("Task Already Accepted ");
+//        }
+//        return new TaskSection(driver);
+//    }
+//
+//    public TasksPage approveTask() {
+//        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+//        //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(2);
+//        try {
+//            WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//*[contains(text(),'Device Selection')]//following::button[.='Approve']"), TIMEOUT_5_SECOND, false);
+//            PageUtils.doubleClick(driver, driver.findElement(By.xpath(".//*[contains(text(),'Device Selection')]//following::button[.='Approve']")));
+//        }catch (Exception e){
+//            try {
+//                WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//button[.='Approve']"), TIMEOUT_5_SECOND, false);
+//                PageUtils.doubleClick(driver, driver.findElement(By.xpath(".//button[.='Approve']")));
+//            }catch(Exception e2){
+//                WaitUtils.waitForElementToBeClickable(driver, approve, TIMEOUT_5_SECOND, false);
+//                PageUtils.doubleClick(driver, approve);
+//            }
+//        }
+//
+//        return new TasksPage(driver);
+//    }
 
     public TasksPage approveTaskNewAccount() {
         WaitUtils.waitForElementToBeClickable(driver, approveNewAccount, TIMEOUT_10_SECOND, false);
@@ -156,32 +156,6 @@ public class TaskSection extends _Page {
         return new TasksPage(driver);
     }
 
-    /**
-     * Rejecting a taskSection requires user to verify a reason
-     *
-     * So work flow is different
-     * @return
-     */
-    public TaskSection rejectTask() {
-        WaitUtils.nativeWaitInSeconds(2);
-        WaitUtils.waitForElementToBeClickable(driver, reject, TIMEOUT_5_SECOND, false);
-        //approve.click();
-        PageUtils.doubleClick(driver, reject);
-        return new TaskSection(driver);
-    }
-
-    public TasksPage enterRejectionReason(String reason, String randomTestComment) {
-        if(reason.contains("Other")){
-            WaitUtils.waitForElementToBeClickable(driver, other, TIMEOUT_15_SECOND, false);
-            other.click();
-            WaitUtils.waitForElementToBeClickable(driver, commentArea, TIMEOUT_15_SECOND, false);
-            commentArea.sendKeys(randomTestComment);
-        }
-
-        //Submit rejection
-        PageUtils.singleClick(driver, submitBtn);
-        return new TasksPage(driver);
-    }
 
     public TaskSection sortBy(String sortBy, int numberOfTimesToClick) {
         //WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
@@ -190,13 +164,13 @@ public class TaskSection extends _Page {
             for (int c = 0; c < numberOfTimesToClick; c++) {
                 thSubmitted.click();
                 WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
-                WaitUtils.nativeWaitInSeconds(2);
+                WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(2);
             }
         }else if (sortBy.equals("Date")) {
             for (int c = 0; c < numberOfTimesToClick; c++) {
                 thDate.click();
                 WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
-                WaitUtils.nativeWaitInSeconds(2);
+                WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(2);
             }
         }
 

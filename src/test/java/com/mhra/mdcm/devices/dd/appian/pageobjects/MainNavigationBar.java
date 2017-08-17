@@ -59,7 +59,7 @@ public class MainNavigationBar extends _Page {
     }
 
     public TasksPage clickTasks() {
-        //WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
+        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
         WaitUtils.waitForElementToBeClickable(driver, tasks, TIMEOUT_10_SECOND, false);
         //tasks.click();
         PageUtils.doubleClick(driver, tasks);
@@ -67,6 +67,7 @@ public class MainNavigationBar extends _Page {
     }
 
     public RecordsPage clickRecords() {
+        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
         WaitUtils.isPageLoaded(driver, By.partialLinkText("Records"), TIMEOUT_1_SECOND, 3);
         WaitUtils.waitForElementToBeClickable(driver, records, TIMEOUT_10_SECOND, false);
         //records.click();
@@ -75,16 +76,11 @@ public class MainNavigationBar extends _Page {
     }
 
     public ReportsPage clickReports() {
+        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
         WaitUtils.waitForElementToBeClickable(driver, reports, TIMEOUT_10_SECOND, false);
         reports.click();
         PageUtils.doubleClick(driver, reports);
         return new ReportsPage(driver);
-    }
-
-    public String getCurrentSelectedMenu() {
-        WaitUtils.waitForElementToBeClickable(driver, currentSelection, TIMEOUT_10_SECOND, false);
-        String selectedMenu = currentSelection.getText();
-        return selectedMenu;
     }
 
     public ActionsPage clickActions() {

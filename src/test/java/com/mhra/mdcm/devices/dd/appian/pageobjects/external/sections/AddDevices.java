@@ -3,7 +3,6 @@ package com.mhra.mdcm.devices.dd.appian.pageobjects.external.sections;
 import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.DeviceData;
 import com.mhra.mdcm.devices.dd.appian.domains.newaccounts.ProductDetail;
 import com.mhra.mdcm.devices.dd.appian.pageobjects._Page;
-import com.mhra.mdcm.devices.dd.appian.pageobjects.external.ExternalHomePage;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.RandomDataUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.PageUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.WaitUtils;
@@ -276,19 +275,6 @@ public class AddDevices extends _Page {
         return allCorrect;
     }
 
-
-    public boolean isErrorMessageDisplayed() {
-        try {
-            WaitUtils.nativeWaitInSeconds(1);
-            WaitUtils.waitForElementToBeVisible(driver, By.cssSelector(".FieldLayout---field_error"), 3, false);
-            WaitUtils.waitForElementToBeClickable(driver, By.cssSelector(".FieldLayout---field_error"), 3, false);
-            boolean isDisplayed = errorMessages.size() > 0;
-            return isDisplayed;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
     public AddDevices addFollowingDevice(DeviceData dd) {
         WaitUtils.waitForElementToBeClickable(driver, generalMedicalDevice, TIMEOUT_15_SECOND, false);
         WaitUtils.waitForElementToBeClickable(driver, systemOrProcedurePack, TIMEOUT_15_SECOND, false);
@@ -369,7 +355,7 @@ public class AddDevices extends _Page {
 
                 //Remove this if we find a better solution
                 WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
-                WaitUtils.nativeWaitInSeconds(1);
+                //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(1);
 
                 productCount++;
             }
@@ -462,7 +448,7 @@ public class AddDevices extends _Page {
         addProduct2.click();
 
         WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
-        WaitUtils.nativeWaitInSeconds(1);
+        //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(1);
         WaitUtils.waitForElementToBeClickable(driver, txtProductNameLabel, TIMEOUT_15_SECOND, false);
         txtProductNameLabel.sendKeys(labelName);
 
@@ -591,7 +577,7 @@ public class AddDevices extends _Page {
             WaitUtils.waitForElementToBeClickable(driver, linkChangeNotifiedBody, TIMEOUT_1_SECOND, false);
             linkChangeNotifiedBody.click();
             WaitUtils.waitForElementToBeClickable(driver, nb0086BSI, TIMEOUT_1_SECOND, false);
-            WaitUtils.nativeWaitInSeconds(1);
+            //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(1);
         } catch (Exception e) {
             //Bug which maintains previous selection of notified body
         }
@@ -599,7 +585,7 @@ public class AddDevices extends _Page {
 
     private void riskClassificationIVD(DeviceData dd) {
         WaitUtils.waitForElementToBeClickable(driver, ivdIVDGeneral, TIMEOUT_15_SECOND, false);
-        WaitUtils.nativeWaitInSeconds(1);
+        //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(1);
 
         String lcRiskClassification = dd.riskClassification.toLowerCase();
 
@@ -746,7 +732,7 @@ public class AddDevices extends _Page {
 
     public boolean isOptionToAddAnotherDeviceVisible() {
         //WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
-        WaitUtils.nativeWaitInSeconds(2);
+        //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(2);
         try {
             WaitUtils.waitForElementToBeClickable(driver, btnAddAnotherDevice, TIMEOUT_15_SECOND, false);
             boolean isVisible = btnAddAnotherDevice.isDisplayed() && btnAddAnotherDevice.isEnabled();
@@ -774,22 +760,6 @@ public class AddDevices extends _Page {
         btnProceedToPayment.click();
         System.out.println("Proceed to payment");
         return new AddDevices(driver);
-    }
-
-    public AddDevices confirmPayment() {
-        //WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
-        WaitUtils.waitForElementToBeClickable(driver, bthSubmitConfirm, TIMEOUT_15_SECOND, false);
-        bthSubmitConfirm.click();
-        System.out.println("Submit for registration");
-        return new AddDevices(driver);
-    }
-
-    public ExternalHomePage finish() {
-        //WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
-        WaitUtils.nativeWaitInSeconds(1);
-        WaitUtils.waitForElementToBeClickable(driver, btnFinish, TIMEOUT_15_SECOND, false);
-        btnFinish.click();
-        return new ExternalHomePage(driver);
     }
 
     public ManufacturerList backToService() {
@@ -859,7 +829,7 @@ public class AddDevices extends _Page {
 
     public AddDevices proceedToReview() {
         //WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
-        WaitUtils.nativeWaitInSeconds(2);
+        //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(2);
         WaitUtils.waitForElementToBeClickable(driver, btnProceedToReview, TIMEOUT_15_SECOND, false);
         btnProceedToReview.click();
         System.out.println("Proceed to review before payment");

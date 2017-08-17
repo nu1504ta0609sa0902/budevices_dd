@@ -119,7 +119,7 @@ public class _AllInOne_AddDevicesToNEWAccounts_Main extends Common {
                 break;
             } else {
                 //Wait for 10 seconds and try again, Thread.sleep required because this is checking email and its outside of selenium scope
-                WaitUtils.nativeWaitInSeconds(10);
+                WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(10);
             }
             attempt++;
         } while (!foundMessage && attempt < 30);
@@ -184,7 +184,7 @@ public class _AllInOne_AddDevicesToNEWAccounts_Main extends Common {
             createAuthorisedRepsWithManufacturerTestHarness2(manufacturerUser);
             createDevicesFor(manufacturerUser, false, businessUser, ar);
 
-            WaitUtils.nativeWaitInSeconds(2);
+            //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(2);
             //loginPage = loginPage.logoutIfLoggedIn();
         } catch (Exception e) {
             e.printStackTrace();
@@ -195,75 +195,8 @@ public class _AllInOne_AddDevicesToNEWAccounts_Main extends Common {
         createNewManufacturer = manufacturerList.registerNewManufacturer();
     }
 
-    private void addNewManufacturer() {
-        createNewManufacturer = manufacturerList.registerNewManufacturer();
-    }
-
-    private void logBackInAsManufacturer(User manufacturerUser) {
-        //Assuming all previous data removed
-        WaitUtils.nativeWaitInSeconds(3);
-        loginPage = new LoginPage(driver);
-        loginPage = loginPage.loadPage(baseUrl);
-        loginPage = loginPage.accetpTandC();
-        mainNavigationBar = loginPage.loginAsManufacturer(username, password);
-        externalHomePage = mainNavigationBar.clickHome();
-
-        //Click on a random manufacturer
-        manufacturerList = externalHomePage.gotoListOfManufacturerPage();
-    }
-
-    private boolean acceptNewServiceRequest(User businessUser, String name) {
-        log.info("Find and accept the tasks for : " + name);
-
-        WaitUtils.nativeWaitInSeconds(5);
-        loginPage = loginPage.logoutIfLoggedInOthers();
-        WaitUtils.nativeWaitInSeconds(2);
-
-        MainNavigationBar mainNavigationBar = loginPage.loginAs(businessUser.getUserName(), businessUser.getPassword());
-
-        //Verify new taskSection generated and its the correct one
-        boolean contains = false;
-        boolean isCorrectTask = false;
-        String taskType = "New Service";
-        String orgName = name;
-        int count = 0;
-        do {
-            //Refresh each time, it may take a while for the new task to arrive
-            tasksPage = mainNavigationBar.clickTasks();
-
-            //Click on link number X
-            try {
-                taskSection = tasksPage.clickOnLinkWithText(orgName);
-                contains = true;
-            } catch (Exception e) {
-                contains = false;
-            }
-            if (!contains) {
-                WaitUtils.nativeWaitInSeconds(2);
-                count++;
-            }
-        } while (!contains && count <= 5);
-
-        if (contains) {
-            //accept the taskSection and approve or reject it
-            taskSection = taskSection.acceptTask();
-            if (taskType != null) {
-                if (taskType.contains("New Service") || taskType.contains("New Account")) {
-                    tasksPage = taskSection.approveTask();
-                } else if (taskType.contains("New Manufacturer")) {
-                    //tasksPage = taskSection.acceptRegistrationTask();
-                } else if (taskType.contains("Update Manufacturer Registration Request")) {
-                    tasksPage = taskSection.approveTask();
-                }
-            }
-
-        }
-
-        return contains;
-    }
-
     private void indicateDevices(boolean clickNextBtn) {
-        WaitUtils.nativeWaitInSeconds(3);
+        WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(3);
         for (int x = 0; x < 9; x++) {
             try {
                 externalHomePage = externalHomePage.provideIndicationOfDevicesMade(x);
@@ -280,23 +213,9 @@ public class _AllInOne_AddDevicesToNEWAccounts_Main extends Common {
 
         //Submit devices made
         createNewManufacturer = externalHomePage.submitIndicationOfDevicesMade(clickNextBtn);
-        WaitUtils.nativeWaitInSeconds(5);
+        //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(5);
 
     }
-
-    private void loginAndGoToSetDeviceIndication() {
-
-        //Login to app and add devices to the manufacturer
-        loginPage = new LoginPage(driver);
-        loginPage = loginPage.loadPage(baseUrl);
-        loginPage = loginPage.accetpTandC();
-        mainNavigationBar = loginPage.loginAsManufacturer(username, password);
-        externalHomePage = mainNavigationBar.clickHome();
-
-        //Click on a random manufacturer
-        manufacturerList = externalHomePage.gotoListOfManufacturerPage();
-    }
-
 
     private void setLoginDetails(User selected) {
         username = selected.getUserName();
@@ -382,7 +301,7 @@ public class _AllInOne_AddDevicesToNEWAccounts_Main extends Common {
                 taskSection = taskSection.confirmAssignment(true);
                 tasksPage = taskSection.approveTaskNewAccount();
                 taskSection = taskSection.confirmAssignment(true);
-                WaitUtils.nativeWaitInSeconds(5);
+                //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(5);
             }
 
             listOfAccountsCreatedWithTesterInitials.add(orgName);
@@ -393,7 +312,7 @@ public class _AllInOne_AddDevicesToNEWAccounts_Main extends Common {
         log.info("Approved The Following Accounts : " + listOfAccountsCreatedWithTesterInitials + "\n");
 
         loginPage.logoutIfLoggedIn();
-        WaitUtils.nativeWaitInSeconds(2);
+        //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(2);
 
         return ar;
     }
@@ -403,9 +322,6 @@ public class _AllInOne_AddDevicesToNEWAccounts_Main extends Common {
 
         List<DeviceData> listOfDeviceData = ExcelDirectDeviceDataUtils.getListOfDeviceData();
 
-
-        //loginAndViewManufacturer(manufacturerUser);
-        //String orgName = selectNewAccountForAddingDevices();
         String orgName = ar.organisationName;
 
         String[] deviceTypes = new String[]{
@@ -508,7 +424,7 @@ public class _AllInOne_AddDevicesToNEWAccounts_Main extends Common {
             manufacturerList = addDevices.backToService();
 
             //@todo Now login as business user and approve the task
-            WaitUtils.nativeWaitInSeconds(4);
+            //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(4);
             loginPage = loginPage.logoutIfLoggedInOthers();
             loginPage = loginPage.accetpTandC();
             mainNavigationBar = loginPage.loginAs(businessUser.getUserName(), businessUser.getPassword());
@@ -554,36 +470,11 @@ public class _AllInOne_AddDevicesToNEWAccounts_Main extends Common {
 
             System.out.println("Create Devices For : " + ar.organisationName);
             //Logback in now
-            WaitUtils.nativeWaitInSeconds(3);
+            //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(3);
             loginPage.logoutIfLoggedIn();
 
             System.out.println("\nCREATED NEW AUTHORISED-REP WITH DEVICES : COMPLETED NOW");
         }
-    }
-
-    private String selectNewAccountForAddingDevices() {
-
-        externalHomePage = mainNavigationBar.clickHome();
-        manufacturerList = externalHomePage.gotoListOfManufacturerPage();
-
-        //You will need to naviage to different pages to select the manufactuerer
-        String name = manufacturerList.getARandomManufacturerName();
-        String registered = manufacturerList.getRegistrationStatus(name);
-        log.info("Manufacturer selected : " + name + ", is " + registered);
-        manufacturerDetails = manufacturerList.viewAManufacturer(name);
-
-        //Add devices: This needs to change to add all the devices
-        try {
-            if (registered != null && registered.toLowerCase().equals("registered")) {
-                addDevices = manufacturerDetails.clickAddDeviceBtn();
-            } else {
-                addDevices = manufacturerDetails.clickDeclareDevicesBtn();
-            }
-        } catch (Exception e) {
-            addDevices = manufacturerDetails.clickDeclareDevicesBtn();
-        }
-
-        return name;
     }
 
     private void clickAddAnotherButton() {
