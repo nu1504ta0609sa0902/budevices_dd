@@ -1,7 +1,5 @@
 "# budevices_dd"
 
-
-
 #-----------------------------------------------------------------------------
 Running on a remove machine which has proxy setup will need the following parameters:
 #-----------------------------------------------------------------------------
