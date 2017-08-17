@@ -64,12 +64,9 @@ public class ProxyAuthenticationSikuli{
         screen.click(submitBtn);
 
         //wait
-//        Thread.sleep(1500);
-//        screen = new Screen();
-//        screen.click(neverBtn);
         Thread.sleep(1000);
 
-        //maximise
+        //maximise again
         driver.manage().window().maximize();
     }
 }

@@ -32,24 +32,6 @@ public class WaitUtils {
         new WebDriverWait(driver, maxTimeToWait).until(ExpectedConditions.visibilityOf(element));
     }
 
-
-    /**
-     * DON'T USE FOR WAITING FOR PAGES, UNLESS ITS TO DO WITH SOME NATIVE COMPONENTS WHICH SELENIUM CAN'T HANDLE
-     * <p>
-     * Should be used for non selenium related tasks
-     * <p>
-     * Example when we upload a document
-     *
-     * @param tis
-     */
-//    public static void nativeWait(int tis) {
-//        try {
-//            Thread.sleep(1000 * tis);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
     /**
      * @param driver
      * @param by
@@ -99,13 +81,13 @@ public class WaitUtils {
         }
     }
 
-    public static void waitForPageToLoad(WebDriver driver, By by, int maxTimeToWait, boolean overrideTimeSpecified) {
-        try {
-            new WebDriverWait(driver, maxTimeToWait).until(ExpectedConditions.presenceOfElementLocated(by));
-        } catch (Exception e) {
-            //Aim is to pause the page for sometimes
-        }
-    }
+//    public static void waitForPageToLoad(WebDriver driver, By by, int maxTimeToWait, boolean overrideTimeSpecified) {
+//        try {
+//            new WebDriverWait(driver, maxTimeToWait).until(ExpectedConditions.presenceOfElementLocated(by));
+//        } catch (Exception e) {
+//            //Aim is to pause the page for sometimes
+//        }
+//    }
 
 
     public static boolean isPageLoaded(WebDriver driver, By by, int maxTimeToWait, int numberOfTimes) {
@@ -161,8 +143,6 @@ public class WaitUtils {
                     } else {
                         //System.out.println("-----PAGE NOT LOADED YET-----");
                     }
-                    //driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
-                    //elements = driver.findElements(By.xpath(".//div[@class='appian-indicator-message' and @style=' ']"));
                     driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
                     count++;
                 } while (!isLoadedFully && count < 50);

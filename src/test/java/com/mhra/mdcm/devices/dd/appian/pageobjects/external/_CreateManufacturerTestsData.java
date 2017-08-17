@@ -100,7 +100,6 @@ public class _CreateManufacturerTestsData extends _Page {
         website.sendKeys(ar.website);
 
         //Contact Person Details
-        //PageUtils.selectByText(title, ar.title);
         try {
             PageUtils.singleClick(driver, title);
             WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//div[contains(text(), '"+ ar.title + "')]"), TIMEOUT_5_SECOND, false);

@@ -61,9 +61,6 @@ public class ProxyAuthenticationSikuliFirefox {
         screen.click(submitBtn);
 
         //wait
-//        Thread.sleep(1500);
-//        screen = new Screen();
-//        screen.click(neverBtn);
         Thread.sleep(1000);
 
         //maximise
