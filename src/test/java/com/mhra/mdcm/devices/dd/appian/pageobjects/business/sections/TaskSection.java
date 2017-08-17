@@ -94,62 +94,6 @@ public class TaskSection extends _Page {
         super(driver);
     }
 
-//    public boolean isCorrectTask(String orgName) {
-//        WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(4);
-//        WaitUtils.waitForElementToBeVisible(driver, accept, TIMEOUT_15_SECOND, false);
-//        boolean contains = taskHeading.getText().contains(orgName);
-//        return contains;
-//    }
-//    public boolean isCorrectTask(String orgName, String taskType) {
-//
-//        WebElement header = taskHeading2;
-//        if(taskType!=null && taskType.contains("New Account Request")){
-//            header = taskHeading;
-//        }
-//
-//        try {
-//            //For new account
-//            //WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
-//            WaitUtils.waitForElementToBeVisible(driver, header, TIMEOUT_5_SECOND, false);
-//            boolean contains = header.getText().contains(orgName);
-//            return contains;
-//        } catch (Exception e) {
-//            return false;
-//        }
-//    }
-//
-//    public TaskSection acceptTask() {
-//        try {
-//            WaitUtils.waitForElementToBeVisible(driver, accept, 5, false);
-//            WaitUtils.waitForElementToBeClickable(driver, accept, 5, false);
-//            if (accept.isDisplayed()) {
-//                PageUtils.doubleClick(driver, accept);
-//            }
-//        } catch (Exception e) {
-//            log.info("Task Already Accepted ");
-//        }
-//        return new TaskSection(driver);
-//    }
-//
-//    public TasksPage approveTask() {
-//        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
-//        //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(2);
-//        try {
-//            WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//*[contains(text(),'Device Selection')]//following::button[.='Approve']"), TIMEOUT_5_SECOND, false);
-//            PageUtils.doubleClick(driver, driver.findElement(By.xpath(".//*[contains(text(),'Device Selection')]//following::button[.='Approve']")));
-//        }catch (Exception e){
-//            try {
-//                WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//button[.='Approve']"), TIMEOUT_5_SECOND, false);
-//                PageUtils.doubleClick(driver, driver.findElement(By.xpath(".//button[.='Approve']")));
-//            }catch(Exception e2){
-//                WaitUtils.waitForElementToBeClickable(driver, approve, TIMEOUT_5_SECOND, false);
-//                PageUtils.doubleClick(driver, approve);
-//            }
-//        }
-//
-//        return new TasksPage(driver);
-//    }
-
     public TasksPage approveTaskNewAccount() {
         WaitUtils.waitForElementToBeClickable(driver, approveNewAccount, TIMEOUT_10_SECOND, false);
         PageUtils.singleClick(driver, approveNewAccount);

@@ -89,7 +89,7 @@ public class LoginPage extends _Page {
         }else{
 
             logoutIfLoggedInOthers();
-            //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(1);
+            accetpTandC();
             login(usernameTxt, passwordTxt);
         }
 
@@ -103,7 +103,7 @@ public class LoginPage extends _Page {
         }else {
 
             logoutIfLoggedIn();
-            //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(1);
+            accetpTandC();
             login(usernameTxt, passwordTxt);
         }
 

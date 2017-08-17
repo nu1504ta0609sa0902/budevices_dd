@@ -6,10 +6,8 @@ import com.mhra.mdcm.devices.dd.appian.pageobjects.external.sections.AddDevices;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.PageUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.WaitUtils;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
@@ -80,9 +78,6 @@ public class _CreateManufacturerTestsData extends _Page {
      * @return
      */
     public AddDevices createTestOrganisation(ManufacturerOrganisationRequest ar, boolean saveDontDeclareDevices) throws Exception {
-        //WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
-        //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(3);
-        //WaitUtils.waitForElementToBeClickable(driver, By.cssSelector(".PickerWidget---picker_value"), TIMEOUT_5_SECOND, false);
         WaitUtils.waitForElementToBeClickable(driver, orgName, TIMEOUT_15_SECOND, false);
         orgName.sendKeys(ar.organisationName);
 
@@ -145,38 +140,6 @@ public class _CreateManufacturerTestsData extends _Page {
         return new AddDevices(driver);
     }
 
-    private void selectCountryFromAutoSuggests(WebDriver driver, String elementPath, String countryName, boolean throwException) throws Exception {
-        boolean completed = true;
-        int count = 0;
-        do {
-            try {
-
-                count++;    //It will go forever without this
-                WebElement country = driver.findElements(By.cssSelector(elementPath)).get(0);
-                new Actions(driver).moveToElement(country).perform();
-
-                //Enter the country I am interested in
-                country.sendKeys("\n");
-                country.clear();
-                country.sendKeys(countryName, Keys.ENTER);
-                //new WebDriverWait(driver, 3).until(ExpectedConditions.elementToBeClickable(By.cssSelector(".item")));
-                WaitUtils.waitForElementToBeClickable(driver, By.cssSelector(".item"), TIMEOUT_5_SECOND, false);
-                country.sendKeys(Keys.ARROW_DOWN, Keys.ENTER);
-
-                completed = true;
-            } catch (Exception e) {
-                completed = false;
-                //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(1);
-                //PageFactory.initElements(driver, this);
-            }
-        } while (!completed && count < 1);
-
-        if(!completed && throwException){
-            throw new Exception("Country name not selected");
-        }
-    }
-
-
 
     public boolean isErrorMessageDisplayed() {
         try {
@@ -186,11 +149,5 @@ public class _CreateManufacturerTestsData extends _Page {
         }catch (Exception e){
             return false;
         }
-    }
-
-    public ExternalHomePage submitForApproval() {
-        WaitUtils.waitForElementToBeClickable(driver, By.xpath(".//button[.='Submit']"), TIMEOUT_30_SECOND, false);
-        driver.findElement(By.xpath(".//button[.='Submit']")).click();
-        return new ExternalHomePage(driver);
     }
 }

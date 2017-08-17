@@ -365,7 +365,6 @@ public class SmokeTestsBusiness extends Common {
             taskSection = taskSection.confirmAssignment(true);
             taskSection = taskSection.approveAWIPTaskNewAccount();
             taskSection = taskSection.confirmAssignment(true);
-            //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(5);
         }
 
         assertThat("Task not found for organisation : " + orgName, contains, is(equalTo(true)));
@@ -441,7 +440,6 @@ public class SmokeTestsBusiness extends Common {
             taskSection = taskSection.confirmAssignment(true);
             taskSection = taskSection.approveAWIPTaskNewAccount();
             taskSection = taskSection.confirmAssignment(true);
-            //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(5);
         }
 
         assertThat("Task not found for organisation : " + orgName, contains, is(equalTo(true)));
@@ -522,7 +520,6 @@ public class SmokeTestsBusiness extends Common {
             taskSection = taskSection.confirmAssignment(true);
             taskSection = taskSection.approveAWIPTaskNewAccount();
             taskSection = taskSection.confirmAssignment(true);
-            //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(5);
         }
 
         assertThat("Task not found for organisation : " + orgName, contains, is(equalTo(true)));

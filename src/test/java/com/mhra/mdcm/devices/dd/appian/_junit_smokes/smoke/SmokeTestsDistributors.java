@@ -226,7 +226,6 @@ public class SmokeTestsDistributors extends Common {
             taskSection = taskSection.approveAWIPManufacturerTask();
             taskSection = taskSection.approveAWIPAllDevices();
             taskSection = taskSection.completeTheApplication();
-            //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(5);
             System.out.println("Application completed for reference : " + reference);
         }
 

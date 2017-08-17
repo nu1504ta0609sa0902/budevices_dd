@@ -149,9 +149,7 @@ public class _CreateTestsData extends _Page {
             PageUtils.doubleClick(driver, limitedCompany);
             PageFactory.initElements(driver, this);
             WaitUtils.waitForElementToBeVisible(driver, companyRegistrationNumber, 5, false);
-            //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(1);
             WaitUtils.waitForElementToBeClickable(driver, companyRegistrationNumber, 5, false);
-            //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(1);
             vatRegistrationNumber.sendKeys(ar.vatRegistrationNumber);
             companyRegistrationNumber.sendKeys(ar.companyRegistrationNumber);
 
@@ -159,9 +157,7 @@ public class _CreateTestsData extends _Page {
             PageUtils.doubleClick(driver, businessPartnership);
             PageFactory.initElements(driver, this);
             WaitUtils.waitForElementToBeVisible(driver, vatRegistrationNumber, 5, false);
-            //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(1);
             WaitUtils.waitForElementToBeClickable(driver, vatRegistrationNumber, 5, false);
-            //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(1);
             vatRegistrationNumber.sendKeys(ar.vatRegistrationNumber);
 
         }else if(ar.organisationType.equals("Unincorporated Association")){

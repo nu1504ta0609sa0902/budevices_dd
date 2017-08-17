@@ -38,7 +38,6 @@ public class ActionsPage extends _Page {
     }
 
     public boolean isApplicationSubmittedSuccessfully() {
-        //WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
         try {
             WaitUtils.waitForElementToBeClickable(driver, txtApplicationComplete, TIMEOUT_15_SECOND);
             return true;
@@ -49,7 +48,6 @@ public class ActionsPage extends _Page {
 
     public _CreateTestsData gotoTestsHarnessPage() {
         WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
-        //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(2);
         WaitUtils.waitForElementToBeClickable(driver, By.partialLinkText("Create Test Account"), TIMEOUT_15_SECOND, false);
         WaitUtils.waitForElementToBeClickable(driver, linkCreateTestAccount, TIMEOUT_15_SECOND, false);
         PageUtils.singleClick(driver, linkCreateTestAccount);

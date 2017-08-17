@@ -355,7 +355,6 @@ public class AddDevices extends _Page {
 
                 //Remove this if we find a better solution
                 WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
-                //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(1);
 
                 productCount++;
             }
@@ -448,7 +447,6 @@ public class AddDevices extends _Page {
         addProduct2.click();
 
         WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
-        //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(1);
         WaitUtils.waitForElementToBeClickable(driver, txtProductNameLabel, TIMEOUT_15_SECOND, false);
         txtProductNameLabel.sendKeys(labelName);
 
@@ -577,7 +575,6 @@ public class AddDevices extends _Page {
             WaitUtils.waitForElementToBeClickable(driver, linkChangeNotifiedBody, TIMEOUT_1_SECOND, false);
             linkChangeNotifiedBody.click();
             WaitUtils.waitForElementToBeClickable(driver, nb0086BSI, TIMEOUT_1_SECOND, false);
-            //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(1);
         } catch (Exception e) {
             //Bug which maintains previous selection of notified body
         }
@@ -585,8 +582,6 @@ public class AddDevices extends _Page {
 
     private void riskClassificationIVD(DeviceData dd) {
         WaitUtils.waitForElementToBeClickable(driver, ivdIVDGeneral, TIMEOUT_15_SECOND, false);
-        //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(1);
-
         String lcRiskClassification = dd.riskClassification.toLowerCase();
 
         if (lcRiskClassification.contains("ivd general")) {
@@ -731,8 +726,7 @@ public class AddDevices extends _Page {
 
 
     public boolean isOptionToAddAnotherDeviceVisible() {
-        //WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
-        //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(2);
+        WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
         try {
             WaitUtils.waitForElementToBeClickable(driver, btnAddAnotherDevice, TIMEOUT_15_SECOND, false);
             boolean isVisible = btnAddAnotherDevice.isDisplayed() && btnAddAnotherDevice.isEnabled();
@@ -829,7 +823,6 @@ public class AddDevices extends _Page {
 
     public AddDevices proceedToReview() {
         //WaitUtils.isPageLoadingComplete(driver, TIMEOUT_PAGE_LOAD);
-        //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(2);
         WaitUtils.waitForElementToBeClickable(driver, btnProceedToReview, TIMEOUT_15_SECOND, false);
         btnProceedToReview.click();
         System.out.println("Proceed to review before payment");

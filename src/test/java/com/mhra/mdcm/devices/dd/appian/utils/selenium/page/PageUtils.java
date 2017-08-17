@@ -207,7 +207,6 @@ public class PageUtils {
                 }
             } catch (Exception e) {
                 completed = false;
-                //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(1);
             }
         } while (!completed && count < 3);
 
@@ -243,7 +242,6 @@ public class PageUtils {
                 }
             } catch (Exception e) {
                 completed = false;
-                //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(1);
             }
         } while (!completed && count < 3);
 
@@ -314,7 +312,6 @@ public class PageUtils {
                 completed = true;
             } catch (Exception e) {
                 completed = false;
-                //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(1);
             }
         } while (!completed && count < 3);
 

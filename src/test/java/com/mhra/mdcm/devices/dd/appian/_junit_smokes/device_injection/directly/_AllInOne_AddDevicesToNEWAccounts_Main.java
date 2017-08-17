@@ -183,9 +183,6 @@ public class _AllInOne_AddDevicesToNEWAccounts_Main extends Common {
             registerANewManufacturer();
             createAuthorisedRepsWithManufacturerTestHarness2(manufacturerUser);
             createDevicesFor(manufacturerUser, false, businessUser, ar);
-
-            //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(2);
-            //loginPage = loginPage.logoutIfLoggedIn();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -213,7 +210,6 @@ public class _AllInOne_AddDevicesToNEWAccounts_Main extends Common {
 
         //Submit devices made
         createNewManufacturer = externalHomePage.submitIndicationOfDevicesMade(clickNextBtn);
-        //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(5);
 
     }
 
@@ -301,7 +297,6 @@ public class _AllInOne_AddDevicesToNEWAccounts_Main extends Common {
                 taskSection = taskSection.confirmAssignment(true);
                 tasksPage = taskSection.approveTaskNewAccount();
                 taskSection = taskSection.confirmAssignment(true);
-                //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(5);
             }
 
             listOfAccountsCreatedWithTesterInitials.add(orgName);
@@ -310,9 +305,7 @@ public class _AllInOne_AddDevicesToNEWAccounts_Main extends Common {
         }
 
         log.info("Approved The Following Accounts : " + listOfAccountsCreatedWithTesterInitials + "\n");
-
         loginPage.logoutIfLoggedIn();
-        //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(2);
 
         return ar;
     }
@@ -423,8 +416,7 @@ public class _AllInOne_AddDevicesToNEWAccounts_Main extends Common {
             System.out.println("New Applicaiton reference number : " + reference);
             manufacturerList = addDevices.backToService();
 
-            //@todo Now login as business user and approve the task
-            //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(4);
+            //Now login as business user and approve the task
             loginPage = loginPage.logoutIfLoggedInOthers();
             loginPage = loginPage.accetpTandC();
             mainNavigationBar = loginPage.loginAs(businessUser.getUserName(), businessUser.getPassword());
@@ -469,8 +461,6 @@ public class _AllInOne_AddDevicesToNEWAccounts_Main extends Common {
             }
 
             System.out.println("Create Devices For : " + ar.organisationName);
-            //Logback in now
-            //WaitUtils.nativeWaitDontUseMeOverSeleniumWaits(3);
             loginPage.logoutIfLoggedIn();
 
             System.out.println("\nCREATED NEW AUTHORISED-REP WITH DEVICES : COMPLETED NOW");
