@@ -138,6 +138,14 @@ public class GmailEmail {
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.port", "587");
+
+        //Try setting proxy server configuration
+        //props.put("proxySet", "true");
+        //props.put("socksProxyHost", "10.2.22.60");
+        //props.put("socksProxyPort", "8000");
+        //props.put("mail.smtp.socks.host", "10.2.22.60");
+        //props.put("mail.smtp.socks.port", "8000");
+
         return props;
     }
 
