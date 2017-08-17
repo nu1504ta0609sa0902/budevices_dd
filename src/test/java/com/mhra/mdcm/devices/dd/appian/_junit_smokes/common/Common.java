@@ -36,6 +36,7 @@ import java.util.*;
 public class Common {
 
     public static String profile = System.getProperty("spring.profiles.active");
+    public static String userLoginData = "configs/data/excel/users.xlsx";
 
     //This controls and limits the users (overrides excel)
     //Controls Manufacturer, No of devices and products

@@ -12,7 +12,6 @@ import com.mhra.mdcm.devices.dd.appian.utils.datadriven.JUnitUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.driver.BrowserConfig;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.others.FileUtils;
 import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.PageUtils;
-import com.mhra.mdcm.devices.dd.appian.utils.selenium.page.WaitUtils;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -40,7 +39,7 @@ public class SmokeTestsAuthorisedRep extends Common {
     @Parameterized.Parameters(name = "{0}")
     public static Collection<User> spreadsheetData() throws IOException {
         ExcelDataSheet excelUtils = new ExcelDataSheet();//
-        List<User> listOfUsers = excelUtils.getListOfUsers("configs/data/excel/users.xlsx", profile, false);
+        List<User> listOfUsers = excelUtils.getListOfUsers(userLoginData, profile, false);
         listOfBusinessUsers = excelUtils.filterUsersBy(listOfUsers, "business", initialsArray.get(0));
         listOfUsers = excelUtils.filterUsersBy(listOfUsers, "authorised", initialsArray.get(0));
         log.info("AuthorisedRep Users : " + listOfUsers);

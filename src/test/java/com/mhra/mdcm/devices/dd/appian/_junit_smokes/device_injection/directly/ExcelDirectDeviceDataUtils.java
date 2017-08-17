@@ -18,14 +18,14 @@ public class ExcelDirectDeviceDataUtils extends Common {
 
     public static List<User> getListOfUsersFromExcel(String typeOfUsers) {
         ExcelDataSheet excelUtils = new ExcelDataSheet();//
-        List<User> listOfUsers = excelUtils.getListOfUsers("configs/data/excel/users.xlsx", Common.profile, false);
+        List<User> listOfUsers = excelUtils.getListOfUsers(userLoginData, Common.profile, false);
         listOfUsers = excelUtils.filterUsersBy(listOfUsers, typeOfUsers);
         return listOfUsers;
     }
 
     public static List<User> getListOfBusinessUsersFromExcel(String typeOfUsers) {
         ExcelDataSheet excelUtils = new ExcelDataSheet();//
-        List<User> listOfUsers = excelUtils.getListOfUsers("configs/data/excel/users.xlsx", Common.profile, false);
+        List<User> listOfUsers = excelUtils.getListOfUsers(userLoginData, Common.profile, false);
         List<User> listOfBusinessUsers = excelUtils.filterUsersBy(listOfUsers, typeOfUsers);
         return listOfBusinessUsers;
     }
